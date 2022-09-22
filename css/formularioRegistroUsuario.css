@@ -1,0 +1,120 @@
+form.registroUsuario,
+form.editarUsuario {
+	background: white;
+	outline: 5px solid black;
+	box-shadow: 0 5px 10px 10px grey;
+	padding: .5em 1.25em 0;
+	margin: auto;
+	width: 75%;
+	max-width: 400px;
+	display: grid;
+	grid-template-columns: auto 1fr;
+	grid-template-rows: repeat(10, auto);
+	grid-gap: .9em;
+	align-items: center;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+
+form .encabezado {
+	padding-bottom: 0;
+	height: 3.75em;
+}
+
+form div {
+	grid-column: span 2;
+	position: relative;
+	width: auto;
+	border-bottom: 2px solid black;
+	text-align: center;
+	padding-bottom: .9375em;
+}
+
+form div a {
+	position: absolute;
+	font-size: 2.5em;
+	left: 10px;
+	top: 0;
+	text-decoration: none;
+	color: black;
+}
+
+form div a:hover {
+	color: grey;
+}
+
+form label {
+	justify-self: end;
+	font-weight: bold;
+}
+
+form label strong {
+	font-size: 150%;
+	color: red;
+	margin-left: 5px;
+}
+
+form label sup {
+	opacity: .5;
+	margin: 0 5px;
+}
+
+form input, form select {
+	padding: .625em;
+}
+
+.existe,
+.vacio,
+.exitoso {
+	grid-column: span 2;
+	padding: .5em;
+	font-weight: bold;
+	font-size: 125%;
+	color: #900;
+	background: #99000055;
+	outline: 2px solid #900;
+	text-align: center;
+	display: inline-block;
+	width: 75%;
+	justify-self: center;
+	margin: 0;
+}
+
+.existe {
+	grid-row: 5/6;
+}
+
+.vacio,
+.existoso {
+	grid-row: 8/span -1;
+	justify-self: center;
+	width: 90%;
+}
+
+.exitoso {
+	color: #090;
+	background: #00990055;
+	outline: 2px solid #090;
+	margin: auto;
+	margin-bottom: 10px;
+}
+
+form input[type="submit"] {
+	grid-column: span 2;
+	width: 75%;
+	justify-self: center;
+	background: teal;
+	color: white;
+	font-weight: bold;
+	font-size: 125%;
+	text-transform: uppercase;
+	letter-spacing: 2px;
+	cursor: pointer;
+	margin-bottom: 10px;
+}
+
+form input[type="submit"]:hover {
+	background: #005050;
+}

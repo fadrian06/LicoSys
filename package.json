@@ -1,0 +1,13 @@
+{
+	"devDependencies": {
+		"@babel/cli": "^7.18.10",
+		"@babel/core": "^7.18.10",
+		"@babel/preset-env": "^7.18.10",
+		"stylus": "^0.58.1"
+	},
+	"scripts": {
+		"babel": "babel ecmascript -d js -w",
+		"stylus": "stylus stylus/main.styl -o css -w"
+	},
+	"dependencies": {}
+}

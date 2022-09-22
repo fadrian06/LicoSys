@@ -1,0 +1,10 @@
+{
+	"devDependencies": {
+		"@babel/cli": "^7.18.10",
+		"@babel/core": "^7.18.10",
+		"@babel/preset-env": "^7.18.10"
+	},
+	"scripts": {
+		"babel": "babel ecmascript -d js"
+	}
+}

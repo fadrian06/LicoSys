@@ -1,0 +1,28 @@
+div.w3-bottom a {
+	width: 100px;
+	height: 100px;
+}
+
+div.w3-bottom {
+	width: 100px;
+	height: 100px;
+	position: fixed;
+	bottom: 30px;
+	right: 10px;
+}
+
+@media screen and (max-width: 600px) {
+	div.w3-bottom a {
+		width: 75px;
+		height: 75px;
+		font-size: 75%;
+	}
+
+	div.w3-bottom {
+		width: 75px;
+		height: 75px;
+		position: fixed;
+		bottom: 30px;
+		right: 10px;
+	}
+}

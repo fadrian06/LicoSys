@@ -1,0 +1,325 @@
+/*=================================
+=            VARIABLES            =
+=================================*/
+:root {
+	--error          : #d32f2f;
+	--rojo-claro     : #ffcdd2;
+	--primario       : #009688;
+	--primario-oscuro: #00796B;
+	--gris           : #f5f5f5;
+	--gris-oscuro    : #757575;
+	--negro          : #212121;
+	--fuente         : "Roboto", sans-serif;
+}
+/*=====  End of VARIABLES  ======*/
+
+/*===============================
+=            GENERALES            =
+===============================*/
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+	user-select: none;
+}
+
+html {
+	background: linear-gradient(to top, var(--primario), var(--negro));
+}
+
+body {
+	font: 16px var(--fuente);
+	padding-top: .5em;
+	min-height: 100vh;
+	scrollbar-width: 10px;
+	scrollbar-color: white;
+	position: relative;
+}
+
+body::-webkit-scrollbar{
+	width: 10px;
+	background: linear-gradient(to bottom, black, var(--primario)) black;
+}
+
+body::-webkit-scrollbar-thumb{
+	border-radius: 50px;
+	background: white;
+}
+
+.contenedor {
+	height: 100%;
+	padding: 1rem;
+	display: flex;
+	justify-content: center;
+	gap: 2rem;
+}
+/*=====  End of GENERALES  ======*/
+
+/*=============================
+=            LOGIN            =
+=============================*/
+.bienvenida,
+#formulario-login {
+	outline: thick solid var(--negro);
+	border-radius: 5%;
+}
+
+.bienvenida {
+	background: url(../imagenes/fondo.jpg) no-repeat right / cover;
+	width: 45%;
+}
+
+#formulario-login {
+	background: linear-gradient(to bottom, white, var(--gris));
+	max-width: 28.12em;
+}
+
+	#formulario-login header {
+		text-align: left;
+	}
+
+	.negocios p {
+		text-align: left;
+		padding-left: 1rem;
+		margin-bottom: 1rem;
+		color: var(--gris-oscuro);
+	}
+
+	.input-radio {
+		display: flex;
+		justify-content: space-around;
+	}
+
+		.radio-group {
+			width: 4.25rem;
+			height: 4.25rem;
+			border-radius: 10%;
+		}
+
+		.radio-group label {
+			display: block;
+			width: 100%;
+			height: 100%;
+			outline: thick solid var(--negro);
+			border-radius: 10%;
+		}
+
+		input[type="radio"] {
+			display: none;
+		}
+
+		input[type=number]::-webkit-inner-spin-button,
+		input[type=number]::-webkit-outer-spin-button {
+			-webkit-appearance: none;
+			margin: 0;
+		}
+
+		input[type="radio"]:checked+label {
+			outline: thick solid var(--primario);
+			box-shadow: 0px 15px 30px var(--primario);
+		}
+
+	.grupo-input {
+		margin-bottom: .25em;
+	}
+
+		.input {
+			background: white;
+			outline: thin solid var(--negro);
+			font-size: 1.25em;
+			position: relative;
+		}
+
+		.icono {
+			width: 1.25em;
+			height: 100%;
+			font-size: 1.5em;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			background: var(--primario);
+			border-right: thin solid var(--negro);
+			position: absolute;
+		}
+
+		.ver {
+			font-size: 1.25em;
+			position: absolute;
+			right: .62em;
+			top: 0;
+			background: transparent;
+			border: none;
+			cursor: pointer;
+		}
+
+		.input input {
+			width: 100%;
+			padding: .62em 3.75em .62em 3.12em;
+			border: none;
+			background: transparent;
+			font-size: .75em;
+			font-weight: bold;
+		}
+
+		.input input::placeholder {
+			font-weight: normal;
+			font-style: italic;
+		}
+
+		.input .incorrecto::placeholder {
+			color: var(--error);
+		}
+
+		.input input:focus {
+			outline: none;
+		}
+
+	p.error {
+		width: 100%;
+		font-size: .9em;
+		margin: 0 auto .5em;
+		text-align: center;
+		font-weight: bold;
+		background: var(--rojo-claro);
+		padding: .62em;
+		border: thin solid red;
+		color: var(--error);
+	}
+
+	input[type="submit"] {
+		padding: .5em 5em;
+		background: var(--primario);
+		color: white;
+		cursor: pointer;
+		font-family: var(--fuente);
+		font-size: 1em;
+		font-weight: bold;
+		letter-spacing: 2px;
+		margin: 0 0 .5em;
+		position: relative;
+	}
+
+	input[type="submit"]:hover {
+		background: var(--primario-oscuro);
+	}
+
+	a.recuperarClave {
+		display: inline-block;
+		margin: 0 auto;
+		text-decoration: none;
+		color: var(--gris-oscuro);
+		font: 1em var(--fuente);
+		font-weight: bold;
+		cursor: pointer;
+	}
+
+	a.recuperarClave:hover {
+		text-decoration: none;
+		color: var(--negro);
+	}
+
+#formulario-recuperar,
+#formulario-preguntas,
+#formulario-clave {
+	max-width: max-content;
+	max-height: max-content;
+	position: fixed;
+	margin: auto;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	z-index: 10;
+}
+/*=====  End of LOGIN  ======*/
+
+/*=============================
+=            RELOJ            =
+=============================*/
+.widget {
+	font-family: "Oswald";
+	display: inline-block;
+	width: 100%;
+	max-width: 10.94em;
+	align-self: flex-end;
+}
+
+.fecha,
+.reloj {
+	color: white;
+	padding: .5em 1em;
+	border: thin solid var(--negro);
+	background: #00000075;
+	text-align: center;
+	margin: auto;
+	margin-top: .62em;
+	margin-bottom: .62em;
+}
+
+.fecha {
+	font-weight: bold;
+	font-size: 1.25em;
+}
+
+.reloj {
+	font-size: 1.5em;
+}
+
+.ampm {
+	font-size: 1rem;
+}
+/*=====  End of RELOJ  ======*/
+
+/*============================================
+=            RECUPERAR CONTRASEÑA            =
+============================================*/
+.fondo {
+	position: fixed;
+	top: 0;
+	z-index: 1;
+	width: 100vw;
+	height: 100vh;
+	background: #0005;
+	cursor: pointer;
+}
+/*=====  End of RECUPERAR CONTRASEÑA  ======*/
+
+@media screen and (max-width: 600px) {
+	body{
+		max-height: 200vh;
+	}
+	.bienvenida{
+		display: none;
+	}
+	.contenedor{
+		display: block;
+	}
+	#formulario-login{
+		max-width: 400px;
+		margin: auto;
+	}
+
+	#formulario-preguntas > h3 {
+		margin-top: 0;
+	}
+
+	#formulario-preguntas{
+		max-width: max-content;
+		max-height: 100vh;
+		overflow-y: auto;
+		position: fixed;
+		margin: auto;
+		top: 0;
+		bottom: 0;
+		left: 0;
+		right: 0;
+		z-index: 10;
+	}
+}
+
+@media screen and (min-width: 1100px){
+	body{
+		height: 100vh;
+		font-size: 1.75vw;
+	}
+}
