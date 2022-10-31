@@ -1,5 +1,7 @@
-<?php require_once "parciales/head.php" ?>
-<?php require_once "php/actualizarProducto.php" ?>
+<?php
+	require 'parciales/head.php';
+	require 'php/actualizarProducto.php'
+?>
 
 	<main class="w3-main" id="inventario">
 		<?php
@@ -18,7 +20,7 @@
 				<div class="icono">
 					<span class="icon-edit"></span>
 				</div>
-				<input type="text" name="codigo" placeholder="Código del Producto" minlength="3" maxlength="10" required autofocus autocapitalize="characters" pattern="^[a-zA-Z\d-.#]{3,10}$" title="Sólo se permiten letras, números y símbolos (- . #)">
+				<input readonly type="text" name="codigo" placeholder="Código del Producto" minlength="3" maxlength="10" required autofocus autocapitalize="characters" pattern="^[a-zA-Z\d-.#]{3,10}$" title="Sólo se permiten letras, números y símbolos (- . #)">
 			</div>
 		</section>
 		<section class="w3-padding-16 w3-container w3-margin-left w3-margin-right">
@@ -62,5 +64,7 @@
 			<input class="w3-padding-large w3-margin-left w3-margin-right" type="submit" value="Actualizar" name="actualizarProducto">
 		</div>
 	</form>
-<?php require_once "parciales/indexModales.php"?>
-<?php require_once "parciales/footer.php" ?>
+<?php
+	require 'parciales/indexModales.php';
+	require 'parciales/footer.php'
+?>

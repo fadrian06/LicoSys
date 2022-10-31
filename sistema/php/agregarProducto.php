@@ -21,7 +21,7 @@
 					$temporal = getRegistro("SELECT * FROM carrito_venta WHERE cod='$codigo'");
 					$total = round($temporal["cantidad"] * $temporal["precio_b"], 2);
 					if($temporal["excento"] == "SI") $totalIva = (string) round($total + ($total * $iva), 2);
-					setRegistro("UPDATE carrito_venta SET precio_total='$total', total_iva='$totalIva' WHERE cod='$codigo'");	
+					setRegistro("UPDATE carrito_venta SET precio_total='$total', total_iva='$totalIva' WHERE cod='$codigo'");
 					$nuevoStock = $temporal["stock"] - $temporal["cantidad"];
 					setRegistro("UPDATE inventario SET stock=$nuevoStock WHERE cod='$codigo'");
 					$notificacion = "

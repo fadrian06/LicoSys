@@ -1,0 +1,93 @@
+{
+    "_antibloqueo": {
+        "mobile": "http://dolartoday.com",
+        "video": "",
+        "corto_alternativo": "https://bit.ly/venezuela911",
+        "enable_iads": "",
+        "enable_admobbanners": "ca-app-pub-8212448379596570/1946229161",
+        "enable_admobinterstitials": "",
+        "alternativo": "68747470733a2f2f64687969647432303332636339642e636c6f756466726f6e64742e6e6574",
+        "alternativo2": "68747470733a2f2f64687969647432303332636339642e636c6f756466726f6e64742e6e6574",
+        "notifications": "https://d3c134ru0r3b0g.cloudfront.net",
+        "resource_id": "33504 A"
+    },
+    "_labels": {
+        "a": "DOLARTODAY",
+        "a1": "CUCUTA (EFECTIVO)",
+        "b": "CUCUTA",
+        "c": "DOLAR BCV",
+        "d": "DOLAR BITCOIN",
+        "e": "PETRO"
+    },
+    "_timestamp": {
+        "epoch": "1666141209",
+        "fecha": "Octubre 18, 2022 09:00 PM",
+        "fecha_corta": "Oct 18, 2022",
+        "fecha_corta2": "Oct 2022",
+        "fecha_nice": "Octubre 18, 2022",
+        "dia": "Martes",
+        "dia_corta": "Mar"
+    },
+    "USD": {
+        "transferencia": 8.79,
+        "transfer_cucuta": 8.79,
+        "efectivo": 8.88,
+        "efectivo_real": 8.88,
+        "efectivo_cucuta": 8.88,
+        "promedio": 8.79,
+        "promedio_real": 8.28,
+        "cencoex": 496.74,
+        "sicad1": 8.75,
+        "sicad2": 8.28,
+        "bitcoin_ref": 8.75,
+        "localbitcoin_ref": 8.75,
+        "dolartoday": 8.79
+    },
+    "EUR": {
+        "transferencia": 8.53,
+        "transfer_cucuta": 8.53,
+        "efectivo": 8.61,
+        "efectivo_real": 8.61,
+        "efectivo_cucuta": 8.61,
+        "promedio": 8.53,
+        "promedio_real": 8.03,
+        "cencoex": 481.84,
+        "sicad1": 8.49,
+        "sicad2": 8.03,
+        "dolartoday": 8.53
+    },
+    "COL": {
+        "efectivo": 490.0000,
+        "transfer": 490.0000,
+        "compra": 490.0000,
+        "venta": 523.80
+    },
+    "GOLD": {
+        "rate": 1400
+    },
+    "USDVEF": {
+        "rate": 1
+    },
+    "USDCOL": {
+        "setfxsell": 4350.00,
+        "setfxbuy": 4410.00,
+        "rate": 5564.00,
+        "ratecash": 4358.00,
+        "ratetrm": 4350.00,
+        "trmfactor": 0.2,
+        "trmfactorcash": 0.06
+    },
+    "EURUSD": {
+        "rate": 0.97
+    },
+    "BCV": {
+        "fecha": "1522123200",
+        "fecha_nice": "Marzo 27, 2018",
+        "liquidez": "328.319.818.517",
+        "reservas": "9.444.000"
+    },
+    "MISC": {
+        "petroleo": "57,83",
+        "reservas": "9,4"
+    }
+}

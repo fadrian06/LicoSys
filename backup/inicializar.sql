@@ -1,22 +1,3 @@
--- phpMyAdmin SQL Dump
--- version 5.2.0
--- https://www.phpmyadmin.net/
---
--- Servidor: 127.0.0.1
--- Tiempo de generación: 27-09-2022 a las 20:20:05
--- Versión del servidor: 10.1.38-MariaDB
--- Versión de PHP: 7.3.2
-
-SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-START TRANSACTION;
-SET time_zone = "+00:00";
-
-
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
-
 --
 -- Base de datos: `licoreria`
 --
@@ -67,14 +48,6 @@ CREATE TABLE `cliente` (
   `ci_u` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
---
--- Volcado de datos para la tabla `cliente`
---
-
-INSERT INTO `cliente` (`ci_c`, `cliente`, `ci_u`) VALUES
-(30000000, 'Clientedos', 28888888),
-(40000000, 'Clientetres', 28888888);
-
 -- --------------------------------------------------------
 
 --
@@ -93,13 +66,6 @@ CREATE TABLE `compra` (
   `id_n` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
---
--- Volcado de datos para la tabla `compra`
---
-
-INSERT INTO `compra` (`id_c`, `fecha_c`, `cod`, `producto`, `unidades`, `precio_c`, `id_p`, `ci_u`, `id_n`) VALUES
-(1, '20-09-2022, 01:05 pm', 'PRO4', 'Producto No Excento', 5, '10', 1, 28888888, 2);
-
 -- --------------------------------------------------------
 
 --
@@ -110,13 +76,6 @@ CREATE TABLE `dolar` (
   `fecha_dolar` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `dolar` varchar(255) COLLATE utf8_spanish_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
-
---
--- Volcado de datos para la tabla `dolar`
---
-
-INSERT INTO `dolar` (`fecha_dolar`, `dolar`) VALUES
-('2022-09-10 14:52:02', '8.68');
 
 -- --------------------------------------------------------
 
@@ -135,16 +94,6 @@ CREATE TABLE `inventario` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 --
--- Volcado de datos para la tabla `inventario`
---
-
-INSERT INTO `inventario` (`cod`, `nom_p`, `stock`, `excento`, `precio_b`, `id_n`, `ci_u`) VALUES
-('PRO3', 'Producto 3', 8, 'SI', '5', 1, 28888888),
-('PRO4', 'Producto No Excento', 25, 'NO', '10', 1, 28888888);
-
--- --------------------------------------------------------
-
---
 -- Estructura de tabla para la tabla `iva`
 --
 
@@ -152,15 +101,6 @@ CREATE TABLE `iva` (
   `fecha_iva` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `iva` varchar(255) COLLATE utf8_spanish_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
-
---
--- Volcado de datos para la tabla `iva`
---
-
-INSERT INTO `iva` (`fecha_iva`, `iva`) VALUES
-('2022-09-10 14:52:02', '0.16');
-
--- --------------------------------------------------------
 
 --
 -- Estructura de tabla para la tabla `log`
@@ -171,16 +111,6 @@ CREATE TABLE `log` (
   `ci_u` int(11) DEFAULT NULL,
   `id_n` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
-
---
--- Volcado de datos para la tabla `log`
---
-
-INSERT INTO `log` (`fecha`, `ci_u`, `id_n`) VALUES
-('16-09-2022, 03:46 pm', 28072391, 1),
-('16-09-2022, 03:58 pm', 28072391, 1),
-('16-09-2022, 12:15 pm', 28072391, 1),
-('25-09-2022, 02:46 pm', 28072391, 1);
 
 -- --------------------------------------------------------
 
@@ -198,15 +128,6 @@ CREATE TABLE `negocio` (
   `activo` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
---
--- Volcado de datos para la tabla `negocio`
---
-
-INSERT INTO `negocio` (`id_n`, `nom_n`, `rif`, `tlf_n`, `direccion_n`, `foto`, `activo`) VALUES
-(1, 'Licorería Don Ramón', 'V12345678901', '04165335826', 'El Pinar, Carretera Panamericana', '1.jpeg', 1),
-(2, 'Taberna Los 7 Hermanos', 'V9239239279', '', 'El Pinar, Carretera Panamericana', '2.jpeg', 1),
-(3, 'Distribuidora La Gigante', 'E232323232', '', '', '3.jpeg', 1);
-
 -- --------------------------------------------------------
 
 --
@@ -219,15 +140,6 @@ CREATE TABLE `peso` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 --
--- Volcado de datos para la tabla `peso`
---
-
-INSERT INTO `peso` (`fecha_peso`, `peso`) VALUES
-('2022-09-10 14:52:02', '4000');
-
--- --------------------------------------------------------
-
---
 -- Estructura de tabla para la tabla `proveedor`
 --
 
@@ -237,15 +149,6 @@ CREATE TABLE `proveedor` (
   `ci_u` int(11) DEFAULT NULL,
   `id_n` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
-
---
--- Volcado de datos para la tabla `proveedor`
---
-
-INSERT INTO `proveedor` (`id_p`, `proveedor`, `ci_u`, `id_n`) VALUES
-(1, 'Proveedor1', 28888888, 1),
-(2, 'Proveedor2', 28888888, 1),
-(3, 'Proveedor4', 28888888, 1);
 
 -- --------------------------------------------------------
 
@@ -270,17 +173,7 @@ CREATE TABLE `usuario` (
   `activo` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
---
--- Volcado de datos para la tabla `usuario`
---
 
-INSERT INTO `usuario` (`ci_u`, `usuario`, `nom_u`, `clave`, `cargo`, `tlf`, `pre1`, `r1`, `pre2`, `r2`, `pre3`, `r3`, `foto`, `activo`) VALUES
-(28072391, 'franyer', 'Franyer', '$2y$10$Oofg4b.G9uGshKgP4Npc3OqL1K1g/JFAyTtiH.CQafR2G67M2..eq', 'v', '04165335826', 'Color', '$2y$10$FTa5TgTukhlWbYOlyyg3/uRv0ApcrJ7WGAkMh95s0jNoTbmTELs26', 'Carrera universitaria', '$2y$10$D1/O1I7Lxjb1w.Jtt7X74e7JXavj3zZqBtgzH8Zb3X38eVPdSjjx6', 'Mejor amiga', '$2y$10$9UbaOfKuGaVP5GIKm2rLqugX8kCuhH6nr.5HRMYe4.vO6XlkkNYD2', '28072391.jpeg', 1),
-(28888888, 'admin', 'Administrador', '$2y$10$nVlRKjkv5BcPPo4lF.XXcefa.QLVVb1UjhXczIpSBiM.Mz8Rkr6VO', 'a', '04165335826', 'pregunta', '$2y$10$3Ii/4o1EkNRikHDKE98z5uFC7dUYi..CG3zpk9MIlpfmtgRLtTPRK', 'pregunta', '$2y$10$ud0H4d2leN7IMfZSfiIbluRkaKFJvPT47g5hHJJlzALxntzWw8O1O', 'pregunta', '$2y$10$jcnCVu2WYGDf2mYE26cUm.DOPAndwR3C4JRz/bzmRDGoIcE4OitJ.', '28888888.jpeg', 1);
-
--- --------------------------------------------------------
-
---
 -- Estructura de tabla para la tabla `venta`
 --
 
@@ -295,15 +188,6 @@ CREATE TABLE `venta` (
   `ci_u` int(11) DEFAULT NULL,
   `id_n` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
-
---
--- Volcado de datos para la tabla `venta`
---
-
-INSERT INTO `venta` (`id_v`, `fecha_v`, `ci_c`, `cod`, `unidades`, `precio_v`, `iva`, `ci_u`, `id_n`) VALUES
-(1, '20-09-2022, 01:04 pm', 40000000, 'PRO3', 2, '11.6', '0.16', 28888888, 2);
-
--- --------------------------------------------------------
 
 --
 -- Estructura de tabla para la tabla `versiones`
@@ -525,7 +409,3 @@ ALTER TABLE `venta`
   ADD CONSTRAINT `venta_ibfk_5` FOREIGN KEY (`id_n`) REFERENCES `negocio` (`id_n`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `venta_ibfk_7` FOREIGN KEY (`cod`) REFERENCES `inventario` (`cod`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
-
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

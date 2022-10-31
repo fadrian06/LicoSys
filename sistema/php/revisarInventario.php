@@ -3,7 +3,7 @@
 	$productos = getRegistros("SELECT * FROM inventario WHERE stock<=5");
 	if($productos):
 		$casiAgotados = false;
-		$notifiacion = "<script>advertencia('";
+		$notificacion = "<script>advertencia('";
 		foreach($productos as $producto):
 			if(!$producto["stock"]):
 				$notificacion .= "{$producto['nom_p']}<br><b>AGOTADO</b>";
@@ -14,6 +14,6 @@
 			endif;
 		endforeach;
 		if($casiAgotados) $notificacion .= "<b>CASI AGOTADO(S)</b>";
-		$notifiacion .= "')</script>";
+		$notificacion .= "')</script>";
 	endif;
 ?>

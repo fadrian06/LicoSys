@@ -1,5 +1,5 @@
 <?php if(isset($registrarNegocio)): ?>
-	<form method="POST" enctype="multipart/form-data" class="w3-margin-top w3-row formularioModal w3-padding-24 w3-display-container w3-center w3-white w3-card w3-round-large animate__animated animate__fadeInUp animate__faster w3-show" id="formNegocio">
+	<form method="POST" enctype="multipart/form-data" class="w3-margin-top w3-row formularioModal w3-padding-24 w3-display-container w3-center w3-white w3-card w3-round-large animate__animated animate__fadeInUp animate__faster w3-hide" id="formNegocio">
 		<span class="w3-button w3-hover-red w3-xlarge w3-display-topright">&times;</span>
 		<h1 class="w3-margin-bottom w3-xlarge">Registro de Negocio</h1>
 		<div class="w3-twothird w3-rightbar">

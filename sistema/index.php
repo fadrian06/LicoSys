@@ -22,20 +22,20 @@
 		=============================-->
 		<?php require "parciales/widgets.php" ?>
 		<?php require "parciales/monedas.php" ?>
-		<section class="w3-half w3-container w3-border-bottom w3-padding-24 w3-hide w3-animate-opacity" id="dolarToday">
+		<section class="w3-half w3-container w3-padding-24 <?=!isset($data) ? 'w3-hide' : ''?> w3-animate-opacity" id="dolarToday">
 			<h5 class="w3-text-green">DOLAR TODAY</h5>
 			<table class="w3-table w3-bordered w3-border w3-hoverable w3-pale-green">
 				<tr>
 					<td>Fecha</td>
-					<td colspan="2"><b id="fD"></b></td>
+					<td colspan="3"><b id="fD"><i class="w3-small"><?=$dolarFecha?></i></b></td>
 				</tr>
 				<tr>
-					<td>DÓLAR</td>
-					<td><b id="dT"></b></td>
-					<td><b id="dE"></b></td>
+					<td>DÓLAR (Bs.)</td>
+					<td><b id="dBCV"><i class="w3-small">BCV </i><?=$dolarBCV?></b></td>
+					<td><b id="dT"><i class="w3-small">Transferencia </i><?=$dolarT?></b></td>
+					<td><b id="dE"><i class="w3-small">Efectivo </i><?=$dolarE?></b></td>
 				</tr>
 			</table>
-			<?=$_SESSION["cargo"] == "a" ? "<button class='w3-margin w3-button w3-dark-grey' id='actualizarMonedas'>Actualizar &blacktriangleright;</button>" : ""?>
 		</section>
 		<?php require "parciales/resumen.php" ?>
 		<?php require "parciales/estadisticas.php" ?>

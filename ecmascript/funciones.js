@@ -1,10 +1,9 @@
 onoffline = () => advertencia("Se ha perdido la conexión");
 ononline  = () => notificacion("Se ha restablecido la conexión");
 
-if(w3.getElements(".icon-eye")){
-	const ojos = w3.getElements(".icon-eye");
-	ojos.forEach(ojo => ojo.addEventListener("click", e=>verClave(e.target)));
-}
+const ojos = w3.getElements('.icon-eye');
+if(ojos !== undefined)
+	ojos.forEach(ojo => ojo.addEventListener('click', e => verClave(e.target)));
 
 w3.getElement = id => w3.getElements(id)[0];
 

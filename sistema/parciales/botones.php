@@ -12,7 +12,7 @@
 	<div class="w3-bottom">
 		<a href="#" id="registrarProducto" class="w3-button w3-circle w3-right w3-margin w3-blue w3-hover-blue w3-hover-text-black">
 			<i class="icon-plus w3-xlarge"></i>Nuevo<br>Producto
-		</a> 
+		</a>
 	</div>
 	<?php require_once "parciales/formRegistrarProducto.php" ?>
 <?php elseif ($clientesActivo): ?>
@@ -35,11 +35,17 @@
 			<i class="icon-cart-plus w3-xlarge"></i>Nueva<br>Compra
 		</a>
 	</div>
-<?php elseif ($usuariosActivo && $_SESSION["cargo"] == "a"): ?>
+<?php elseif ($usuariosActivo && $_SESSION["cargo"] == "a" && $_SERVER["PHP_SELF"] != "/licoreria/sistema/log.php"): ?>
 	<div class="w3-bottom">
 		<a href="#" id="registrarUsuario" class="w3-button w3-circle w3-right w3-margin w3-blue w3-hover-blue w3-hover-text-black">
 			<i class="icon-user-plus w3-xlarge"></i>Nuevo<br>Usuario
 		</a>
 	</div>
 	<?php require_once "parciales/formRegistrarUsuario.php" ?>
+<?php elseif($_SERVER["PHP_SELF"] == "/licoreria/sistema/log.php"): ?>
+	<div class="w3-bottom">
+		<button id="boton-vaciar" class="w3-button w3-margin w3-right w3-blue w3-hover-blue w3-hover-text-black w3-round-xlarge">
+			<i class="icon-trash w3-xlarge"></i><br>Vaciar Registro
+		</button>
+	</div>
 <?php endif; ?>

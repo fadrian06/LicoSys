@@ -72,6 +72,80 @@ if(w3.getElement("#miPerfil")){
 =            NEGOCIOS            =
 ================================*/
 if(w3.getElement("#negocios")){
+	const btnRespaldar = w3.getElement("#boton-respaldar");
+	btnRespaldar.addEventListener("click", () => {
+		Swal.fire({
+			title: "¿Desea crear una copia de seguridad de todos los datos?",
+			showCancelButton: true,
+			confirmButtonText: "Crear",
+			cancelButtonText: "Cancelar",
+			confirmButtonColor: "#223a5e",
+			cancelButtonColor: "#a6001a",
+			reverseButtons: true,
+			showCloseButton: true,
+			showLoaderOnConfirm: true,
+			preConfirm: async eleccion => {
+				return await axios("php/respaldarBD.php", {
+					params: {
+						respaldar: true
+					}
+				});
+			}
+		}).then(resultado => {
+			if(!resultado.isDismissed && resultado.value.status == 200 && resultado.value.data){
+				notificacion("Copia de seguridad creada exitósamente", false);
+			} else if(!resultado.isDismissed) {
+				alerta("Ha ocurrido un error, por favor intente nuevamente");
+				btnRespaldar.click();
+			}
+		});
+	});
+
+	const btnRestaurar = w3.getElement("#boton-restaurar");
+	btnRestaurar.addEventListener("click", () => {
+		Swal.fire({
+			title: "Tener en cuenta que al restaurar se perderán cambios que no hayan sido respaldados",
+			html: "<b class='w3-text-red'>¿Desea continuar?</b>",
+			showCancelButton: true,
+			confirmButtonText: "Continuar",
+			cancelButtonText: "Cancelar",
+			confirmButtonColor: "#223a5e",
+			cancelButtonColor: "#a6001a",
+			reverseButtons: true,
+			showCloseButton: true,
+			showLoaderOnConfirm: true,
+			preConfirm: async eleccion => {
+				return await axios("php/restaurarBD.php", {
+					params: {
+						restaurar: true
+					}
+				});
+			}
+		}).then(resultado => {
+			if(!resultado.isDismissed && resultado.value.status == 200 && resultado.value.data){
+				Swal.fire({
+					title: "Copia de seguridad restaurada exitósamente",
+					html: '<b class="w3-xlarge w3-text-green">REINICIANDO EL SISTEMA</b>',
+					icon: "success",
+					timer: 3000,
+					timerProgressBar: true,
+					allowOutsideClick: false,
+					allowEscapeKey: false,
+					allowEnterKey: false,
+					showConfirmButton: false,
+				});
+				setTimeout(() => {
+					let href = window.location.href;
+					href = href.replace(/negocio/g, coincidencia => coincidencia = "salir");
+					window.location.href = href;
+				}, 3000);
+			} else if(!resultado.isDismissed) {
+				alerta("Ha ocurrido un error, por favor intente nuevamente");
+				btnRestaurar.click();
+			}
+		});
+	});
+
 	const botonesNegocios       = w3.getElements(".botonNegocio");
 	const botonRegistrarNegocio = w3.getElement("#botonAgregarNegocio");
 	const panelesNegocios       = w3.getElements(".panelNegocio");
@@ -144,12 +218,12 @@ if(w3.getElement("#inventario") && w3.getElements("input[name='editar']")){
 		boton.addEventListener("click", e => {
 			e.preventDefault();
 			ventanaEmergente(formEdit, overlay);
-			const data = boton.parentElement.parentElement.querySelectorAll("input[readonly]");
-			let codigo = data[0].value;
-			let nombre = data[1].value;
-			let stock = data[2].value;
+			const data  = boton.parentElement.parentElement.querySelectorAll("input[readonly]");
+			let codigo  = data[0].value;
+			let nombre  = data[1].value;
+			let stock   = data[2].value;
 			let excento = data[3].value;
-			let precio = data[4].value;
+			let precio  = data[4].value;
 			formEdit.querySelector("input[name='codigo']").value = codigo;
 			formEdit.querySelector("input[name='cod']").value = codigo;
 			formEdit.querySelector("input[name='nombreProducto']").value = nombre;
@@ -242,7 +316,7 @@ if(w3.getElement("#panelNuevaVenta")){
 	
 	botonesClientes.forEach(boton => {
 		const spans = boton.children;
-		boton.addEventListener("click", (e) => {
+		boton.addEventListener("click", e => {
 			let texto = spans[0].innerHTML;
 			inputCliente[1].value = texto.substring(2);
 			inputCliente[0].nextElementSibling.innerHTML = "v-" + texto.substring(2);
@@ -395,7 +469,21 @@ if(w3.getElement("#panelNuevaCompra")){
 /*====================================
 =            EDITAR DATOS            =
 ====================================*/
-if(w3.getElement("#formEditar")){
-	const form = w3.getElement("#formEditar");
+if(w3.getElement('#formEditar')){
+	const form = w3.getElement('#formEditar');
 	ventanaEmergente(form, overlay);
+}
+
+/*===========================
+=            LOG            =
+===========================*/
+if(w3.getElement("#log")){
+	const btnVaciar = w3.getElement("#boton-vaciar");
+	btnVaciar.addEventListener("click", ()=>{
+		axios(location.href, {
+				params: {
+					vaciar: true
+				}
+		}).then(respuesta => location.reload());
+	});
 }

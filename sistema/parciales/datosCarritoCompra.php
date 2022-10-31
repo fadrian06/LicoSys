@@ -15,22 +15,22 @@
 				</tr>
 				<?php $total = 0; $i = 1; foreach($datosCarrito as $dato): ?>
 					<tr>
-						<td><input class="w3-input w3-center w3-transparent" type="text" name="nombreProducto<?=$i?>" value="<?=$dato['nom_p']?>"></td>
-						<td><input class="w3-input w3-center w3-transparent" type="text" name="codigo<?=$i?>" value="<?=$dato['cod']?>"></td>
-						<td class="w3-hide"><input class="w3-input w3-center w3-transparent" type="text" name="stock<?=$i?>" value="<?=$dato['stock']?>"></td>
+						<td><input style="width: max-content" class="w3-input w3-center w3-transparent" type="text" name="nombreProducto<?=$i?>" value="<?=$dato['nom_p']?>"></td>
+						<td><input style="width: max-content" class="w3-input w3-center w3-transparent" type="text" name="codigo<?=$i?>" value="<?=$dato['cod']?>"></td>
+						<td class="w3-hide"><input style="width: max-content" class="w3-input w3-center w3-transparent" type="text" name="stock<?=$i?>" value="<?=$dato['stock']?>"></td>
 						<td>
 							<div class="tooltip-container">
-								<input class="w3-input w3-center w3-transparent" type="text" name="precioB<?=$i?>" value="<?=$dato['precio_b']?>">
+								<input style="width: max-content" class="w3-input w3-center w3-transparent" type="text" name="precioB<?=$i?>" value="<?=$dato['precio_b']?>">
 								<span class="tooltip">
 									<b class="w3-block">Bs. <?=round($dato["precio_b"] * getDolar(), 2)?></b>
 									<b class="w3-block">Pesos <?=formatMoney($dato["precio_b"] * getPeso())?></b>
 								</span>
 							</div>
 						</td>
-						<td><input class="w3-input w3-center w3-transparent" type="text" name="cantidad<?=$i?>" value="<?=$dato['cantidad']?>"></td>
+						<td><input style="width: max-content" class="w3-input w3-center w3-transparent" type="text" name="cantidad<?=$i?>" value="<?=$dato['cantidad']?>"></td>
 						<td class="w3-display-container">
 							<div class="tooltip-container">
-								<input class="w3-input w3-transparent w3-center" type="text" name="precioT<?=$i?>" value="<?=$dato["precio_total"]?>">
+								<input style="width: max-content" class="w3-input w3-transparent w3-center" type="text" name="precioT<?=$i?>" value="<?=$dato["precio_total"]?>">
 								<span class="tooltip">
 									<b class="w3-block">Bs. <?=round($dato["precio_total"] * getDolar(), 2)?></b>
 									<b class="w3-block">Pesos <?=formatMoney($dato["precio_total"] * getPeso())?></b>
@@ -48,7 +48,7 @@
 						<td></td>
 						<td class="w3-topbar w3-border-black">
 							<div class="tooltip-container">
-								<input type="text" readonly class="w3-input w3-transparent w3-border-0 w3-center" value="<?=$total?>">
+								<input style="width: max-content" type="text" readonly class="w3-input w3-transparent w3-border-0 w3-center" value="<?=$total?>">
 								<span class="tooltip">
 									<b class="w3-block">Bs. <?=round($total * getDolar(), 2)?></b>
 									<b class="w3-block">Pesos <?=formatMoney($total * getPeso())?></b>

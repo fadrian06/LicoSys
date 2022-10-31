@@ -31,13 +31,13 @@
 				<tr>
 					<form method='POST'>
 						<td class='w3-border w3-border-black w3-white'>
-							<input class='w3-input w3-center w3-border-0 w3-transparent' type='text' readonly name='llavePrimaria' value='$dato[0]'>
+							<input style='width: max-content' class='w3-input w3-center w3-border-0 w3-transparent' type='text' readonly name='llavePrimaria' value='$dato[0]'>
 						</td>
 			";
 			for ($i = 1; $i < $intEncabezados; $i++):
 				echo "
 				 	<td class='w3-border w3-border-black w3-white'>
-				 		<input class='w3-input w3-center w3-border-0 w3-transparent' type='text' readonly value='$dato[$i]'>
+				 		<input style='width: max-content' class='w3-input w3-center w3-border-0 w3-transparent' type='text' readonly value='$dato[$i]'>
 				 	</td>
 				";
 			endfor;
@@ -60,9 +60,9 @@
 	}
 
 	function editar(string $tabla, $llavePrimaria){
-		if(isset($_POST["llavePrimaria"])):
-			$llave = $_POST["llavePrimaria"];
-			$sql = ($tabla == "proveedor")
+		if(isset($_POST['llavePrimaria'])):
+			$llave = $_POST['llavePrimaria'];
+			$sql = ($tabla == 'proveedor')
 				? "SELECT * FROM $tabla WHERE $llavePrimaria=$llave"
 				: "SELECT * FROM $tabla WHERE $llavePrimaria='$llave'";
 			$registro = getRegistro($sql);
@@ -155,8 +155,8 @@
 	// Devuelve un array multimensional o NULL dependiendo si encuentra coincidencias
 	function getRegistros(string $sql):?array {
 		global $conexion;
-		$resultado = mysqli_query($conexion, $sql);
-		return $resultado ? mysqli_fetch_all($resultado, MYSQLI_BOTH) : NULL;
+		$resultado = $conexion->query($sql);
+		return $resultado ? $resultado->fetch_all(MYSQLI_BOTH) : NULL;
 	}
 
 	/*========================================

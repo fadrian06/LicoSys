@@ -1,0 +1,981 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"client",
+				"clientInformation"
+			],
+			[
+				"file_get",
+				"file_get_contents"
+			],
+			[
+				"comm-header",
+				"comm-section-header"
+			],
+			[
+				"data",
+				"data-aos"
+			],
+			[
+				"w3-pad",
+				"w3-padding-large"
+			],
+			[
+				"w3-padd",
+				"w3-padding-large"
+			],
+			[
+				"w3-pa",
+				"w3-padding-large"
+			],
+			[
+				"w3-ju",
+				"w3-justify"
+			],
+			[
+				"w3-ali",
+				"w3-left-align"
+			],
+			[
+				"w3-op",
+				"w3-opacity-max"
+			],
+			[
+				"s",
+				"sweetalert2"
+			],
+			[
+				"tab",
+				"\"tab_size\""
+			],
+			[
+				"file",
+				"\"file_exclude_patterns\""
+			],
+			[
+				"JSON_UTF",
+				"JSON_INVALID_UTF8_IGNORE"
+			],
+			[
+				"json",
+				"json_decode"
+			],
+			[
+				"file_",
+				"file_get_contents"
+			],
+			[
+				"e",
+				"error"
+			],
+			[
+				"json_",
+				"json_encode"
+			],
+			[
+				"inc",
+				"Inc"
+			],
+			[
+				"box",
+				"box-shadow"
+			],
+			[
+				"-",
+				"font-family"
+			]
+		]
+	},
+	"buffers":
+	[
+	],
+	"build_system": "Packages/User/Builds/CMD.sublime-build",
+	"build_system_choices":
+	[
+		[
+			[
+				[
+					"Build Babel",
+					""
+				],
+				[
+					"Build Stylus",
+					""
+				],
+				[
+					"Packages/Stylus/Stylus.sublime-build",
+					""
+				],
+				[
+					"Packages/Stylus/Stylus.sublime-build",
+					"Compress"
+				],
+				[
+					"Packages/Stylus/Stylus.sublime-build",
+					"Watch"
+				],
+				[
+					"Packages/Stylus/Stylus.sublime-build",
+					"Compress & Watch"
+				],
+				[
+					"Packages/Stylus/Stylus.sublime-build",
+					"Create from CSS"
+				]
+			],
+			[
+				"Build Stylus",
+				""
+			]
+		],
+		[
+			[
+				[
+					"Build Babel",
+					""
+				],
+				[
+					"Build Stylus",
+					""
+				],
+				[
+					"Packages/User/Builds/Babel.sublime-build",
+					""
+				],
+				[
+					"Packages/User/Builds/Babel.sublime-build",
+					"Watch"
+				],
+				[
+					"Packages/User/Builds/CMD.sublime-build",
+					""
+				],
+				[
+					"Packages/User/Builds/CMD.sublime-build",
+					"Powershell"
+				],
+				[
+					"Packages/User/Builds/NodeJS.sublime-build",
+					""
+				]
+			],
+			[
+				"Packages/User/Builds/CMD.sublime-build",
+				""
+			]
+		],
+		[
+			[
+				[
+					"Build Babel",
+					""
+				],
+				[
+					"Build Stylus",
+					""
+				],
+				[
+					"Packages/User/Builds/Babel.sublime-build",
+					""
+				],
+				[
+					"Packages/User/Builds/Babel.sublime-build",
+					"Watch"
+				],
+				[
+					"Packages/User/Builds/NodeJS.sublime-build",
+					""
+				]
+			],
+			[
+				"Build Babel",
+				""
+			]
+		],
+		[
+			[
+				[
+					"Build Babel",
+					""
+				],
+				[
+					"Build Stylus",
+					""
+				],
+				[
+					"Packages/User/Builds/Babel.sublime-build",
+					""
+				],
+				[
+					"Packages/User/Builds/Babel.sublime-build",
+					"Watch"
+				],
+				[
+					"Packages/User/Builds/NodeJS.sublime-build",
+					""
+				],
+				[
+					"Packages/User/Builds/PHP.sublime-build",
+					""
+				],
+				[
+					"Packages/User/Builds/PHP.sublime-build",
+					"Lint"
+				],
+				[
+					"Packages/User/Builds/PHP.sublime-build",
+					"Lint - Force"
+				]
+			],
+			[
+				"Build Stylus",
+				""
+			]
+		],
+		[
+			[
+				[
+					"Build Babel",
+					""
+				],
+				[
+					"Build Stylus",
+					""
+				],
+				[
+					"Packages/User/Builds/CMD.sublime-build",
+					""
+				],
+				[
+					"Packages/User/Builds/CMD.sublime-build",
+					"Powershell"
+				]
+			],
+			[
+				"Packages/User/Builds/CMD.sublime-build",
+				""
+			]
+		],
+		[
+			[
+				[
+					"Build Babel",
+					""
+				],
+				[
+					"Build Stylus",
+					""
+				],
+				[
+					"Packages/User/Builds/PHP.sublime-build",
+					""
+				],
+				[
+					"Packages/User/Builds/PHP.sublime-build",
+					"Lint"
+				],
+				[
+					"Packages/User/Builds/PHP.sublime-build",
+					"Lint - Force"
+				]
+			],
+			[
+				"Packages/User/Builds/PHP.sublime-build",
+				""
+			]
+		],
+		[
+			[
+				[
+					"local babel",
+					""
+				],
+				[
+					"local stylus",
+					""
+				],
+				[
+					"php",
+					""
+				],
+				[
+					"php lint",
+					""
+				]
+			],
+			[
+				"php",
+				""
+			]
+		],
+		[
+			[
+				[
+					"local babel",
+					""
+				],
+				[
+					"local stylus",
+					""
+				],
+				[
+					"php",
+					""
+				],
+				[
+					"php lint",
+					""
+				],
+				[
+					"Packages/Pug/Pug.sublime-build",
+					""
+				],
+				[
+					"Packages/Pug/Pug.sublime-build",
+					"Watch"
+				],
+				[
+					"Packages/Pug/Pug.sublime-build",
+					"Compress"
+				],
+				[
+					"Packages/Pug/Pug.sublime-build",
+					"Compress & Watch"
+				]
+			],
+			[
+				"Packages/Pug/Pug.sublime-build",
+				""
+			]
+		],
+		[
+			[
+				[
+					"local babel",
+					""
+				],
+				[
+					"local stylus",
+					""
+				],
+				[
+					"php",
+					""
+				],
+				[
+					"php lint",
+					""
+				],
+				[
+					"Packages/User/Builds/PHP.sublime-build",
+					""
+				],
+				[
+					"Packages/User/Builds/PHP.sublime-build",
+					"Lint"
+				]
+			],
+			[
+				"local babel",
+				""
+			]
+		]
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"close",
+				"Project: Close"
+			],
+			[
+				"install",
+				"Package Control: Install Package"
+			],
+			[
+				"Package Control: remove",
+				"Package Control: Remove Package"
+			],
+			[
+				"remove",
+				"Package Control: Remove Package"
+			],
+			[
+				"ins",
+				"Package Control: Install Package"
+			],
+			[
+				"insta",
+				"Package Control: Install Package"
+			],
+			[
+				"remov",
+				"Package Control: Remove Package"
+			],
+			[
+				"inst",
+				"Package Control: Install Package"
+			],
+			[
+				"instal",
+				"Package Control: Install Package"
+			],
+			[
+				"Package Control: i",
+				"Package Control: Install Package"
+			],
+			[
+				"auto",
+				"Autoprefix CSS"
+			],
+			[
+				"foramt",
+				"LSP: Format Selection"
+			],
+			[
+				"st:",
+				"ST: List and Run Saved Queries"
+			],
+			[
+				"st",
+				"ST: Select Connection"
+			],
+			[
+				"st:exe",
+				"ST: Execute"
+			],
+			[
+				"minify",
+				"Minify::Minify File"
+			],
+			[
+				"server",
+				"LSP: Enable Language Server in Project"
+			],
+			[
+				"save",
+				"Project: Save As"
+			],
+			[
+				"clos",
+				"Project: Close"
+			],
+			[
+				"project",
+				"Project: Edit"
+			],
+			[
+				"ui:sel",
+				"UI: Select Color Scheme"
+			],
+			[
+				"ui:select",
+				"UI: Select Theme"
+			],
+			[
+				"ui:",
+				"UI: Select Color Scheme"
+			],
+			[
+				"rest",
+				"REST: Send request"
+			],
+			[
+				"view",
+				"View Package File"
+			],
+			[
+				"ui",
+				"UI: Select Color Scheme"
+			],
+			[
+				"color",
+				"Color Helper: Picker"
+			],
+			[
+				"swap",
+				"BracketHighlighter: Swap Quotes"
+			],
+			[
+				"run",
+				"LSP: Run Code Lens"
+			],
+			[
+				"swap quotes",
+				"BracketHighlighter: Swap Quotes"
+			],
+			[
+				"quote",
+				"BracketHighlighter: Swap Quotes"
+			],
+			[
+				"lsp",
+				"LSP: Toggle Log Panel"
+			],
+			[
+				"dele",
+				"File: Delete"
+			],
+			[
+				"delet",
+				"File: Delete"
+			],
+			[
+				"Package Control: insta",
+				"Package Control: Install Package"
+			],
+			[
+				"Package Control: rem",
+				"Package Control: Remove Package"
+			],
+			[
+				"format",
+				"LSP: Format File"
+			],
+			[
+				"rem",
+				"Package Control: Remove Package"
+			],
+			[
+				"Package Control: in",
+				"Package Control: Install Package"
+			],
+			[
+				"list",
+				"Package Control: List Packages"
+			],
+			[
+				"remo",
+				"Package Control: Remove Package"
+			],
+			[
+				"disable",
+				"Package Control: Disable Package"
+			],
+			[
+				"dis",
+				"Package Control: Disable Package"
+			],
+			[
+				"re",
+				"Package Control: Remove Package"
+			],
+			[
+				"ena",
+				"Package Control: Enable Package"
+			],
+			[
+				"enab",
+				"Package Control: Enable Package"
+			],
+			[
+				"Package Control: re",
+				"Package Control: Remove Channel"
+			],
+			[
+				"ui:sele",
+				"UI: Select Color Scheme"
+			],
+			[
+				"agila",
+				"Agila: Select Theme"
+			],
+			[
+				"ayu",
+				"ayu: Activate theme"
+			],
+			[
+				"Package Control: enable",
+				"Package Control: Enable Package"
+			],
+			[
+				"Package Control: install Package",
+				"Package Control: Install Package"
+			],
+			[
+				"mateira",
+				"Activate Materialize Theme"
+			],
+			[
+				"Package Control: dis",
+				"Package Control: Disable Package"
+			],
+			[
+				"material",
+				"Material Theme: Advanced configuration"
+			],
+			[
+				"mateirla",
+				"Material Theme: Activate theme"
+			],
+			[
+				"emmet",
+				"Emmet: Enter Abbreviation Mode"
+			],
+			[
+				"veiw",
+				"View Package File"
+			],
+			[
+				"vie",
+				"View Package File"
+			],
+			[
+				"minip",
+				"View: Toggle Minimap"
+			],
+			[
+				"indent",
+				"Indentation: Reindent Lines"
+			],
+			[
+				"viw",
+				"View Package File"
+			]
+		],
+		"width": 0.0
+	},
+	"console":
+	{
+		"height": 160.0,
+		"history":
+		[
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"expanded_folders":
+	[
+		"/C/xampp/htdocs/licoreria"
+	],
+	"file_history":
+	[
+		"/C/xampp/htdocs/licoreria/stylus/ajustes.styl",
+		"/C/xampp/htdocs/licoreria/sistema/json/bcv.json",
+		"/C/xampp/htdocs/licoreria/ecmascript/funciones.js",
+		"/C/xampp/htdocs/licoreria/parciales/footer.php",
+		"/C/xampp/htdocs/licoreria/index.php",
+		"/C/xampp/htdocs/licoreria/css/boton.css",
+		"/C/Users/Franyer/AppData/Roaming/Sublime Text/Packages/User/Autoprefixer.sublime-settings",
+		"/C/Users/Franyer/AppData/Roaming/Sublime Text/Packages/User/ApacheConf.sublime-settings",
+		"/C/Users/Franyer/AppData/Roaming/Sublime Text/Packages/User/Agila Classic Oceanic Next.sublime-color-scheme",
+		"/D/PROGRAMS/xampp/htdocs/licoreria/sistema/log.php",
+		"/D/PROGRAMS/xampp/htdocs/licoreria/licosys.sublime-project",
+		"/D/PROGRAMS/xampp/htdocs/licoreria/ecmascript/sistema.js",
+		"/D/PROGRAMS/xampp/htdocs/licoreria/sistema/php/restaurarBD.php",
+		"/D/PROGRAMS/xampp/htdocs/licoreria/sistema/php/respaldarBD.php",
+		"/D/PROGRAMS/xampp/htdocs/licoreria/backup/licosys.sql",
+		"/D/PROGRAMS/xampp/htdocs/licoreria/php/conexion.php",
+		"/D/PROGRAMS/xampp/htdocs/licoreria/backup/inicializar.sql",
+		"/D/PROGRAMS/xampp/htdocs/licoreria/ecmascript/restaurarBD.js",
+		"/D/PROGRAMS/xampp/htdocs/licoreria/css/configuracionNegocios.css",
+		"/D/PROGRAMS/xampp/htdocs/licoreria/css/boton.css",
+		"/D/PROGRAMS/xampp/htdocs/licoreria/stylus/modales.styl",
+		"/D/PROGRAMS/xampp/htdocs/licoreria/stylus/main.styl",
+		"/D/PROGRAMS/xampp/htdocs/licoreria/stylus/loader.styl",
+		"/D/PROGRAMS/xampp/htdocs/licoreria/stylus/generales.styl",
+		"/D/PROGRAMS/xampp/htdocs/licoreria/stylus/fotos.styl",
+		"/D/PROGRAMS/xampp/htdocs/licoreria/stylus/details.styl",
+		"/D/PROGRAMS/xampp/htdocs/licoreria/ecmascript/funciones.js",
+		"/D/PROGRAMS/xampp/htdocs/licoreria/sistema/php/verificarPreguntas.php",
+		"/D/PROGRAMS/xampp/htdocs/licoreria/sistema/php/revisarInventario.php",
+		"/D/PROGRAMS/xampp/htdocs/licoreria/sistema/php/actualizarCliente.php",
+		"/D/PROGRAMS/xampp/htdocs/licoreria/sistema/json/dolarToday.json",
+		"/D/PROGRAMS/xampp/htdocs/licoreria/sistema/inventario.php",
+		"/D/PROGRAMS/xampp/htdocs/licoreria/sistema/json/bcv.json",
+		"/D/PROGRAMS/xampp/htdocs/licoreria/sistema/php/actualizarProducto.php",
+		"/D/PROGRAMS/xampp/htdocs/licoreria/php/funciones.php",
+		"/D/PROGRAMS/xampp/htdocs/licoreria/sistema/parciales/head.php",
+		"/D/PROGRAMS/xampp/htdocs/licoreria/index.php",
+		"/D/PROGRAMS/xampp/htdocs/licoreria/js/sistema.js",
+		"/D/PROGRAMS/xampp/htdocs/licoreria/js/restaurarBD.js",
+		"/D/PROGRAMS/xampp/htdocs/licoreria/js/funciones.js",
+		"/D/PROGRAMS/xampp/htdocs/licoreria/js/loader.js",
+		"/D/PROGRAMS/xampp/htdocs/licoreria/js/login.js",
+		"/D/PROGRAMS/xampp/htdocs/licoreria/package.json",
+		"/D/PROGRAMS/xampp/htdocs/licoreria/.htaccess",
+		"/D/PROGRAMS/xampp/htdocs/licoreria/ecmascript/loader.js",
+		"/D/PROGRAMS/xampp/htdocs/licoreria/php/login.php",
+		"/D/PROGRAMS/xampp/htdocs/licoreria/parciales/footer.php",
+		"/D/PROGRAMS/xampp/htdocs/licoreria/parciales/head.php",
+		"/D/PROGRAMS/xampp/htdocs/licoreria/php/validarRespuestas.php",
+		"/D/PROGRAMS/xampp/htdocs/licoreria/sistema/parciales/footer.php",
+		"/D/PROGRAMS/xampp/htdocs/licoreria/sistema/index.php",
+		"/D/PROGRAMS/xampp/htdocs/licoreria/sistema/css/boton.css",
+		"/D/PROGRAMS/xampp/htdocs/licoreria/librerias/aos/aos.min.css",
+		"/D/PROGRAMS/xampp/htdocs/licoreria/sistema/parciales/menu.php",
+		"/D/PROGRAMS/xampp/htdocs/licoreria/sistema/parciales/indexModales.php",
+		"/D/PROGRAMS/xampp/htdocs/licoreria/sistema/php/apis.php",
+		"/D/PROGRAMS/xampp/htdocs/licoreria/sistema/imagenes/logo.png",
+		"/D/PROGRAMS/xampp/htdocs/licoreria/sistema/parciales/botones.php",
+		"/D/PROGRAMS/xampp/htdocs/licoreria/librerias/moment/es.min.js",
+		"/D/PROGRAMS/xampp/htdocs/licoreria/librerias/moment/es.js",
+		"/D/PROGRAMS/xampp/htdocs/licoreria/librerias/aos/aos.js",
+		"/C/Users/Franyer/Downloads/Librerías/moment/min/locales.js",
+		"/C/Users/Franyer/Downloads/Librerías/moment/min/locales.min.js",
+		"/C/Users/Franyer/Downloads/Librerías/moment/min/moment-with-locales.min.js",
+		"/C/Users/Franyer/Downloads/Librerías/moment/dist/locale/es.js",
+		"/C/Users/Franyer/Downloads/Librerías/moment/dist/moment.js",
+		"/C/Users/Franyer/Downloads/Librerías/moment/moment.js",
+		"/C/Users/Franyer/AppData/Local/Temp/Rar$DIa4548.38973/postcss.config.js",
+		"/D/PROGRAMS/xampp/htdocs/licoreria/parciales/formRegistroNegocio.php",
+		"/D/PROGRAMS/xampp/htdocs/licoreria/css/main.css",
+		"/D/PROGRAMS/xampp/htdocs/licoreria/css/sistema.css",
+		"/C/Users/Franyer/Downloads/Frameworks/w3/w3.css",
+		"/D/PROGRAMS/xampp/htdocs/licoreria/sistema/negocio.php",
+		"/D/PROGRAMS/xampp/htdocs/licoreria/ecmascript/login.js",
+		"/D/PROGRAMS/xampp/htdocs/licoreria/ecmascript/restaurarBD.beautified.js",
+		"/D/PROGRAMS/xampp/htdocs/licoreria/indes.html",
+		"/D/PROGRAMS/xampp/htdocs/licoreria/indes.pug",
+		"/D/PROGRAMS/xampp/htdocs/licoreria/sistema/php/generarVenta.php",
+		"/D/PROGRAMS/xampp/htdocs/licoreria/sistema/php/agregarProducto.php",
+		"/D/PROGRAMS/xampp/htdocs/licoreria/dolarTodayAPI.response",
+		"/D/PROGRAMS/xampp/htdocs/licoreria/apis.rest",
+		"/D/PROGRAMS/xampp/htdocs/licoreria/fuentes/fuentes.css",
+		"/C/Users/Franyer/AppData/Roaming/Sublime Text/Packages/User/Snippets/Plantilla Jade.sublime-snippet",
+		"/C/Users/Franyer/AppData/Roaming/Sublime Text/Packages/User/Snippets/Plantilla HTML.sublime-snippet",
+		"/D/PROGRAMS/xampp/htdocs/licoreria/parciales/formCambiarClave.php",
+		"/C/Users/Franyer/AppData/Roaming/Sublime Text/Packages/BracketHighlighter/Default.sublime-commands",
+		"/C/Users/Franyer/AppData/Roaming/Sublime Text/Packages/BracketHighlighter/Example.sublime-keymap",
+		"/C/Users/Franyer/AppData/Roaming/Sublime Text/Packages/User/Macros/swapQuotes.sublime-macro",
+		"/D/PROGRAMS/xampp/htdocs/licoreria/package-lock.json",
+		"/D/PROGRAMS/xampp/htdocs/licoreria/babel.config.json",
+		"/D/PROGRAMS/xampp/htdocs/Sistema_venta_basico-master/index.php",
+		"/D/PROGRAMS/xampp/htdocs/Sistema_venta_basico-master/conexion.php",
+		"/D/PROGRAMS/xampp/htdocs/Sistema_venta_basico-master/style.css",
+		"/C/Users/Franyer/AppData/Roaming/Sublime Text/Packages/Autoprefixer/Autoprefixer.sublime-settings",
+		"/C/Users/Franyer/AppData/Roaming/Sublime Text/Packages/CoffeeScript/CoffeeScript.sublime-commands",
+		"/C/Users/Franyer/AppData/Roaming/Sublime Text/Packages/CoffeeScript/CoffeeScript.sublime-build",
+		"/D/PROGRAMS/xampp/htdocs/Sistema_venta_basico-master/app.c",
+		"/C/Users/Franyer/AppData/Roaming/Sublime Text/Packages/Stylus/Stylus.sublime-build",
+		"/C/Users/Franyer/AppData/Roaming/Sublime Text/Packages/Pug/Pug.sublime-build",
+		"/C/Users/Franyer/AppData/Roaming/Sublime Text/Packages/User/Builds/Babel.sublime-build",
+		"/C/Users/Franyer/AppData/Roaming/Sublime Text/Packages/User/Builds/NodeJS.sublime-build",
+		"/C/Users/Franyer/AppData/Roaming/Sublime Text/Packages/User/Builds/PHP.sublime-build",
+		"/C/Users/Franyer/AppData/Roaming/Sublime Text/Packages/User/Builds/Sass.sublime-build",
+		"/C/Users/Franyer/AppData/Roaming/Sublime Text/Packages/User/Builds/MyStylus.sublime-build",
+		"/C/Users/Franyer/AppData/Roaming/Sublime Text/Packages/User/Builds/MyPug.sublime-build",
+		"/C/Program Files/Sublime Text 4/Packages/C++/C Single File.sublime-build",
+		"/D/PROGRAMS/xampp/htdocs/Sistema_venta_basico-master/.htaccess",
+		"/C/Users/Franyer/AppData/Roaming/Sublime Text/Packages/C++/C Single File.sublime-build",
+		"/C/Users/Franyer/AppData/Roaming/Sublime Text/Packages/C++/C++ Single File.sublime-build",
+		"/C/Users/Franyer/AppData/Roaming/Sublime Text/Packages/User/Builds/Compile-C.sublime-build",
+		"/D/PROGRAMS/xampp/htdocs/Sistema_venta_basico-master/sistema_venta_v1.sublime-project",
+		"/D/PROGRAMS/xampp/htdocs/Sistema_venta_basico-master/app.ts",
+		"/D/PROGRAMS/xampp/htdocs/Sistema_venta_basico-master/sistema/css/dataTables.bootstrap4.min.css",
+		"/C/Users/Franyer/AppData/Roaming/Sublime Text/Packages/User/Minify.sublime-settings",
+		"/C/Users/Franyer/AppData/Roaming/Sublime Text/Packages/Minify/Minify.sublime-settings",
+		"/C/Users/Franyer/AppData/Roaming/Sublime Text/Packages/User/LiveReload.sublime-settings",
+		"/C/Users/Franyer/AppData/Roaming/Sublime Text/Packages/LiveReload/LiveReload.sublime-settings",
+		"/C/Users/Franyer/AppData/Roaming/Sublime Text/Packages/User/Base File.sublime-settings",
+		"/C/Users/Franyer/AppData/Roaming/Sublime Text/Packages/JSHint/Base File.sublime-settings",
+		"/C/Users/Franyer/AppData/Roaming/Sublime Text/Packages/HTML-CSS-JS Prettify/Default (Windows).sublime-keymap",
+		"/C/Users/Franyer/AppData/Roaming/Sublime Text/Packages/User/Default (Windows).sublime-keymap",
+		"/C/Users/Franyer/AppData/Roaming/Sublime Text/Packages/User/HTMLPrettify.sublime-settings",
+		"/C/Users/Franyer/AppData/Roaming/Sublime Text/Packages/User/.jsbeautifyrc",
+		"/C/Users/Franyer/AppData/Roaming/Sublime Text/Packages/User/Super Calculator.sublime-settings",
+		"/C/Users/Franyer/AppData/Roaming/Sublime Text/Packages/Super Calculator/Super Calculator.sublime-settings",
+		"/C/Users/Franyer/AppData/Roaming/Sublime Text/Packages/SublimeLinter-gcc/miscellaneous/demo.cpp",
+		"/C/Users/Franyer/AppData/Roaming/Sublime Text/Packages/SublimeLinter-gcc/README.md",
+		"/C/Users/Franyer/AppData/Roaming/Sublime Text/Packages/SideBarEnhancements/Default (Windows).sublime-keymap"
+	],
+	"find":
+	{
+		"height": 31.0
+	},
+	"find_in_files":
+	{
+		"height": 134.0,
+		"where_history":
+		[
+			"D:\\PROGRAMS\\xampp\\htdocs\\licoreria",
+			"D:\\PROGRAMS\\xampp\\htdocs\\licoreria\\sistema,<project filters>",
+			"D:\\PROGRAMS\\xampp\\htdocs\\licoreria,<project filters>"
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			":",
+			"require_once",
+			"formEditar",
+			"sin intelne",
+			"w3-margin\"",
+			"\">",
+			"3s",
+			"0.5",
+			"\\",
+			"}",
+			" {",
+			";",
+			" {",
+			"\\'",
+			"DB_CLAVE",
+			"DB_USUARIO",
+			"DB_HOST",
+			"DB_USER",
+			"CLAVE",
+			"USER",
+			"HOST",
+			"(\"",
+			"swap"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+			""
+		],
+		"reverse": false,
+		"scrollbar_highlights": true,
+		"show_context": true,
+		"use_buffer2": true,
+		"use_gitignore": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"sheets":
+			[
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 31.0
+	},
+	"input":
+	{
+		"height": 53.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.CSS Extended Completions":
+	{
+		"height": 156.0
+	},
+	"output.LSP Log Panel":
+	{
+		"height": 144.0
+	},
+	"output.SQLTools Result":
+	{
+		"height": 144.0
+	},
+	"output.SublimeLinter":
+	{
+		"height": 133.0
+	},
+	"output.diagnostics":
+	{
+		"height": 144.0
+	},
+	"output.exec":
+	{
+		"height": 39.0
+	},
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"output.mdpopups":
+	{
+		"height": 0.0
+	},
+	"output.references":
+	{
+		"height": 144.0
+	},
+	"pinned_build_system": "",
+	"project": "licosys.sublime-project",
+	"replace":
+	{
+		"height": 58.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"validar",
+				"php\\validarRespuestas.php"
+			]
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 499.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 380.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+	},
+	"show_minimap": false,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 150.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}

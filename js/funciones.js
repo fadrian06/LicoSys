@@ -8,14 +8,12 @@ ononline = function ononline() {
   return notificacion("Se ha restablecido la conexión");
 };
 
-if (w3.getElements(".icon-eye")) {
-  var ojos = w3.getElements(".icon-eye");
-  ojos.forEach(function (ojo) {
-    return ojo.addEventListener("click", function (e) {
-      return verClave(e.target);
-    });
+var ojos = w3.getElements('.icon-eye');
+if (ojos !== undefined) ojos.forEach(function (ojo) {
+  return ojo.addEventListener('click', function (e) {
+    return verClave(e.target);
   });
-}
+});
 
 w3.getElement = function (id) {
   return w3.getElements(id)[0];
