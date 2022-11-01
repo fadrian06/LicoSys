@@ -396,6 +396,10 @@
 				"Project: Close"
 			],
 			[
+				"instal",
+				"Package Control: Install Package"
+			],
+			[
 				"install",
 				"Package Control: Install Package"
 			],
@@ -421,10 +425,6 @@
 			],
 			[
 				"inst",
-				"Package Control: Install Package"
-			],
-			[
-				"instal",
 				"Package Control: Install Package"
 			],
 			[
@@ -664,11 +664,17 @@
 	],
 	"file_history":
 	[
+		"/C/xampp/htdocs/licoreria/licosys.sublime-project",
+		"/C/xampp/htdocs/licoreria/.gitignore",
+		"/C/xampp/htdocs/licoreria/index.php",
+		"/C/xampp/htdocs/licoreria/php/conexion.php",
+		"/C/xampp/htdocs/licoreria/backup/inicializar.sql",
+		"/C/xampp/htdocs/licoreria/backup/licosys.sql",
+		"/C/Users/Franyer/AppData/Roaming/Sublime Text/Settings/SideBarEnhancements.json",
 		"/C/xampp/htdocs/licoreria/stylus/ajustes.styl",
 		"/C/xampp/htdocs/licoreria/sistema/json/bcv.json",
 		"/C/xampp/htdocs/licoreria/ecmascript/funciones.js",
 		"/C/xampp/htdocs/licoreria/parciales/footer.php",
-		"/C/xampp/htdocs/licoreria/index.php",
 		"/C/xampp/htdocs/licoreria/css/boton.css",
 		"/C/Users/Franyer/AppData/Roaming/Sublime Text/Packages/User/Autoprefixer.sublime-settings",
 		"/C/Users/Franyer/AppData/Roaming/Sublime Text/Packages/User/ApacheConf.sublime-settings",
@@ -785,13 +791,7 @@
 		"/C/Users/Franyer/AppData/Roaming/Sublime Text/Packages/JSHint/Base File.sublime-settings",
 		"/C/Users/Franyer/AppData/Roaming/Sublime Text/Packages/HTML-CSS-JS Prettify/Default (Windows).sublime-keymap",
 		"/C/Users/Franyer/AppData/Roaming/Sublime Text/Packages/User/Default (Windows).sublime-keymap",
-		"/C/Users/Franyer/AppData/Roaming/Sublime Text/Packages/User/HTMLPrettify.sublime-settings",
-		"/C/Users/Franyer/AppData/Roaming/Sublime Text/Packages/User/.jsbeautifyrc",
-		"/C/Users/Franyer/AppData/Roaming/Sublime Text/Packages/User/Super Calculator.sublime-settings",
-		"/C/Users/Franyer/AppData/Roaming/Sublime Text/Packages/Super Calculator/Super Calculator.sublime-settings",
-		"/C/Users/Franyer/AppData/Roaming/Sublime Text/Packages/SublimeLinter-gcc/miscellaneous/demo.cpp",
-		"/C/Users/Franyer/AppData/Roaming/Sublime Text/Packages/SublimeLinter-gcc/README.md",
-		"/C/Users/Franyer/AppData/Roaming/Sublime Text/Packages/SideBarEnhancements/Default (Windows).sublime-keymap"
+		"/C/Users/Franyer/AppData/Roaming/Sublime Text/Packages/User/HTMLPrettify.sublime-settings"
 	],
 	"find":
 	{
@@ -901,7 +901,7 @@
 	},
 	"output.SQLTools Result":
 	{
-		"height": 144.0
+		"height": 231.0
 	},
 	"output.SublimeLinter":
 	{
