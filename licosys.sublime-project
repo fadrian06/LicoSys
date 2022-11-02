@@ -4,7 +4,7 @@
 			"name": "LicoSys",
 			"path": ".",
 			"folder_exclude_patterns": [
-				// "backup",
+				"backup",
 				"docs",
 				"fuentes",
 				"iconos",
@@ -28,7 +28,11 @@
 		},
 		{
 			"name": "Build Stylus",
-			"shell_cmd": "stylus stylus/main.styl -o css/main.css -w",
+			"shell_cmd": "stylus stylus/main.styl -o css -w",
+		},
+		{
+			"name": "Build Pug",
+			"shell_cmd": "pug $file_name -o ../ -P -w"
 		}
 	]
 }

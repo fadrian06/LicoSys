@@ -1,15 +1,14 @@
 <?php
-	/*=====================================
-	=            GENERAR TABLA            =
-	=====================================*/
-	// PARÁMETROS
-	# $datos       ==> un array multimensional con los datos a imprimir
-	# $encabezados ==> un array con los encabezados de la tabla
-	# $desactivar  ==> indica si debe incluir un botón de desactivar
-	# $tabla       ==> indica la tabla de la cual quieres desactivar
-	# $llavePrimaria ==> indica la llave primaria INT o STRING en la cual quieres operar
-	# $desactivados ==> un array multimensional que contiene los datos de registros desactivados
-	# $editable ==> indica si los registros se pueden EDITAR
+	/**
+	 * GENERA UNA TABLA
+	 * @param array   $datos         Los datos que desea mostrar
+	 * @param array   $encabezados   Los encabezados de la tabla
+	 * @param boolean $desactivar    Si quiere agregar el botón correspondiente
+	 * @param string  $tabla         Nombre de la tabla en la Base de Datos
+	 * @param string  $llavePrimaria Llave primaria de cada fila
+	 * @param array   $desactivados  Si quiere agregar el botón correspondiente
+	 * @param boolean $editable      Si quiere agregar el botón correspondiente
+	 */
 	function TABLA(array $datos, array $encabezados, $desactivar = false, $tabla = "", $llavePrimaria = "", array $desactivados = [], $editable = false) {
 		echo "
 			<div class='w3-padding-large w3-responsive'>
@@ -55,7 +54,7 @@
 				</table>
 			</div>
 		";
-		if($desactivados) mostrarDesactivados($desactivados, $encabezados, $tabla, $llavePrimaria);
+		if($desactivados) mostrarDesactivados($desactivados, $encabezados);
 		if($editable) editar($tabla, $llavePrimaria);
 	}
 
@@ -72,7 +71,7 @@
 		endif;
 	}
 
-	function mostrarDesactivados(array $datos, array $encabezados, string $tabla, string $llavePrimaria){
+	function mostrarDesactivados(array $datos, array $encabezados){
 		echo "
 			<details class='w3-section w3-padding-large w3-responsive'>
 				<summary class='w3-large w3-bottombar w3-border-red w3-round-large'>Desactivados</summary>
@@ -139,10 +138,11 @@
 		";
 	}
 
-	/*================================================================
-	=            MUESTRA VARIABLES EN FORMATO MÁS LEGIBLE            =
-	================================================================*/
-	function depurar($dato){
+	/**
+	 * FORMATEA SALIDA
+	 * @param  iterable $dato Un objeto o array
+	 */
+	function depurar(iterable $dato){
 		$formato = print_r("<pre>");
 		$formato += print_r($dato);
 		$formato += print_r("</pre>");
@@ -159,11 +159,11 @@
 		return $data['DATABASE()'];
 	}
 
-	/*===============================================
-	=            OBTENER MÚLTIPLES FILAS            =
-	===============================================*/
-	// Requiere una sentencia SQL
-	// Devuelve un array multimensional o NULL dependiendo si encuentra coincidencias
+	/**
+	 * OBTIENE REGISTROS DE LA BASE DE DATOS
+	 * @param  string $sql Una consulta SELECT
+	 * @return null|array      Retorna un array con los datos o NULL en caso de fallo
+	 */
 	function getRegistros(string $sql):?array {
 		global $conexion;
 		$resultado = $conexion->query($sql);
@@ -181,17 +181,16 @@
 		return $resultado ? mysqli_fetch_array($resultado, MYSQLI_ASSOC) : NULL;
 	}
 
-	/*================================================
-	=            CREAR/MODIFICAR UNA FILA            =
-	================================================*/
-	// Requiere una sentencia SQL
-	// Devuelve un entero que representa si hay filas afectadas
-	// Devuelve NULL en caso de error
+	/**
+	 * CONSULTAS DE MODIFICACION DE DATOS
+	 * @param string $sql Una consulta INSERT, DELETE, TRUNCATE o UPDATE
+	 * @return int   Retorna las filas afectadas o NULL si algo falla
+	 */
 	function setRegistro(string $sql):?int{
 		global $conexion;
-		$resultado = mysqli_query($conexion, $sql);
-		$afectadas = mysqli_affected_rows($conexion);
-		return $afectadas != -1 ? $afectadas : NULL;
+		$conexion->query($sql);
+		$afectadas = $conexion->affected_rows;
+		return $afectadas !== -1 ? $afectadas : NULL;
 	}
 
 	/*====================================

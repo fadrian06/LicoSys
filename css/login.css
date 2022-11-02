@@ -163,7 +163,7 @@ p.error {
 	color: var(--error);
 }
 
-input[type="submit"] {
+#formLogin input[type="submit"] {
 	padding: .5em 5em;
 	background: var(--primario);
 	color: white;
@@ -176,7 +176,7 @@ input[type="submit"] {
 	position: relative;
 }
 
-input[type="submit"]:hover {
+#formLogin input[type="submit"]:hover {
 	background: var(--primario-oscuro);
 }
 

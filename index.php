@@ -4,29 +4,32 @@
 
 <?php
 
-	if (!$negocios):
-		if (file_exists('backup/licosys.sql'))
-			$alerta = '<script src="js/restaurarBD.js"></script>';
-		else
+	if ($negocios):
+		if (isset($_SESSION['bienvenido'])):
+			unset($_SESSION['bienvenido']);
 			$alerta = <<<HTML
 				<link rel="stylesheet" href="librerias/sweetalert2/borderless.min.css">
 				<script src="js/loader.js"></script>
 			HTML;
+		elseif (file_exists('backup/licosys.sql')):
+			$alerta = '<script src="js/restaurarBD.js"></script>';
+		endif;
+		
 		$registrarNegocio = true;
-		require 'parciales/formRegistroNegocio.php';
+		require 'parciales/registrarNegocio.html';
 	elseif (!$admin):
 		$registrarAdmin = true;
 		require 'parciales/formRegistroAdmin.php';
 	else:
 		require 'parciales/login.php';
 		require 'parciales/formConsulta.php';
-
+		
 		if (isset($mostrarPreguntas))
 			require 'parciales/formPreguntas.php';
-
+		
 		if (isset($cambiarClave))
 			require 'parciales/formCambiarClave.php';
-
+		
 	endif;
 
 	require 'parciales/footer.php'

@@ -90,7 +90,6 @@ function actualizarFoto() {
 				if (file.size < (1 * 1000 * 2048)) {
 					uploadImage(file);
 					if (submits) submits.forEach(submit => submit.classList.remove("w3-hide"));
-					if (spans) spans.forEach(span => span.classList.add("w3-animate-bottom"));
 				} else {
 					alerta('La imagen no puede ser mayor a <b class=\"w3-text-red\" title=\"2 Megabytes\">2MB</b>');
 				}

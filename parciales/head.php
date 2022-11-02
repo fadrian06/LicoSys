@@ -14,6 +14,7 @@
 		$negocios = getRegistros('SELECT * FROM negocio WHERE activo=1');
 		$admin = getRegistro("SELECT * FROM usuario WHERE cargo='a'");
 	} catch (Exception $e) {
+		$_SESSION['bienvenido'] = true;
 		sleep(10);
 		header('location: ./');
 	}
@@ -47,12 +48,10 @@
 		<link rel="stylesheet" href="fuentes/fuentes.css">
 		<link rel="stylesheet" href="css/login.css">
 		<link rel="stylesheet" href="css/main.css">
-
 		<script src="librerias/w3/w3.min.js"></script>
 		<script src="librerias/axios/axios.min.js"></script>
 		<script src="librerias/sweetalert2/sweetalert2.all.min.js"></script>
 		<script src="js/funciones.js"></script>
-		
 		<title>LicoSys</title>
 	</head>
 

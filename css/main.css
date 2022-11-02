@@ -2,6 +2,8 @@
 =            ESENCIALES            =
 ==================================*/
 * {
+  margin: 0;
+  padding: 0;
   box-sizing: border-box;
 }
 body {
@@ -20,7 +22,7 @@ div.w3-bottom a {
   max-width: 90px;
   max-height: 90px;
 }
-.formularioModal {
+.modal {
   max-width: max-content;
   min-height: max-content;
   max-height: 100vh;
@@ -33,11 +35,11 @@ div.w3-bottom a {
   margin: auto;
   z-index: 10;
 }
-.formularioModal::-webkit-scrollbar {
+.modal::-webkit-scrollbar {
   width: 8px;
   background: #fff;
 }
-.formularioModal::-webkit-scrollbar-thumb {
+.modal::-webkit-scrollbar-thumb {
   border-radius: 50px;
   background: #2196f3;
 }
@@ -325,6 +327,13 @@ div.w3-bottom a {
 /*===============================
 =            AJUSTES            =
 ===============================*/
+*.w3-display-container {
+  transition: 0.4s ease all;
+}
+.w3-modal-content {
+  border-radius: 20px 0 20px 20px;
+  max-width: max-content;
+}
 .w3-input:focus {
   outline: none;
 }
