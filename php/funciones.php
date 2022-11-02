@@ -148,6 +148,17 @@
 		$formato += print_r("</pre>");
 	}
 
+	/**
+	 * Obtiene la Base de Datos en uso
+	 * @return string Nombre de la base de datos
+	 */
+	function getBD(): string {
+		global $conexion;
+		$resultado = $conexion->query('SELECT DATABASE()');
+		$data = $resultado->fetch_assoc();
+		return $data['DATABASE()'];
+	}
+
 	/*===============================================
 	=            OBTENER MÚLTIPLES FILAS            =
 	===============================================*/

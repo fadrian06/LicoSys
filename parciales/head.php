@@ -10,8 +10,13 @@
 	$_SESSION['usuario'] = '';
 	$alerta = '';
 
-	$negocios = getRegistros('SELECT * FROM negocio WHERE activo=1');
-	$admin    = getRegistro("SELECT * FROM usuario WHERE cargo='a'");
+	try {
+		$negocios = getRegistros('SELECT * FROM negocio WHERE activo=1');
+		$admin = getRegistro("SELECT * FROM usuario WHERE cargo='a'");
+	} catch (Exception $e) {
+		sleep(10);
+		header('location: ./');
+	}
 
 	/*====================================
 	=            VALIDACIONES            =
@@ -29,7 +34,7 @@
 
 	<head>
 		<meta charset="UTF-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
 		<meta name="author" content="Franyer Sánchez">
 		<meta name="author" content="Daniel Mancilla">
 		<meta name="description" content="Sistema Automatizado de Gestión de Compras y Ventas">

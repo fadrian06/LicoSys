@@ -1,7 +1,5 @@
 <?php
 
-	const URL = 'http://localhost/licoreria/';
-
 	const HOST    = 'localhost';
 	const USUARIO = 'root';
 	const CLAVE   = '';
@@ -16,10 +14,11 @@
 	$conexion->set_charset(CHARSET)
 		or exit("Error cargando el conjunto de caracteres <b>".CHARSET.": <u>$conexion->error</u></b><br>");
 
-	if (!$conexion->select_db(BD)):
+	try {
+		$conexion->select_db(BD);
+	} catch (Exception $e) {
 		$sql = file_get_contents('backup/inicializar.sql');
 		$conexion->multi_query($sql) or exit($conexion->error);
-		$conexion->select_db(BD);
-		header('location: ./');
-	endif;
+	}
+
 ?>

@@ -1,8 +1,8 @@
-<div class="contenedor">
+<div class="contenedor w3-padding">
 	<!--=============================
 	=            SIDEBAR            =
 	==============================-->
-	<aside class="bienvenida w3-display-container">
+	<aside class="bienvenida w3-display-container w3-topbar w3-rightbar w3-bottombar w3-leftbar w3-border-black w3-round-xxlarge">
 		<div class="widget w3-display-bottomright w3-margin-right"></div>
 		<p class=" w3-xlarge widget fecha w3-margin-right w3-display-topright"><b>LicoSys <?=getUltimaVersion()?></b></p>
 	</aside>
@@ -10,20 +10,24 @@
 	<!--===============================================
 	=            FORMULARIO INICIAR SESIÓN            =
 	================================================-->
-	<form method="POST" id="formLogin" class="w3-center w3-padding-large">
-		<header class="w3-container w3-bottombar w3-border-black">
+	<form method="POST" id="formLogin" class="w3-center w3-padding-large w3-topbar w3-rightbar w3-bottombar w3-leftbar w3-border-black">
+		<header class="w3-left-align w3-container w3-bottombar w3-border-black">
 			<h1 class="w3-xlarge w3-margin-left">Iniciar Sesión</h1>
 		</header>
 		<section class="negocios w3-section">
 			<b class="w3-block w3-margin-bottom w3-text-grey">Por favor seleccione un negocio:</b>
-			<div class="input-radio">
-				<?php foreach($negocios as $negocio): ?>
-					<div class="radio-group tooltip-container">
-						<input type="radio" name="negocio" id="negocio#<?=$negocio["id_n"]?>" value="<?=$negocio["id_n"]?>">
-						<label for="negocio#<?=$negocio["id_n"]?>" style="background:url(<?=!empty($negocio["foto"]) ? "imagenes/negocios/{$negocio["foto"]}" : "imagenes/logoNegocio.jpg"?>) center/contain no-repeat"></label>
-						<?=!isset($cambiarClave) ? "<span class='tooltip'>{$negocio['nom_n']}</span>" : ""?>
-					</div>
-				<?php endforeach; ?>
+			<div class="input-radio w3-row-padding">
+				<?php foreach($negocios as $negocio):
+					$logo = !empty($negocio['foto']) ? "negocios/{$negocio['foto']}" : 'logoNegocio.jpg';
+					$span = isset($cambiarClave) ? '' : "<span class='tooltip'>{$negocio['nom_n']}</span>";
+					echo <<<HTML
+						<div class="w3-col s4 w3-margin-bottom w3-round-xxlarge radio-group tooltip-container">
+							<input type="radio" name="negocio" id="negocio#{$negocio['id_n']}" value="{$negocio['id_n']}">
+							<label class="w3-block w3-round-large" for="negocio#{$negocio['id_n']}" style="background: url('imagenes/$logo') center/contain no-repeat; height: 100%"></label>
+							$span
+						</div>
+					HTML;
+				endforeach ?>
 			</div>
 		</section>
 		<section class="w3-padding-16">

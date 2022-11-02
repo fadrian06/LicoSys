@@ -4,20 +4,16 @@
 			"name": "LicoSys",
 			"path": ".",
 			"folder_exclude_patterns": [
-				"backup",
+				// "backup",
 				"docs",
 				"fuentes",
 				"iconos",
 				"imagenes",
 				"js",
-				"librerias",
-				"node_modules"
+				"librerias"
 			],
 			"file_exclude_patterns": [
 				".htaccess",
-				"babel.config.json",
-				"package-lock.json",
-				// "package.json",
 				".gitignore"
 			]
 		},
@@ -28,11 +24,11 @@
 	"build_systems": [
 		{
 			"name": "Build Babel",
-			"shell_cmd": "npm run babel",
+			"shell_cmd": "babel --config-file C:/Users/Franyer/AppData/Roaming/npm/node_modules/@babel/babel.config.json ecmascript -d js -w",
 		},
 		{
 			"name": "Build Stylus",
-			"shell_cmd": "npm run stylus",
+			"shell_cmd": "stylus stylus/main.styl -o css/main.css -w",
 		}
 	]
 }
