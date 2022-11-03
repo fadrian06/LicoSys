@@ -11,7 +11,7 @@
 				<link rel="stylesheet" href="librerias/sweetalert2/borderless.min.css">
 				<script src="js/loader.js"></script>
 			HTML;
-		elseif (file_exists('backup/licosys.sql')):
+		elseif (file_exists('backup/licosyss.sql')):
 			$alerta = '<script src="js/restaurarBD.js"></script>';
 		endif;
 		

@@ -114,6 +114,16 @@
 		";
 	}
 
+	/**
+	 * VALIDA UN STRING CON UN PATRÓN
+	 * @param string $patron El patrón a utilizar
+	 * @param string $dato   El string a validar
+	 * @return bool          Retorna 1 si coincide, 0 si no y FALSE si falla
+	 */
+	function VALIDAR(string $patron, string $dato):bool {
+		return preg_match($patron, $dato);
+	}
+	
 	/*======================================================
 	=            RESTRINGE ACCESO A UN VENDEDOR            =
 	======================================================*/

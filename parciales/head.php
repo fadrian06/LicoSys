@@ -22,7 +22,6 @@
 	/*====================================
 	=            VALIDACIONES            =
 	====================================*/
-	require 'php/registrarNegocio.php';
 	require 'php/registrarAdmin.php';
 	require 'php/login.php';
 	require 'php/consultarPreguntas.php';

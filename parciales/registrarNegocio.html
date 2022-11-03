@@ -1,0 +1,86 @@
+
+<div class="w3-modal w3-show w3-padding-large">
+  <div class="w3-modal-content animate_animated animate__fadeInUp animate__faster">
+    <form id="formNegocio" method="POST" enctype="multipart/form-data" autocomplete="off">
+      <h1 class="w3-center w3-padding-large w3-xlarge"><b>Registro de Negocio</b></h1>
+      <div class="w3-row">
+        <div class="w3-twothird w3-rightbar">
+          <fieldset class="w3-border-0 w3-border-bottom">
+            <legend class="w3-large w3-padding"><b>Nombre:</b></legend>
+            <div class="input">
+              <div class="icono"><span class="icon-edit"></span></div>
+              <input type="text" name="nombreNegocio" placeholder="Nombre del Negocio" autocapitalize="words" required="required" minlenght="4" maxlenght="20"/>
+            </div>
+          </fieldset>
+          <fieldset class="w3-border-0 w3-border-bottom">
+            <legend class="w3-large w3-padding"><b>RIF:</b></legend>
+            <div class="input">
+              <div class="icono"><span class="icon-edit"></span></div>
+              <input type="text" name="rif" placeholder="RIF del Negocio" autocapitalize="autocapitalize" required="required" minlenght="10" maxlenght="16" pattern="^(v|e|V|E){1}\d{9,15}$" title="Debe empezar por V o E seguido de entre 9 y 15 dígitos"/>
+            </div>
+          </fieldset>
+          <fieldset class="w3-border-0 w3-border-bottom">
+            <legend class="w3-large w3-padding"><b>Teléfono:</b></legend>
+            <div class="input">
+              <div class="icono"><span class="icon-edit"></span></div>
+              <input type="text" name="telefono" placeholder="Teléfono de contacto" minlenght="11" maxlength="16" pattern="^(0|+57|+58)\s?-?(412|414|424|416|426)-?\d{3}-?\d{4}" title="Ejemplo (+58 416-111-2222 o 0416-111-2222)"/>
+            </div>
+          </fieldset>
+          <fieldset class="w3-border-0 w3-border-bottom">
+            <legend class="w3-large w3-padding"><b>Dirección:</b></legend>
+            <div class="input">
+              <div class="icono"><span class="icon-edit"></span></div>
+              <input type="text" name="direccion" placeholder="Dirección del negocio" maxlength="50" pattern="^([\w,.-#/]\s?){0,50}$" title="Sólo se permiten letras, números y símbolos (, . - / #)"/>
+            </div>
+          </fieldset>
+          <div class="w3-container w3-margin">
+            <button class="w3-button w3-block w3-teal w3-round-large">Registrar
+              <div class="w3-large w3-margin-left icon-refresh w3-spin w3-hide"></div>
+            </button>
+          </div>
+        </div>
+        <div class="w3-third formFoto w3-center">
+          <label class="w3-display-container w3-hover-opacity" for="registroLogo"><span class="icon-camera w3-xxxlarge w3-display-middle w3-display-hover w3-animate-opacity"></span>
+            <input class="w3-hide" id="registroLogo" type="file" name="foto"/><img class="w3-image image-result" src="imagenes/logoNegocio.jpg" style="width: 150px"/>
+          </label>
+          <div class="w3-panel">
+            <p class="w3-medium"><b>Logotipo del negocio</b></p>
+            <p class="w3-small w3-text-blue"><b>Opcional</b></p>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+<script>"use strict";
+
+var formulario = w3.getElement('#formNegocio');
+actualizarFoto();
+var ajax = function ajax(e) {
+  e.preventDefault();
+  var icono = w3.getElement('.icon-refresh');
+  icono.classList.toggle('w3-hide');
+  icono.style.display = 'inline-block';
+  var formData = new FormData(formulario);
+  var file = formulario.registroLogo.files[0];
+  if (file) formData.append('foto', file);
+  axios.post('ajax/registrarNegocio.php', formData).then(function (respuesta) {
+    respuesta = respuesta.data;
+    if (!respuesta.ok) {
+      icono.classList.toggle('w3-hide');
+      icono.style.display = 'none';
+      alerta(respuesta.mensaje, true, 5000);
+    } else {
+      formulario.classList.add('w3-hide');
+      setTimeout(function () {
+        return location.reload();
+      }, 5000);
+      notificacion(respuesta.mensaje, false, 5000);
+    }
+  })["catch"](function (error) {
+    return console.log(error);
+  });
+};
+formulario.addEventListener('submit', ajax);
+
+</script>
