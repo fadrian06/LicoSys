@@ -3,36 +3,21 @@
 		{
 			"name": "LicoSys",
 			"path": ".",
-			"folder_exclude_patterns": [
-				"backup",
-				"docs",
-				"fuentes",
-				"iconos",
-				"imagenes",
-				"js",
-				"librerias"
-			],
+			"folder_exclude_patterns": ["node_modules"],
 			"file_exclude_patterns": [
+				".gitignore",
 				".htaccess",
-				".gitignore"
+				"babel.config.json",
+				"package-lock.json",
+				"run.bat",
+				"webpack.config.js"
 			]
-		},
+		}
 	],
-	"settings": {
-		"tab_size": 2,
-	},
 	"build_systems": [
 		{
-			"name": "Build Babel",
-			"shell_cmd": "babel --config-file C:/Users/Franyer/AppData/Roaming/npm/node_modules/@babel/babel.config.json ecmascript -d js -w",
-		},
-		{
 			"name": "Build Stylus",
-			"shell_cmd": "stylus stylus/main.styl -o css -w",
-		},
-		{
-			"name": "Build Pug",
-			"shell_cmd": "pug $file_name -o ../ -P -w"
+			"shell_cmd": "stylus stylus/main.styl -o css -c -w -I \"C:/Users/Franyer/AppData/Roaming/npm/node_modules/nib/lib\" -I \"C:/Users/Franyer/AppData/Roaming/npm/node_modules/stylus-px2rem/lib\"",
 		}
 	]
 }

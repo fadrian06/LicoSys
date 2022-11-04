@@ -1,7 +1,8 @@
 --
 -- Base de datos: `licoreria`
 --
-CREATE DATABASE IF NOT EXISTS `licoreria` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
+DROP DATABASE IF EXISTS licoreria;
+CREATE DATABASE `licoreria`;
 USE `licoreria`;
 
 -- --------------------------------------------------------
@@ -11,13 +12,13 @@ USE `licoreria`;
 --
 
 CREATE TABLE `carrito_compra` (
-  `cod` varchar(255) CHARACTER SET latin1 NOT NULL,
-  `nom_p` varchar(255) CHARACTER SET latin1 NOT NULL,
+  `cod` varchar(255) NOT NULL,
+  `nom_p` varchar(255) NOT NULL,
   `stock` int(11) NOT NULL,
-  `precio_b` varchar(255) COLLATE utf8_spanish_ci NOT NULL,
+  `precio_b` varchar(255) NOT NULL,
   `cantidad` int(11) NOT NULL,
-  `precio_total` varchar(255) CHARACTER SET latin1 NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+  `precio_total` varchar(255) NOT NULL
+);
 
 -- --------------------------------------------------------
 
@@ -118,15 +119,16 @@ CREATE TABLE `log` (
 -- Estructura de tabla para la tabla `negocio`
 --
 
-CREATE TABLE `negocio` (
-  `id_n` int(11) NOT NULL,
-  `nom_n` varchar(255) CHARACTER SET latin1 DEFAULT NULL,
-  `rif` varchar(255) CHARACTER SET latin1 NOT NULL,
-  `tlf_n` varchar(255) CHARACTER SET latin1 NOT NULL,
-  `direccion_n` varchar(255) CHARACTER SET latin1 NOT NULL,
-  `foto` varchar(255) CHARACTER SET latin1 NOT NULL,
-  `activo` tinyint(1) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+DROP TABLE IF EXISTS negocios;
+CREATE TABLE `negocios` (
+  `id` int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  `nombre` varchar(255) NOT NULL,
+  `rif` varchar(255) NOT NULL,
+  `telefono` varchar(255),
+  `direccion` varchar(255),
+  `logo` varchar(255),
+  `activo` tinyint(1) NOT NULL DEFAULT '0'
+);
 
 -- --------------------------------------------------------
 
@@ -283,12 +285,6 @@ ALTER TABLE `log`
   ADD PRIMARY KEY (`fecha`),
   ADD KEY `log_ibfk_1` (`ci_u`),
   ADD KEY `id_n` (`id_n`);
-
---
--- Indices de la tabla `negocio`
---
-ALTER TABLE `negocio`
-  ADD PRIMARY KEY (`id_n`);
 
 --
 -- Indices de la tabla `peso`

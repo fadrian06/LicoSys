@@ -1,5 +1,3 @@
-<?php require 'parciales/head.php' ?>
-
 <div class="w3-overlay w3-animate-opacity w3-hide"></div>
 
 <?php
