@@ -11,14 +11,14 @@ USE `licoreria`;
 -- Estructura de tabla para la tabla `carrito_compra`
 --
 
-CREATE TABLE `carrito_compra` (
-  `cod` varchar(255) NOT NULL,
-  `nom_p` varchar(255) NOT NULL,
-  `stock` int(11) NOT NULL,
-  `precio_b` varchar(255) NOT NULL,
-  `cantidad` int(11) NOT NULL,
-  `precio_total` varchar(255) NOT NULL
-);
+-- CREATE TABLE `carrito_compra` (
+--   `cod` varchar(255) NOT NULL,
+--   `nom_p` varchar(255) NOT NULL,
+--   `stock` int(11) NOT NULL,
+--   `precio_b` varchar(255) NOT NULL,
+--   `cantidad` int(11) NOT NULL,
+--   `precio_total` varchar(255) NOT NULL
+-- );
 
 -- --------------------------------------------------------
 
@@ -26,16 +26,16 @@ CREATE TABLE `carrito_compra` (
 -- Estructura de tabla para la tabla `carrito_venta`
 --
 
-CREATE TABLE `carrito_venta` (
-  `cod` varchar(255) CHARACTER SET latin1 NOT NULL,
-  `nom_p` varchar(255) CHARACTER SET latin1 NOT NULL,
-  `stock` int(11) NOT NULL,
-  `precio_b` decimal(10,2) NOT NULL,
-  `cantidad` int(11) NOT NULL,
-  `excento` varchar(2) CHARACTER SET latin1 NOT NULL,
-  `precio_total` varchar(255) CHARACTER SET latin1 NOT NULL,
-  `total_iva` varchar(255) CHARACTER SET latin1 NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+-- CREATE TABLE `carrito_venta` (
+--   `cod` varchar(255) CHARACTER SET latin1 NOT NULL,
+--   `nom_p` varchar(255) CHARACTER SET latin1 NOT NULL,
+--   `stock` int(11) NOT NULL,
+--   `precio_b` decimal(10,2) NOT NULL,
+--   `cantidad` int(11) NOT NULL,
+--   `excento` varchar(2) CHARACTER SET latin1 NOT NULL,
+--   `precio_total` varchar(255) CHARACTER SET latin1 NOT NULL,
+--   `total_iva` varchar(255) CHARACTER SET latin1 NOT NULL
+-- ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 -- --------------------------------------------------------
 
@@ -43,11 +43,11 @@ CREATE TABLE `carrito_venta` (
 -- Estructura de tabla para la tabla `cliente`
 --
 
-CREATE TABLE `cliente` (
-  `ci_c` int(11) NOT NULL,
-  `cliente` varchar(255) CHARACTER SET latin1 NOT NULL,
-  `ci_u` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+-- CREATE TABLE `cliente` (
+--   `ci_c` int(11) NOT NULL,
+--   `cliente` varchar(255) CHARACTER SET latin1 NOT NULL,
+--   `ci_u` int(11) NOT NULL
+-- ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 -- --------------------------------------------------------
 
@@ -55,17 +55,17 @@ CREATE TABLE `cliente` (
 -- Estructura de tabla para la tabla `compra`
 --
 
-CREATE TABLE `compra` (
-  `id_c` int(11) NOT NULL,
-  `fecha_c` varchar(255) CHARACTER SET latin1 DEFAULT NULL,
-  `cod` varchar(255) COLLATE utf8_spanish_ci NOT NULL,
-  `producto` varchar(255) COLLATE utf8_spanish_ci NOT NULL,
-  `unidades` int(11) DEFAULT NULL,
-  `precio_c` varchar(255) CHARACTER SET latin1 DEFAULT NULL,
-  `id_p` int(11) DEFAULT NULL,
-  `ci_u` int(11) DEFAULT NULL,
-  `id_n` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+-- CREATE TABLE `compra` (
+--   `id_c` int(11) NOT NULL,
+--   `fecha_c` varchar(255) CHARACTER SET latin1 DEFAULT NULL,
+--   `cod` varchar(255) COLLATE utf8_spanish_ci NOT NULL,
+--   `producto` varchar(255) COLLATE utf8_spanish_ci NOT NULL,
+--   `unidades` int(11) DEFAULT NULL,
+--   `precio_c` varchar(255) CHARACTER SET latin1 DEFAULT NULL,
+--   `id_p` int(11) DEFAULT NULL,
+--   `ci_u` int(11) DEFAULT NULL,
+--   `id_n` int(11) DEFAULT NULL
+-- ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 -- --------------------------------------------------------
 
@@ -73,10 +73,10 @@ CREATE TABLE `compra` (
 -- Estructura de tabla para la tabla `dolar`
 --
 
-CREATE TABLE `dolar` (
-  `fecha_dolar` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `dolar` varchar(255) COLLATE utf8_spanish_ci NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+-- CREATE TABLE `dolar` (
+--   `fecha_dolar` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+--   `dolar` varchar(255) COLLATE utf8_spanish_ci NOT NULL
+-- ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 -- --------------------------------------------------------
 
@@ -84,34 +84,34 @@ CREATE TABLE `dolar` (
 -- Estructura de tabla para la tabla `inventario`
 --
 
-CREATE TABLE `inventario` (
-  `cod` varchar(20) CHARACTER SET latin1 NOT NULL,
-  `nom_p` varchar(255) CHARACTER SET latin1 NOT NULL,
-  `stock` int(11) DEFAULT NULL,
-  `excento` varchar(2) CHARACTER SET latin1 DEFAULT NULL,
-  `precio_b` varchar(255) COLLATE utf8_spanish_ci DEFAULT NULL,
-  `id_n` int(11) DEFAULT NULL,
-  `ci_u` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+-- CREATE TABLE `inventario` (
+--   `cod` varchar(20) CHARACTER SET latin1 NOT NULL,
+--   `nom_p` varchar(255) CHARACTER SET latin1 NOT NULL,
+--   `stock` int(11) DEFAULT NULL,
+--   `excento` varchar(2) CHARACTER SET latin1 DEFAULT NULL,
+--   `precio_b` varchar(255) COLLATE utf8_spanish_ci DEFAULT NULL,
+--   `id_n` int(11) DEFAULT NULL,
+--   `ci_u` int(11) DEFAULT NULL
+-- ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 --
 -- Estructura de tabla para la tabla `iva`
 --
 
-CREATE TABLE `iva` (
-  `fecha_iva` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `iva` varchar(255) COLLATE utf8_spanish_ci NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+-- CREATE TABLE `iva` (
+--   `fecha_iva` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+--   `iva` varchar(255) COLLATE utf8_spanish_ci NOT NULL
+-- ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 --
 -- Estructura de tabla para la tabla `log`
 --
 
-CREATE TABLE `log` (
-  `fecha` varchar(255) CHARACTER SET latin1 NOT NULL,
-  `ci_u` int(11) DEFAULT NULL,
-  `id_n` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+-- CREATE TABLE `log` (
+--   `fecha` varchar(255) CHARACTER SET latin1 NOT NULL,
+--   `ci_u` int(11) DEFAULT NULL,
+--   `id_n` int(11) NOT NULL
+-- ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 -- --------------------------------------------------------
 
@@ -136,21 +136,21 @@ CREATE TABLE `negocios` (
 -- Estructura de tabla para la tabla `peso`
 --
 
-CREATE TABLE `peso` (
-  `fecha_peso` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `peso` varchar(255) COLLATE utf8_spanish_ci NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+-- CREATE TABLE `peso` (
+--   `fecha_peso` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+--   `peso` varchar(255) COLLATE utf8_spanish_ci NOT NULL
+-- ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 --
 -- Estructura de tabla para la tabla `proveedor`
 --
 
-CREATE TABLE `proveedor` (
-  `id_p` int(11) NOT NULL,
-  `proveedor` varchar(255) CHARACTER SET latin1 DEFAULT NULL,
-  `ci_u` int(11) DEFAULT NULL,
-  `id_n` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+-- CREATE TABLE `proveedor` (
+--   `id_p` int(11) NOT NULL,
+--   `proveedor` varchar(255) CHARACTER SET latin1 DEFAULT NULL,
+--   `ci_u` int(11) DEFAULT NULL,
+--   `id_n` int(11) DEFAULT NULL
+-- ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 -- --------------------------------------------------------
 
@@ -158,54 +158,54 @@ CREATE TABLE `proveedor` (
 -- Estructura de tabla para la tabla `usuario`
 --
 
-CREATE TABLE `usuario` (
-  `ci_u` int(11) NOT NULL,
-  `usuario` varchar(20) CHARACTER SET latin1 NOT NULL,
-  `nom_u` varchar(30) CHARACTER SET latin1 NOT NULL,
-  `clave` varchar(255) CHARACTER SET latin1 NOT NULL,
-  `cargo` varchar(1) CHARACTER SET latin1 NOT NULL,
-  `tlf` varchar(11) CHARACTER SET latin1 DEFAULT NULL,
-  `pre1` text CHARACTER SET latin1,
-  `r1` varchar(255) CHARACTER SET latin1 DEFAULT NULL,
-  `pre2` text CHARACTER SET latin1,
-  `r2` varchar(255) CHARACTER SET latin1 DEFAULT NULL,
-  `pre3` text CHARACTER SET latin1,
-  `r3` varchar(255) CHARACTER SET latin1 DEFAULT NULL,
-  `foto` varchar(255) CHARACTER SET latin1 DEFAULT NULL,
-  `activo` tinyint(1) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+-- CREATE TABLE `usuario` (
+--   `ci_u` int(11) NOT NULL,
+--   `usuario` varchar(20) CHARACTER SET latin1 NOT NULL,
+--   `nom_u` varchar(30) CHARACTER SET latin1 NOT NULL,
+--   `clave` varchar(255) CHARACTER SET latin1 NOT NULL,
+--   `cargo` varchar(1) CHARACTER SET latin1 NOT NULL,
+--   `tlf` varchar(11) CHARACTER SET latin1 DEFAULT NULL,
+--   `pre1` text CHARACTER SET latin1,
+--   `r1` varchar(255) CHARACTER SET latin1 DEFAULT NULL,
+--   `pre2` text CHARACTER SET latin1,
+--   `r2` varchar(255) CHARACTER SET latin1 DEFAULT NULL,
+--   `pre3` text CHARACTER SET latin1,
+--   `r3` varchar(255) CHARACTER SET latin1 DEFAULT NULL,
+--   `foto` varchar(255) CHARACTER SET latin1 DEFAULT NULL,
+--   `activo` tinyint(1) NOT NULL
+-- ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 
 -- Estructura de tabla para la tabla `venta`
 --
 
-CREATE TABLE `venta` (
-  `id_v` int(11) NOT NULL,
-  `fecha_v` varchar(255) CHARACTER SET latin1 NOT NULL,
-  `ci_c` int(11) DEFAULT NULL,
-  `cod` varchar(20) CHARACTER SET latin1 NOT NULL,
-  `unidades` int(11) DEFAULT NULL,
-  `precio_v` varchar(255) CHARACTER SET latin1 DEFAULT NULL,
-  `iva` varchar(255) CHARACTER SET latin1 NOT NULL,
-  `ci_u` int(11) DEFAULT NULL,
-  `id_n` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+-- CREATE TABLE `venta` (
+--   `id_v` int(11) NOT NULL,
+--   `fecha_v` varchar(255) CHARACTER SET latin1 NOT NULL,
+--   `ci_c` int(11) DEFAULT NULL,
+--   `cod` varchar(20) CHARACTER SET latin1 NOT NULL,
+--   `unidades` int(11) DEFAULT NULL,
+--   `precio_v` varchar(255) CHARACTER SET latin1 DEFAULT NULL,
+--   `iva` varchar(255) CHARACTER SET latin1 NOT NULL,
+--   `ci_u` int(11) DEFAULT NULL,
+--   `id_n` int(11) DEFAULT NULL
+-- ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 --
 -- Estructura de tabla para la tabla `versiones`
 --
 
 CREATE TABLE `versiones` (
-  `id_v` int(11) NOT NULL,
-  `nombre_v` varchar(255) CHARACTER SET latin1 NOT NULL,
-  `descripcion` text CHARACTER SET latin1 NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+  `id` int(11) NOT NULL,
+  `nombre` varchar(255) NOT NULL,
+  `descripcion` text NOT NULL
+);
 
 --
 -- Volcado de datos para la tabla `versiones`
 --
 
-INSERT INTO `versiones` (`id_v`, `nombre_v`, `descripcion`) VALUES
+INSERT INTO `versiones` (`id`, `nombre`, `descripcion`) VALUES
 (1, '1.0a', 'Módulo \"Iniciar Sesión\" añadido'),
 (2, '1.1a', 'Módulo \"Registrar Usuarios\" añadido'),
 (3, '1.2a', 'Correcciones de seguridad'),
@@ -245,83 +245,83 @@ INSERT INTO `versiones` (`id_v`, `nombre_v`, `descripcion`) VALUES
 --
 -- Indices de la tabla `cliente`
 --
-ALTER TABLE `cliente`
-  ADD PRIMARY KEY (`ci_c`),
-  ADD KEY `ci_u` (`ci_u`);
+-- ALTER TABLE `cliente`
+--   ADD PRIMARY KEY (`ci_c`),
+--   ADD KEY `ci_u` (`ci_u`);
 
 --
 -- Indices de la tabla `compra`
 --
-ALTER TABLE `compra`
-  ADD PRIMARY KEY (`id_c`),
-  ADD KEY `compra_ibfk_3` (`id_n`),
-  ADD KEY `compra_ibfk_1` (`id_p`),
-  ADD KEY `compra_ibfk_2` (`ci_u`);
+-- ALTER TABLE `compra`
+--   ADD PRIMARY KEY (`id_c`),
+--   ADD KEY `compra_ibfk_3` (`id_n`),
+--   ADD KEY `compra_ibfk_1` (`id_p`),
+--   ADD KEY `compra_ibfk_2` (`ci_u`);
 
 --
 -- Indices de la tabla `dolar`
 --
-ALTER TABLE `dolar`
-  ADD PRIMARY KEY (`fecha_dolar`);
+-- ALTER TABLE `dolar`
+--   ADD PRIMARY KEY (`fecha_dolar`);
 
 --
 -- Indices de la tabla `inventario`
 --
-ALTER TABLE `inventario`
-  ADD PRIMARY KEY (`cod`),
-  ADD KEY `inventario_ibfk_1` (`id_n`),
-  ADD KEY `inventario_ibfk_2` (`ci_u`);
+-- ALTER TABLE `inventario`
+--   ADD PRIMARY KEY (`cod`),
+--   ADD KEY `inventario_ibfk_1` (`id_n`),
+--   ADD KEY `inventario_ibfk_2` (`ci_u`);
 
 --
 -- Indices de la tabla `iva`
 --
-ALTER TABLE `iva`
-  ADD PRIMARY KEY (`fecha_iva`);
+-- ALTER TABLE `iva`
+--   ADD PRIMARY KEY (`fecha_iva`);
 
 --
 -- Indices de la tabla `log`
 --
-ALTER TABLE `log`
-  ADD PRIMARY KEY (`fecha`),
-  ADD KEY `log_ibfk_1` (`ci_u`),
-  ADD KEY `id_n` (`id_n`);
+-- ALTER TABLE `log`
+--   ADD PRIMARY KEY (`fecha`),
+--   ADD KEY `log_ibfk_1` (`ci_u`),
+--   ADD KEY `id_n` (`id_n`);
 
 --
 -- Indices de la tabla `peso`
 --
-ALTER TABLE `peso`
-  ADD PRIMARY KEY (`fecha_peso`);
+-- ALTER TABLE `peso`
+--   ADD PRIMARY KEY (`fecha_peso`);
 
 --
 -- Indices de la tabla `proveedor`
 --
-ALTER TABLE `proveedor`
-  ADD PRIMARY KEY (`id_p`),
-  ADD KEY `proveedor_ibfk_1` (`ci_u`),
-  ADD KEY `proveedor_ibfk_2` (`id_n`);
+-- ALTER TABLE `proveedor`
+--   ADD PRIMARY KEY (`id_p`),
+--   ADD KEY `proveedor_ibfk_1` (`ci_u`),
+--   ADD KEY `proveedor_ibfk_2` (`id_n`);
 
 --
 -- Indices de la tabla `usuario`
 --
-ALTER TABLE `usuario`
-  ADD PRIMARY KEY (`ci_u`);
+-- ALTER TABLE `usuario`
+--   ADD PRIMARY KEY (`ci_u`);
 
 --
 -- Indices de la tabla `venta`
 --
-ALTER TABLE `venta`
-  ADD PRIMARY KEY (`id_v`) USING BTREE,
-  ADD KEY `venta_ibfk_6` (`iva`),
-  ADD KEY `venta_ibfk_1` (`ci_c`),
-  ADD KEY `venta_ibfk_2` (`ci_u`),
-  ADD KEY `venta_ibfk_5` (`id_n`),
-  ADD KEY `venta_ibfk_7` (`cod`);
+-- ALTER TABLE `venta`
+--   ADD PRIMARY KEY (`id_v`) USING BTREE,
+--   ADD KEY `venta_ibfk_6` (`iva`),
+--   ADD KEY `venta_ibfk_1` (`ci_c`),
+--   ADD KEY `venta_ibfk_2` (`ci_u`),
+--   ADD KEY `venta_ibfk_5` (`id_n`),
+--   ADD KEY `venta_ibfk_7` (`cod`);
 
 --
 -- Indices de la tabla `versiones`
 --
 ALTER TABLE `versiones`
-  ADD PRIMARY KEY (`id_v`);
+  ADD PRIMARY KEY (`id`);
 
 --
 -- AUTO_INCREMENT de las tablas volcadas
@@ -330,32 +330,26 @@ ALTER TABLE `versiones`
 --
 -- AUTO_INCREMENT de la tabla `compra`
 --
-ALTER TABLE `compra`
-  MODIFY `id_c` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
---
--- AUTO_INCREMENT de la tabla `negocio`
---
-ALTER TABLE `negocio`
-  MODIFY `id_n` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+-- ALTER TABLE `compra`
+--   MODIFY `id_c` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT de la tabla `proveedor`
 --
-ALTER TABLE `proveedor`
-  MODIFY `id_p` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+-- ALTER TABLE `proveedor`
+--   MODIFY `id_p` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de la tabla `venta`
 --
-ALTER TABLE `venta`
-  MODIFY `id_v` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+-- ALTER TABLE `venta`
+--   MODIFY `id_v` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT de la tabla `versiones`
 --
 ALTER TABLE `versiones`
-  MODIFY `id_v` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 
 --
 -- Restricciones para tablas volcadas
@@ -364,44 +358,44 @@ ALTER TABLE `versiones`
 --
 -- Filtros para la tabla `cliente`
 --
-ALTER TABLE `cliente`
-  ADD CONSTRAINT `cliente_ibfk_1` FOREIGN KEY (`ci_u`) REFERENCES `usuario` (`ci_u`) ON DELETE NO ACTION ON UPDATE CASCADE;
+-- ALTER TABLE `cliente`
+--   ADD CONSTRAINT `cliente_ibfk_1` FOREIGN KEY (`ci_u`) REFERENCES `usuario` (`ci_u`) ON DELETE NO ACTION ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `compra`
 --
-ALTER TABLE `compra`
-  ADD CONSTRAINT `compra_ibfk_1` FOREIGN KEY (`id_p`) REFERENCES `proveedor` (`id_p`) ON DELETE NO ACTION ON UPDATE CASCADE,
-  ADD CONSTRAINT `compra_ibfk_2` FOREIGN KEY (`ci_u`) REFERENCES `usuario` (`ci_u`) ON DELETE NO ACTION ON UPDATE CASCADE,
-  ADD CONSTRAINT `compra_ibfk_3` FOREIGN KEY (`id_n`) REFERENCES `negocio` (`id_n`) ON DELETE CASCADE ON UPDATE CASCADE;
+-- ALTER TABLE `compra`
+--   ADD CONSTRAINT `compra_ibfk_1` FOREIGN KEY (`id_p`) REFERENCES `proveedor` (`id_p`) ON DELETE NO ACTION ON UPDATE CASCADE,
+--   ADD CONSTRAINT `compra_ibfk_2` FOREIGN KEY (`ci_u`) REFERENCES `usuario` (`ci_u`) ON DELETE NO ACTION ON UPDATE CASCADE,
+--   ADD CONSTRAINT `compra_ibfk_3` FOREIGN KEY (`id_n`) REFERENCES `negocio` (`id_n`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `inventario`
 --
-ALTER TABLE `inventario`
-  ADD CONSTRAINT `inventario_ibfk_1` FOREIGN KEY (`id_n`) REFERENCES `negocio` (`id_n`) ON DELETE NO ACTION ON UPDATE CASCADE,
-  ADD CONSTRAINT `inventario_ibfk_2` FOREIGN KEY (`ci_u`) REFERENCES `usuario` (`ci_u`) ON DELETE CASCADE ON UPDATE CASCADE;
+-- ALTER TABLE `inventario`
+--   ADD CONSTRAINT `inventario_ibfk_1` FOREIGN KEY (`id_n`) REFERENCES `negocio` (`id_n`) ON DELETE NO ACTION ON UPDATE CASCADE,
+--   ADD CONSTRAINT `inventario_ibfk_2` FOREIGN KEY (`ci_u`) REFERENCES `usuario` (`ci_u`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `log`
 --
-ALTER TABLE `log`
-  ADD CONSTRAINT `log_ibfk_1` FOREIGN KEY (`ci_u`) REFERENCES `usuario` (`ci_u`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `log_ibfk_2` FOREIGN KEY (`id_n`) REFERENCES `negocio` (`id_n`) ON DELETE CASCADE ON UPDATE CASCADE;
+-- ALTER TABLE `log`
+--   ADD CONSTRAINT `log_ibfk_1` FOREIGN KEY (`ci_u`) REFERENCES `usuario` (`ci_u`) ON DELETE CASCADE ON UPDATE CASCADE,
+--   ADD CONSTRAINT `log_ibfk_2` FOREIGN KEY (`id_n`) REFERENCES `negocio` (`id_n`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `proveedor`
 --
-ALTER TABLE `proveedor`
-  ADD CONSTRAINT `proveedor_ibfk_1` FOREIGN KEY (`ci_u`) REFERENCES `usuario` (`ci_u`) ON DELETE NO ACTION ON UPDATE CASCADE,
-  ADD CONSTRAINT `proveedor_ibfk_2` FOREIGN KEY (`id_n`) REFERENCES `negocio` (`id_n`) ON DELETE NO ACTION ON UPDATE CASCADE;
+-- ALTER TABLE `proveedor`
+--   ADD CONSTRAINT `proveedor_ibfk_1` FOREIGN KEY (`ci_u`) REFERENCES `usuario` (`ci_u`) ON DELETE NO ACTION ON UPDATE CASCADE,
+--   ADD CONSTRAINT `proveedor_ibfk_2` FOREIGN KEY (`id_n`) REFERENCES `negocio` (`id_n`) ON DELETE NO ACTION ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `venta`
 --
-ALTER TABLE `venta`
-  ADD CONSTRAINT `venta_ibfk_1` FOREIGN KEY (`ci_c`) REFERENCES `cliente` (`ci_c`) ON DELETE NO ACTION ON UPDATE CASCADE,
-  ADD CONSTRAINT `venta_ibfk_2` FOREIGN KEY (`ci_u`) REFERENCES `usuario` (`ci_u`) ON DELETE NO ACTION ON UPDATE CASCADE,
-  ADD CONSTRAINT `venta_ibfk_5` FOREIGN KEY (`id_n`) REFERENCES `negocio` (`id_n`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `venta_ibfk_7` FOREIGN KEY (`cod`) REFERENCES `inventario` (`cod`) ON DELETE CASCADE ON UPDATE CASCADE;
-COMMIT;
+-- ALTER TABLE `venta`
+--   ADD CONSTRAINT `venta_ibfk_1` FOREIGN KEY (`ci_c`) REFERENCES `cliente` (`ci_c`) ON DELETE NO ACTION ON UPDATE CASCADE,
+--   ADD CONSTRAINT `venta_ibfk_2` FOREIGN KEY (`ci_u`) REFERENCES `usuario` (`ci_u`) ON DELETE NO ACTION ON UPDATE CASCADE,
+--   ADD CONSTRAINT `venta_ibfk_5` FOREIGN KEY (`id_n`) REFERENCES `negocio` (`id_n`) ON DELETE CASCADE ON UPDATE CASCADE,
+--   ADD CONSTRAINT `venta_ibfk_7` FOREIGN KEY (`cod`) REFERENCES `inventario` (`cod`) ON DELETE CASCADE ON UPDATE CASCADE;
+-- COMMIT;

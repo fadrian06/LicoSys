@@ -1,71 +1,69 @@
 
 <div class="w3-modal w3-show w3-padding-large">
-  <div class="w3-modal-content w3-padding-top-10">
-    <form id="registrarNegocio" method="POST" enctype="multipart/form-data" autocomplete="off">
-      <h1 class="w3-center w3-xxlarge"><b>BIENVENIDO A LICOSYS</b></h1>
-      <h2 class="w3-center w3-xlarge"><b>REGISTRE UN NEGOCIO</b></h2>
-      <div class="w3-row w3-margin-top">
-        <div class="w3-twothird w3-rightbar">
-          <fieldset class="w3-border-0">
-            <legend class="w3-large w3-padding"><b>Nombre:</b></legend>
-            <div class="w3-row w3-border-bottom w3-center">
-              <div class="icon-edit w3-col s2 w3-xxlarge w3-teal"></div>
-              <div class="w3-col s8 w3-display-container">
-                <input class="w3-input w3-border-0 w3-large" id="nombreNegocio" type="text" name="nombreNegocio" placeholder="Nombre del Negocio" autocapitalize="words" required="required" minlenght="4" maxlenght="20"/>
-              </div>
-              <div class="w3-rest w3-xxlarge w3-text-green icon-check w3-animate-zoom w3-hide"></div>
-              <div class="w3-rest w3-xxlarge w3-text-red icon-close w3-animate-zoom w3-hide w3-tooltip"><span class="w3-text">Sólo se permiten entre 4 y 20 letras</span></div>
+  <form class="w3-modal-content w3-padding-top10 w3-round-xlarge w3-border-scroll" id="registrarNegocio" method="POST" enctype="multipart/form-data" autocomplete="off">
+    <h1 class="w3-center w3-oswald"><b>REGISTRE UN NEGOCIO</b></h1>
+    <div class="w3-step-container"><span class="w3-step w3-teal">1</span><span class="w3-step">2</span></div>
+    <div class="w3-row w3-margin-top">
+      <div class="w3-twothird w3-rightbar">
+        <fieldset class="w3-border-0">
+          <legend class="w3-large w3-padding"><b>Nombre:</b></legend>
+          <div class="w3-row w3-border-bottom w3-center">
+            <div class="icon-edit w3-col s2 w3-xxlarge w3-teal"></div>
+            <div class="w3-col s8 w3-display-container">
+              <input class="w3-input w3-border-0 w3-large" id="nombreNegocio" type="text" name="nombreNegocio" placeholder="Nombre del Negocio" autocapitalize="words" required="required" minlenght="4" maxlenght="20"/>
             </div>
-          </fieldset>
-          <fieldset class="w3-border-0">
-            <legend class="w3-large w3-padding"><b>RIF:</b></legend>
-            <div class="w3-row w3-border-bottom w3-center">
-              <div class="icon-edit w3-col s2 w3-xxlarge w3-teal"></div>
-              <div class="w3-col s8 w3-display-container">
-                <input class="w3-input w3-border-0 w3-large" id="rif" type="text" name="rif" placeholder="RIF del Negocio" autocapitalize="autocapitalize" required="required" minlenght="10" maxlenght="16" pattern="^(v|e|V|E){1}\d{9,15}$" title="Debe empezar por V o E seguido de entre 9 y 15 dígitos"/>
-              </div>
-              <div class="w3-rest w3-xxlarge w3-text-green icon-check w3-animate-zoom w3-hide"></div>
-              <div class="w3-rest w3-xxlarge w3-text-red icon-close w3-animate-zoom w3-hide w3-tooltip"><span class="w3-text">Debe empezar por V o E seguido de entre 9 y 15 dígitos</span></div>
-            </div>
-          </fieldset>
-          <fieldset class="w3-border-0">
-            <legend class="w3-large w3-padding"><b>Teléfono:</b></legend>
-            <div class="w3-row w3-border-bottom w3-center">
-              <div class="icon-edit w3-col s2 w3-xxlarge w3-teal"></div>
-              <div class="w3-col s8 w3-display-container">
-                <input class="w3-input w3-border-0 w3-large" id="telefono" type="text" name="telefono" placeholder="Teléfono de contacto" minlenght="11" maxlength="16" pattern="^(0|+57|+58)\s?-?(412|414|424|416|426)-?\d{3}-?\d{4}" title="Ejemplo (+58 416-111-2222 o 0416-111-2222)"/>
-              </div>
-              <div class="w3-rest w3-xxlarge w3-text-green icon-check w3-animate-zoom w3-hide"></div>
-              <div class="w3-rest w3-xxlarge w3-text-red icon-close w3-animate-zoom w3-hide w3-tooltip"><span class="w3-text">Introduce un teléfono válido o deja el campo vacío</span></div>
-            </div>
-          </fieldset>
-          <fieldset class="w3-border-0">
-            <legend class="w3-large w3-padding"><b>Dirección:</b></legend>
-            <div class="w3-row w3-border-bottom w3-center">
-              <div class="icon-edit w3-col s2 w3-xxlarge w3-teal"></div>
-              <div class="w3-col s8 w3-display-container">
-                <input class="w3-input w3-border-0 w3-large" id="direccion" type="text" name="direccion" placeholder="Dirección del negocio" maxlength="50" pattern="^([\w,.-#/]\s?){0,50}$" title="Sólo se permiten letras, números y símbolos (, . - / #)"/>
-              </div>
-              <div class="w3-rest w3-xxlarge w3-text-green icon-check w3-animate-zoom w3-hide"></div>
-              <div class="w3-rest w3-xxlarge w3-text-red icon-close w3-animate-zoom w3-hide tooltip"><span class="tooltiptext">Sólo se permiten letras, números y símbolos (, . - / #)</span></div>
-            </div>
-          </fieldset>
-          <div class="w3-container w3-margin">
-            <button class="w3-button w3-block w3-teal w3-round-large">Registrar
-              <div class="w3-large w3-margin-left icon-refresh w3-spin w3-hide"></div>
-            </button>
+            <div class="w3-rest w3-xxlarge w3-text-green icon-check w3-animate-zoom w3-hide"></div>
+            <div class="w3-rest w3-xxlarge w3-text-red icon-close w3-animate-zoom tooltip"><span class="tooltip-text w3-small">Sólo se permiten entre 4 y 20 letras</span></div>
           </div>
-        </div>
-        <div class="w3-third formFoto w3-center">
-          <label class="w3-block w3-display-container w3-hover-opacity" for="imagen"><span class="icon-camera w3-xxxlarge w3-display-middle w3-display-hover w3-animate-opacity"></span><img class="w3-image image-result w3-round-large" src="imagenes/logoNegocio.jpg" style="width: 150px"/></label>
-          <input class="w3-hide" id="imagen" type="file" name="foto" accept=".jpeg, .jpg, .png"/>
-          <label class="w3-button w3-teal w3-round-large" for="imagen">Sube un logo</label>
-          <div class="w3-panel">
-            <p class="w3-medium"><b>Logotipo del negocio</b></p>
-            <p class="w3-small w3-text-blue"><b>Opcional</b></p>
+        </fieldset>
+        <fieldset class="w3-border-0">
+          <legend class="w3-large w3-padding"><b>RIF:</b></legend>
+          <div class="w3-row w3-border-bottom w3-center">
+            <div class="icon-edit w3-col s2 w3-xxlarge w3-teal"></div>
+            <div class="w3-col s8 w3-display-container">
+              <input class="w3-input w3-border-0 w3-large" id="rif" type="text" name="rif" placeholder="RIF del Negocio" autocapitalize="autocapitalize" required="required" minlenght="10" maxlenght="16" pattern="^(v|e|V|E){1}\d{9,15}$" title="Debe empezar por V o E seguido de entre 9 y 15 dígitos"/>
+            </div>
+            <div class="w3-rest w3-xxlarge w3-text-green icon-check w3-animate-zoom w3-hide"></div>
+            <div class="w3-rest w3-xxlarge w3-text-red icon-close w3-animate-zoom w3-hide w3-tooltip"><span class="w3-text">Debe empezar por V o E seguido de entre 9 y 15 dígitos</span></div>
           </div>
+        </fieldset>
+        <fieldset class="w3-border-0">
+          <legend class="w3-large w3-padding"><b>Teléfono:</b></legend>
+          <div class="w3-row w3-border-bottom w3-center">
+            <div class="icon-edit w3-col s2 w3-xxlarge w3-teal"></div>
+            <div class="w3-col s8 w3-display-container">
+              <input class="w3-input w3-border-0 w3-large" id="telefono" type="text" name="telefono" placeholder="Teléfono de contacto" minlenght="11" maxlength="16" pattern="^(0|+57|+58)\s?-?(412|414|424|416|426)-?\d{3}-?\d{4}" title="Ejemplo (+58 416-111-2222 o 0416-111-2222)"/>
+            </div>
+            <div class="w3-rest w3-xxlarge w3-text-green icon-check w3-animate-zoom w3-hide"></div>
+            <div class="w3-rest w3-xxlarge w3-text-red icon-close w3-animate-zoom w3-hide w3-tooltip"><span class="w3-text">Introduce un teléfono válido o deja el campo vacío</span></div>
+          </div>
+        </fieldset>
+        <fieldset class="w3-border-0">
+          <legend class="w3-large w3-padding"><b>Dirección:</b></legend>
+          <div class="w3-row w3-border-bottom w3-center">
+            <div class="icon-edit w3-col s2 w3-xxlarge w3-teal"></div>
+            <div class="w3-col s8 w3-display-container">
+              <input class="w3-input w3-border-0 w3-large" id="direccion" type="text" name="direccion" placeholder="Dirección del negocio" maxlength="50" pattern="^([\w,.-#/]\s?){0,50}$" title="Sólo se permiten letras, números y símbolos (, . - / #)"/>
+            </div>
+            <div class="w3-rest w3-xxlarge w3-text-green icon-check w3-animate-zoom w3-hide"></div>
+            <div class="w3-rest w3-xxlarge w3-text-red icon-close w3-animate-zoom w3-hide tooltip"><span class="tooltiptext">Sólo se permiten letras, números y símbolos (, . - / #)</span></div>
+          </div>
+        </fieldset>
+        <div class="w3-container w3-margin">
+          <button class="w3-button w3-block w3-teal w3-round-large">Registrar
+            <div class="w3-large w3-margin-left icon-refresh w3-spin w3-hide"></div>
+          </button>
         </div>
       </div>
-    </form>
-  </div>
+      <div class="w3-third formFoto w3-center">
+        <label class="w3-block w3-display-container w3-hover-opacity" for="imagen"><span class="icon-camera w3-xxxlarge w3-display-middle w3-display-hover w3-animate-opacity"></span><img class="w3-image image-result w3-round-large" src="assets/images/logoNegocio.jpg" style="width: 150px"/></label>
+        <input class="w3-hide" id="imagen" type="file" name="foto" accept=".jpeg, .jpg, .png"/>
+        <label class="w3-button w3-teal w3-round-large" for="imagen">Sube un logo</label>
+        <div class="w3-panel">
+          <p class="w3-medium"><b>Logotipo del negocio</b></p>
+          <p class="w3-small w3-text-blue"><b>Opcional</b></p>
+        </div>
+      </div>
+    </div>
+  </form>
 </div>

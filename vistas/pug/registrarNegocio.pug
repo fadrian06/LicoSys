@@ -1,103 +1,100 @@
 div.w3-modal.w3-show.w3-padding-large
-	div.w3-modal-content.w3-padding-top-10
-		//- FORMULARIO
-		form#registrarNegocio(method='POST' enctype='multipart/form-data' autocomplete='off')
-			h1.w3-center.w3-xxlarge
-				b BIENVENIDO A LICOSYS
-			h2.w3-center.w3-xlarge
-				b REGISTRE UN NEGOCIO
-			div.w3-row.w3-margin-top
-				//- IZQUIERDA
-				div.w3-twothird.w3-rightbar
-					//- Nombre del negocio
-					fieldset.w3-border-0
-						legend.w3-large.w3-padding
-							b Nombre:
-						div.w3-row.w3-border-bottom.w3-center
-							div.icon-edit.w3-col.s2.w3-xxlarge.w3-teal
-							div.w3-col.s8.w3-display-container
-								input#nombreNegocio.w3-input.w3-border-0.w3-large(
-									type='text'
-									name='nombreNegocio'
-									placeholder='Nombre del Negocio'
-									autocapitalize='words'
-									required
-									minlenght='4'
-									maxlenght='20'
-								)
-							div.w3-rest.w3-xxlarge.w3-text-green.icon-check.w3-animate-zoom.w3-hide
-							div.w3-rest.w3-xxlarge.w3-text-red.icon-close.w3-animate-zoom.w3-hide.w3-tooltip
-								span.w3-text Sólo se permiten entre 4 y 20 letras
-					//- RIF del negocio	
-					fieldset.w3-border-0
-						legend.w3-large.w3-padding
-							b RIF:
-						div.w3-row.w3-border-bottom.w3-center
-							div.icon-edit.w3-col.s2.w3-xxlarge.w3-teal
-							div.w3-col.s8.w3-display-container
-								input#rif.w3-input.w3-border-0.w3-large(
-									type="text"
-									name="rif"
-									placeholder="RIF del Negocio"
-									autocapitalize
-									required
-									minlenght="10"
-									maxlenght="16"
-									pattern="^(v|e|V|E){1}\\d{9,15}$"
-									title="Debe empezar por V o E seguido de entre 9 y 15 dígitos"
-								)
-							div.w3-rest.w3-xxlarge.w3-text-green.icon-check.w3-animate-zoom.w3-hide
-							div.w3-rest.w3-xxlarge.w3-text-red.icon-close.w3-animate-zoom.w3-hide.w3-tooltip
-								span.w3-text Debe empezar por V o E seguido de entre 9 y 15 dígitos
-					//- Teléfono
-					fieldset.w3-border-0
-						legend.w3-large.w3-padding
-							b Teléfono:
-						div.w3-row.w3-border-bottom.w3-center
-							div.icon-edit.w3-col.s2.w3-xxlarge.w3-teal
-							div.w3-col.s8.w3-display-container
-								input#telefono.w3-input.w3-border-0.w3-large(
-									type="text"
-									name="telefono"
-									placeholder="Teléfono de contacto"
-									minlenght="11"
-									maxlength="16"
-									pattern="^(0|+57|+58)\\s?-?(412|414|424|416|426)-?\\d{3}-?\\d{4}"
-									title="Ejemplo (+58 416-111-2222 o 0416-111-2222)"
-								)
-							div.w3-rest.w3-xxlarge.w3-text-green.icon-check.w3-animate-zoom.w3-hide
-							div.w3-rest.w3-xxlarge.w3-text-red.icon-close.w3-animate-zoom.w3-hide.w3-tooltip
-								span.w3-text Introduce un teléfono válido o deja el campo vacío
-					//- Dirección
-					fieldset.w3-border-0
-						legend.w3-large.w3-padding
-							b Dirección:
-						div.w3-row.w3-border-bottom.w3-center
-							div.icon-edit.w3-col.s2.w3-xxlarge.w3-teal
-							div.w3-col.s8.w3-display-container
-								input#direccion.w3-input.w3-border-0.w3-large(
-									type="text"
-									name="direccion"
-									placeholder="Dirección del negocio"
-									maxlength="50"
-									pattern="^([\\w,.-#/]\\s?){0,50}$"
-									title="Sólo se permiten letras, números y símbolos (, . - / #)"
-								)
-							div.w3-rest.w3-xxlarge.w3-text-green.icon-check.w3-animate-zoom.w3-hide
-							div.w3-rest.w3-xxlarge.w3-text-red.icon-close.w3-animate-zoom.w3-hide.tooltip
-								span.tooltiptext Sólo se permiten letras, números y símbolos (, . - / #)
-					div.w3-container.w3-margin
-						button.w3-button.w3-block.w3-teal.w3-round-large Registrar
-							div.w3-large.w3-margin-left.icon-refresh.w3-spin.w3-hide
-				//- DERECHA
-				div.w3-third.formFoto.w3-center
-					label(for="imagen").w3-block.w3-display-container.w3-hover-opacity
-						span.icon-camera.w3-xxxlarge.w3-display-middle.w3-display-hover.w3-animate-opacity
-						img.w3-image.image-result.w3-round-large(src="imagenes/logoNegocio.jpg" style="width: 150px")
-					input#imagen.w3-hide(type="file" name="foto" accept=".jpeg, .jpg, .png")
-					label.w3-button.w3-teal.w3-round-large(for="imagen") Sube un logo
-					div.w3-panel
-						p.w3-medium
-							b Logotipo del negocio
-						p.w3-small.w3-text-blue
-							b Opcional
+	form#registrarNegocio.w3-modal-content.w3-padding-top10.w3-round-xlarge.w3-border-scroll(
+		method='POST'
+		enctype='multipart/form-data'
+		autocomplete='off'
+	)
+		h1.w3-center.w3-oswald
+			b REGISTRE UN NEGOCIO
+		div.w3-step-container
+			span.w3-step.w3-teal 1
+			span.w3-step 2
+		div.w3-row.w3-margin-top
+			div.w3-twothird.w3-rightbar
+				fieldset.w3-border-0
+					legend.w3-large.w3-padding
+						b Nombre:
+					div.w3-row.w3-border-bottom.w3-center
+						div.icon-edit.w3-col.s2.w3-xxlarge.w3-teal
+						div.w3-col.s8.w3-display-container
+							input#nombreNegocio.w3-input.w3-border-0.w3-large(
+								type='text'
+								name='nombreNegocio'
+								placeholder='Nombre del Negocio'
+								autocapitalize='words'
+								required
+								minlenght='4'
+								maxlenght='20'
+							)
+						div.w3-rest.w3-xxlarge.w3-text-green.icon-check.w3-animate-zoom.w3-hide
+						div.w3-rest.w3-xxlarge.w3-text-red.icon-close.w3-animate-zoom.tooltip
+							span.tooltip-text.w3-small Sólo se permiten entre 4 y 20 letras
+				fieldset.w3-border-0
+					legend.w3-large.w3-padding
+						b RIF:
+					div.w3-row.w3-border-bottom.w3-center
+						div.icon-edit.w3-col.s2.w3-xxlarge.w3-teal
+						div.w3-col.s8.w3-display-container
+							input#rif.w3-input.w3-border-0.w3-large(
+								type="text"
+								name="rif"
+								placeholder="RIF del Negocio"
+								autocapitalize
+								required
+								minlenght="10"
+								maxlenght="16"
+								pattern="^(v|e|V|E){1}\\d{9,15}$"
+								title="Debe empezar por V o E seguido de entre 9 y 15 dígitos"
+							)
+						div.w3-rest.w3-xxlarge.w3-text-green.icon-check.w3-animate-zoom.w3-hide
+						div.w3-rest.w3-xxlarge.w3-text-red.icon-close.w3-animate-zoom.w3-hide.w3-tooltip
+							span.w3-text Debe empezar por V o E seguido de entre 9 y 15 dígitos
+				fieldset.w3-border-0
+					legend.w3-large.w3-padding
+						b Teléfono:
+					div.w3-row.w3-border-bottom.w3-center
+						div.icon-edit.w3-col.s2.w3-xxlarge.w3-teal
+						div.w3-col.s8.w3-display-container
+							input#telefono.w3-input.w3-border-0.w3-large(
+								type="text"
+								name="telefono"
+								placeholder="Teléfono de contacto"
+								minlenght="11"
+								maxlength="16"
+								pattern="^(0|+57|+58)\\s?-?(412|414|424|416|426)-?\\d{3}-?\\d{4}"
+								title="Ejemplo (+58 416-111-2222 o 0416-111-2222)"
+							)
+						div.w3-rest.w3-xxlarge.w3-text-green.icon-check.w3-animate-zoom.w3-hide
+						div.w3-rest.w3-xxlarge.w3-text-red.icon-close.w3-animate-zoom.w3-hide.w3-tooltip
+							span.w3-text Introduce un teléfono válido o deja el campo vacío
+				fieldset.w3-border-0
+					legend.w3-large.w3-padding
+						b Dirección:
+					div.w3-row.w3-border-bottom.w3-center
+						div.icon-edit.w3-col.s2.w3-xxlarge.w3-teal
+						div.w3-col.s8.w3-display-container
+							input#direccion.w3-input.w3-border-0.w3-large(
+								type="text"
+								name="direccion"
+								placeholder="Dirección del negocio"
+								maxlength="50"
+								pattern="^([\\w,.-#/]\\s?){0,50}$"
+								title="Sólo se permiten letras, números y símbolos (, . - / #)"
+							)
+						div.w3-rest.w3-xxlarge.w3-text-green.icon-check.w3-animate-zoom.w3-hide
+						div.w3-rest.w3-xxlarge.w3-text-red.icon-close.w3-animate-zoom.w3-hide.tooltip
+							span.tooltiptext Sólo se permiten letras, números y símbolos (, . - / #)
+				div.w3-container.w3-margin
+					button.w3-button.w3-block.w3-teal.w3-round-large Registrar
+						div.w3-large.w3-margin-left.icon-refresh.w3-spin.w3-hide
+			div.w3-third.formFoto.w3-center
+				label(for="imagen").w3-block.w3-display-container.w3-hover-opacity
+					span.icon-camera.w3-xxxlarge.w3-display-middle.w3-display-hover.w3-animate-opacity
+					img.w3-image.image-result.w3-round-large(src="assets/images/logoNegocio.jpg" style="width: 150px")
+				input#imagen.w3-hide(type="file" name="foto" accept=".jpeg, .jpg, .png")
+				label.w3-button.w3-teal.w3-round-large(for="imagen") Sube un logo
+				div.w3-panel
+					p.w3-medium
+						b Logotipo del negocio
+					p.w3-small.w3-text-blue
+						b Opcional
