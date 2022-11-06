@@ -1,32 +1,52 @@
-const formulario = w3.getElement('#registrarNegocio')
-const icono = w3.getElement('.icon-refresh');
-actualizarFoto()
-validar(formulario)
+import actualizarFoto from './actualizarFoto'
+import validar from './validar'
 
-const ajax = e => {
-	e.preventDefault()
-	
-	icono.classList.toggle('w3-hide')
-	icono.style.display = 'inline-block'
-	
-	const formData = new FormData(formulario)
-	const file = formulario.imagen.files[0]
-	
-	if(file) formData.append('foto', file)
+const registrarNegocio = () => {
+	return new Promise(resolve => {
+		const formulario = document.querySelector('#registrarNegocio')
+		const icono      = document.querySelector('.icon-refresh')
+		actualizarFoto()
+		validar(formulario)
 
-	axios.post('ajax/registrarNegocio.php', formData)
-		.then(respuesta => {
-			respuesta = respuesta.data
-			if (!respuesta.ok) {
-				icono.classList.toggle('w3-hide')
-				icono.style = null
-				alerta(respuesta.mensaje, true, 5000)
-			} else {
-				formulario.classList.add('w3-hide');
-				setTimeout(() => location.reload(), 5000)
-				notificacion(respuesta.mensaje, false, 5000)
-			}
+		formulario.addEventListener('submit', e => {
+			e.preventDefault()
+			
+			icono.classList.toggle('w3-hide')
+			icono.style.display = 'inline-block'
+			
+			const formData = new FormData(formulario)
+			formData.append('registrarNegocio', true)
+			const file = formulario.logo.files[0]
+			
+			if (file) formData.append('logo', file)
+
+			axios.post('backend/registrarNegocio.php', formData)
+				.then(respuesta => {
+					respuesta = respuesta.data
+					
+					if (!respuesta.ok) {
+						icono.classList.toggle('w3-hide')
+						icono.style = null
+						Swal.fire({
+							title: respuesta.mensaje,
+							icon: 'error',
+							toast: true,
+							position: 'bottom-end',
+							timer: 3000,
+							showConfirmButton: false
+						})
+						return
+					}
+					
+					Swal.fire({
+						title: respuesta.mensaje,
+						icon: 'success',
+						timer: 3000,
+						showConfirmButton: false
+					}).then(() => resolve(true))
+				})
 		})
+	})
 }
 
-formulario.addEventListener('submit', ajax)
+export default registrarNegocio

@@ -115,12 +115,12 @@
 	}
 
 	/**
-	 * VALIDA UN STRING CON UN PATRÓN
+	 * Valida un string con un patrón
 	 * @param string $patron El patrón a utilizar
 	 * @param string $dato   El string a validar
 	 * @return bool          Retorna 1 si coincide, 0 si no y FALSE si falla
 	 */
-	function VALIDAR(string $patron, string $dato):bool {
+	function validar(string $patron, string $dato):bool {
 		return preg_match($patron, $dato);
 	}
 	
@@ -193,7 +193,7 @@
 	}
 
 	/**
-	 * CONSULTAS DE MODIFICACION DE DATOS
+	 * Consultas de modificacion de datos
 	 * @param string $sql Una consulta INSERT, DELETE, TRUNCATE o UPDATE
 	 * @return int   Retorna las filas afectadas o NULL si algo falla, use `$conexion->error` para ver el error
 	 */
@@ -293,10 +293,10 @@
 	}
 
 	/**
-	 * CAMBIA CADA INICIAL A MAYÚSCULA
+	 * Cambia cada inicial a mayúscula
 	 * @param string $string El string a capitalizar
 	 */
-	function CAPITALIZE(string $string):string {
+	function capitalize(string $string):string {
 		return mb_convert_case($string, MB_CASE_TITLE, 'UTF-8');
 	}
 
