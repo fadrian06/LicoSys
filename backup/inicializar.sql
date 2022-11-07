@@ -155,25 +155,26 @@ CREATE TABLE `negocios` (
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `usuario`
+-- Estructura de tabla para la tabla `usuarios`
 --
 
--- CREATE TABLE `usuario` (
---   `ci_u` int(11) NOT NULL,
---   `usuario` varchar(20) CHARACTER SET latin1 NOT NULL,
---   `nom_u` varchar(30) CHARACTER SET latin1 NOT NULL,
---   `clave` varchar(255) CHARACTER SET latin1 NOT NULL,
---   `cargo` varchar(1) CHARACTER SET latin1 NOT NULL,
---   `tlf` varchar(11) CHARACTER SET latin1 DEFAULT NULL,
---   `pre1` text CHARACTER SET latin1,
---   `r1` varchar(255) CHARACTER SET latin1 DEFAULT NULL,
---   `pre2` text CHARACTER SET latin1,
---   `r2` varchar(255) CHARACTER SET latin1 DEFAULT NULL,
---   `pre3` text CHARACTER SET latin1,
---   `r3` varchar(255) CHARACTER SET latin1 DEFAULT NULL,
---   `foto` varchar(255) CHARACTER SET latin1 DEFAULT NULL,
---   `activo` tinyint(1) NOT NULL
--- ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+CREATE TABLE `usuarios` (
+	`id` int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  `cedula` int(11) NOT NULL,
+  `nombre` varchar(255) NOT NULL,
+  `usuario` varchar(255) NOT NULL,
+  `clave` varchar(255) NOT NULL,
+  `cargo` varchar(1) NOT NULL,
+  `telefono` varchar(255),
+  `pre1` text,
+  `r1` varchar(255) NULL,
+  `pre2` text,
+  `r2` varchar(255),
+  `pre3` text,
+  `r3` varchar(255),
+  `foto` varchar(255),
+  `activo` tinyint(1) NOT NULL
+);
 
 
 -- Estructura de tabla para la tabla `venta`
@@ -299,12 +300,6 @@ INSERT INTO `versiones` (`id`, `nombre`, `descripcion`) VALUES
 --   ADD PRIMARY KEY (`id_p`),
 --   ADD KEY `proveedor_ibfk_1` (`ci_u`),
 --   ADD KEY `proveedor_ibfk_2` (`id_n`);
-
---
--- Indices de la tabla `usuario`
---
--- ALTER TABLE `usuario`
---   ADD PRIMARY KEY (`ci_u`);
 
 --
 -- Indices de la tabla `venta`

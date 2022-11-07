@@ -11,7 +11,7 @@
 	
 	require getURL('/licoreria/backend/includes/config.inc');
 
-	$conexion = @new mysqli($HOST, $USUARIO, $CLAVE);
+	$conexion = @new mysqli($HOST, $USUARIO_BD, $CLAVE_BD);
 
 	if ($conexion->connect_errno)
 		exit("Error, no se pudo conectar a MySQL: <b>$conexion->error</b><br>");

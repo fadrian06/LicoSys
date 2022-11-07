@@ -205,11 +205,11 @@
 	}
 
 	/**
-	 * BUSCA LA EXISTENCIA DE UN REGISTRO
+	 * Busca la existencia de un registro
 	 * @param string $sql Una sentencia SELECT
 	 * @return null|int Retorna el número de filas encontradas. Retorna NULL si algo falla
 	 */
-	function CONSULTA(string $sql):?int {
+	function consulta(string $sql):?int {
 		global $conexion;
 		$resultado = $conexion->query($sql);
 		return $resultado ? $resultado->num_rows : NULL;
@@ -325,11 +325,11 @@
 	}
 
 	/**
-	 * ENCRIPTA CUALQUIER TEXTO
+	 * Encripta cualquier texto
 	 * @param string $texto El texto a encriptar
 	 * @return string El string encriptado
 	 */
-	function ENCRIPTAR(string $texto):string {
+	function encriptar(string $texto):string {
 		return password_hash($texto, PASSWORD_DEFAULT);
 	}
 

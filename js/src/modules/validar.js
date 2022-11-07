@@ -1,3 +1,5 @@
+import {alerta} from './alertas'
+
 /**
  * CONVIERTE CADA INICIAL EN MAYÚSCULA
  * @param  {String} string El string a capitalizar
@@ -14,16 +16,22 @@ const mayuscula = string => {
  * @param  {HTMLElement} input El input a colorear
  */
 const error = input => {
-	if (input.type == 'text' || input.type == 'password' || input.type == 'number') {
+	if (input.type === 'text'
+		|| input.type === 'password'
+		|| input.type === 'number'
+		|| input.type === 'tel'
+	) {
 		const contenedorInput = input.parentElement.parentElement
 		const iconoLabel = input.parentElement.previousElementSibling
-		const iconoCheck = input.parentElement.nextElementSibling
-		const iconoX = input.parentElement.nextElementSibling.nextElementSibling
+		const iconoCheck = contenedorInput.querySelector('.icon-check')
+		const iconoX = contenedorInput.querySelector('.icon-close')
+		const ojo = contenedorInput.querySelector('.icon-eye, .icon-eye-slash')
+		
+		if (!ojo) iconoX.classList.replace('w3-hide', 'w3-show')
 
 		contenedorInput.classList.add('w3-border-red')
 		iconoLabel.classList.replace('w3-teal', 'w3-red')
 		iconoCheck.classList.replace('w3-show', 'w3-hide')
-		iconoX.classList.replace('w3-hide', 'w3-show')
 	}
 }
 
@@ -32,15 +40,22 @@ const error = input => {
  * @param  {HTMLElement} input El input a colorear
  */
 const correcto = input => {
-	if (input.type == 'text' || input.type == 'password' || input.type == 'number') {
+	if (input.type === 'text'
+		|| input.type === 'password'
+		|| input.type === 'number'
+		|| input.type === 'tel'
+	) {
 		const contenedorInput = input.parentElement.parentElement
 		const iconoLabel = input.parentElement.previousElementSibling
-		const iconoCheck = input.parentElement.nextElementSibling
-		const iconoX = input.parentElement.nextElementSibling.nextElementSibling
+		const iconoCheck = contenedorInput.querySelector('.icon-check')
+		const iconoX = contenedorInput.querySelector('.icon-close')
+		const ojo = contenedorInput.querySelector('.icon-eye, .icon-eye-slash')
+		
+		if (ojo) ojo.classList.add('w3-hide')
+		else iconoCheck.classList.replace('w3-hide', 'w3-show')
 
 		contenedorInput.classList.remove('w3-border-red')
 		iconoLabel.classList.replace('w3-red', 'w3-teal')
-		iconoCheck.classList.replace('w3-hide', 'w3-show')
 		iconoX.classList.replace('w3-show', 'w3-hide')
 	}
 }
@@ -58,12 +73,12 @@ const validar = formulario => {
 		nombreNegocio: /^[\wáÁéÉíÍóÓúÚñÑ\s]{4,50}$/i,
 		nombreProducto: /^[\w-áÁéÉíÍóÓúÚñÑ\s]{4,50}$/i,
 		rif: /^(v|e){1}\d{9,15}$/i,
-		telefono: /^(0|\+57|\+58)\s?-?(412|414|424|416|426)-?[0-9]{3}-?[0-9]{4}$/,
+		telefono: /^(0|\+57|\+58)\s?-?(412|414|424|416|426)-?\d{3}-?\d{4}$/,
 		direccion: /^([a-záÁéÉíÍóÓúÚñÑ\d\,\.\-\#\/]\s?){4,50}$/i,
-		cedula: /^[^e]?[\d]{7,8}$/,
-		nombre: /^[a-záÁéÉíÍóÓúÚñÑ]{4,20}$/i,
-		usuario: /^[\w-]{4,20}$/i,
-		clave: /^[\w.-@#/*]{4,20}$/i,
+		cedula: /^[^e]?\d{7,8}$/,
+		nombre: /^[A-Z][a-záÁéÉíÍóÓúÚñÑ]{4,20}$/i,
+		usuario: /^@?[\w-]{4,20}$/i,
+		clave: /^[\w.-@#*]{4,20}$/i,
 		pregunta: /^[\?a-záÁéÉíÍóÓúÚñÑ¿\s]+$/i,
 		respuesta: /^[a-záÁéÉíÍóÓúÚñÑ\d]{4,20}$/i,
 		codigo: /^[a-z\d-.#]{3,10}$/i,
@@ -101,8 +116,8 @@ const validar = formulario => {
 	 * COMPARA DOS CAMPOS DE CONTRASEÑAS
 	 */
 	const compararClaves = () => {
-		const clave1 = w3.getElement("input[name='nuevaClave']")
-		const clave2 = w3.getElement("input[name='confirmar']")
+		const clave1 = document.querySelector("input[name='nuevaClave']")
+		const clave2 = document.querySelector("input[name='confirmar']")
 		if (clave1.value === clave2.value) {
 			correcto(clave2)
 			campos.confirmar = true
@@ -113,7 +128,7 @@ const validar = formulario => {
 	}
 
 	/**
-	 * VALIDA UN CAMPO DE ENTRADA
+	 * Valida un campo de entrada
 	 * @param  {RegularExpression} expresion Una expresión regular a utilizar
 	 * @param  {HTMLElement} input     Un elemento `input`
 	 * @param  {String} campo     Valor del atributo `name` del elemento `input`
@@ -133,97 +148,98 @@ const validar = formulario => {
 	 * @param  {Event} e El input que recibe un evento
 	 */
 	const validarInput = e => {
-		switch (e.target.name) {
+		const input = e.target
+		switch (input.name) {
 			case 'nombreNegocio':
-				validarCampo(expresiones.nombreNegocio, e.target, e.target.name)
-				e.target.value = mayuscula(e.target.value)
+				validarCampo(expresiones.nombreNegocio, input, input.name)
+				input.value = mayuscula(input.value)
 				break
 
 			case 'rif':
-				validarCampo(expresiones.rif, e.target, e.target.name)
-				e.target.value = mayuscula(e.target.value)
+				validarCampo(expresiones.rif, input, input.name)
+				input.value = mayuscula(input.value)
 				break
 
 			case 'telefono':
-				validarCampo(expresiones.telefono, e.target, e.target.name)
+				validarCampo(expresiones.telefono, input, input.name)
 				break
 
 			case 'direccion':
-				validarCampo(expresiones.direccion, e.target, e.target.name)
-				e.target.value = mayuscula(e.target.value)
+				validarCampo(expresiones.direccion, input, input.name)
+				input.value = mayuscula(input.value)
 				break
 
 			case 'cedula':
-				validarCampo(expresiones.cedula, e.target, e.target.name)
+				validarCampo(expresiones.cedula, input, input.name)
 				break
 
 			case 'nombre':
-				validarCampo(expresiones.nombre, e.target, e.target.name)
-				e.target.value = mayuscula(e.target.value)
+				validarCampo(expresiones.nombre, input, input.name)
+				input.value = mayuscula(input.value)
 				break
 
 			case 'usuario':
-				validarCampo(expresiones.usuario, e.target, e.target.name)
+				validarCampo(expresiones.usuario, input, input.name)
 				break
 
 			case 'nuevaClave':
-				validarCampo(expresiones.clave, e.target, 'clave')
+				validarCampo(expresiones.clave, input, 'clave')
 				break
 
 			case 'confirmar':
-				validarCampo(expresiones.clave, e.target, e.target.name)
+				validarCampo(expresiones.clave, input, input.name)
 				compararClaves()
 				break
 
 			case 'clave':
-				validarCampo(expresiones.clave, e.target, e.target.name)
+				validarCampo(expresiones.clave, input, input.name)
 				break
 
 			case 'respuesta1':
 			case 'respuesta2':
 			case 'respuesta3':
-				validarCampo(expresiones.respuesta, e.target, 'respuesta')
+				validarCampo(expresiones.respuesta, input, 'respuesta')
 				break
 
 			case 'pregunta1':
 			case 'pregunta2':
 			case 'pregunta3':
-				validarCampo(expresiones.pregunta, e.target, 'pregunta')
+				validarCampo(expresiones.pregunta, input, 'pregunta')
 				break
 
 			case 'codigo':
-				validarCampo(expresiones.codigo, e.target, e.target.name)
-				e.target.value = e.target.value.toUpperCase()
+				validarCampo(expresiones.codigo, input, input.name)
+				input.value = input.value.toUpperCase()
 				break
 
 			case 'nombreProducto':
-				validarCampo(expresiones.nombreProducto, e.target, e.target.name)
-				e.target.value = mayuscula(e.target.value)
+				validarCampo(expresiones.nombreProducto, input, input.name)
+				input.value = mayuscula(input.value)
 				break
 
 			case 'stock':
-				validarCampo(expresiones.stock, e.target, e.target.name)
+				validarCampo(expresiones.stock, input, input.name)
 				break
 
 			case 'precio':
-				validarCampo(expresiones.precio, e.target, e.target.name)
+				validarCampo(expresiones.precio, input, input.name)
 				break
 
 			case 'nombreProveedor':
-				validarCampo(expresiones.nombreNegocio, e.target, e.target.name)
-				e.target.value = mayuscula(e.target.value)
+				validarCampo(expresiones.nombreNegocio, input, input.name)
+				input.value = mayuscula(input.value)
 				break
 
 			case 'iva':
-				validarCampo(expresiones.iva, e.target, e.target.name)
+				validarCampo(expresiones.iva, input, input.name)
 				break
 
 			case 'dolar':
-				validarCampo(expresiones.dolar, e.target, e.target.name)
+				validarCampo(expresiones.dolar, input, input.name)
 				break
 
 			case 'peso':
-				validarCampo(expresiones.peso, e.target, e.target.name)
+				validarCampo(expresiones.peso, input, input.name)
 				break
 		}
 	}
@@ -244,11 +260,11 @@ const validar = formulario => {
 			if (!campos.nombreNegocio) {
 				e.preventDefault()
 				error(formulario.nombreNegocio)
-				alerta('Verifique el nombre del negocio')
+				alerta.fire({title: 'Verifique el nombre del negocio'})
 			} else if (!campos.rif) {
 				e.preventDefault()
 				error(formulario.rif)
-				alerta("Verifique el RIF")
+				alerta.fire({title: 'Verifique el RIF'})
 			}
 
 		if (idForm === 'formMonedas') {
@@ -269,42 +285,49 @@ const validar = formulario => {
 			}
 		}
 
-		if (idForm === 'formAdmin'
+		if (idForm === 'registrarAdmin'
 			|| idForm === 'formLogin'
 			|| idForm === 'formularioRegistrarUsuario'
-			|| idForm == 'formPerfil')
+			|| idForm == 'formPerfil'
+		)
 			if (!campos.usuario) {
 				e.preventDefault()
-				error(w3.getElement("input[name='usuario']"))
-				alerta('Verifique el usuario')
+				error(formulario.usuario)
+				alerta.fire({title: 'Verifique el usuario'})
 			}
 
-		if (idForm === 'formAdmin'
+		if (idForm === 'registrarAdmin'
 			|| idForm === 'formularioRegistrarUsuario'
 			|| idForm === 'formClave'
-			|| idForm === 'formActualizarClave')
+			|| idForm === 'formActualizarClave'
+		)
 			if (!campos.clave) {
 				e.preventDefault()
-				error(w3.getElement("input[name='nuevaClave']"))
-				alerta('Verifique la contraseña')
+				error(formulario.nuevaClave)
+				alerta.fire({title: 'Verifique la contraseña'})
 			} else if (!campos.confirmar) {
 				e.preventDefault()
-				error(w3.getElement("input[name='confirmar']"))
-				alerta('Las contraseñas deben ser iguales')
+				error(formulario.confirmar)
+				alerta({title: 'Las contraseñas deben ser iguales'})
 			}
 
-		if (idForm === 'formAdmin'
+		if (idForm === 'registrarAdmin'
 			|| idForm === 'formularioRegistrarCliente'
 			|| idForm === 'formularioRegistrarUsuario'
-			|| idForm === 'formPerfil')
+			|| idForm === 'formPerfil'
+		)
 			if (!campos.cedula) {
 				e.preventDefault()
-				error(w3.getElement("input[name='cedula']"))
-				alerta('Verifique la cédula')
+				error(formulario.cedula)
+				alerta({title: 'Verifique la cédula'})
 			} else if (!campos.nombre) {
 				e.preventDefault()
-				error(w3.getElement("input[name='nombre']"))
-				alerta('Verifique el nombre')
+				error(formulario.nombre)
+				alerta.fire({title: 'Verifique el nombre'})
+			} else if (formulario.telefono.value && !campos.telefono) {
+				e.preventDefault()
+				error(formulario.telefono)
+				alerta.fire({title: 'Verifique el teléfono'})
 			}
 
 		if (idForm === 'formLogin') {

@@ -1,30 +1,4 @@
 /**
- * MUESTRA U OCULTA LAS CONTRASEÑAS
- * @param  {HTMLElement} ojo El elemento que muestra u oculta la contraseña
- */
-const verClave = ojo => {
-	let input = ojo.parentElement.previousElementSibling
-	if (input.type == 'password') {
-		input.type = 'text'
-		ojo.className = 'icon-eye-slash'
-	} else {
-		input.type = 'password'
-		ojo.className = 'icon-eye'
-	}
-}
-
-const ojos = w3.getElements('.icon-eye')
-if (ojos !== undefined)
-	ojos.forEach(ojo => ojo.addEventListener('click', e => verClave(e.target)))
-
-/**
- * Alias de querySelector()
- * @param  {string} id Un selector CSS
- * @return {HTMLElement?}    Un elemento HTML
- */
-w3.getElement = id => w3.getElements(id)[0]
-
-/**
  * CREA UN RELOJ EN TIEMPO REAL EN EL CONTENEDOR ESPECIFICADO
  * @param  {HTMLElement} contenedor El contenedor del reloj
  */

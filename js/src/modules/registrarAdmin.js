@@ -1,20 +1,16 @@
 import actualizarFoto from './actualizarFoto'
 import validar from './validar'
+import verClave from './verClave'
 
 /**
  * @return {[Promise<bool>]}
  */
-const registrarNegocio = () => {
+const registrarAdmin = () => {
 	return new Promise(resolve => {
-		axios.get('backend/registrarNegocio.php', { params: { comprobarNegocio: true } })
-			.then(respuesta => {
-				if (respuesta.data)
-					setTimeout(() => resolve(true), 1000)
-			})
-		
-		const formulario = document.querySelector('#registrarNegocio')
+		const formulario = document.querySelector('#registrarAdmin')
 		const icono      = document.querySelector('.icon-refresh')
 		actualizarFoto()
+		verClave()
 		validar(formulario)
 
 		formulario.addEventListener('submit', e => {
@@ -24,12 +20,12 @@ const registrarNegocio = () => {
 			icono.style.display = 'inline-block'
 			
 			const formData = new FormData(formulario)
-			formData.append('registrarNegocio', true)
-			const file = formulario.logo.files[0]
+			formData.append('registrarAdmin', true)
+			const file = formulario.foto.files[0]
 			
-			if (file) formData.append('logo', file)
+			if (file) formData.append('foto', file)
 
-			axios.post('backend/registrarNegocio.php', formData)
+			axios.post('backend/registrarAdmin.php', formData)
 				.then(respuesta => {
 					respuesta = respuesta.data
 					
@@ -58,4 +54,4 @@ const registrarNegocio = () => {
 	})
 }
 
-export default registrarNegocio
+export default registrarAdmin

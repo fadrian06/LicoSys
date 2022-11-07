@@ -1,3 +1,7 @@
+/**
+ * Mixin para alertas
+ * @type {Swal.mixin}
+ */
 const alerta = Swal.mixin({
 	icon: 'error',
 	toast: true,
@@ -7,6 +11,10 @@ const alerta = Swal.mixin({
 	showConfirmButton: false
 })
 
+/**
+ * Mixin para advertencias
+ * @type {Swal.mixin}
+ */
 const advertencia = Swal.mixin({
 	icon: 'warning',
 	toast: true,
@@ -16,6 +24,10 @@ const advertencia = Swal.mixin({
 	showConfirmButton: false
 })
 
+/**
+ * Mixin para notificaciones
+ * @type {Swal.mixin}
+ */
 const notificacion = Swal.mixin({
 	icon: 'success',
 	toast: true,

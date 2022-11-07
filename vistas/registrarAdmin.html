@@ -1,0 +1,90 @@
+
+<div class="w3-modal w3-show w3-padding-large">
+  <form class="w3-modal-content w3-padding-top10 w3-round-xlarge w3-border-scroll" id="registrarAdmin" method="POST" enctype="multipart/form-data" autocomplete="off">
+    <h1 class="w3-center w3-oswald">CREE SU CUENTA DE <b class="w3-text-teal">ADMINISTRADOR</b></h1>
+    <div class="w3-step-container"><span class="w3-step">1</span><span class="w3-step w3-teal">2</span></div>
+    <div class="w3-row w3-margin-top w3-topbar">
+      <div class="w3-twothird w3-rightbar w3-bottombar">
+        <fieldset class="w3-border-0">
+          <legend class="w3-large w3-padding"><b>Cédula:</b></legend>
+          <div class="w3-row w3-border-bottom w3-center">
+            <div class="icon-edit w3-col s2 w3-xxlarge w3-teal"></div>
+            <div class="w3-col s8 w3-display-container">
+              <input class="w3-input w3-border-0 w3-large" id="cedula" text="number" name="cedula" placeholder="Cédula" required="required" minlenght="7" maxlenght="8" pattern="[^e]?\d{7,8}" title="Un número entre 7 y 8 dígitos"/>
+            </div>
+            <div class="w3-rest w3-xxlarge w3-text-green icon-check w3-animate-zoom w3-hide"></div>
+            <div class="w3-rest w3-xxlarge w3-text-red icon-close w3-animate-zoom w3-hide"></div>
+          </div>
+        </fieldset>
+        <fieldset class="w3-border-0">
+          <legend class="w3-large w3-padding"><b>Nombre:</b></legend>
+          <div class="w3-row w3-border-bottom w3-center">
+            <div class="icon-edit w3-col s2 w3-xxlarge w3-teal"></div>
+            <div class="w3-col s8 w3-display-container">
+              <input class="w3-input w3-border-0 w3-large" id="nombre" name="nombre" placeholder="Nombre" autocapitalize="autocapitalize" required="required" minlenght="4" maxlenght="20" pattern="[a-zA-ZÁáÉéÍíÓóÚúÑñ\s]{4,20}" title="Sólo se permiten entre 4 y 20 letras"/>
+            </div>
+            <div class="w3-rest w3-xxlarge w3-text-green icon-check w3-animate-zoom w3-hide"></div>
+            <div class="w3-rest w3-xxlarge w3-text-red icon-close w3-animate-zoom w3-hide"></div>
+          </div>
+        </fieldset>
+        <fieldset class="w3-border-0">
+          <legend class="w3-large w3-padding"><b>Usuario:</b></legend>
+          <div class="w3-row w3-border-bottom w3-center">
+            <div class="icon-edit w3-col s2 w3-xxlarge w3-teal"></div>
+            <div class="w3-col s8 w3-display-container">
+              <input class="w3-input w3-border-0 w3-large" id="usuario" name="usuario" placeholder="@usuario" required="required" minlenght="4" maxlength="20" pattern="@?[\w-]{4,20}" title="Sólo se permiten entre 4 y 20 letras, números y símbolos(@ - _)"/>
+            </div>
+            <div class="w3-rest w3-xxlarge w3-text-green icon-check w3-animate-zoom w3-hide"></div>
+            <div class="w3-rest w3-xxlarge w3-text-red icon-close w3-animate-zoom w3-hide"></div>
+          </div>
+        </fieldset>
+        <fieldset class="w3-border-0">
+          <legend class="w3-large w3-padding"><b>Nueva contraseña:</b></legend>
+          <div class="w3-row w3-border-bottom w3-center">
+            <div class="icon-edit w3-col s2 w3-xxlarge w3-teal"></div>
+            <div class="w3-col s8 w3-display-container">
+              <input class="w3-input w3-border-0 w3-large" id="nuevaClave" type="password" name="nuevaClave" placeholder="Crear contraseña" required="required" minlenght="4" maxlength="20" pattern="[\w.-@#*]{4,20}" title="Sólo se permiten entre 4 y 20 letras, números y símbolos (. - _ @ # *)"/>
+            </div>
+            <div class="w3-rest w3-xlarge icon-eye"></div>
+            <div class="w3-rest w3-xxlarge w3-text-green icon-check w3-animate-zoom w3-hide"></div>
+            <div class="w3-rest w3-xxlarge w3-text-red icon-close w3-animate-zoom w3-hide"></div>
+          </div>
+        </fieldset>
+        <fieldset class="w3-border-0">
+          <legend class="w3-large w3-padding"><b>Confirmar contraseña:</b></legend>
+          <div class="w3-row w3-border-bottom w3-center">
+            <div class="icon-edit w3-col s2 w3-xxlarge w3-teal"></div>
+            <div class="w3-col s8 w3-display-container">
+              <input class="w3-input w3-border-0 w3-large" id="confirmar" type="password" name="confirmar" placeholder="Repetir contraseña" required="required" minlenght="4" maxlength="20" pattern="[\w.-@#*]{4,20}" title="Sólo se permiten entre 4 y 20 letras, números y símbolos (. - _ @ # *)"/>
+            </div>
+            <div class="w3-rest w3-xlarge icon-eye"></div>
+            <div class="w3-rest w3-xxlarge w3-text-green icon-check w3-animate-zoom w3-hide"></div>
+            <div class="w3-rest w3-xxlarge w3-text-red icon-close w3-animate-zoom w3-hide"></div>
+          </div>
+        </fieldset>
+        <fieldset class="w3-border-0">
+          <legend class="w3-large w3-padding"><b>Teléfono <sub class='w3-text-blue'>(opcional)</sub>:</b></legend>
+          <div class="w3-row w3-border-bottom w3-center">
+            <div class="icon-edit w3-col s2 w3-xxlarge w3-teal"></div>
+            <div class="w3-col s8 w3-display-container">
+              <input class="w3-input w3-border-0 w3-large" id="telefono" type="tel" name="telefono" placeholder="Introduce un teléfono" minlenght="11" maxlength="16" pattern="(0|\+57|\+58)[\s-]?(412|414|424|416|426)-?\d{3}-?\d{4}" title="Ejemplos de teléfonos válidos (0416-111-1111 o +57-1119999)"/>
+            </div>
+            <div class="w3-rest w3-xxlarge w3-text-green icon-check w3-animate-zoom w3-hide"></div>
+            <div class="w3-rest w3-xxlarge w3-text-red icon-close w3-animate-zoom w3-hide"></div>
+          </div>
+        </fieldset>
+        <div class="w3-container w3-margin">
+          <button class="w3-button w3-block w3-teal w3-round-large">Registrar
+            <div class="w3-large w3-margin-left icon-refresh w3-spin w3-hide"></div>
+          </button>
+        </div>
+      </div>
+      <div class="w3-third w3-center">
+        <div class="w3-container w3-margin-top"><b class="w3-block w3-medium">Foto de perfil</b><b class="w3-block w3-small w3-text-blue">Opcional</b></div>
+        <label class="w3-block w3-display-container w3-hover-opacity" for="foto"><span class="icon-camera w3-xxxlarge w3-display-middle w3-display-hover"></span><img class="w3-image image-result w3-round-large" src="assets/images/avatar1.png" style="width: 150px"/></label>
+        <input class="w3-hide" id="foto" type="file" name="foto" accept=".jpeg, .jpg, .png"/>
+        <label class="w3-button w3-margin w3-teal w3-round-large" for="foto">Sube una foto</label>
+      </div>
+    </div>
+  </form>
+</div>

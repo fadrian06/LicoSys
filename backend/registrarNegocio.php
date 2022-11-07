@@ -1,5 +1,12 @@
 <?php
 
+	if(isset($_GET['comprobarNegocio'])):
+		require 'conexion.inc';
+		require 'includes/funciones.inc';
+		echo consulta('SELECT * FROM negocios') ?: 'false';
+		exit;
+	endif;
+
 	if(isset($_POST['registrarNegocio'])):
 		require 'conexion.inc';
 		require 'includes/funciones.inc';
