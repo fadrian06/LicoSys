@@ -30,8 +30,7 @@
 	<head>
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-		<meta name="author" content="Franyer Sánchez">
-		<meta name="author" content="Daniel Mancilla">
+		<meta name="author" content="Franyer Sánchez, Daniel Mancilla">
 		<meta name="description" content="Sistema Automatizado de Gestión de Compras y Ventas">
 		<meta name="theme-color" content="black">
 

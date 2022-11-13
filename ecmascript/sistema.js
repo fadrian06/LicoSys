@@ -84,7 +84,7 @@ if(w3.getElement("#negocios")){
 			reverseButtons: true,
 			showCloseButton: true,
 			showLoaderOnConfirm: true,
-			preConfirm: async eleccion => {
+			preConfirm: async () => {
 				return await axios("php/respaldarBD.php", {
 					params: {
 						respaldar: true
@@ -114,7 +114,7 @@ if(w3.getElement("#negocios")){
 			reverseButtons: true,
 			showCloseButton: true,
 			showLoaderOnConfirm: true,
-			preConfirm: async eleccion => {
+			preConfirm: async () => {
 				return await axios("php/restaurarBD.php", {
 					params: {
 						restaurar: true
@@ -136,7 +136,7 @@ if(w3.getElement("#negocios")){
 				});
 				setTimeout(() => {
 					let href = window.location.href;
-					href = href.replace(/negocio/g, coincidencia => coincidencia = "salir");
+					href = href.replace(/negocio/g, coincidencia => {coincidencia = 'salir'; console.log(coincidencia)});
 					window.location.href = href;
 				}, 3000);
 			} else if(!resultado.isDismissed) {
@@ -316,7 +316,7 @@ if(w3.getElement("#panelNuevaVenta")){
 	
 	botonesClientes.forEach(boton => {
 		const spans = boton.children;
-		boton.addEventListener("click", e => {
+		boton.addEventListener("click", () => {
 			let texto = spans[0].innerHTML;
 			inputCliente[1].value = texto.substring(2);
 			inputCliente[0].nextElementSibling.innerHTML = "v-" + texto.substring(2);
@@ -395,7 +395,7 @@ if(w3.getElement("#panelNuevaCompra")){
 	
 	botonesProveedores.forEach(boton => {
 		const spans = boton.children;
-		boton.addEventListener("click", (e) => {
+		boton.addEventListener("click", () => {
 			let texto = spans[0].innerHTML;
 			inputProveedor[0].value = texto;
 			inputProveedor[0].nextElementSibling.innerHTML = "ID-" + spans[1].innerHTML;
@@ -474,6 +474,18 @@ if(w3.getElement('#formEditar')){
 	ventanaEmergente(form, overlay);
 }
 
+/*===================================
+=            VER FACTURA            =
+===================================*/
+if(w3.getElement('#modalFactura')){
+	const form = w3.getElement('form[method="POST"]')
+	form.onsubmit = e => e.preventDefault()
+	
+	const modalFactura = w3.getElement('#modalFactura')
+	const botones = w3.getElements('a[name="factura"]')
+	botones.forEach(boton => modal(boton, modalFactura, overlay))
+}
+
 /*===========================
 =            LOG            =
 ===========================*/
@@ -484,6 +496,6 @@ if(w3.getElement("#log")){
 				params: {
 					vaciar: true
 				}
-		}).then(respuesta => location.reload());
+		}).then(() => location.reload());
 	});
 }

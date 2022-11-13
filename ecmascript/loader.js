@@ -6,10 +6,10 @@ const promesa = Swal.fire({
 	allowOutsideClick: false,
 	allowEscapeKey: false,
 	allowEnterKey: false,
-	stopKeydownPropagation: false
+	stopKeydownPropagation: true
 })
 promesa.then(() => {
-	w3.getElement('#formNegocio').classList.replace('w3-hide', 'w3-show');
+	w3.getElement('#formNegocio').classList.replace('w3-hide', 'w3-show')
 	Swal.fire({
 		title: '<div class="loader"><span>B</span><span>I</span><span>E</span><span>N</span><span>V</span><span>E</span><span>N</span><span>I</span><span>D</span><span>O</span><span>.</span><span>.</span><span>.</span></div>',
 		showConfirmButton: false,
@@ -17,7 +17,7 @@ promesa.then(() => {
 		allowOutsideClick: false,
 		allowEscapeKey: false,
 		allowEnterKey: false,
-		stopKeydownPropagation: false,
+		stopKeydownPropagation: true,
 		grow: 'row'
-	});
-});
+	})
+})

@@ -59,7 +59,7 @@
 					<input type="hidden" name="nombreProducto" class="inputProducto" value="<?=$nombre ?? ""?>">
 					<input type="hidden" name="excento" value="<?=$excento ?? ""?>">
 					<input type="hidden" name="iva" value="<?=getIVA()?>">
-					<input class="inputCliente" name="ci" type="hidden" value="<?=$_SESSION["ciCliente"] ?? ""?>">
+					<input class="inputCliente" name="ci" type="hidden" value="<?=$_SESSION["ciCliente"] ?? "111111111"?>">
 					<input style="width: max-content" class='w3-button w3-blue w3-round-large w3-large w3-hide' type='submit' name='agregarProducto' value="+">
 				</td>
 			</form>

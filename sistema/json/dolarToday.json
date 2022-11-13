@@ -20,46 +20,46 @@
         "e": "PETRO"
     },
     "_timestamp": {
-        "epoch": "1666141209",
-        "fecha": "Octubre 18, 2022 09:00 PM",
-        "fecha_corta": "Oct 18, 2022",
-        "fecha_corta2": "Oct 2022",
-        "fecha_nice": "Octubre 18, 2022",
-        "dia": "Martes",
-        "dia_corta": "Mar"
+        "epoch": "1668358807",
+        "fecha": "Noviembre 13, 2022 01:00 PM",
+        "fecha_corta": "Nov 13, 2022",
+        "fecha_corta2": "Nov 2022",
+        "fecha_nice": "Noviembre 13, 2022",
+        "dia": "Domingo",
+        "dia_corta": "Dom"
     },
     "USD": {
-        "transferencia": 8.79,
-        "transfer_cucuta": 8.79,
-        "efectivo": 8.88,
-        "efectivo_real": 8.88,
-        "efectivo_cucuta": 8.88,
-        "promedio": 8.79,
-        "promedio_real": 8.28,
-        "cencoex": 496.74,
-        "sicad1": 8.75,
-        "sicad2": 8.28,
-        "bitcoin_ref": 8.75,
-        "localbitcoin_ref": 8.75,
-        "dolartoday": 8.79
+        "transferencia": 10.75,
+        "transfer_cucuta": 10.75,
+        "efectivo": 9.83,
+        "efectivo_real": 9.83,
+        "efectivo_cucuta": 9.83,
+        "promedio": 10.75,
+        "promedio_real": 9.01,
+        "cencoex": 540.53,
+        "sicad1": 10.73,
+        "sicad2": 9.01,
+        "bitcoin_ref": 10.73,
+        "localbitcoin_ref": 10.73,
+        "dolartoday": 10.75
     },
     "EUR": {
-        "transferencia": 8.53,
-        "transfer_cucuta": 8.53,
-        "efectivo": 8.61,
-        "efectivo_real": 8.61,
-        "efectivo_cucuta": 8.61,
-        "promedio": 8.53,
-        "promedio_real": 8.03,
-        "cencoex": 481.84,
-        "sicad1": 8.49,
-        "sicad2": 8.03,
-        "dolartoday": 8.53
+        "transferencia": 10.43,
+        "transfer_cucuta": 10.43,
+        "efectivo": 9.54,
+        "efectivo_real": 9.54,
+        "efectivo_cucuta": 9.54,
+        "promedio": 10.43,
+        "promedio_real": 8.74,
+        "cencoex": 524.31,
+        "sicad1": 10.41,
+        "sicad2": 8.74,
+        "dolartoday": 10.43
     },
     "COL": {
-        "efectivo": 490.0000,
-        "transfer": 490.0000,
-        "compra": 490.0000,
+        "efectivo": 480.0000,
+        "transfer": 480.0000,
+        "compra": 480.0000,
         "venta": 523.80
     },
     "GOLD": {
@@ -69,11 +69,11 @@
         "rate": 1
     },
     "USDCOL": {
-        "setfxsell": 4350.00,
-        "setfxbuy": 4410.00,
-        "rate": 5564.00,
-        "ratecash": 4358.00,
-        "ratetrm": 4350.00,
+        "setfxsell": 4720.00,
+        "setfxbuy": 4700.00,
+        "rate": 5767.00,
+        "ratecash": 4517.00,
+        "ratetrm": 4720.00,
         "trmfactor": 0.2,
         "trmfactorcash": 0.06
     },
@@ -87,7 +87,7 @@
         "reservas": "9.444.000"
     },
     "MISC": {
-        "petroleo": "57,83",
-        "reservas": "9,4"
+        "petroleo": "93,22",
+        "reservas": "9,9"
     }
 }

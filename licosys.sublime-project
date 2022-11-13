@@ -4,20 +4,22 @@
 			"name": "LicoSys",
 			"path": ".",
 			"folder_exclude_patterns": [
-				// "backup",
-				// "docs",
-				// "fuentes",
-				// "iconos",
-				// "imagenes",
-				// "js",
-				// "librerias",
-				// "node_modules"
+				"css",
+				"backup",
+				"docs",
+				"fuentes",
+				"iconos",
+				"imagenes",
+				"js",
+				"librerias",
+				"node_modules"
 			],
 			"file_exclude_patterns": [
-				// ".htaccess",
-				// "babel.config.json",
-				// "package-lock.json",
-				// "package.json"
+				".htaccess",
+				"babel.config.json",
+				"package-lock.json",
+				// "package.json",
+				".gitignore"
 			]
 		},
 	],

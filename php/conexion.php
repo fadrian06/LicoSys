@@ -8,13 +8,13 @@
 	const BD      = 'licoreria';
 	const CHARSET = 'utf8';
 
-	$conexion = @new Mysqli(HOST, USUARIO, CLAVE);
+	$conexion = @new MySQLi(HOST, USUARIO, CLAVE);
 
 	if ($conexion->connect_errno)
 		exit("Error, no se pudo conectar a MySQL: <b>$conexion->error</b><br>");
 
 	$conexion->set_charset(CHARSET)
-		or exit("Error cargando el conjunto de caracteres <b>".CHARSET.": <u>$conexion->error</u></b><br>");
+		or exit("Error cargando el conjunto de caracteres <b>" . CHARSET . ": <u>$conexion->error</u></b><br>");
 
 	if (!$conexion->select_db(BD)):
 		$sql = file_get_contents('backup/inicializar.sql');

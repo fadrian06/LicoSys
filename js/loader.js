@@ -8,7 +8,7 @@ var promesa = Swal.fire({
   allowOutsideClick: false,
   allowEscapeKey: false,
   allowEnterKey: false,
-  stopKeydownPropagation: false
+  stopKeydownPropagation: true
 });
 promesa.then(function () {
   w3.getElement('#formNegocio').classList.replace('w3-hide', 'w3-show');
@@ -19,7 +19,7 @@ promesa.then(function () {
     allowOutsideClick: false,
     allowEscapeKey: false,
     allowEnterKey: false,
-    stopKeydownPropagation: false,
+    stopKeydownPropagation: true,
     grow: 'row'
   });
 });

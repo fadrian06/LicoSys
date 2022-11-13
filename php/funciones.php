@@ -10,22 +10,21 @@
 	# $llavePrimaria ==> indica la llave primaria INT o STRING en la cual quieres operar
 	# $desactivados ==> un array multimensional que contiene los datos de registros desactivados
 	# $editable ==> indica si los registros se pueden EDITAR
-	function TABLA(array $datos, array $encabezados, $desactivar = false, $tabla = "", $llavePrimaria = "", array $desactivados = [], $editable = false) {
+	function TABLA(array $datos, array $encabezados, $desactivar = false, $tabla = '', $llavePrimaria = '', array $desactivados = [], $editable = false, $factura = false) {
 		echo "
 			<div class='w3-padding-large w3-responsive'>
 				<table class='w3-table w3-centered'>
 					<tr>
 		";
-		for ($i = 0, $intEncabezados = count($encabezados); $i < $intEncabezados; $i++):
+		for ($i = 0, $intEncabezados = count($encabezados); $i < $intEncabezados; $i++)
 			echo "<th class='w3-border w3-border-black w3-blue'>$encabezados[$i]</th>";
-		endfor;
 		if($desactivar):
-			echo "<th></th>";
-			$_SESSION["llavePrimaria"] = $llavePrimaria;
-			$_SESSION["tabla"] = $tabla;
+			echo '<th></th>';
+			$_SESSION['llavePrimaria'] = $llavePrimaria;
+			$_SESSION['tabla'] = $tabla;
 		endif;
-		echo $desactivar ? "<th></th>" : "";
-		echo "</tr>";
+		echo $factura ? '<th></th>' : '';
+		echo '</tr>';
 		foreach ($datos as $dato):
 			echo "
 				<tr>
@@ -41,11 +40,12 @@
 				 	</td>
 				";
 			endfor;
-			if($desactivar || $editable):
-				echo "<td>";
+			if($desactivar || $editable || $factura):
+				echo '<td>';
 				if($desactivar) echo "<input class='w3-button w3-red w3-round-xlarge' type='submit' name='desactivar' value='Desactivar'>";
 				if($editable && $_SESSION["cargo"] == "a") echo "<input class='w3-button w3-indigo w3-round-large' type='submit' name='editar' value='Editar'";
-				echo "</td>";
+				if($factura) echo "<a class='w3-button w3-indigo w3-round-large' name='factura'>Ver Factura</a>";
+				echo '</td>';
 			endif;
 			echo "
 					</form>
@@ -72,7 +72,7 @@
 		endif;
 	}
 
-	function mostrarDesactivados(array $datos, array $encabezados, string $tabla, string $llavePrimaria){
+	function mostrarDesactivados(array $datos, array $encabezados/*, string $tabla, string $llavePrimaria*/){
 		echo "
 			<details class='w3-section w3-padding-large w3-responsive'>
 				<summary class='w3-large w3-bottombar w3-border-red w3-round-large'>Desactivados</summary>
@@ -178,7 +178,7 @@
 	// Devuelve NULL en caso de error
 	function setRegistro(string $sql):?int{
 		global $conexion;
-		$resultado = mysqli_query($conexion, $sql);
+		mysqli_query($conexion, $sql);
 		$afectadas = mysqli_affected_rows($conexion);
 		return $afectadas != -1 ? $afectadas : NULL;
 	}

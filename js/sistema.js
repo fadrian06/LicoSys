@@ -94,7 +94,7 @@ if (w3.getElement("#negocios")) {
       showCloseButton: true,
       showLoaderOnConfirm: true,
       preConfirm: function () {
-        var _preConfirm = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee(eleccion) {
+        var _preConfirm = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
           return _regeneratorRuntime().wrap(function _callee$(_context) {
             while (1) {
               switch (_context.prev = _context.next) {
@@ -117,7 +117,7 @@ if (w3.getElement("#negocios")) {
           }, _callee);
         }));
 
-        function preConfirm(_x) {
+        function preConfirm() {
           return _preConfirm.apply(this, arguments);
         }
 
@@ -146,7 +146,7 @@ if (w3.getElement("#negocios")) {
       showCloseButton: true,
       showLoaderOnConfirm: true,
       preConfirm: function () {
-        var _preConfirm2 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2(eleccion) {
+        var _preConfirm2 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2() {
           return _regeneratorRuntime().wrap(function _callee2$(_context2) {
             while (1) {
               switch (_context2.prev = _context2.next) {
@@ -169,7 +169,7 @@ if (w3.getElement("#negocios")) {
           }, _callee2);
         }));
 
-        function preConfirm(_x2) {
+        function preConfirm() {
           return _preConfirm2.apply(this, arguments);
         }
 
@@ -191,7 +191,8 @@ if (w3.getElement("#negocios")) {
         setTimeout(function () {
           var href = window.location.href;
           href = href.replace(/negocio/g, function (coincidencia) {
-            return coincidencia = "salir";
+            coincidencia = 'salir';
+            console.log(coincidencia);
           });
           window.location.href = href;
         }, 3000);
@@ -386,7 +387,7 @@ if (w3.getElement("#panelNuevaVenta")) {
   var tooltips = w3.getElement(".tooltip").children;
   botonesClientes.forEach(function (boton) {
     var spans = boton.children;
-    boton.addEventListener("click", function (e) {
+    boton.addEventListener("click", function () {
       var texto = spans[0].innerHTML;
       inputCliente[1].value = texto.substring(2);
       inputCliente[0].nextElementSibling.innerHTML = "v-" + texto.substring(2);
@@ -469,7 +470,7 @@ if (w3.getElement("#panelNuevaCompra")) {
   var _tooltips = w3.getElement(".tooltip").children;
   botonesProveedores.forEach(function (boton) {
     var spans = boton.children;
-    boton.addEventListener("click", function (e) {
+    boton.addEventListener("click", function () {
       var texto = spans[0].innerHTML;
       inputProveedor[0].value = texto;
       inputProveedor[0].nextElementSibling.innerHTML = "ID-" + spans[1].innerHTML;
@@ -558,6 +559,24 @@ if (w3.getElement('#formEditar')) {
   var form = w3.getElement('#formEditar');
   ventanaEmergente(form, overlay);
 }
+/*===================================
+=            VER FACTURA            =
+===================================*/
+
+
+if (w3.getElement('#modalFactura')) {
+  var _form = w3.getElement('form[method="POST"]');
+
+  _form.onsubmit = function (e) {
+    return e.preventDefault();
+  };
+
+  var modalFactura = w3.getElement('#modalFactura');
+  var botones = w3.getElements('a[name="factura"]');
+  botones.forEach(function (boton) {
+    return modal(boton, modalFactura, overlay);
+  });
+}
 /*===========================
 =            LOG            =
 ===========================*/
@@ -570,7 +589,7 @@ if (w3.getElement("#log")) {
       params: {
         vaciar: true
       }
-    }).then(function (respuesta) {
+    }).then(function () {
       return location.reload();
     });
   });

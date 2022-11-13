@@ -18,6 +18,6 @@
 			?>
 		</div>
 	</div>
-	<input class="w3-button w3-disabled w3-border w3-border-black inputCliente" type="text" disabled>
+	<input class="w3-button w3-disabled w3-border w3-border-black inputCliente" type="text" disabled value="No especificado">
 	<b class="w3-button w3-disabled w3-border w3-border-black">v-<?=isset($_SESSION["ciCliente"]) ? $_SESSION["ciCliente"] : ""?></b>
 </section>

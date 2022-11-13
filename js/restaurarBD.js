@@ -9,16 +9,16 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
 Swal.fire({
-  title: "Hay una copia de seguridad existente.",
-  html: "<b class='w3-text-green'>¿Desea restaurarla?</b>",
-  icon: "question",
+  title: 'Hay una copia de seguridad existente.',
+  html: '<b class="w3-text-green">¿Desea restaurarla?</b>',
+  icon: 'question',
   toast: true,
-  position: "bottom-end",
+  position: 'bottom-end',
   showCancelButton: true,
-  confirmButtonText: "Si",
-  cancelButtonText: "No",
-  confirmButtonColor: "#00796B",
-  cancelButtonColor: "#a6001a",
+  confirmButtonText: 'Si',
+  cancelButtonText: 'No',
+  confirmButtonColor: '#00796B',
+  cancelButtonColor: '#a6001a',
   showCloseButton: true,
   showLoaderOnConfirm: true,
   preConfirm: function () {
@@ -28,7 +28,7 @@ Swal.fire({
           switch (_context.prev = _context.next) {
             case 0:
               _context.next = 2;
-              return axios("sistema/php/restaurarBD.php", {
+              return axios('sistema/php/restaurarBD.php', {
                 params: {
                   restaurar: true
                 }
@@ -52,14 +52,14 @@ Swal.fire({
     return preConfirm;
   }()
 }).then(function (resultado) {
-  if (!resultado.isDismissed && resultado.value.status == 200 && resultado.value.data) {
+  if (!resultado.isDismissed && resultado.value.status === 200 && resultado.value.data) {
     var tiempo = 1000 * 20;
     /*20seg*/
 
     Swal.fire({
-      title: "Copia de seguridad restaurada exitósamente",
+      title: 'Copia de seguridad restaurada exitósamente',
       html: '<b class="w3-xlarge w3-text-green">REINICIANDO EL SISTEMA</b>',
-      icon: "success",
+      icon: 'success',
       timer: tiempo,
       timerProgressBar: true,
       allowOutsideClick: false,
@@ -70,7 +70,5 @@ Swal.fire({
     setTimeout(function () {
       return location.reload();
     }, tiempo);
-  } else if (!resultado.isDismissed) {
-    alerta("Ha ocurrido un error, por favor intente nuevamente");
-  }
+  } else if (!resultado.isDismissed) alerta('Ha ocurrido un error, por favor intente nuevamente');
 });
