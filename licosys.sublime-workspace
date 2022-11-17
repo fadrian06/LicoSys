@@ -4,6 +4,46 @@
 		"selected_items":
 		[
 			[
+				"com",
+				"comprobarBD"
+			],
+			[
+				"swal",
+				"Swal"
+			],
+			[
+				"re",
+				"replace"
+			],
+			[
+				"w3-padding-top-",
+				"w3-padding-top-48"
+			],
+			[
+				"w3-padding-top",
+				"w3-padding-top-24"
+			],
+			[
+				"icon-do",
+				"icon-dollar"
+			],
+			[
+				"w3-res",
+				"w3-responsive"
+			],
+			[
+				"w3-right",
+				"w3-right-align"
+			],
+			[
+				"logo",
+				"logo.png"
+			],
+			[
+				"reg",
+				"registrarNegocio"
+			],
+			[
 				"comprobar",
 				"comprobarNegocio"
 			],
@@ -687,7 +727,7 @@
 				]
 			],
 			[
-				"Build Stylus",
+				"Packages/User/Builds/CMD.sublime-build",
 				""
 			]
 		],
@@ -982,6 +1022,10 @@
 			[
 				"close",
 				"Project: Close"
+			],
+			[
+				"restar",
+				"LSP: Restart Server"
 			],
 			[
 				"action",
@@ -1289,23 +1333,47 @@
 	"file_history":
 	[
 		"/C/xampp/htdocs/licoreria/js/src/index.js",
-		"/C/xampp/htdocs/licoreria/package.json",
-		"/C/xampp/htdocs/licoreria/js/src/modules/registrarAdmin.js",
-		"/C/xampp/htdocs/licoreria/js/src/modules/registrarNegocio.js",
-		"/C/xampp/htdocs/licoreria/backend/registrarAdmin.php",
-		"/C/xampp/htdocs/licoreria/backend/includes/config.inc",
-		"/C/xampp/htdocs/licoreria/backend/conexion.inc",
-		"/C/xampp/htdocs/licoreria/js/src/modules/comprobarNegocio.js",
 		"/C/xampp/htdocs/licoreria/js/src/modules/comprobarBD.js",
-		"/C/xampp/htdocs/licoreria/js/src/comprobarNegocio.js",
-		"/C/xampp/htdocs/licoreria/backend/registrarNegocio.php",
-		"/C/xampp/htdocs/licoreria/backend/includes/funciones.inc",
+		"/C/xampp/htdocs/licoreria/backend/conexion.inc",
+		"/C/xampp/htdocs/licoreria/js/src/modules/registrarNegocio.js",
 		"/C/xampp/htdocs/licoreria/js/src/modules/restaurarBD.js",
+		"/C/xampp/htdocs/licoreria/js/src/modules/alertas.js",
+		"/C/xampp/htdocs/licoreria/backend/registrarAdmin.php",
+		"/C/xampp/htdocs/licoreria/js/src/modules/registrarAdmin.js",
+		"/C/xampp/htdocs/licoreria/package.json",
+		"/C/xampp/htdocs/licoreria/vistas/pug/head.pug",
+		"/C/xampp/htdocs/licoreria/backend/registrarNegocio.php",
 		"/C/xampp/htdocs/licoreria/vistas/pug/registrarAdmin.pug",
+		"/C/xampp/htdocs/licoreria/vistas/pug/registrarNegocio.pug",
+		"/C/Users/Franyer/Downloads/libraries & frameworks/w3/w3.js",
+		"/C/xampp/htdocs/licoreria/vistas/registrarNegocio.html",
+		"/C/xampp/htdocs/licoreria/licosys.sublime-project",
+		"/C/xampp/htdocs/licoreria/webpack.config.js",
+		"/C/xampp/htdocs/licoreria/run.bat",
+		"/C/xampp/htdocs/licoreria/sistema/ventas.php",
+		"/C/xampp/htdocs/licoreria/ecmascript/sistema.js",
+		"/C/xampp/htdocs/licoreria/php/funciones.php",
+		"/C/xampp/htdocs/licoreria/ecmascript/funciones.js",
+		"/C/xampp/htdocs/licoreria/sistema/parciales/indexModales.php",
+		"/C/xampp/htdocs/licoreria/sistema/inventario.php",
+		"/C/xampp/htdocs/licoreria/sistema/parciales/datosCliente.php",
+		"/C/xampp/htdocs/licoreria/sistema/parciales/datosVenta.php",
+		"/C/xampp/htdocs/licoreria/index.php",
+		"/C/xampp/htdocs/licoreria/parciales/formRegistroNegocio.php",
+		"/C/xampp/htdocs/licoreria/stylus/main.styl",
+		"/C/xampp/htdocs/licoreria/stylus/modales.styl",
+		"/C/xampp/htdocs/licoreria/parciales/head.php",
+		"/C/xampp/htdocs/licoreria/ecmascript/login.js",
+		"/C/xampp/htdocs/licoreria/ecmascript/loader.js",
+		"/C/xampp/htdocs/licoreria/php/conexion.php",
+		"/C/xampp/htdocs/licoreria/ecmascript/restaurarBD.js",
+		"/C/xampp/htdocs/licoreria/backend/includes/config.inc",
+		"/C/xampp/htdocs/licoreria/js/src/modules/comprobarNegocio.js",
+		"/C/xampp/htdocs/licoreria/js/src/comprobarNegocio.js",
+		"/C/xampp/htdocs/licoreria/backend/includes/funciones.inc",
 		"/C/xampp/htdocs/licoreria/js/src/modules/validar.js",
 		"/C/xampp/htdocs/licoreria/js/src/modules/verClave.js",
 		"/C/xampp/htdocs/licoreria/js/src/modules/funciones.js",
-		"/C/xampp/htdocs/licoreria/vistas/pug/registrarNegocio.pug",
 		"/C/xampp/htdocs/licoreria/backup/inicializar.sql",
 		"/C/xampp/htdocs/licoreria/backup/licosys.sql",
 		"/C/xampp/htdocs/licoreria/js/src/modules/actualizarFoto.js",
@@ -1316,7 +1384,6 @@
 		"/C/xampp/htdocs/licoreria/assets/images/avatar5.png",
 		"/C/xampp/htdocs/licoreria/assets/images/avatar3.png",
 		"/C/xampp/htdocs/licoreria/assets/images/avatar2.png",
-		"/C/xampp/htdocs/licoreria/js/src/modules/alertas.js",
 		"/C/xampp/htdocs/licoreria/js/src/modules/sistema.js",
 		"/C/xampp/htdocs/licoreria/css/stylus/includes/custom_scroll.styl",
 		"/C/xampp/htdocs/licoreria/css/stylus/includes/ajustes.styl",
@@ -1325,11 +1392,8 @@
 		"/C/xampp/htdocs/licoreria/backend/restaurarBD.php",
 		"/C/Users/Franyer/.gitconfig",
 		"/C/xampp/htdocs/licoreria/js/funciones.js",
-		"/C/xampp/htdocs/licoreria/vistas/pug/head.pug",
-		"/C/xampp/htdocs/licoreria/vistas/registrarNegocio.html",
 		"/C/xampp/htdocs/licoreria/vistas/head.html",
 		"/C/xampp/htdocs/licoreria/vistas/assets/libraries/tooltips.min.css",
-		"/C/xampp/htdocs/licoreria/index.php",
 		"/C/xampp/htdocs/licoreria/ew",
 		"/C/xampp/htdocs/licoreria/backend/funciones.php",
 		"/C/xampp/htdocs/licoreria/css/stylus/modales.styl",
@@ -1337,7 +1401,6 @@
 		"/C/xampp/htdocs/licoreria/css/main.css",
 		"/C/xampp/htdocs/licoreria/css/boton.css",
 		"/C/xampp/htdocs/licoreria/css/stylus/includes/generales.styl",
-		"/C/Users/Franyer/Downloads/libraries & frameworks/w3/w3.js",
 		"/C/Users/Franyer/AppData/Local/Temp/Rar$DIa26668.1606/globalState.js",
 		"/C/Users/Franyer/AppData/Local/Temp/Rar$DIa26668.992/instanceMethods.js",
 		"/C/Users/Franyer/AppData/Local/Temp/Rar$DIa26668.49649/keydown-handler.js",
@@ -1356,8 +1419,6 @@
 		"/C/xampp/htdocs/licoreria/js/loader.js",
 		"/C/xampp/htdocs/licoreria/backend/comprobarBD.php",
 		"/C/xampp/htdocs/licoreria/js/bundle.js",
-		"/C/xampp/htdocs/licoreria/licosys.sublime-project",
-		"/C/xampp/htdocs/licoreria/webpack.config.js",
 		"/C/xampp/htdocs/licoreria/assets/libraries/axios.min.js",
 		"/C/xampp/htdocs/licoreria/vistas/head.php",
 		"/C/xampp/htdocs/licoreria/vistas/footer.php",
@@ -1384,7 +1445,6 @@
 		"/C/xampp/htdocs/licoreria/.htaccess",
 		"/C/xampp/htdocs/licoreria/.gitignore",
 		"/C/xampp/htdocs/licoreria/babel.config.json",
-		"/C/xampp/htdocs/licoreria/run.bat",
 		"/C/xampp/htdocs/licoreria/vistas/pug/includes/js/registrarNegocio-compiled.js",
 		"/C/xampp/htdocs/licoreria/vistas/pug/js/registrarNegocio-compiled.js",
 		"/C/xampp/htdocs/licoreria/assets/icons/icons.min.css",
@@ -1399,23 +1459,7 @@
 		"/C/xampp/htdocs/licoreria/docs/8-plantilla-gratis-wordpress-ryan-cv.jpg",
 		"/C/xampp/htdocs/licoreria/dist/bundle.js",
 		"/C/xampp/htdocs/licoreria/ajax/registrarNegocio.php",
-		"/C/xampp/htdocs/licoreria/src/index.js",
-		"/C/xampp/htdocs/licoreria/src/modules/saludar.js",
-		"/C/xampp/htdocs/licoreria/dist/index.js",
-		"/C/xampp/htdocs/licoreria/parciales/pug/registrarNegocio.pug",
-		"/C/xampp/htdocs/licoreria/parciales/pug/js/registrarNegocio.js",
-		"/C/xampp/htdocs/licoreria/ecmascript/funciones.js",
-		"/C/xampp/htdocs/licoreria/php/conexion.php",
-		"/C/xampp/htdocs/licoreria/stylus/ajustes.styl",
-		"/C/xampp/htdocs/licoreria/stylus/tooltip.styl",
-		"/C/xampp/htdocs/licoreria/stylus/extend_w3.styl",
-		"/C/xampp/htdocs/licoreria/stylus/main.styl",
-		"/C/xampp/htdocs/licoreria/stylus/variables.styl",
-		"/C/xampp/htdocs/licoreria/parciales/registrarNegocio.html",
-		"/C/xampp/htdocs/licoreria/ecmascript/login.js",
-		"/C/Users/Franyer/Downloads/libraries & frameworks/w3/w3.css",
-		"/C/Users/Franyer/Downloads/libraries & frameworks/w3/colors/w3-colors-win8.css",
-		"/C/Users/Franyer/Downloads/libraries & frameworks/w3/colors/w3-colors-2017.css"
+		"/C/xampp/htdocs/licoreria/src/index.js"
 	],
 	"find":
 	{
@@ -1426,6 +1470,7 @@
 		"height": 134.0,
 		"where_history":
 		[
+			"C:\\xampp\\htdocs\\licoreria,<project filters>",
 			"C:\\xampp\\htdocs\\licoreria\\ecmascript,<project filters>",
 			"D:\\PROGRAMS\\xampp\\htdocs\\licoreria",
 			"D:\\PROGRAMS\\xampp\\htdocs\\licoreria\\sistema,<project filters>",
@@ -1437,6 +1482,9 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"span",
+			"modal",
+			"formularioModal",
 			";",
 			"$nombreLogo",
 			"ESCAPAR",

@@ -19,12 +19,12 @@
 	$conexion->set_charset($CHARSET)
 		or exit("Error cargando el conjunto de caracteres <b>" . $CHARSET . ": <u>$conexion->error</u></b><br>");
 	
-	if (!empty($_GET['comprobarBD']))
+	if (isset($_GET['comprobarBD']))
 		exit($conexion->select_db($BD) ?: 'false');
 	else
 		$conexion->select_db($BD);
 	
-	if (!empty($_POST['crearBD'])):
+	if (isset($_POST['crearBD'])):
 		$sql = file_get_contents('backup/inicializar.sql');
 		exit($conexion->multi_query($sql) ?: 'false');
 	endif;

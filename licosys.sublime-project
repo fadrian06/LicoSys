@@ -3,12 +3,17 @@
 		{
 			"name": "LicoSys",
 			"path": ".",
-			"folder_exclude_patterns": ["node_modules"],
+			"folder_exclude_patterns": [
+				"node_modules",
+				"docs"
+			],
 			"file_exclude_patterns": [
 				".gitignore",
 				".htaccess",
 				"babel.config.json",
 				"package-lock.json",
+				"run.bat",
+				"webpack.config.js",
 				"run.bat",
 				"webpack.config.js"
 			]

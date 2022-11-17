@@ -1,5 +1,6 @@
 import actualizarFoto from './actualizarFoto'
 import validar from './validar'
+import axios from 'axios'
 
 /**
  * @return {[Promise<bool>]}

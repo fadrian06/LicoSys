@@ -1,5 +1,12 @@
 <?php
 
+	if(isset($_GET['comprobarAdmin'])):
+		require 'conexion.inc';
+		require 'includes/funciones.inc';
+		echo consulta("SELECT * FROM usuarios WHERE cargo='a'") ?: 'false';
+		exit;
+	endif;
+
 	if(isset($_POST['registrarAdmin'])):
 		require 'conexion.inc';
 		require 'includes/funciones.inc';

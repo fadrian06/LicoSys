@@ -1,4 +1,5 @@
 import { alerta, notificacion } from './alertas'
+import axios from 'axios'
 
 const restaurarBD = () => {
 	return new Promise(resolve => {

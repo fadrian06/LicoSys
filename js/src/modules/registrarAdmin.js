@@ -7,6 +7,13 @@ import verClave from './verClave'
  */
 const registrarAdmin = () => {
 	return new Promise(resolve => {
+		
+		axios.get('backend/registrarAdmin.php', { params: { comprobarAdmin: true } })
+			.then(respuesta => {
+				if (respuesta.data)
+					setTimeout(() => resolve(true), 1000)
+			})
+		
 		const formulario = document.querySelector('#registrarAdmin')
 		const icono      = document.querySelector('.icon-refresh')
 		actualizarFoto()
