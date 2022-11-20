@@ -1,7 +1,7 @@
 <?php require 'parciales/head.php' ?>
 
 	<main class="w3-main">
-		<?php if($_SESSION['cargo'] == 'a'):
+		<?php if($_SESSION['cargo'] == true):
 			$consulta = "SELECT fecha_v, cliente, nom_p, unidades, precio_v, iva, usuario FROM venta INNER JOIN cliente INNER JOIN inventario INNER JOIN usuario ON venta.ci_c=cliente.ci_c AND venta.cod=inventario.cod AND venta.ci_u=usuario.ci_u AND venta.id_n={$_SESSION['idNegocio']}";
 			$ventas = getRegistros($consulta);
 			$encabezados = ['Fecha', 'Cliente', 'Producto', 'Unidades', 'Precio', 'IVA', 'Usuario'];
@@ -15,7 +15,7 @@
 		<div class="w3-margin-top w3-row formularioModal w3-padding-24 w3-display-container w3-white w3-card w3-round-large animate__animated animate__fadeInUp animate__faster w3-hide" id="modalFactura">
 			<span class="w3-button w3-hover-red w3-xlarge w3-display-topright">&times;</span>
 			<h3 class="swal2-title w3-margin-bottom">
-				<img src="../imagenes/logo.png" class="w3-margin-right" width="100px">
+				<img src="../imagenes/logo.png" class="w3-margin-right w3-responsive" width="100px">
 				Taberna Los 7 Hermanos
 			</h3>
 			<h4 class="w3-container w3-xlarge w3-right-align w3-blue">Comprobante</h4>
@@ -59,16 +59,22 @@
 					<div class="w3-left">Total IVA<span class="w3-xlarge">(16%)</span></div>
 					<div class="w3-right">Monto total: <span class="icon-dollar w3-text-green w3-xlarge"></span><b class="w3-xlarge">67.86</b></div>
 				</div>
-				<table class="w3-container w3-padding-top-48 w3-left-align">
-					<tr>
-						<th>Correo:</th>
-						<td> correo@correo.com</td>
-					</tr>
-					<tr>
-						<th>Teléfono:</th>
-						<td> <span class="icon-whatsapp w3-text-green"> </span>0557-123-1234</td>
-					</tr>
-				</table>
+				<div class="w3-row w3-padding-top-48">
+					<table class="w3-col s8 w3-container w3-left-align">
+						<tr>
+							<th>Correo:</th>
+							<td> correo@correo.com</td>
+						</tr>
+						<tr>
+							<th>Teléfono:</th>
+							<td> <span class="icon-whatsapp w3-text-green"> </span>0557-123-1234</td>
+						</tr>
+					</table>
+					<button class="w3-rest w3-auto w3-button w3-blue w3-round-xlarge">
+						<i class="icon-save"></i>
+						Guardar
+					</button>
+				</div>
 			</div>
 		</div>
 		

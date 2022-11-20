@@ -38,8 +38,8 @@
 		<a href="inventario.php" class="w3-bar-item w3-button w3-padding <?=$inventarioActivo?>"><i class="icon-product-hunt"> </i>Inventario</a>
 		<a href="clientes.php" class="w3-bar-item w3-button w3-padding <?=$clientesActivo?>"><i class="icon-id-card"> </i>Clientes</a>
 		<a href="proveedores.php" class="w3-bar-item w3-button w3-padding <?=$proveedoresActivo?>"><i class="icon-address-book"> </i>Proveedores</a>
+		<a href="ventas.php" class="w3-bar-item w3-button w3-padding <?=$ventasActivo?>"><i class="icon-list-alt"> </i>Ventas</a>
 		<?php if ($_SESSION["cargo"] == "a"): ?>
-			<a href="ventas.php" class="w3-bar-item w3-button w3-padding <?=$ventasActivo?>"><i class="icon-list-alt"> </i>Ventas</a>
 			<details class="w3-bar-block w3-light-gray">
 				<summary class="w3-hover-grey <?=$comprasActivo?>"><i class="icon-handshake-o"> </i>Compras</summary>
 				<a href="compras.php" class="w3-bar-item w3-button w3-padding"><i class="icon-handshake-o"> </i>Ver Compras</a>

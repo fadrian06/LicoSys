@@ -1,13 +1,20 @@
 {
+	"description": "Sistema Automatizado de Gestión de Compras y Ventas",
+	"repository": "https://github.com/fadrian06/LicoSys",
+	"license": "No license",
 	"devDependencies": {
-		"@babel/cli": "^7.18.10",
-		"@babel/core": "^7.18.10",
-		"@babel/preset-env": "^7.18.10",
-		"stylus": "^0.58.1"
+		"@babel/cli": "^7.19.3",
+		"@babel/core": "^7.20.2",
+		"@babel/preset-env": "^7.20.2",
+		"babel-loader": "^9.1.0",
+		"core-js": "^3.26.1",
+		"stylus": "^0.58.1",
+		"webpack": "^5.75.0",
+		"webpack-cli": "^5.0.0"
 	},
 	"scripts": {
 		"babel": "babel ecmascript -d js -w",
-		"stylus": "stylus stylus/main.styl -o css -w"
-	},
-	"dependencies": {}
+		"stylus": "stylus stylus/main.styl -o css -w",
+		"build": "webpack -w"
+	}
 }

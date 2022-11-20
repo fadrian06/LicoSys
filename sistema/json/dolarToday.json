@@ -20,46 +20,46 @@
         "e": "PETRO"
     },
     "_timestamp": {
-        "epoch": "1668358807",
-        "fecha": "Noviembre 13, 2022 01:00 PM",
-        "fecha_corta": "Nov 13, 2022",
+        "epoch": "1668828063",
+        "fecha": "Noviembre 18, 2022 11:21 PM",
+        "fecha_corta": "Nov 18, 2022",
         "fecha_corta2": "Nov 2022",
-        "fecha_nice": "Noviembre 13, 2022",
-        "dia": "Domingo",
-        "dia_corta": "Dom"
+        "fecha_nice": "Noviembre 18, 2022",
+        "dia": "Viernes",
+        "dia_corta": "Vie"
     },
     "USD": {
-        "transferencia": 10.75,
-        "transfer_cucuta": 10.75,
-        "efectivo": 9.83,
-        "efectivo_real": 9.83,
-        "efectivo_cucuta": 9.83,
-        "promedio": 10.75,
-        "promedio_real": 9.01,
-        "cencoex": 540.53,
-        "sicad1": 10.73,
-        "sicad2": 9.01,
-        "bitcoin_ref": 10.73,
-        "localbitcoin_ref": 10.73,
-        "dolartoday": 10.75
+        "transferencia": 11.90,
+        "transfer_cucuta": 11.90,
+        "efectivo": 11.39,
+        "efectivo_real": 11.39,
+        "efectivo_cucuta": 11.39,
+        "promedio": 11.90,
+        "promedio_real": 9.79,
+        "cencoex": 573.15,
+        "sicad1": 11.80,
+        "sicad2": 9.79,
+        "bitcoin_ref": 11.80,
+        "localbitcoin_ref": 11.8,
+        "dolartoday": 11.90
     },
     "EUR": {
-        "transferencia": 10.43,
-        "transfer_cucuta": 10.43,
-        "efectivo": 9.54,
-        "efectivo_real": 9.54,
-        "efectivo_cucuta": 9.54,
-        "promedio": 10.43,
-        "promedio_real": 8.74,
-        "cencoex": 524.31,
-        "sicad1": 10.41,
-        "sicad2": 8.74,
-        "dolartoday": 10.43
+        "transferencia": 11.42,
+        "transfer_cucuta": 11.42,
+        "efectivo": 10.93,
+        "efectivo_real": 10.93,
+        "efectivo_cucuta": 10.93,
+        "promedio": 11.42,
+        "promedio_real": 9.40,
+        "cencoex": 550.22,
+        "sicad1": 11.33,
+        "sicad2": 9.40,
+        "dolartoday": 11.42
     },
     "COL": {
-        "efectivo": 480.0000,
-        "transfer": 480.0000,
-        "compra": 480.0000,
+        "efectivo": 425.0000,
+        "transfer": 425.0000,
+        "compra": 425.0000,
         "venta": 523.80
     },
     "GOLD": {
@@ -69,16 +69,16 @@
         "rate": 1
     },
     "USDCOL": {
-        "setfxsell": 4720.00,
-        "setfxbuy": 4700.00,
+        "setfxsell": 4840.00,
+        "setfxbuy": 4910.00,
         "rate": 5767.00,
         "ratecash": 4517.00,
-        "ratetrm": 4720.00,
+        "ratetrm": 4840.00,
         "trmfactor": 0.2,
         "trmfactorcash": 0.06
     },
     "EURUSD": {
-        "rate": 0.97
+        "rate": 0.96
     },
     "BCV": {
         "fecha": "1522123200",
@@ -87,7 +87,7 @@
         "reservas": "9.444.000"
     },
     "MISC": {
-        "petroleo": "93,22",
+        "petroleo": "91,96",
         "reservas": "9,9"
     }
 }

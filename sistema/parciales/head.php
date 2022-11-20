@@ -51,6 +51,14 @@
 		<link rel="stylesheet" href="../css/configuracionNegocios.css">
 		<link rel="stylesheet" href="../css/main.css">
 		<title>LicoSys</title>
+		<script src="../librerias/axios/axios.min.js"></script>
+		<script src="../librerias/w3/w3.min.js"></script>
+		<script src="../librerias/sweetalert2/sweetalert2.all.min.js"></script>
+		<script src="../librerias/aos/aos.min.js"></script>
+		<script src="../librerias/moment/moment.min.js"></script>
+		<script src="../librerias/moment/es.min.js"></script>
+		<script src="../librerias/chart.min.js"></script>
+		<script src="../js/funciones.js"></script>
 	</head>
 
 	<body class="w3-light-grey">

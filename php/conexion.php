@@ -1,5 +1,4 @@
 <?php
-
 	const URL = 'http://localhost/licoreria/';
 
 	const HOST    = 'localhost';
@@ -21,5 +20,5 @@
 		$conexion->multi_query($sql) or exit($conexion->error);
 		$conexion->select_db(BD);
 		header('location: ./');
-	endif;
+	endif
 ?>
