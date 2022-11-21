@@ -1,0 +1,5 @@
+import w3 from '../librerias/w3/w3.js'
+import axios from 'axios'
+import Swal from 'sweetalert2'
+import moment from 'moment'
+import { Chart } from 'chart.js'

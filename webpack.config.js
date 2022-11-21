@@ -1,35 +1,27 @@
 const path = require('path')
 
-module.exports = {
-	mode: 'production',
-	entry: './ecmascript/app.js',
+const config = {
+	entry: './src/index.js',
 	output: {
-		path: path.join(__dirname, 'js'),
+		path: path.resolve(__dirname, 'dist'),
 		filename: 'bundle.js'
+	},
+	devServer: {
+		open: true,
+		host: 'localhost',
 	},
 	module: {
 		rules: [
-		{
-			test: /\.m?js$/,
-			exclude: /node_modules/,
-			use: {
+			{
+				test: /\.(js|jsx)$/i,
 				loader: 'babel-loader',
-				options: {
-					presets: [
-						[
-							"@babel/preset-env",
-							{
-								targets: {
-									edge: "17",
-									firefox: "47.0.2"
-								},
-								useBuiltIns: "usage",
-								corejs: "3.26.1"
-							}
-						]
-					]
-				}
 			}
-		}]
+		]
 	}
+}
+
+const isProduction = process.env.NODE_ENV == 'production'
+module.exports = () => {
+	config.mode = isProduction ? 'production' : 'development'
+	return config
 }

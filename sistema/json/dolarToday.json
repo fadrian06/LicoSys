@@ -20,13 +20,13 @@
         "e": "PETRO"
     },
     "_timestamp": {
-        "epoch": "1668828063",
-        "fecha": "Noviembre 18, 2022 11:21 PM",
-        "fecha_corta": "Nov 18, 2022",
+        "epoch": "1668920407",
+        "fecha": "Noviembre 20, 2022 01:00 AM",
+        "fecha_corta": "Nov 20, 2022",
         "fecha_corta2": "Nov 2022",
-        "fecha_nice": "Noviembre 18, 2022",
-        "dia": "Viernes",
-        "dia_corta": "Vie"
+        "fecha_nice": "Noviembre 20, 2022",
+        "dia": "Domingo",
+        "dia_corta": "Dom"
     },
     "USD": {
         "transferencia": 11.90,
@@ -39,7 +39,7 @@
         "cencoex": 573.15,
         "sicad1": 11.80,
         "sicad2": 9.79,
-        "bitcoin_ref": 11.80,
+        "bitcoin_ref": 11.8,
         "localbitcoin_ref": 11.8,
         "dolartoday": 11.90
     },

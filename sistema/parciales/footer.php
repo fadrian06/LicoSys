@@ -1,5 +1,4 @@
 		<script src="../js/sistema.js"></script>
-		<script>AOS.init()</script>
 		<?=$notificacion ?? ''?>
 		<?=$restringido ?? ''?>
 	</body>
