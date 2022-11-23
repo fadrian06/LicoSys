@@ -1,4 +1,5 @@
 <?php
+	error_reporting(E_ALL);
 	session_start();
 	require 'php/conexion.php';
 	require 'php/funciones.php';

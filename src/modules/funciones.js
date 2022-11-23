@@ -67,7 +67,7 @@ function menu(boton, modal, overlay) {
 	});
 }
 
-function actualizarFoto() {
+export function actualizarFoto() {
 	const inputsFile = w3.getElements("input[type='file']");
 	const images     = w3.getElements("img.image-result");
 
@@ -497,7 +497,7 @@ export function modal(boton, formulario, overlay) {
 	});
 }
 
-function ventanaEmergente(formulario, overlay) {
+export function ventanaEmergente(formulario, overlay) {
 	const cerrar = formulario.querySelector("span");
 	overlay.classList.replace("w3-hide", "w3-show");
 	overlay.style.cursor = "pointer";

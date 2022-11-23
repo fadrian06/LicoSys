@@ -4532,9 +4532,11 @@ if (typeof this !== 'undefined' && this.Sweetalert2) {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "actualizarFoto": () => (/* binding */ actualizarFoto),
 /* harmony export */   "modal": () => (/* binding */ modal),
 /* harmony export */   "reloj": () => (/* binding */ reloj),
-/* harmony export */   "validar": () => (/* binding */ validar)
+/* harmony export */   "validar": () => (/* binding */ validar),
+/* harmony export */   "ventanaEmergente": () => (/* binding */ ventanaEmergente)
 /* harmony export */ });
 /* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! sweetalert2 */ "./node_modules/sweetalert2/dist/sweetalert2.all.js");
 /* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(sweetalert2__WEBPACK_IMPORTED_MODULE_0__);
@@ -5054,12 +5056,12 @@ var formClave = _librerias_w3_w3_js__WEBPACK_IMPORTED_MODULE_0__["default"].getE
 var enlace = _librerias_w3_w3_js__WEBPACK_IMPORTED_MODULE_0__["default"].getElement("a.recuperarClave");
 if (formNegocio) {
   (0,_funciones_js__WEBPACK_IMPORTED_MODULE_1__.validar)(formNegocio);
-  ventanaEmergente(formNegocio, overlay);
-  actualizarFoto();
+  (0,_funciones_js__WEBPACK_IMPORTED_MODULE_1__.ventanaEmergente)(formNegocio, overlay);
+  (0,_funciones_js__WEBPACK_IMPORTED_MODULE_1__.actualizarFoto)();
 }
 if (formAdmin) {
   (0,_funciones_js__WEBPACK_IMPORTED_MODULE_1__.validar)(formAdmin);
-  ventanaEmergente(formAdmin, overlay);
+  (0,_funciones_js__WEBPACK_IMPORTED_MODULE_1__.ventanaEmergente)(formAdmin, overlay);
 }
 if (formLogin) {
   (0,_funciones_js__WEBPACK_IMPORTED_MODULE_1__.validar)(formLogin);
@@ -5072,11 +5074,11 @@ if (formLogin) {
   }, 1000 * 60);
   if (formPreguntas) {
     (0,_funciones_js__WEBPACK_IMPORTED_MODULE_1__.validar)(formPreguntas);
-    ventanaEmergente(formPreguntas, overlay);
+    (0,_funciones_js__WEBPACK_IMPORTED_MODULE_1__.ventanaEmergente)(formPreguntas, overlay);
   }
   if (formClave) {
     (0,_funciones_js__WEBPACK_IMPORTED_MODULE_1__.validar)(formClave);
-    ventanaEmergente(formClave, overlay);
+    (0,_funciones_js__WEBPACK_IMPORTED_MODULE_1__.ventanaEmergente)(formClave, overlay);
   }
 }
 

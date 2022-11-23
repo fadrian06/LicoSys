@@ -1,11 +1,16 @@
 <?php
-	const URL = 'http://localhost/licoreria/';
+	// const URL = 'http://localhost/licoreria/';
 
+	// LOCAL
 	const HOST    = 'localhost';
 	const USUARIO = 'root';
 	const CLAVE   = '';
 	const BD      = 'licoreria';
 	const CHARSET = 'utf8';
+	// ONLINE
+	// const USUARIO = '477828';
+	// const CLAVE = 'fsanchez61001';
+	// const BD = '477828';
 
 	$conexion = @new MySQLi(HOST, USUARIO, CLAVE);
 
