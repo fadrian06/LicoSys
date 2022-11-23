@@ -1,10 +1,7 @@
 <?php
-	/*session_start();
+	session_start();
 	require 'php/conexion.php';
 	require 'php/funciones.php';
-
-	$_SESSION['usuario'] = '';
-	$alerta = '';
 
 	$negocios = getRegistros('SELECT * FROM negocio WHERE activo=1');
 	$admin    = getRegistro("SELECT * FROM usuario WHERE cargo='a'");
@@ -14,7 +11,7 @@
 	require 'php/login.php';
 	require 'php/consultarPreguntas.php';
 	require 'php/validarRespuestas.php';
-	require 'php/cambiarClave.php';*/
+	require 'php/cambiarClave.php';
 ?>
 
 <!DOCTYPE html>
@@ -34,7 +31,7 @@
 		<link rel="stylesheet" href="fuentes/fuentes.css">
 		<!-- <link rel="stylesheet" href="css/login.css">
 		<link rel="stylesheet" href="css/main.css"> -->
-		<link rel="stylesheet" href="css/bundle.css">
+		<link rel="stylesheet" href="dist/bundle.css">
 		
 		<!-- <script src="librerias/w3/w3.min.js"></script> -->
 		<!-- <script src="librerias/axios/axios.min.js"></script> -->
@@ -47,7 +44,7 @@
 	<body>
 		<div class="w3-overlay w3-animate-opacity w3-hide"></div>
 		<?php
-			/*if (!$negocios):
+			if (!$negocios):
 				
 				if (file_exists('backup/licosys.sql'))
 					$alerta = '<script src="js/restaurarBD.js"></script>';
@@ -71,9 +68,8 @@
 				
 				if (isset($cambiarClave))
 					require 'parciales/formCambiarClave.php';
-			endif;*/
+			endif;
 		?>
-		<!-- <script src="js/login.js"></script> -->
 		<script src="dist/bundle.js"></script>
 	</body>
 </html>

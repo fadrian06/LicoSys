@@ -214,6 +214,16 @@ w3.getElements = function(id) {
 		return document.querySelectorAll(id);
 	}
 };
+
+/**
+ * Get an HTML Element
+ * @param {string} id A CSS Selector
+ * @return {HTMLElement} Return a reference of an element
+ */
+w3.getElement = function(id) {
+	return w3.getElements(id)[0]
+}
+
 w3.filterHTML = function(id, sel, filter) {
 	var a, b, c, i, ii, iii, hit;
 	a = w3.getElements(id);
@@ -489,5 +499,5 @@ w3.dataObject = {},
 			a.innerHTML = a.innerHTML.replace(r, result);
 		}
 	};
-
+	
 export default w3

@@ -12,16 +12,17 @@
 				// "imagenes",
 				// "js",
 				// "librerias",
-				// "node_modules",
-				// "Rubbish"
+				"node_modules",
+				"Rubbish",
+				"dist"
 			],
 			"file_exclude_patterns": [
-				// ".htaccess",
-				// "babel.config.json",
+				".htaccess",
 				"package-lock.json",
 				// "package.json",
-				// ".gitignore",
-				// "webpack.config.js"
+				".gitignore",
+				"webpack.config.js",
+				".babelrc"
 			]
 		},
 	]

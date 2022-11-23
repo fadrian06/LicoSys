@@ -17,7 +17,8 @@ const config = {
 				loader: 'babel-loader',
 			}
 		]
-	}
+	},
+	devtool: 'source-map'
 }
 
 const isProduction = process.env.NODE_ENV == 'production'
