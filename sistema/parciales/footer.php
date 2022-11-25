@@ -1,4 +1,5 @@
-		<script src="../js/sistema.js"></script>
+		<script src="../node_modules/sweetalert2/dist/sweetalert2.all.min.js"></script>
+		<script src="../dist/bundle.js"></script>
 		<?=$notificacion ?? ''?>
 		<?=$restringido ?? ''?>
 	</body>

@@ -16,7 +16,7 @@
 		if($tipo == "image/jpeg"):
 			if($peso < 1*1000*2048 /*2MB*/):
 				setRegistro("UPDATE usuario SET foto='$imagen' WHERE usuario='{$_SESSION["usuario"]}'");
-				move_uploaded_file($temporal, "../imagenes/perfil/$imagen");
+				move_uploaded_file($temporal, "../dist/images/perfil/$imagen");
 				$notificacion = "
 					<script>
 						notificacion('Foto actualizada exitosamente');
@@ -33,7 +33,7 @@
 		else:
 			$notificacion = "
 				<script>
-					alerta('Sólo se permiten imagenes (<b>jpeg, jpg</b>&nbsp;o <b>png</b>)');
+					alerta('Sólo se permiten dist/images (<b>jpeg, jpg</b>&nbsp;o <b>png</b>)');
 				</script>
 			";
 		endif;

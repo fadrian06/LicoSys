@@ -23,7 +23,7 @@
 				endswitch;
 				if($tipo == "image/jpeg"):
 					if($peso < 1*1000*2048 /*2MB*/):
-						move_uploaded_file($temporal, "../imagenes/negocios/$imagen");
+						move_uploaded_file($temporal, "../dist/images/negocios/$imagen");
 					else:
 						$notificacion = "
 							<script>
@@ -35,7 +35,7 @@
 				else:
 					$notificacion = "
 						<script>
-							alerta('Sólo se permiten imagenes (<b>jpeg, jpg</b>&nbsp;o <b>png</b>)')
+							alerta('Sólo se permiten dist/images (<b>jpeg, jpg</b>&nbsp;o <b>png</b>)')
 						</script>
 					";
 					exit;

@@ -1,5 +1,5 @@
 import Swal from 'sweetalert2'
-import w3 from '../../librerias/w3/w3.js'
+import w3 from '../libs/w3.js'
 
 onoffline = () => advertencia("Se ha perdido la conexión");
 ononline  = () => notificacion("Se ha restablecido la conexión");
@@ -49,7 +49,7 @@ export function reloj(contenedor){
 		`;
 }
 
-function menu(boton, modal, overlay) {
+export function menu(boton, modal, overlay) {
 	boton.addEventListener("click", e => {
 		overlay.classList.replace("w3-hide", "w3-show");
 		overlay.style.cursor = "pointer";
@@ -96,7 +96,7 @@ export function actualizarFoto() {
 					alerta('La imagen no puede ser mayor a <b class=\"w3-text-red\" title=\"2 Megabytes\">2MB</b>');
 				}
 			} else {
-				alerta('Sólo se permiten imagenes (<b>jpeg, jpg</b>&nbsp;o <b>png</b>)');
+				alerta('Sólo se permiten images (<b>jpeg, jpg</b>&nbsp;o <b>png</b>)');
 			}
 		});
 	});
@@ -120,7 +120,7 @@ function alerta(title = "", toast = true, timer = 2000) {
 	});
 }
 
-function notificacion(title = "", toast = true, timer = 2000) {
+export function notificacion(title = "", toast = true, timer = 2000) {
 	if (toast) {
 		var position = "bottom-end";
 	} else {

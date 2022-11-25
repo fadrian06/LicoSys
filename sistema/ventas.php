@@ -15,7 +15,7 @@
 		<div class="w3-margin-top w3-row formularioModal w3-padding-24 w3-display-container w3-white w3-card w3-round-large animate__animated animate__fadeInUp animate__faster w3-hide" id="modalFactura">
 			<span class="w3-button w3-hover-red w3-xlarge w3-display-topright">&times;</span>
 			<h3 class="swal2-title w3-margin-bottom">
-				<img src="../imagenes/logo.png" class="w3-margin-right w3-responsive" width="100px">
+				<img src="../dist/images/logo.png" class="w3-margin-right w3-responsive" width="100px">
 				Taberna Los 7 Hermanos
 			</h3>
 			<h4 class="w3-container w3-xlarge w3-right-align w3-blue">Comprobante</h4>

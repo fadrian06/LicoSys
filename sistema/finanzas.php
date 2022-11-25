@@ -12,7 +12,7 @@
 					: '';
 				echo <<<HTML
 					<li class="w3-third w3-button w3-border-left w3-border-right $negocioActivo">
-						<img src="../imagenes/negocios/{$negocio['foto']}" class="w3-image" style="max-height: 40px; margin-bottom: 5px">
+						<img src="../dist/images/negocios/{$negocio['foto']}" class="w3-image" style="max-height: 40px; margin-bottom: 5px">
 						<div>{$negocio['nom_n']}</div>
 					</li>
 				HTML;

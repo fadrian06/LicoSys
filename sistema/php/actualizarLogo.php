@@ -17,11 +17,11 @@
 		if($tipo == "image/jpeg"):
 			if($peso < 1*1000*2048 /*2MB*/):
 				setRegistro("UPDATE negocio SET foto='$imagen' WHERE id_n=$idNegocio");
-				move_uploaded_file($temporal, "../imagenes/negocios/$imagen");
+				move_uploaded_file($temporal, "../dist/images/negocios/$imagen");
 				$notificacion = "
 					<script>
 						notificacion('Foto actualizada exitosamente');
-						w3.getElement('#foto$idNegocio').src = '../imagenes/negocios/$imagen';
+						w3.getElement('#foto$idNegocio').src = '../dist/images/negocios/$imagen';
 					</script>
 				";
 			else:
@@ -34,7 +34,7 @@
 		else:
 			$notificacion = "
 				<script>
-					alerta('Sólo se permiten imagenes (<b>jpeg, jpg</b>&nbsp;o <b>png</b>)');
+					alerta('Sólo se permiten dist/images (<b>jpeg, jpg</b>&nbsp;o <b>png</b>)');
 				</script>
 			";
 		endif;

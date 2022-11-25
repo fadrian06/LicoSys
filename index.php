@@ -1,5 +1,4 @@
 <?php
-	error_reporting(E_ALL);
 	session_start();
 	require 'php/conexion.php';
 	require 'php/funciones.php';
@@ -24,21 +23,8 @@
 		<meta name="author" content="Franyer Sánchez, Daniel Mancilla">
 		<meta name="description" content="Sistema Automatizado de Gestión de Compras y Ventas">
 		<meta name="theme-color" content="black">
-		
-		<link rel="icon" href="imagenes/logo.png">
-		<link rel="stylesheet" href="iconos/style.min.css">
-		<link rel="stylesheet" href="librerias/w3/w3.min.css">
-		<link rel="stylesheet" href="librerias/animate.min.css">
-		<link rel="stylesheet" href="fuentes/fuentes.css">
-		<!-- <link rel="stylesheet" href="css/login.css">
-		<link rel="stylesheet" href="css/main.css"> -->
+		<link rel="icon" href="dist/images/logo.png">
 		<link rel="stylesheet" href="dist/bundle.css">
-		
-		<!-- <script src="librerias/w3/w3.min.js"></script> -->
-		<!-- <script src="librerias/axios/axios.min.js"></script> -->
-		<!-- <script src="librerias/sweetalert2/sweetalert2.all.min.js"></script> -->
-		<!-- <script src="js/funciones.js"></script> -->
-		
 		<title>LicoSys</title>
 	</head>
 
@@ -48,11 +34,11 @@
 			if (!$negocios):
 				
 				if (file_exists('backup/licosys.sql'))
-					$alerta = '<script src="js/restaurarBD.js"></script>';
+					$alerta = '<script src="node_modules/axios/dist/axios.min.js"></script><script src="node_modules/sweetalert2/dist/sweetalert2.all.min.js"></script><script src="src/modules/restaurarBD.js"></script>';
 				else
 					$alerta = <<<HTML
 						<link rel="stylesheet" href="librerias/sweetalert2/borderless.min.css">
-						<script src="js/loader.js"></script>
+						<script src="src/modules/loader.js"></script>
 					HTML;
 					
 				$registrarNegocio = true;
@@ -72,5 +58,6 @@
 			endif;
 		?>
 		<script src="dist/bundle.js"></script>
+		<?=$alerta ?? ''?>
 	</body>
 </html>

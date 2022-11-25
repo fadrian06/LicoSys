@@ -20,7 +20,7 @@
 				<?php foreach($negocios as $negocio): ?>
 					<div class="radio-group tooltip-container">
 						<input type="radio" name="negocio" id="negocio#<?=$negocio["id_n"]?>" value="<?=$negocio["id_n"]?>">
-						<label for="negocio#<?=$negocio["id_n"]?>" style="background:url(<?=!empty($negocio["foto"]) ? "imagenes/negocios/{$negocio["foto"]}" : "imagenes/logoNegocio.jpg"?>) center/contain no-repeat"></label>
+						<label for="negocio#<?=$negocio["id_n"]?>" style="background:url(<?=!empty($negocio["foto"]) ? "dist/images/negocios/{$negocio["foto"]}" : "dist/images/logoNegocio.jpg"?>) center/contain no-repeat"></label>
 						<?=!isset($cambiarClave) ? "<span class='tooltip'>{$negocio['nom_n']}</span>" : ""?>
 					</div>
 				<?php endforeach; ?>

@@ -44,7 +44,7 @@
 			<label for="registroLogo" class="w3-display-container w3-hover-opacity">
 				<i class="icon-camera w3-xxxlarge w3-display-middle"></i>
 				<input type="file" name="foto" class="w3-hide" id="registroLogo">
-				<img class="image-result w3-image" src="../imagenes/logoNegocio.jpg" style="max-width: 150px;">
+				<img class="image-result w3-image" src="../dist/images/logoNegocio.jpg" style="max-width: 150px;">
 			</label>
 			<b class="w3-medium w3-white w3-block w3-margin-top">Logotipo del negocio</b>
 			<span class="w3-small w3-white w3-block w3-text-blue">Opcional</span>

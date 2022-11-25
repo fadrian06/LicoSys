@@ -39,21 +39,13 @@
 		<meta name="author" content="Daniel Mancilla">
 		<meta name="description" content="Sistema Automatizado para Registrar Compras y Ventas">
 		<meta name="theme-color" content="black">
-		<link rel="icon" href="../imagenes/logo.png">
-		<link rel="stylesheet" href="../iconos/style.min.css">
-		<link rel="stylesheet" href="../librerias/w3/w3.min.css">
-		<link rel="stylesheet" href="../librerias/animate.min.css">
-		<link rel="stylesheet" href='../fuentes/fuentes.css'>
+		<link rel="icon" href="../dist/images/logo.png">
 		<link rel="stylesheet" href="../css/sistema.css">
 		<link rel="stylesheet" href="../css/boton.css">
 		<link rel="stylesheet" href="../css/miPerfil.css">
 		<link rel="stylesheet" href="../css/configuracionNegocios.css">
-		<link rel="stylesheet" href="../css/main.css">
+		<link rel="stylesheet" href="../dist/bundle.css">
 		<title>LicoSys</title>
-		<script src="../librerias/axios/axios.min.js"></script>
-		<script src="../librerias/w3/w3.min.js"></script>
-		<script src="../librerias/sweetalert2/sweetalert2.all.min.js"></script>
-		<script src="../js/funciones.js"></script>
 	</head>
 
 	<body class="w3-light-grey">
@@ -72,7 +64,7 @@
 				<div class="w3-row">
 					<p class="w3-twothird w3-padding-large w3-xlarge w3-justify">&nbsp;&nbsp;&nbsp;LicoSys es un sistema administrativo que simplifica los procesos que se llevan a cabo para la correcta gestión de cualquier negocio.</p>
 					<div class="w3-third w3-center">
-						<img src="../imagenes/logo.png" class="w3-image" data-aos="fade-right" style="width: 20vw">
+						<img src="../dist/images/logo.png" class="w3-image" data-aos="fade-right" style="width: 20vw">
 					</div>
 					<div class="w3-clear"></div>
 				</div>
@@ -110,7 +102,7 @@
 						Consulta tus <b>finanzas</b>.
 					</li>
 					<p>Todo desde la comodidad de tu equipo preferido, LicoSys funciona tanto en <b>computadoras</b> como en <b>smartphones y tablets</b>, su entorno es web con lo cual sólo necesitarás un navegador y consume la aplicación.</p>
-					<img src="../imagenes/devices.jpg" class="w3-image" style="width: 700px">
+					<img src="../dist/images/devices.jpg" class="w3-image" style="width: 700px">
 				</ul>
 				<div class="w3-row w3-justify w3-xlarge">
 					<p class="w3-margin w3-padding-large">&nbsp;&nbsp;&nbsp;LicoSys está fuertemente centrado en la <b>experiencia de usuario</b> y la <b>seguridad de la información</b>.</p>

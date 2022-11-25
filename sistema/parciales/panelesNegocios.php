@@ -103,7 +103,7 @@
 				<label for="foto<?=$negocio["id_n"]?>" class="w3-display-container w3-hover-opacity">
 					<i class="icon-camera w3-xxxlarge w3-display-middle"></i>
 					<input type="file" name="foto" class="w3-hide" id="foto<?=$negocio["id_n"]?>">
-					<img class="image-result" src="<?=!empty($negocio["foto"]) ? "../imagenes/negocios/{$negocio['foto']}" : "../imagenes/logoNegocio.jpg"?>" id="foto<?=$negocio["id_n"]?>">
+					<img class="image-result" src="<?=!empty($negocio["foto"]) ? "../dist/images/negocios/{$negocio['foto']}" : "../dist/images/logoNegocio.jpg"?>" id="foto<?=$negocio["id_n"]?>">
 				</label>
 				<input type="hidden" name="idNegocio" value="<?=$negocio["id_n"]?>">
 				<input type="submit" name="actualizarFoto" value="Actualizar" class="w3-button w3-blue w3-round-large w3-section w3-animate-right w3-hide">

@@ -1,4 +1,7 @@
-const overlay     = w3.getElement("#modalOverlay");
+import axios from 'axios';
+import w3 from '../libs/w3';
+import { menu, modal, validar, notificacion, actualizarFoto } from './funciones'
+const overlay     = w3.getElement('#modalOverlay')
 /*============================
 =            MENU            =
 ============================*/

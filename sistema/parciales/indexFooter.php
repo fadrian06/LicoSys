@@ -15,10 +15,10 @@
 		</div> -->
 		<div class="w3-container w3-third">
 			<h5 class="w3-bottombar w3-border-orange">Sistema</h5>
-			<p id="acercaDeSistema" class="enlacesFooter">Acerca De</p>
-			<p id="registroCambios" class="enlacesFooter">Registro de cambios</p>
-			<p id="soporteTecnico" class="enlacesFooter">Soporte Técnico</p>
-			<p id="manualUsuario" class="enlacesFooter">Manual de Usuario</p>
+			<p id="acercaDeSistema" class="w3-padding enlacesFooter">Acerca De</p>
+			<p id="registroCambios" class="w3-padding enlacesFooter">Registro de cambios</p>
+			<p id="soporteTecnico" class="w3-padding enlacesFooter">Soporte Técnico</p>
+			<p id="manualUsuario" class="w3-padding enlacesFooter">Manual de Usuario</p>
 		</div>
 	</div>
 	<p class="w3-center w3-large">Powered by <a href="https://www.w3schools.com/w3css/default.asp" target="_blank">w3.css</a> | &copy; UPTM <?=date("Y")?></p>

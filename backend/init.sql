@@ -1,0 +1,12 @@
+CREATE DATABASE licosys;
+USE licosys;
+
+CREATE TABLE negocios (
+	id INT PRIMARY KEY AUTO_INCREMENT,
+	nombre VARCHAR(255) NOT NULL,
+	rif VARCHAR(255) NOT NULL,
+	telefono VARCHAR(255),
+	direccion VARCHAR(255),
+	logo MEDIUMBLOB,
+	activo TINYINT(1) NOT NULL
+)

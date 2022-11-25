@@ -1,5 +1,5 @@
-import w3 from '../../librerias/w3/w3.js'
-import { validar, ventanaEmergente, actualizarFoto, modal, reloj } from './funciones.js'
+import w3 from '../libs/w3.js'
+import { validar, ventanaEmergente, actualizarFoto, modal, reloj } from './funciones'
 
 const overlay       = w3.getElement(".w3-overlay");
 const formNegocio   = w3.getElement("#formNegocio");

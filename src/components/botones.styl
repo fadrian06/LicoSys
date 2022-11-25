@@ -1,0 +1,63 @@
+color = #2778c4;
+oscuro = #1f5e99;
+
+.boton {
+	display: block;
+	width: 75%;
+	height: 40px;
+	margin: 15px auto 10px;
+	background: #141414;
+	color: white;
+	font-size: 16px;
+	font-weight: 500;
+	border: none;
+	cursor: pointer;
+	text-transform: uppercase;
+	-webkit-border-radius: 5px;
+	        border-radius: 5px;
+	position: relative;
+	overflow: hidden;
+	-webkit-transition: .3s ease-in-out background;
+	-o-transition: .3s ease-in-out background;
+	-moz-transition: .3s ease-in-out background;
+	transition: .3s ease-in-out background;
+}
+
+.boton span {
+	position: relative;
+	z-index: 2;
+}
+
+.boton::after {
+	content: '';
+	width: 1px;
+	height: 1px;
+	position: absolute;
+	z-index: 1;
+	top: 50%;
+	left: 50%;
+	-webkit-transition: .3s ease-in-out transform;
+	-o-transition: .3s ease-in-out transform;
+	-moz-transition: .3s ease-in-out transform;
+	transition: .3s ease-in-out transform;
+	-webkit-border-radius: 100px;
+	        border-radius: 100px;
+	-webkit-transform-origin: center;
+	   -moz-transform-origin: center;
+	    -ms-transform-origin: center;
+	     -o-transform-origin: center;
+	        transform-origin: center;
+}
+
+.boton:hover::after {
+	-webkit-transform: scale(125);
+	   -moz-transform: scale(125);
+	    -ms-transform: scale(125);
+	     -o-transform: scale(125);
+	        transform: scale(125);
+	background: color;
+}
+
+.boton:hover {
+	background: oscuro;
+}

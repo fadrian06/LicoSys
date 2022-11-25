@@ -1,0 +1,111 @@
+// color = #5264AE;
+color = #2778c4;
+// width = 200px;
+width = 100%;
+
+.group {
+	position: relative;
+	margin-top: 35px;
+}
+
+.group .input {
+	font-size: 16px;
+	padding: 10px 10px 10px 5px;
+	display: block;
+	width: width;
+	border: none;
+	border-bottom: 1px solid #515151;
+	background: transparent;
+}
+
+.group .input:focus { outline: none }
+
+.group label {
+	color: #999;
+	font-size: 18px;
+	font-weight: normal;
+	position: absolute;
+	pointer-events: none;
+	left: 5px;
+	top: 10px;
+	-webkit-transition: .2s ease all;
+	-o-transition: .2s ease all;
+	-moz-transition: .2s ease all;
+	transition: .2s ease all;
+}
+
+.group .input:focus ~ label {
+	top: -20px;
+	font-size: 14px;
+	color: color;
+}
+
+.group .bar {
+	position: relative;
+	display: block;
+	width: width;
+}
+
+.group .bar::before,
+.group .bar::after {
+	content: '';
+	height: 2px;
+	width: 0;
+	position: absolute;
+	bottom: 1px;
+	background: color;
+	-webkit-transition: .2s ease all;
+	-o-transition: .2s ease all;
+	-moz-transition: .2s ease all;
+	transition: .2s ease all;
+}
+
+.group .bar::before { left: 50% }
+.group .bar::after { right: 50% }
+
+.group .input:focus ~ .bar::before,
+.group .input:focus ~ .bar::after { width: 50% }
+
+.group highlight {
+	position: absolute;
+	height: 60%;
+	width: 100px;
+	top: 25%;
+	left: 0;
+	pointer-events: none;
+	opacity: .5;
+}
+
+.group .input:focus ~ .highlight { -webkit-animation: inputHighlighter .3s ease; -moz-animation: inputHighlighter .3s ease; -o-animation: inputHighlighter .3s ease; animation: inputHighlighter .3s ease }
+
+@-webkit-keyframes inputHighlighter {
+	from { background: color }
+	to {
+		width: 0;
+		background: transparent;
+	}
+}
+
+@-moz-keyframes inputHighlighter {
+	from { background: color }
+	to {
+		width: 0;
+		background: transparent;
+	}
+}
+
+@-o-keyframes inputHighlighter {
+	from { background: color }
+	to {
+		width: 0;
+		background: transparent;
+	}
+}
+
+@keyframes inputHighlighter {
+	from { background: color }
+	to {
+		width: 0;
+		background: transparent;
+	}
+}

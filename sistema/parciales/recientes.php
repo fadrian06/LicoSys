@@ -5,7 +5,7 @@
 		<ul class="w3-ul w3-card-4 w3-white">
 			<?php foreach($recientes as $usuario):?>
 				<li class="w3-padding-16">
-					<img src="<?=!empty($usuario['foto']) ? "../imagenes/perfil/{$usuario['foto']}" : "../imagenes/avatar2.png"?>" class="w3-circle w3-margin-right" style="width:50px">
+					<img src="<?=!empty($usuario['foto']) ? "../dist/images/perfil/{$usuario['foto']}" : "../dist/images/avatar2.png"?>" class="w3-circle w3-margin-right" style="width:50px">
 					<span class="w3-large"><?=$usuario["nom_u"]?></span><br>
 				</li>
 			<?php endforeach ?>

@@ -37,17 +37,17 @@
 				</tr>
 			</table>
 		</section>
-		<?php require "parciales/resumen.php" ?>
-		<?php require "parciales/estadisticas.php" ?>
-		<?php require "parciales/recientes.php" ?>
+		<?php //require "parciales/resumen.php" ?>
+		<?php //require "parciales/estadisticas.php" ?>
+		<?php //require "parciales/recientes.php" ?>
 		<!--=====================================
 		=            Section comment            =
 		======================================-->
-		<section class="w3-container w3-section">
+		<!-- <section class="w3-container w3-section">
 			<h5>Recent Comments</h5>
 			<div class="w3-row">
 				<div class="w3-col m2 text-center">
-					<img class="w3-circle" src="../imagenes/avatar3.png" style="width:96px;height:96px">
+					<img class="w3-circle" src="../dist/images/avatar3.png" style="width:96px;height:96px">
 				</div>
 				<div class="w3-col m10 w3-container">
 					<h4>John <span class="w3-opacity w3-medium">Sep 29, 2014, 9:12 PM</span></h4>
@@ -56,14 +56,14 @@
 			</div>
 			<div class="w3-row">
 				<div class="w3-col m2 text-center">
-					<img class="w3-circle" src="../imagenes/avatar1.png">
+					<img class="w3-circle" src="../dist/images/avatar1.png">
 				</div>
 				<div class="w3-col m10 w3-container">
 					<h4>Bo <span class="w3-opacity w3-medium">Sep 28, 2014, 10:15 PM</span></h4>
 					<p>Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p><br>
 				</div>
 			</div>
-		</section>
+		</section> -->
 		<?php require "parciales/indexFooter.php" ?>
 		<?php require "parciales/indexModales.php" ?>
 

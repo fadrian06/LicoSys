@@ -3,7 +3,7 @@
 	<label for="foto" class="w3-display-container w3-hover-opacity">
 		<i class="icon-camera w3-xxxlarge w3-display-middle"></i>
 		<input type="file" name="foto" id="foto" class="w3-hide">
-		<img class="image-result" src="<?=!empty($_SESSION['foto']) ? "../imagenes/perfil/{$_SESSION['foto']}" : "../imagenes/avatar2.png"?>">
+		<img class="image-result" src="<?=!empty($_SESSION['foto']) ? "../dist/images/perfil/{$_SESSION['foto']}" : "../dist/images/avatar2.png"?>">
 	</label>
 	<input type="submit" name="actualizarFoto" value="Actualizar" class="w3-button w3-blue w3-round-large w3-section w3-animate-right w3-hide">
 	<span class="w3-medium w3-white w3-block"><?=$_SESSION["nombreUsuario"]?></span>

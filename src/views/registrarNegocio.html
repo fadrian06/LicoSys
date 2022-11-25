@@ -1,0 +1,51 @@
+<form>
+	<h1 class="oswald">Registre un Negocio</h1>
+	<ul class="swal2-progress-steps"><li class="swal2-progress-step swal2-active-progress-step">1</li><li class="swal2-progress-step-line"></li><li class="swal2-progress-step w3-black">2</li><li class="swal2-progress-step-line"></li><li class="swal2-progress-step w3-black">3</li></ul>
+	<div class="w3-twothird w3-rightbar w3-topbar w3-display-container">
+		<div class="spinner w3-display-middle w3-hide">
+			<span></span>
+			<span></span>
+			<span></span>
+		</div>
+		<div>
+			<section class="group w3-margin-right">
+				<input class="input" required minlength="4" maxlength="50" pattern="[\wáÁéÉíÍóÓúñÑ\s]{4,50}" title="Sólo se permiten entre 4 y 50 letras">
+				<span class="highlight"></span>
+				<span class="bar"></span>
+				<label>Nombre</label>
+			</section>
+			<section class="group w3-margin-right">
+				<input class="input" required minlength="10" maxlength="15" pattern="(v|e|V|E){1}\d{9,15}" title="Debe empezar por V o E seguido de entre 9 y 15 dígitos">
+				<span class="highlight"></span>
+				<span class="bar"></span>
+				<label>RIF</label>
+			</section>
+			<section class="group w3-margin-right">
+				<input type="tel" class="input" maxlength="13" pattern="^(0|\+57|\+58)\s?-?(412|414|424|416|426)-?[0-9]{3}-?[0-9]{4}" title="Ejemplo (+58 416-111-2222 o 0416-111-2222)">
+				<span class="highlight"></span>
+				<span class="bar"></span>
+				<label>Teléfono</label>
+			</section>
+			<section class="group w3-margin-right">
+				<input class="input" maxlength="50" pattern="^([\w\,\.\-\#\/]\s?){4,50}$" title="Sólo se permiten letras, números y símbolos (, . - / #)">
+				<span class="highlight"></span>
+				<span class="bar"></span>
+				<label>Dirección</label>
+			</section>
+		</div>
+		<button class="boton"><span>Registrar</span></button>
+	</div>
+	<div class="w3-padding-top-16 w3-third w3-topbar w3-center">
+		<label for="logo" class="w3-display-container w3-hover-opacity">
+			<i class="icon-camera w3-xxxlarge w3-display-middle w3-display-zoom"></i>
+			<input type="file" class="w3-hide" id="logo">
+			<img class="image-result w3-image w3-border" src="../images/logoNegocio.jpg" style="width: 175px">
+		</label>
+		<label for="logo" class="w3-block w3-width-auto w3-auto w3-small w3-margin-top w3-button w3-black w3-hover-indigo w3-round-large">
+			<i class="icon-upload"> </i>
+			Sube tu logo
+		</label>
+		<b class="w3-medium w3-white w3-block w3-margin-top">Logotipo del negocio</b>
+		<b class="w3-small w3-white w3-block w3-text-blue">Opcional</b>
+	</div>
+</form>

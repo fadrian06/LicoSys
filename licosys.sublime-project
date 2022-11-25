@@ -4,26 +4,20 @@
 			"name": "LicoSys",
 			"path": ".",
 			"folder_exclude_patterns": [
-				// "css",
-				// "backup",
-				// "docs",
-				// "fuentes",
-				// "iconos",
-				// "imagenes",
-				// "js",
-				// "librerias",
 				"node_modules",
 				"Rubbish",
-				"dist"
+				// "dist"
 			],
 			"file_exclude_patterns": [
-				".htaccess",
 				"package-lock.json",
 				// "package.json",
 				".gitignore",
-				"webpack.config.js",
+				// "webpack.config.js",
 				".babelrc"
-			]
+			],
 		},
-	]
+	],
+	"debugger_configurations":
+	[
+	],
 }
