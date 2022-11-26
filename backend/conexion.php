@@ -1,4 +1,5 @@
 <?php
+	header('Access-Control-Allow-Origin: *');
 	$CONFIG = (array) json_decode(file_get_contents('config.json'), true);
 
 	/*========================================

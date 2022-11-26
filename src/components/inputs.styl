@@ -1,11 +1,21 @@
 // color = #5264AE;
 color = #2778c4;
+error = red;
+correcto = #4caf50;
 // width = 200px;
 width = 100%;
 
 .group {
 	position: relative;
 	margin-top: 35px;
+}
+
+.group i {
+	display: none;
+	position: absolute;
+	right: 10px;
+	top: 8px;
+	font-size: 24px;
 }
 
 .group .input {
@@ -16,6 +26,33 @@ width = 100%;
 	border: none;
 	border-bottom: 1px solid #515151;
 	background: transparent;
+	position: relative;
+}
+
+.group p {
+	display: none;
+	width: 100%;
+	position: absolute;
+	top: 90%;
+	border-radius: 10px;
+	z-index: 1000;
+	opacity: 0;
+}
+
+.group p::before {
+	content: ' ';
+	display: block;
+	opacity: 0;
+	width: 20px;
+	height: 0;
+	position: absolute;
+	z-index: 1000;
+	top: -30px;
+	left: 50%;
+	transform: translateX(-50%);
+	border-width: 15px;
+	border-style: solid;
+	border-color: transparent transparent #f44336 transparent;
 }
 
 .group .input:focus { outline: none }
@@ -23,16 +60,17 @@ width = 100%;
 .group label {
 	color: #999;
 	font-size: 18px;
+	top: 10px;
 	font-weight: normal;
 	position: absolute;
 	pointer-events: none;
 	left: 5px;
-	top: 10px;
 	-webkit-transition: .2s ease all;
 	-o-transition: .2s ease all;
 	-moz-transition: .2s ease all;
 	transition: .2s ease all;
 }
+
 
 .group .input:focus ~ label {
 	top: -20px;
@@ -77,6 +115,34 @@ width = 100%;
 }
 
 .group .input:focus ~ .highlight { -webkit-animation: inputHighlighter .3s ease; -moz-animation: inputHighlighter .3s ease; -o-animation: inputHighlighter .3s ease; animation: inputHighlighter .3s ease }
+
+.group.invalido .input { border-bottom-color: error }
+.group.invalido .input:focus ~ label { color: error }
+.group.invalido p { display: block; opacity: 1 }
+.group.invalido p::after { opacity: 1 }
+.group.invalido .bar::before,
+.group.invalido .bar::after { background: error }
+.group.invalido .icon-close { display: inline-block }
+.group.invalido .icon-check-circle { display: none }
+.group.invalido p { animation: 1 }
+.group.invalido p::before { opacity: 1 }
+.group.invalido label {
+	top: -20px;
+	font-size: 14px;
+	color: error;
+}
+
+.group.valido .input { border-bottom-color: correcto }
+.group.valido .input:focus ~ label { color: correcto }
+.group.valido .bar::before,
+.group.valido .bar::after { background: correcto }
+.group.valido .icon-close { display: none }
+.group.valido .icon-check-circle { display: inline-block }
+.group.valido label {
+	top: -20px;
+	font-size: 14px;
+	color: correcto;
+}
 
 @-webkit-keyframes inputHighlighter {
 	from { background: color }

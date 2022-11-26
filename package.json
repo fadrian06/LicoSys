@@ -13,6 +13,7 @@
     "core-js": "^3.26.1",
     "css-loader": "^6.7.2",
     "html-loader": "^4.2.0",
+    "html-webpack-plugin": "^5.5.0",
     "mini-css-extract-plugin": "^2.7.0",
     "nib": "^1.2.0",
     "pug-loader": "^2.4.0",
@@ -20,14 +21,15 @@
     "stylus": "^0.58.1",
     "stylus-loader": "^7.1.0",
     "webpack": "^5.75.0",
-    "webpack-cli": "^5.0.0"
+    "webpack-cli": "^5.0.0",
+    "webpack-dev-server": "^4.11.1"
   },
   "scripts": {
     "build": "webpack --mode=production --define-process-env-node-env=production",
     "build:dev": "webpack --mode=development",
     "build:prod": "webpack --mode=production --define-process-env-node-env=production",
     "watch": "webpack --watch",
-    "stylus": "stylus src/index.styl -o dist/bundle.css -r -c -m -w"
+    "server": "webpack serve"
   },
   "dependencies": {
     "@sweetalert2/themes": "^5.0.15",

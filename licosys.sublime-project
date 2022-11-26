@@ -6,7 +6,7 @@
 			"folder_exclude_patterns": [
 				"node_modules",
 				"Rubbish",
-				// "dist"
+				"dist"
 			],
 			"file_exclude_patterns": [
 				"package-lock.json",

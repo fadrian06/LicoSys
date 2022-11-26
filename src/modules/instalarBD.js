@@ -2,6 +2,7 @@ import { BASE_URI } from '../config'
 import UI from '../UI'
 import Swal from 'sweetalert2'
 import axios from 'axios'
+import registrarNegocio from './registrarNegocio'
 
 export default async () => {
 	const uri = `${BASE_URI}/backend/conexion.php`
@@ -20,7 +21,7 @@ export default async () => {
 						allowEnterKey: false,
 						allowOutsideClick: false,
 						timer: 5000
-					})
+					}).then(async () => await registrarNegocio())
 				}, 5000)
 			}
 		})

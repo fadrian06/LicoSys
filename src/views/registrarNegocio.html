@@ -1,7 +1,7 @@
-<form>
-	<h1 class="oswald">Registre un Negocio</h1>
+<form id="registrarNegocio" class="modal">
+	<h1 class="oswald w3-center">Registre un Negocio</h1>
 	<ul class="swal2-progress-steps"><li class="swal2-progress-step swal2-active-progress-step">1</li><li class="swal2-progress-step-line"></li><li class="swal2-progress-step w3-black">2</li><li class="swal2-progress-step-line"></li><li class="swal2-progress-step w3-black">3</li></ul>
-	<div class="w3-twothird w3-rightbar w3-topbar w3-display-container">
+	<div class="w3-twothird w3-rightbar w3-topbar w3-display-container no-scroll">
 		<div class="spinner w3-display-middle w3-hide">
 			<span></span>
 			<span></span>
@@ -9,28 +9,34 @@
 		</div>
 		<div>
 			<section class="group w3-margin-right">
-				<input class="input" required minlength="4" maxlength="50" pattern="[\wáÁéÉíÍóÓúñÑ\s]{4,50}" title="Sólo se permiten entre 4 y 50 letras">
+				<input class="input" name="nombreNegocio" id="nombreNegocio" required minlength="4" maxlength="50" pattern="[\wáÁéÉíÍóÓúñÑ\s]{4,50}" title="Sólo se permiten entre 4 y 50 letras">
 				<span class="highlight"></span>
 				<span class="bar"></span>
 				<label>Nombre</label>
+				<i class="icon-close w3-text-red w3-animate-zoom"></i>
+				<i class="icon-check-circle w3-text-green w3-animate-zoom"></i>
+				<p class="w3-card w3-padding w3-red">Sólo se permiten entre 4 y 50 letras</p>
 			</section>
 			<section class="group w3-margin-right">
-				<input class="input" required minlength="10" maxlength="15" pattern="(v|e|V|E){1}\d{9,15}" title="Debe empezar por V o E seguido de entre 9 y 15 dígitos">
+				<input class="input" name="rif" id="rif" required minlength="10" maxlength="15" pattern="(v|e|V|E){1}\d{9,15}" title="Debe empezar por V o E seguido de entre 9 y 15 dígitos">
 				<span class="highlight"></span>
 				<span class="bar"></span>
 				<label>RIF</label>
+				<p class="w3-card w3-padding w3-red">Debe empezar por V o E seguido de entre 9 y 15 dígitos</p>
 			</section>
 			<section class="group w3-margin-right">
-				<input type="tel" class="input" maxlength="13" pattern="^(0|\+57|\+58)\s?-?(412|414|424|416|426)-?[0-9]{3}-?[0-9]{4}" title="Ejemplo (+58 416-111-2222 o 0416-111-2222)">
+				<input type="tel" class="input" name="telefono" id="telefono" maxlength="13" pattern="^(0|\+57|\+58)\s?-?(412|414|424|416|426)-?[0-9]{3}-?[0-9]{4}" title="Ejemplo (+58 416-111-2222 o 0416-111-2222)">
 				<span class="highlight"></span>
 				<span class="bar"></span>
 				<label>Teléfono</label>
+				<p class="w3-card w3-padding w3-red">Ejemplo (+58 416-111-2222 o 0416-111-2222)</p>
 			</section>
 			<section class="group w3-margin-right">
-				<input class="input" maxlength="50" pattern="^([\w\,\.\-\#\/]\s?){4,50}$" title="Sólo se permiten letras, números y símbolos (, . - / #)">
+				<input class="input" maxlength="50" name="direccion" id="direccion" pattern="^([\w\,\.\-\#\/]\s?){4,50}$" title="Sólo se permiten letras, números y símbolos (, . - / #)">
 				<span class="highlight"></span>
 				<span class="bar"></span>
 				<label>Dirección</label>
+				<p class="w3-card w3-padding w3-red">Sólo se permiten letras, números y símbolos (, . - / #)</p>
 			</section>
 		</div>
 		<button class="boton"><span>Registrar</span></button>

@@ -1,5 +1,6 @@
 const path = require('path')
 const MiniCSSExtractPlugin = require('mini-css-extract-plugin')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
 
 const config = {
 	entry: './src/index.js',
@@ -30,7 +31,7 @@ const config = {
 					options: {
 						minimize: true
 					}
-				}
+				},
 			},
 			{
 				test: /\.css$/,
@@ -68,10 +69,28 @@ const config = {
 					'apply-loader',
 					'pug-loader'
 				]
+			},
+			{
+				test: /\.(jpg|jpeg|png|gif|svg)$/,
+				type: 'asset',
+				generator: {
+					filename: 'images/[hash][ext][query]'
+				}
+			},
+			{
+				test: /\.(ttf|woff|eot)$/,
+				type: 'asset',
+				generator: {
+					filename: 'fonts/[hash][ext][query]'
+				}
 			}
 		]
 	},
-	plugins: [new MiniCSSExtractPlugin({filename: 'css/bundle.css'})]
+	plugins: [
+		new MiniCSSExtractPlugin({ filename: 'css/bundle.css' }),
+		new HtmlWebpackPlugin({ template: './src/index.html' })
+	],
+	devServer: { port: 4000 }
 }
 
 const isProduction = process.env.NODE_ENV == 'production'

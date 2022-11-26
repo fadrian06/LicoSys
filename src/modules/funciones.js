@@ -67,42 +67,7 @@ export function menu(boton, modal, overlay) {
 	});
 }
 
-export function actualizarFoto() {
-	const inputsFile = w3.getElements("input[type='file']");
-	const images     = w3.getElements("img.image-result");
-
-	let submits = false;
-	let spans   = false;
-	if (w3.getElements("input[name='actualizarFoto']")) {
-		submits = w3.getElements("input[name='actualizarFoto']");
-		spans = w3.getElements(".formFoto span");
-	}
-
-	function uploadImage(file) {
-		const fileReader = new FileReader();
-		fileReader.readAsDataURL(file);
-		fileReader.addEventListener('load', e => images.forEach(img => img.setAttribute('src', e.target.result)));
-	}
-
-	inputsFile.forEach(input => {
-		input.addEventListener('change', e => {
-			const file = e.target.files[0];
-			if (file.type == "image/jpeg" || file.type == "image/jpg" || file.type == "image/png") {
-				if (file.size < (1 * 1000 * 2048)) {
-					uploadImage(file);
-					if (submits) submits.forEach(submit => submit.classList.remove("w3-hide"));
-					if (spans) spans.forEach(span => span.classList.add("w3-animate-bottom"));
-				} else {
-					alerta('La imagen no puede ser mayor a <b class=\"w3-text-red\" title=\"2 Megabytes\">2MB</b>');
-				}
-			} else {
-				alerta('Sólo se permiten images (<b>jpeg, jpg</b>&nbsp;o <b>png</b>)');
-			}
-		});
-	});
-}
-
-function alerta(title = "", toast = true, timer = 2000) {
+export function alerta(title = "", toast = true, timer = 2000) {
 	if (toast) {
 		var position = "bottom-end";
 	} else {
