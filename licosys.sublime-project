@@ -4,26 +4,36 @@
 			"name": "LicoSys",
 			"path": ".",
 			"folder_exclude_patterns": [
-				// "css",
-				// "backup",
-				// "docs",
-				// "fuentes",
-				// "iconos",
-				// "imagenes",
+				"backup",
+				"css",
+				"fonts",
+				"icons",
+				"images",
 				// "js",
-				// "librerias",
+				// "libs",
 				"node_modules",
-				"Rubbish",
-				"dist"
+				"Rubbish"
 			],
 			"file_exclude_patterns": [
-				".htaccess",
-				"package-lock.json",
-				// "package.json",
+				".babelrc",
 				".gitignore",
-				"webpack.config.js",
-				".babelrc"
+				".htaccess",
+				"package-lock.json"
 			]
 		},
+	],
+	"build_systems": [
+		{
+			"name": "Build Babel",
+			"shell_cmd": "npm run babel"
+		},
+		{
+			"name": "Build Stylus",
+			"shell_cmd": "npm run stylus"
+		},
+		{
+			"name": "Build Production",
+			"shell_cmd": "npm run build"
+		}
 	]
 }

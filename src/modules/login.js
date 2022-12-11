@@ -1,22 +1,19 @@
-import w3 from '../../librerias/w3/w3.js'
-import { validar, ventanaEmergente, actualizarFoto, modal, reloj } from './funciones.js'
+const overlay       = document.querySelector(".w3-overlay");
+const formNegocio   = document.querySelector("#formNegocio");
+const formAdmin     = document.querySelector("#formAdmin");
+const formLogin     = document.querySelector("#formLogin");
+const formRecuperar = document.querySelector("#formConsulta");
+const formPreguntas = document.querySelector("#formPreguntas");
+const formClave     = document.querySelector("#formClave");
+const enlace        = document.querySelector("a.recuperarClave");
 
-const overlay       = w3.getElement(".w3-overlay");
-const formNegocio   = w3.getElement("#formNegocio");
-const formAdmin     = w3.getElement("#formAdmin");
-const formLogin     = w3.getElement("#formLogin");
-const formRecuperar = w3.getElement("#formConsulta");
-const formPreguntas = w3.getElement("#formPreguntas");
-const formClave     = w3.getElement("#formClave");
-const enlace        = w3.getElement("a.recuperarClave");
-
-if(formNegocio){
+if (formNegocio) {
 	validar(formNegocio);
 	ventanaEmergente(formNegocio, overlay);
 	actualizarFoto();
 }
 
-if(formAdmin){
+if (formAdmin) {
 	validar(formAdmin);
 	ventanaEmergente(formAdmin, overlay);
 }
@@ -30,12 +27,12 @@ if (formLogin) {
 	reloj(contenedorReloj);
 	setInterval(() => reloj(contenedorReloj), 1000 * 60);
 
-	if(formPreguntas){
+	if (formPreguntas) {
 		validar(formPreguntas);
 		ventanaEmergente(formPreguntas, overlay);
 	}
 
-	if(formClave){
+	if (formClave) {
 		validar(formClave);
 		ventanaEmergente(formClave, overlay);
 	}

@@ -9,8 +9,8 @@
 	/*==========================================
 	=            SCRIPTS ESENCIALES            =
 	==========================================*/
-	require '../php/conexion.php';
-	require '../php/funciones.php';
+	require '../backend/conexion.php';
+	require '../backend/funciones.php';
 	require 'php/desactivar.php';
 	require 'php/activar.php';
 
@@ -39,20 +39,16 @@
 		<meta name="author" content="Daniel Mancilla">
 		<meta name="description" content="Sistema Automatizado para Registrar Compras y Ventas">
 		<meta name="theme-color" content="black">
-		<link rel="icon" href="../imagenes/logo.png">
-		<link rel="stylesheet" href="../iconos/style.min.css">
-		<link rel="stylesheet" href="../librerias/w3/w3.min.css">
-		<link rel="stylesheet" href="../librerias/animate.min.css">
-		<link rel="stylesheet" href='../fuentes/fuentes.css'>
-		<link rel="stylesheet" href="../css/sistema.css">
-		<link rel="stylesheet" href="../css/boton.css">
-		<link rel="stylesheet" href="../css/miPerfil.css">
-		<link rel="stylesheet" href="../css/configuracionNegocios.css">
-		<link rel="stylesheet" href="../css/main.css">
+		<link rel="icon" href="../images/logo.png">
+		<link rel="stylesheet" href="../icons/style.min.css">
+		<link rel="stylesheet" href="../libs/w3/w3.min.css">
+		<link rel="stylesheet" href="../libs/animate.min.css">
+		<link rel="stylesheet" href='../fonts/fuentes.min.css'>
+		<link rel="stylesheet" href="../css/bundle.css">
 		<title>LicoSys</title>
-		<script src="../librerias/axios/axios.min.js"></script>
-		<script src="../librerias/w3/w3.min.js"></script>
-		<script src="../librerias/sweetalert2/sweetalert2.all.min.js"></script>
+		<script src="../libs/axios/axios.min.js"></script>
+		<script src="../libs/w3/w3.min.js"></script>
+		<script src="../libs/sweetalert2/sweetalert2.all.min.js"></script>
 		<script src="../js/funciones.js"></script>
 	</head>
 

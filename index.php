@@ -1,18 +1,16 @@
 <?php
-	error_reporting(E_ALL);
 	session_start();
-	require 'php/conexion.php';
-	require 'php/funciones.php';
+	require 'backend/conexion.php';
+	require 'backend/funciones.php';
 
-	$negocios = getRegistros('SELECT * FROM negocio WHERE activo=1');
-	$admin    = getRegistro("SELECT * FROM usuario WHERE cargo='a'");
-
-	require 'php/registrarNegocio.php';
-	require 'php/registrarAdmin.php';
-	require 'php/login.php';
-	require 'php/consultarPreguntas.php';
-	require 'php/validarRespuestas.php';
-	require 'php/cambiarClave.php';
+	$negocios = getRegistros('SELECT * FROM negocios WHERE activo=1');
+	$admin    = getRegistro("SELECT * FROM usuarios WHERE cargo='a'");
+	
+	// require 'backend/registrarAdmin.php';
+	// require 'backend/login.php';
+	// require 'backend/consultarPreguntas.php';
+	// require 'backend/validarRespuestas.php';
+	// require 'backend/cambiarClave.php';
 ?>
 
 <!DOCTYPE html>
@@ -20,57 +18,68 @@
 
 	<head>
 		<meta charset="UTF-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<meta name="author" content="Franyer Sánchez, Daniel Mancilla">
 		<meta name="description" content="Sistema Automatizado de Gestión de Compras y Ventas">
 		<meta name="theme-color" content="black">
-		
-		<link rel="icon" href="imagenes/logo.png">
-		<link rel="stylesheet" href="iconos/style.min.css">
-		<link rel="stylesheet" href="librerias/w3/w3.min.css">
-		<link rel="stylesheet" href="librerias/animate.min.css">
-		<link rel="stylesheet" href="fuentes/fuentes.css">
-		<!-- <link rel="stylesheet" href="css/login.css">
-		<link rel="stylesheet" href="css/main.css"> -->
-		<link rel="stylesheet" href="dist/bundle.css">
-		
-		<!-- <script src="librerias/w3/w3.min.js"></script> -->
-		<!-- <script src="librerias/axios/axios.min.js"></script> -->
-		<!-- <script src="librerias/sweetalert2/sweetalert2.all.min.js"></script> -->
-		<!-- <script src="js/funciones.js"></script> -->
-		
+		<link rel="icon" href="images/logo.png">
+		<link rel="stylesheet" href="icons/style.min.css">
+		<link rel="stylesheet" href="libs/w3/w3.min.css">
+		<link rel="stylesheet" href="libs/noty/noty.css">
+		<link rel="stylesheet" href="libs/noty/themes/sunset.css">
+		<link rel="stylesheet" href="fonts/fuentes.min.css">
+		<link rel="stylesheet" href="css/bundle.css">
 		<title>LicoSys</title>
 	</head>
 
 	<body>
 		<div class="w3-overlay w3-animate-opacity w3-hide"></div>
 		<?php
-			if (!$negocios):
-				
+			if (!isset($mostrarLoader) and !$negocios):
 				if (file_exists('backup/licosys.sql'))
-					$alerta = '<script src="js/restaurarBD.js"></script>';
-				else
-					$alerta = <<<HTML
-						<link rel="stylesheet" href="librerias/sweetalert2/borderless.min.css">
-						<script src="js/loader.js"></script>
-					HTML;
-					
-				$registrarNegocio = true;
-				require 'parciales/formRegistroNegocio.php';
-			elseif (!$admin):
-				$registrarAdmin = true;
-				require 'parciales/formRegistroAdmin.php';
-			else:
-				require 'parciales/login.php';
-				require 'parciales/formConsulta.php';
+					$script = '<script src="js/restaurarBD.js"></script>';
 				
-				if (isset($mostrarPreguntas))
-					require 'parciales/formPreguntas.php';
+				include 'templates/registrarNegocio.php';
+				$script .= '<script src="js/actualizarImagen.js"></script>';
+				$script .= '<script src="js/validar.js"></script>';
+				$script .= '<script src="js/registrarNegocio.js"></script>';
+			elseif (!isset($mostrarLoader) and !$admin):
+				if (file_exists('backup/licosys.sql'))
+					$script = '<script src="js/restaurarBD.js"></script>';
 				
-				if (isset($cambiarClave))
-					require 'parciales/formCambiarClave.php';
+				include 'templates/registrarAdmin.php';
 			endif;
+			// if (!$negocios):
+				
+			// 	if (file_exists('backup/licosys.sql'))
+			// 		$alerta = '<script src="js/restaurarBD.js"></script>';
+			// 	else
+			// 		$alerta = <<<HTML
+			// 			<link rel="stylesheet" href="librerias/sweetalert2/borderless.min.css">
+			// 			<script src="js/loader.js"></script>
+			// 		HTML;
+					
+			// 	$registrarNegocio = true;
+			// 	require 'templates/formRegistroNegocio.php';
+			// elseif (!$admin):
+			// 	$registrarAdmin = true;
+			// 	require 'templates/formRegistroAdmin.php';
+			// else:
+			// 	require 'templates/login.php';
+			// 	require 'templates/formConsulta.php';
+				
+			// 	if (isset($mostrarPreguntas))
+			// 		require 'templates/formPreguntas.php';
+				
+			// 	if (isset($cambiarClave))
+			// 		require 'templates/formCambiarClave.php';
+			// endif;
 		?>
-		<script src="dist/bundle.js"></script>
+		<script src="libs/jquery.min.js"></script>
+		<script src="libs/w3/w3.min.js"></script>
+		<script src="libs/noty/noty.min.js"></script>
+		<script src="js/funciones.js"></script>
+		<?=$mostrarLoader ?? ''?>
+		<?=$script ?? ''?>
 	</body>
 </html>

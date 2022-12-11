@@ -13,7 +13,7 @@
 		<button id="version" class="w3-button">LicoSys <?=getUltimaVersion()?></button>
 	</div>
 	<a href="index.php" class="w3-medium w3-right w3-cell w3-cell-middle w3-button">
-		<img class="w3-image w3-circle w3-hide-small" src="<?=!empty($_SESSION['logo']) ? "../imagenes/negocios/{$_SESSION["logo"]}" : "../imagenes/logoNegocio.jpg"?>" style="height: 25px;width:25px">
+		<img class="w3-image w3-circle w3-hide-small" src="<?=!empty($_SESSION['logo']) ? "../images/negocios/{$_SESSION["logo"]}" : "../images/logoNegocio.jpg"?>" style="height: 25px;width:25px">
 	&nbsp;<?=$_SESSION["nombreNegocio"]?></a>
 </nav>
 
@@ -23,7 +23,7 @@
 <aside class="w3-sidebar w3-collapse w3-white w3-animate-left w3-padding-top-24 w3-hide" id="mySidebar">
 	<header class="w3-container w3-row w3-border-bottom w3-margin-bottom">
 		<div class="w3-col s4">
-			<a href="miPerfil.php"><img src="<?=!empty($_SESSION["foto"]) ? "../imagenes/perfil/{$_SESSION["foto"]}" : "../imagenes/avatar2.png"?>" class="w3-circle w3-margin-right" id="fotoPerfil"></a>
+			<a href="miPerfil.php"><img src="<?=!empty($_SESSION["foto"]) ? "../images/perfil/{$_SESSION["foto"]}" : "../images/avatar2.png"?>" class="w3-image w3-circle w3-margin-right w3-padding-small" id="fotoPerfil"></a>
 		</div>
 		<div class="w3-col s8 w3-bar">
 			<div>Bienvenido, <strong><?=$_SESSION["nombreUsuario"]?></strong></div>

@@ -98,26 +98,13 @@
  }
 }
 
-.loader span {
- font-size: 5vw;
- font-family: 'Courier New', Courier, monospace;
- font-weight: 600;
- -webkit-animation: blur 12s linear infinite;
-         animation: blur 12s linear infinite;
- line-height: 20px;
- -webkit-transition: all 0.5s;
- transition: all 0.5s;
- letter-spacing: 0.2em;
-}
-
-@keyframes blur {
- 0%, 90% {
-  -webkit-filter: blur(0);
-          filter: blur(0);
- }
-
- 50% {
-  -webkit-filter: blur(10px);
-          filter: blur(10px);
- }
-}
+form
+	.loader
+		display: none
+		font-size: 100px !important
+		z-index: 1000
+		left: calc(50% - 50px)
+		top: calc(50% - 32px)
+	&.showLoader
+		.loader
+			display: block
