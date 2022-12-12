@@ -4,12 +4,27 @@ Noty.overrideDefaults({
   theme: 'sunset'
 });
 
+/**
+ * Muestra u oculta la contraseña
+ * @param  {HTMLElement} ojo El ícono
+ * @param {HTMLInputElement} input `<input type="password">`
+ */
+var verClave = function verClave(ojo, input) {
+  ojo.onclick = function () {
+    if (input.type === 'password') {
+      input.type = 'text';
+      ojo.classList.remove('icon-eye');
+      ojo.classList.add('icon-eye-slash');
+      return;
+    }
+    input.type = 'password';
+    ojo.classList.remove('icon-eye-slash');
+    ojo.classList.add('icon-eye');
+  };
+};
+
 // onoffline = () => advertencia("Se ha perdido la conexión");
 // ononline  = () => notificacion("Se ha restablecido la conexión");
-
-// const ojos = w3.getElements('.icon-eye');
-// if(ojos !== undefined)
-// ojos.forEach(ojo => ojo.addEventListener('click', e => verClave(e.target)));
 
 // function reloj(contenedor){
 // 	const fecha = new Date();
@@ -116,17 +131,6 @@ Noty.overrideDefaults({
 // 		position: "bottom-start",
 // 		showConfirmButton: false
 // 	});
-// }
-
-// function verClave(ojo) {
-// 	let input = ojo.parentElement.previousElementSibling;
-// 	if (input.type == "password") {
-// 		input.type    = "text";
-// 		ojo.className = "icon-eye-slash";
-// 	} else {
-// 		input.type    = "password";
-// 		ojo.className = "icon-eye";
-// 	}
 // }
 
 // function modal(boton, formulario, overlay) {

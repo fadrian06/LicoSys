@@ -2,7 +2,14 @@ const mensajes = {
 	nombreNegocio: 'El nombre debe tener entre 4 y 20 letras.',
 	rif: 'El RIF debe empezar con V o E seguido de 9 a 15 números.',
 	telefono: 'Introduce un teléfono válido. Ejemplos (+58 111-2222 o 04124442222)',
-	direccion: 'La dirección debe tener entre 4 y 50 letras, números y símbolos (, . - # /)'
+	direccion: 'La dirección debe tener entre 4 y 50 letras, números y símbolos (, . - # /)',
+	cedula: 'La cédula debe tener entre 7 y 8 números.',
+	nombre: 'El nombre debe tener entre 4 y 20 letras.',
+	usuario: 'El usuario debe tener entre 4 y 20 letras, números o símbolos (- _)',
+	clave: 'La clave debe tener entre 4 y 20 letras, números o símbolos (- _ . @ # / *)',
+	confirmar: 'Ambas claves deben ser iguales.',
+	pregunta: 'Las preguntas deben tener entre 1 y 50 letras y símbolos (¿ ?)',
+	respuesta: 'Las respuestas deben tener entre 4 y 20 letras y números.'
 }
 
 const expresiones = {
@@ -19,12 +26,24 @@ const expresiones = {
 	
 	// Entre 4 y 50 letras, números o símbolos (, . - # /)
 	direccion: /^([a-záÁéÉíÍóÓúÚñÑ\d\,\.\-\#\/]\s?){4,50}$/i,
+	
+	// Entre 7 y 8 números
 	cedula: /^[^e]?[\d]{7,8}$/,
+	
+	// Entre 4 y 20 letras
 	nombre: /^[a-záÁéÉíÍóÓúÚñÑ]{4,20}$/i,
+	
+	// Entre 4 y 20 letras, números y símbolos (- _)
 	usuario: /^[\w-]{4,20}$/i,
+	
+	// Entre 4 y 20 letras, números y símbolos (- _ . @ # / *)
 	clave: /^[\w.-@#/*]{4,20}$/i,
+	
+	// Entre 1 y 50 letras y símbolos (¿ ?)
 	pregunta: /^[\?a-záÁéÉíÍóÓúÚñÑ¿\s]+$/i,
-	respuesta: /^[a-záÁéÉíÍóÓúÚñÑ\d]{4,20}$/i,
+	
+	// Entre 4 y 50 letras y números
+	respuesta: /^[a-záÁéÉíÍóÓúÚñÑ\d\s]{4,20}$/i,
 	codigo: /^[a-z\d-.#]{3,10}$/i,
 	stock: /^[^e]?[\d]+$/,
 	precio: /^[\d.]+$/,
@@ -34,26 +53,26 @@ const expresiones = {
 }
 
 const campos = {
-	nombreNegocio: false,
-	nombreProducto: false,
-	nombreProveedor: false,
-	rif: false,
-	telefono: false,
-	direccion: false,
-	cedula: false,
-	nombre: false,
-	usuario: false,
-	clave: false,
-	confirmar: false,
-	negocio: false,
-	pregunta: false,
-	respuesta: false,
-	codigo: false,
-	stock: false,
-	precio: false,
-	iva: false,
-	dolar: false,
-	peso: false
+	nombreNegocio   : false,
+	nombreProducto  : false,
+	nombreProveedor : false,
+	rif             : false,
+	telefono        : false,
+	direccion       : false,
+	cedula          : false,
+	nombre          : false,
+	usuario         : false,
+	clave           : false,
+	confirmar       : false,
+	negocio         : false,
+	pregunta        : false,
+	respuesta       : false,
+	codigo          : false,
+	stock           : false,
+	precio          : false,
+	iva             : false,
+	dolar           : false,
+	peso            : false
 }
 
 /**
@@ -76,9 +95,8 @@ const error = input => {
  * @param  {RegExp} expresion
  * @param  {HTMLInputElement} input
  * @param  {string} campo
- * @param {?(error: string, FormData: FormData, e: SubmitEvent)} cb
  */
-const validarCampo = (expresion, input, campo, cb = () => {}) => {
+const validarCampo = (expresion, input, campo) => {
 	if (expresion.test(input.value)) {
 		correcto(input)
 		campos[campo] = true
@@ -100,10 +118,24 @@ const mayuscula = string => {
 }
 
 /**
- * @param  {KeyboardEvent | FocusEvent} e Evento `keyup` o `blur`
- * @param {?(error: string, FormData: FormData, e: SubmitEvent)} cb
+ * @param  {HTMLInputElement} clave `<input name="clave">`
+ * @param  {HTMLInputElement} confirmar `<input name="confirmar">`
  */
-const validarInput = (e, cb = () => {}) => {
+const compararClaves = (clave, confirmar) => {
+	if (clave.value === confirmar.value) {
+		correcto(confirmar)
+		campos.confirmar = true
+		return
+	}
+	
+	error(confirmar)
+	campos.confirmar = false;
+}
+
+/**
+ * @param  {KeyboardEvent | FocusEvent} e Evento `keyup` o `blur`
+ */
+const validarInput = e => {
 	/**
 	 * @type {HTMLInputElement}
 	 */
@@ -123,95 +155,100 @@ const validarInput = (e, cb = () => {}) => {
 		case 'telefono':
 			validarCampo(expresiones[input.name], input, input.name)
 			break
-
+			
 		case 'direccion':
 			validarCampo(expresiones[input.name], input, input.name)
 			input.value = mayuscula(input.value)
 			break
-
-		case "cedula":
-			validarCampo(expresiones.cedula, e.target, "cedula");
-			break;
-
-		case "nombre":
-			validarCampo(expresiones.nombre, e.target, "nombre");
-			e.target.value = mayuscula(e.target.value);
-			break;
-
-		case "usuario":
-			validarCampo(expresiones.usuario, e.target, "usuario");
-			break;
-
-		case "nuevaClave":
-			validarCampo(expresiones.clave, e.target, "clave");
-			break;
-
-		case "confirmar":
-			validarCampo(expresiones.clave, e.target, "confirmar");
-			compararClaves();
-			break;
-
-		case "clave":
-			validarCampo(expresiones.clave, e.target, "clave");
-			break;
-
-		case "respuesta1":
-		case "respuesta2":
-		case "respuesta3":
-			validarCampo(expresiones.respuesta, e.target, "respuesta");
-			break;
-
-		case "pregunta1":
-		case "pregunta2":
-		case "pregunta3":
-			validarCampo(expresiones.pregunta, e.target, "pregunta");
-			break;
-
-		case "codigo":
-			validarCampo(expresiones.codigo, e.target, "codigo");
-			e.target.value = e.target.value.toUpperCase();
-			break;
-
-		case "nombreProducto":
-			validarCampo(expresiones.nombreProducto, e.target, "nombreProducto");
-			e.target.value = mayuscula(e.target.value);
-			break;
-
-		case "stock":
-			validarCampo(expresiones.stock, e.target, "stock");
-			break;
-
-		case "precio":
-			validarCampo(expresiones.precio, e.target, "precio");
-			break;
-
-		case "nombreProveedor":
-			validarCampo(expresiones.nombreNegocio, e.target, "nombreProveedor");
-			e.target.value = mayuscula(e.target.value);
-			break;
-
-		case "iva":
-		case "dolar":
-			validarCampo(expresiones.iva, e.target, "iva");
-			validarCampo(expresiones.dolar, e.target, "dolar");
-			break;
-
-		case "peso":
-			validarCampo(expresiones.peso, e.target, "peso");
-			break;
+			
+		case 'cedula':
+			validarCampo(expresiones[input.name], input, input.name)
+			break
+			
+		case 'nombre':
+			validarCampo(expresiones[input.name], input, input.name)
+			input.value = mayuscula(input.value)
+			break
+			
+		case 'usuario':
+			validarCampo(expresiones[input.name], input, input.name)
+			break
+			
+		case 'clave':
+			validarCampo(expresiones[input.name], input, input.name)
+			break
+		
+		case 'confirmar':
+			validarCampo(expresiones.clave, input, input.name)
+			compararClaves(input.form.clave, input)
+			break
+		
+		case "pre1":
+		case "pre2":
+		case "pre3":
+			validarCampo(expresiones.pregunta, input, 'pregunta')
+			break
+			
+		case "res1":
+		case "res2":
+		case "res3":
+			validarCampo(expresiones.respuesta, input, 'respuesta')
+			break
+		
+		// case "codigo":
+		// 	validarCampo(expresiones.codigo, e.target, "codigo");
+		// 	e.target.value = e.target.value.toUpperCase();
+		// 	break;
+		
+		// case "nombreProducto":
+		// 	validarCampo(expresiones.nombreProducto, e.target, "nombreProducto");
+		// 	e.target.value = mayuscula(e.target.value);
+		// 	break;
+		
+		// case "stock":
+		// 	validarCampo(expresiones.stock, e.target, "stock");
+		// 	break;
+		
+		// case "precio":
+		// 	validarCampo(expresiones.precio, e.target, "precio");
+		// 	break;
+		
+		// case "nombreProveedor":
+		// 	validarCampo(expresiones.nombreNegocio, e.target, "nombreProveedor");
+		// 	e.target.value = mayuscula(e.target.value);
+		// 	break;
+		
+		// case "iva":
+		// case "dolar":
+		// 	validarCampo(expresiones.iva, e.target, "iva");
+		// 	validarCampo(expresiones.dolar, e.target, "dolar");
+		// 	break;
+		
+		// case "peso":
+		// 	validarCampo(expresiones.peso, e.target, "peso");
+		// 	break;
 	}
 }
 
 /**
  * @param  {HTMLFormElement} form El `<form>`a validar. DEBE TENER UN ID de los siguientes: <br><br>
- * <i>registrarNegocio <br></i>
+ * <i>registrarNegocio <br>
+ * registrarAdmin <br>
+ * registrarPreguntasRespuestas <br></i>
  * <br>
  * <br>
  * Los `input` deben tener alguno de los siguientes `name` y `id` <br><br>
  * <i>nombreNegocio <br>
  * rif <br>
  * telefono <br>
- * direccion <br></i>
+ * direccion <br>
+ * cedula <br>
+ * nombre <br>
+ * usuario <br>
+ * clave <br>
+ * confirmar <br>
+ * pre1, pre2 o pre3 <br>
+ * res1, res2 o res3 <br></i>
  * @param {?(error: string, FormData: FormData, e: SubmitEvent)} cb Contiene el resultado de la validación, los datos a enviar y el Evento `submit`
  */
 const validar = (form, cb = () => {}) => {
@@ -228,139 +265,80 @@ const validar = (form, cb = () => {}) => {
 				
 				error(form.nombreNegocio)
 					
-				return cb(mensajes.nombreNegocio, fd, e)
+				return cb(mensajes.nombreNegocio)
 					
 			} else if (!campos.rif) {
 				e.preventDefault()
 				error(form.rif)
 					
-				return cb(mensajes.rif, fd, e)
+				return cb(mensajes.rif)
 					
 			} else if (form.telefono.value && !campos.telefono) {
 				e.preventDefault()
 				error(form.telefono)
 					
-				return cb(mensajes.telefono, fd, e)
+				return cb(mensajes.telefono)
 					
 			} else if (form.direccion.value && !campos.direccion) {
 				e.preventDefault()
 				error(form.direccion)
 					
-				return cb(mensajes.direccion, fd, e)
+				return cb(mensajes.direccion)
 			}
 		}
 		
-		// if (idForm == "formMonedas") {
-		// 	if (!campos.iva) {
-		// 		e.preventDefault();
-		// 		error(w3.getElement("input[name='iva']"));
-		// 		alerta("Verifique el IVA");
-		// 	}
-		// 	if (!campos.dolar) {
-		// 		e.preventDefault();
-		// 		error(w3.getElement("input[name='dolar']"));
-		// 		alerta("Verifique el monto en Bs.");
-		// 	}
-		// 	if (!campos.peso) {
-		// 		e.preventDefault();
-		// 		error(w3.getElement("input[name='peso']"));
-		// 		alerta("Verifique el monto en Pesos");
-		// 	}
-		// }
+		if (form.id === 'registrarAdmin') {
+			if (!campos.cedula) {
+				e.preventDefault()
+				error(form.cedula)
+				
+				return cb(mensajes.cedula)
+			} else if (!campos.nombre) {
+				e.preventDefault()
+				error(form.nombre)
+				
+				return cb(mensajes.nombre)
+			} else if (!campos.usuario) {
+				e.preventDefault()
+				error(form.usuario)
+				
+				return cb(mensajes.usuario)
+			} else if (!campos.clave) {
+				e.preventDefault()
+				error(form.clave)
+				
+				return cb(mensajes.clave)
+			} else if (!campos.confirmar) {
+				e.preventDefault()
+				error(form.confirmar)
+				
+				return cb(mensajes.confirmar)
+			} else if (form.telefono.value && !campos.telefono) {
+				e.preventDefault()
+				error(form.telefono)
+				
+				return cb(mensajes.telefono)
+			}
+		}
 		
-		// if (idForm == "formAdmin" || idForm == "formLogin" || idForm == "formularioRegistrarUsuario" || idForm == "formPerfil") {
-		// 	if (!campos.usuario) {
-		// 		e.preventDefault();
-		// 		error(w3.getElement("input[name='usuario']"));
-		// 		alerta("Verifique el usuario");
-		// 	}
-		// }
-		
-		// if (idForm == "formAdmin" || idForm == "formularioRegistrarUsuario" || idForm == "formClave" || idForm == "formActualizarClave") {
-		// 	if (!campos.clave) {
-		// 		e.preventDefault();
-		// 		error(w3.getElement("input[name='nuevaClave']"));
-		// 		alerta("Verifique la contraseña");
-		// 	} else if (!campos.confirmar) {
-		// 		e.preventDefault();
-		// 		error(w3.getElement("input[name='confirmar']"));
-		// 		alerta("Las contraseñas deben ser iguales");
-		// 	}
-		// }
-		
-		// if (idForm == "formAdmin" || idForm == "formularioRegistrarCliente" || idForm == "formularioRegistrarUsuario" || idForm == "formPerfil") {
-		// 	if (!campos.cedula) {
-		// 		e.preventDefault();
-		// 		error(w3.getElement("input[name='cedula']"));
-		// 		alerta("Verifique la cédula");
-		// 	} else if (!campos.nombre) {
-		// 		e.preventDefault();
-		// 		error(w3.getElement("input[name='nombre']"));
-		// 		alerta("Verifique el nombre");
-		// 	}
-		// }
-		
-		// if (idForm == "formLogin") {
-		// 	if (!campos.clave) {
-		// 		e.preventDefault();
-		// 		error(w3.getElement("input[name='clave']"));
-		// 		alerta("Verifique la contraseña");
-		// 	}
-		// 	if (!campos.negocio) {
-		// 		e.preventDefault();
-		// 		alerta("Seleccione un negocio");
-		// 	}
-		// }
-		
-		// if (idForm == "formPreguntas" || idForm == "formActualizarPreguntas") {
-		// 	if (!campos.respuesta) {
-		// 		e.preventDefault();
-		// 		inputs.forEach(input => error(input));
-		// 		alerta('Verifique las respuestas');
-		// 	}
-		// }
-		
-		// if (idForm == "formularioRegistrarProducto" || idForm == "formEditProducto") {
-		// 	if (!campos.codigo) {
-		// 		e.preventDefault();
-		// 		error(w3.getElement("input[name='codigo']"));
-		// 		alerta("Verifique el código");
-		// 	}
-		// 	if (!campos.nombreProducto) {
-		// 		e.preventDefault();
-		// 		error(w3.getElement("input[name='nombreProducto'"));
-		// 		alerta("Verifique el nombre");
-		// 	}
-		// 	if (!campos.stock) {
-		// 		e.preventDefault();
-		// 		error(w3.getElement("input[name='stock']"));
-		// 		alerta("Verifique el campo 'Existencia'");
-		// 	}
-		// 	if (!campos.precio) {
-		// 		e.preventDefault();
-		// 		error(w3.getElement("input[name='precio']"));
-		// 		alerta("Verifique el campo 'Precio'");
-		// 	}
-		
-		// 	if (idForm == "formularioRegistrarProveedor") {
-		// 		if (!campos.nombreProveedor) {
-		// 			e.preventDefault();
-		// 			error(w3.getElement("input[name='nombreProveedor']"));
-		// 			alerta("Verifique el nombre");
-		// 		}
-		// 	}
-		
-		// 	if (idForm == "formPreguntas") {
-		// 		if (!campos.pregunta) {
-		// 			e.preventDefault();
-		// 			inputs.foreach(input => {
-		// 				if (input.name == "pregunta1" || input.name == "pregunta2" || input.name == "pregunta3") error(input);
-		// 			});
-		// 			alerta("Verifique que las preguntas estén bien escritas");
-		// 		}
-		// 	}
-		// }
-			
+		if (form.id === 'registrarPreguntasRespuestas') {
+			if (!campos.pregunta) {
+				e.preventDefault()
+				error(form.pre1)
+				error(form.pre2)
+				error(form.pre3)
+				
+				return cb(mensajes.pregunta)
+			} else if (!campos.respuesta) {
+				e.preventDefault()
+				error(form.res1)
+				error(form.res2)
+				error(form.res3)
+				
+				return cb(mensajes.respuesta)
+			}
+		}
+					
 		cb(null, fd, e)
 	}
 	
@@ -377,19 +355,7 @@ const validar = (form, cb = () => {}) => {
 		) continue
 			
 		
-		input.onkeyup = e => validarInput(e, cb)
-		input.onblur = e => validarInput(e, cb)
-	}
-
-	function compararClaves() {
-		const clave1 = w3.getElement("input[name='nuevaClave']");
-		const clave2 = w3.getElement("input[name='confirmar']");
-		if (clave1.value == clave2.value) {
-			correcto(clave2);
-			campos.confirmar = true;
-		} else {
-			error(clave2);
-			campos.confirmar = false;
-		}
+		input.onkeyup = validarInput
+		input.onblur = validarInput
 	}
 }

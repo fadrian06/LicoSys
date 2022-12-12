@@ -1,6 +1,6 @@
 let html = `
 	<div class="w3-white w3-round-xlarge w3-padding w3-center w3-border">
-		<div class="w3-spin icon-question w3-xxxlarge"></div>
+		<div class="animate__animated animate__flip animate__infinite icon-question w3-xxxlarge"></div>
 		<h2 class="w3-medium">Hay una copia de seguridad existente.</h2>
 		<b>¿Desea restaurarla?</b>
 		<div class="w3-center w3-padding">
@@ -19,12 +19,20 @@ const enviarPeticion = e => {
 }
 
 const esperarRespuesta = () => {
+	$('.noty_close_button').click(() => {
+		overlay.classList.remove('w3-show')
+		overlay.classList.add('w3-hide')
+	})
 	$('#si').click(enviarPeticion)
-	$('#no').click(() => document.querySelector('.noty_close_button').click())
+	$('#no').click(() => {
+		$('#restaurar .noty_close_button')[0].click()
+		overlay.classList.remove('w3-show')
+		overlay.classList.add('w3-hide')
+	})
 }
 
 new Noty({
-	id: 'solicitud',
+	id: 'restaurar',
 	text: html,
 	layout: 'bottomRight',
 	closeWith: ['button'],

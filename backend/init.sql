@@ -16,6 +16,7 @@ CREATE TABLE IF NOT EXISTS negocios (
 DROP TABLE IF EXISTS usuarios;
 CREATE TABLE IF NOT EXISTS usuarios (
 	id int PRIMARY KEY AUTO_INCREMENT,
+	cedula int NOT NULL,
 	nombre varchar(255) NOT NULL,
 	usuario varchar(255) NOT NULL,
 	clave varchar(255) NOT NULL,

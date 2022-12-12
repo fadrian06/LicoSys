@@ -1,7 +1,7 @@
 <?php
-	if(empty($negocios))
+	if(!empty($mostrarRegistro))
 		echo <<<HTML
-			<form id="registrarNegocio" class="w3-row modal w3-white w3-card w3-round-large w3-animate-zoom">
+			<form id="registrarNegocio" autocomplete="off" class="w3-row modal w3-white w3-card w3-round-large w3-animate-zoom">
 				<h1 class="w3-center w3-xlarge oswald w3-margin-bottom">
 					Registro de Negocio
 				</h1>

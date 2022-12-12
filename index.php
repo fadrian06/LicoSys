@@ -5,8 +5,7 @@
 
 	$negocios = getRegistros('SELECT * FROM negocios WHERE activo=1');
 	$admin    = getRegistro("SELECT * FROM usuarios WHERE cargo='a'");
-	
-	// require 'backend/registrarAdmin.php';
+	$_SESSION['userID'] = $admin['id'];
 	// require 'backend/login.php';
 	// require 'backend/consultarPreguntas.php';
 	// require 'backend/validarRespuestas.php';
@@ -25,6 +24,7 @@
 		<link rel="icon" href="images/logo.png">
 		<link rel="stylesheet" href="icons/style.min.css">
 		<link rel="stylesheet" href="libs/w3/w3.min.css">
+		<link rel="stylesheet" href="libs/animate.min.css">
 		<link rel="stylesheet" href="libs/noty/noty.css">
 		<link rel="stylesheet" href="libs/noty/themes/sunset.css">
 		<link rel="stylesheet" href="fonts/fuentes.min.css">
@@ -39,6 +39,7 @@
 				if (file_exists('backup/licosys.sql'))
 					$script = '<script src="js/restaurarBD.js"></script>';
 				
+				$mostrarRegistro = true;
 				include 'templates/registrarNegocio.php';
 				$script .= '<script src="js/actualizarImagen.js"></script>';
 				$script .= '<script src="js/validar.js"></script>';
@@ -47,7 +48,19 @@
 				if (file_exists('backup/licosys.sql'))
 					$script = '<script src="js/restaurarBD.js"></script>';
 				
+				$mostrarRegistro = true;
 				include 'templates/registrarAdmin.php';
+				$script .= '<script src="js/actualizarImagen.js"></script>';
+				$script .= '<script src="js/validar.js"></script>';
+				$script .= '<script src="js/registrarAdmin.js"></script>';
+			elseif (!isset($mostrarLoader) and !$admin['pre1']):
+				if (file_exists('backup/licosys.sql'))
+					$script = '<script src="js/restaurarBD.js"></script>';
+				
+				$mostrarRegistro = true;
+				include 'templates/registroPreguntasRespuestas.php';
+				$script .= '<script src="js/validar.js"></script>';
+				$script .= '<script src="js/registrarPreguntasRespuestas.js"></script>';
 			endif;
 			// if (!$negocios):
 				

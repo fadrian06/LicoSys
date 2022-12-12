@@ -15,7 +15,6 @@ var showIntro = function showIntro() {
       open: 'w3-animate-zoom'
     },
     timeout: 3000,
-    progressBar: true,
     callbacks: {
       afterClose: function afterClose() {
         return location.reload();

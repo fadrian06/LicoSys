@@ -1,6 +1,6 @@
 "use strict";
 
-var html = "\n\t<div class=\"w3-white w3-round-xlarge w3-padding w3-center w3-border\">\n\t\t<div class=\"w3-spin icon-question w3-xxxlarge\"></div>\n\t\t<h2 class=\"w3-medium\">Hay una copia de seguridad existente.</h2>\n\t\t<b>\xBFDesea restaurarla?</b>\n\t\t<div class=\"w3-center w3-padding\">\n\t\t\t<button id=\"si\" class=\"w3-button w3-blue w3-round-xlarge\">Si</button>\n\t\t\t<button id=\"no\" class=\"w3-button w3-red w3-round-xlarge\">No</button>\n\t\t</div>\n\t</div>\n";
+var html = "\n\t<div class=\"w3-white w3-round-xlarge w3-padding w3-center w3-border\">\n\t\t<div class=\"animate__animated animate__flip animate__infinite icon-question w3-xxxlarge\"></div>\n\t\t<h2 class=\"w3-medium\">Hay una copia de seguridad existente.</h2>\n\t\t<b>\xBFDesea restaurarla?</b>\n\t\t<div class=\"w3-center w3-padding\">\n\t\t\t<button id=\"si\" class=\"w3-button w3-blue w3-round-xlarge\">Si</button>\n\t\t\t<button id=\"no\" class=\"w3-button w3-red w3-round-xlarge\">No</button>\n\t\t</div>\n\t</div>\n";
 /**
  * @param  {Event} e
  */
@@ -10,13 +10,19 @@ var enviarPeticion = function enviarPeticion(e) {
   $('.w3-spin').addClass('icon-spinner');
 };
 var esperarRespuesta = function esperarRespuesta() {
+  $('.noty_close_button').click(function () {
+    overlay.classList.remove('w3-show');
+    overlay.classList.add('w3-hide');
+  });
   $('#si').click(enviarPeticion);
   $('#no').click(function () {
-    return document.querySelector('.noty_close_button').click();
+    $('#restaurar .noty_close_button')[0].click();
+    overlay.classList.remove('w3-show');
+    overlay.classList.add('w3-hide');
   });
 };
 new Noty({
-  id: 'solicitud',
+  id: 'restaurar',
   text: html,
   layout: 'bottomRight',
   closeWith: ['button'],
