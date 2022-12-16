@@ -1,3 +1,30 @@
+main#mainLogin
+	@media (max-width: 600px)
+		min-height: 100vh
+		display: flex
+		align-items: center
+		justify-content: center
+	aside.w3-hide-small
+	form#login
+		margin: 20px 20px
+		height: calc(100vh - 40px)
+		overflow: auto
+		@media (max-width: 600px)
+			height: auto
+			max-height: calc(100vh - 40px)
+		label
+			transition: none
+			@media (max-width: 600px)
+				border-width: medium !important
+		input[type="radio"]:checked + label
+			border-color: #2196f3 !important
+		#clave
+			@media (max-width: 600px)
+				padding-right: 50px
+
+aside.w3-hide-small
+	background: url('../images/fondo.jpg') left/cover no-repeat
+
 .icon-eye,
 .icon-eye-slash
 	cursor: pointer

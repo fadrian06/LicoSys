@@ -11,7 +11,7 @@
 		"stylus": "^0.58.1"
 	},
 	"scripts": {
-		"stylus": "stylus src/index.styl -o css/bundle.css -w -c -m -r --include-css",
+		"stylus": "stylus src/index.styl -o css/bundle.css -w -m -r --include-css",
 		"babel": "babel src/modules -d js -w",
 		"build": "RD /S js && RD /S css && babel src/modules -d js --minified && stylus src/index.styl -o css/bundle.css -c -r --include-css"
 	},

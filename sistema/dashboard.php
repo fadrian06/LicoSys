@@ -1,27 +1,10 @@
-<?php require "parciales/head.php" ?>
 <?php
-	require "php/verificarPreguntas.php";
-	require "php/actualizarMonedas.php";
-	require "php/revisarInventario.php";
-	$recientes    = getRegistros("SELECT DISTINCT nom_u, foto FROM log INNER JOIN usuario ON log.ci_u=usuario.ci_u WHERE id_n={$_SESSION["idNegocio"]} ORDER BY fecha DESC LIMIT 3");
-	$versiones    = getRegistros("SELECT * FROM versiones");
-	$numProductos = CONSULTA("SELECT * FROM inventario WHERE id_n={$_SESSION["idNegocio"]}");
-	$numVentas    = CONSULTA("SELECT * FROM venta WHERE id_n={$_SESSION["idNegocio"]}");
-	$numCompras   = CONSULTA("SELECT * FROM compra WHERE id_n={$_SESSION["idNegocio"]}");
+	include 'templates/head.php';
 ?>
 	<main class="w3-main" id="index">
-		<!--================================
-		=            ENCABEZADO            =
-		=================================-->
 		<header class="w3-container w3-padding-16">
 			<h1 class="w3-xlarge"><i class="icon-dashboard"> </i>Administración</h1>
 		</header>
-
-		<!--============================
-		=            EXTRAS            =
-		=============================-->
-		<?php require "parciales/widgets.php" ?>
-		<?php require "parciales/monedas.php" ?>
 		<section class="w3-half w3-container w3-padding-24 <?=!isset($data) ? 'w3-hide' : ''?> w3-animate-opacity" id="dolarToday">
 			<h5 class="w3-text-green">DOLAR TODAY</h5>
 			<table class="w3-table w3-bordered w3-border w3-hoverable w3-pale-green">
@@ -37,17 +20,11 @@
 				</tr>
 			</table>
 		</section>
-		<?php require "parciales/resumen.php" ?>
-		<?php require "parciales/estadisticas.php" ?>
-		<?php require "parciales/recientes.php" ?>
-		<!--=====================================
-		=            Section comment            =
-		======================================-->
 		<section class="w3-container w3-section">
 			<h5>Recent Comments</h5>
 			<div class="w3-row">
 				<div class="w3-col m2 text-center">
-					<img class="w3-circle" src="../imagenes/avatar3.png" style="width:96px;height:96px">
+					<img class="w3-circle" src="images/avatar3.png" style="width:96px;height:96px">
 				</div>
 				<div class="w3-col m10 w3-container">
 					<h4>John <span class="w3-opacity w3-medium">Sep 29, 2014, 9:12 PM</span></h4>
@@ -56,7 +33,7 @@
 			</div>
 			<div class="w3-row">
 				<div class="w3-col m2 text-center">
-					<img class="w3-circle" src="../imagenes/avatar1.png">
+					<img class="w3-circle" src="images/avatar1.png">
 				</div>
 				<div class="w3-col m10 w3-container">
 					<h4>Bo <span class="w3-opacity w3-medium">Sep 28, 2014, 10:15 PM</span></h4>
@@ -64,8 +41,5 @@
 				</div>
 			</div>
 		</section>
-		<?php require "parciales/indexFooter.php" ?>
-		<?php require "parciales/indexModales.php" ?>
-
 	</main>
-<?php require "parciales/footer.php" ?>
+<?php include "templates/footer.php" ?>

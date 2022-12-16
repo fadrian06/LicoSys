@@ -1,82 +1,47 @@
-/**
- * @type {HTMLFormElement}
- */
+/** @typedef {import('./funciones')} */
+
+/*=====================================
+=            DECLARACIONES            =
+=====================================*/
+/** @type {HTMLFormElement} */
 const form = document.querySelector('#registrarNegocio')
-/**
- * @type {HTMLInputElement}
- */
+
+/** @type {HTMLInputElement} */
 const inputFile = form.logo
-/**
- * @type {HTMLImageElement}
- */
+
+/** @type {HTMLImageElement} */
 const image = form.querySelector('.image-result')
-/**
- * @type {HTMLDivElement}
- */
+
+/** @type {HTMLDivElement} */
 const overlay = form.previousElementSibling
+/*=====  End of DECLARACIONES  ======*/
 
-actualizarImagen(inputFile, image, error => {
-	new Noty({
-		text: `<i class="icon-close w3-margin-right"></i> ${error}`,
-		type: 'error',
-		timeout: 3000
-	}).show()
-})
-
-/**
- * @param  {string} res {error: string, datos: []}
- */
-const recibirRespuesta = res => {
-	/**
-	 * @type {{error: string, datos: []}}
-	 */
-	const datos = JSON.parse(res)
-	
-	if (datos.error) return new Noty({
-		text: `<i class="icon-close w3-margin-right"></i> ${datos.error}`,
-		type: 'error',
-		timeout: 5000,
-		callbacks: {
-			afterClose: () => {
-				overlay.classList.remove('w3-show')
-				overlay.classList.add('w3-hide')
-				form.classList.remove('showLoader')
-			}
-		}
-	}).show()
-	
-	overlay.classList.remove('w3-show')
-	overlay.classList.add('w3-hide')
-	form.classList.remove('showLoader')
-	
-	new Noty({
-		text: `<i class="icon-check w3-margin-right"></i> Negocio registrado exitósamente.`,
-		type: 'success',
-		timeout: 5000,
-		callbacks: { afterClose: () => location.reload() }
-	}).show()
-}
+/*==============================================
+=            EJECUCIÓN DE FUNCIONES            =
+==============================================*/
+actualizarImagen(inputFile, image, error => alerta(error).show())
 
 validar(form, (error, fd, e) => {
-	if (error) return new Noty({
-		text: `<i class="icon-close w3-margin-right"></i> ${error}`,
-		type: 'error',
-		timeout: 3000
-	}).show()
+	if (error) return alerta(error).show()
 	
 	e.preventDefault()
-	overlay.style.zIndex = '999'
-	overlay.classList.remove('w3-hide')
-	overlay.classList.add('w3-show')
-	form.classList.add('showLoader')
+	mostrarLoader(overlay, form)
 	
 	fd.append(inputFile.id, inputFile.files[0])
-	$.ajax({
-		url: 'backend/registrarNegocio.php',
-		type: 'POST',
-		data: fd,
-		contentType: false,
-		processData: false,
-		success: recibirRespuesta
+	
+	ajax('backend/registrarNegocio.php', fd, res => {
+		/** @type {Respuesta} */
+		let respuesta = JSON.parse(res)
+		
+		if (respuesta.error) return alerta(respuesta.error)
+			.on('afterClose', () => ocultarLoader(overlay, form))
+			.show()
+		
+		ocultarLoader(overlay, form)
+		
+		return notificacion('Negocio registrado exitósamente.')
+			.on('afterClose', () => location.reload())
+			.show()
 	})
 })
+/*=====  End of EJECUCIÓN DE FUNCIONES  ======*/

@@ -9,8 +9,8 @@
 				"fonts",
 				"icons",
 				"images",
-				// "js",
-				// "libs",
+				"js",
+				"libs",
 				"node_modules",
 				"Rubbish"
 			],
@@ -19,21 +19,21 @@
 				".gitignore",
 				".htaccess",
 				"package-lock.json"
-			]
+			],
 		},
 	],
 	"build_systems": [
 		{
 			"name": "Build Babel",
-			"shell_cmd": "npm run babel"
+			"shell_cmd": "npm run babel",
 		},
 		{
 			"name": "Build Stylus",
-			"shell_cmd": "npm run stylus"
+			"shell_cmd": "npm run stylus",
 		},
 		{
 			"name": "Build Production",
-			"shell_cmd": "npm run build"
+			"shell_cmd": "npm run build",
 		}
-	]
+	],
 }

@@ -1,12 +1,18 @@
-/**
- * @type {HTMLFormElement}
- */
-const form = document.querySelector('#registrarPreguntasRespuestas')
-/**
- * @type {HTMLDivElement}
- */
-const overlay = form.previousElementSibling
+/** @typedef {import('./funciones')} */
 
+/*=====================================
+=            DECLARACIONES            =
+=====================================*/
+/** @type {HTMLFormElement} */
+const form = document.querySelector('#registrarPreguntasRespuestas')
+
+/** @type {HTMLDivElement} */
+const overlay = form.previousElementSibling
+/*=====  End of DECLARACIONES  ======*/
+
+/*==============================================
+=            EJECUCIÓN DE FUNCIONES            =
+==============================================*/
 verClave(form.res1.nextElementSibling, form.res1)
 verClave(form.res2.nextElementSibling, form.res2)
 verClave(form.res3.nextElementSibling, form.res3)
@@ -27,71 +33,27 @@ form.pre3.addEventListener('keyup', () => {
 })
 
 /**
- * @param  {string} res {error: string, datos: []}
+ * @param  {RespuestaCruda} res
  */
 const recibirRespuesta = res => {
-	/**
-	 * @type {{error: string, datos: []}}
-	 */
+	/** @type {Respuesta} */
 	const datos = JSON.parse(res)
-	
-	if (datos.error) return new Noty({
-		text: `<i class="icon-close w3-margin-right"></i> ${datos.error}`,
-		type: 'error',
-		timeout: 5000,
-		callbacks: {
-			afterClose: () => {
-				overlay.classList.remove('w3-show')
-				overlay.classList.add('w3-hide')
-				form.classList.remove('showLoader')
-			}
-		}
-	}).show()
-	
-	overlay.classList.remove('w3-show')
-	overlay.classList.add('w3-hide')
-	form.classList.remove('showLoader')
-	
+		
+	if (datos.error)
+		return alerta(datos.error)
+			.on('afterClose', () => ocultarLoader(overlay, form))
+			.show()
+		
+	ocultarLoader(overlay, form)
+		
 	Noty.closeAll()
-	
-	new Noty({
-		text: `<i class="icon-check w3-margin-right"></i> Registro exitoso.`,
-		type: 'success',
-		timeout: 5000,
-		callbacks: { afterClose: () => location.reload() }
-	}).show()
+		
+	return notificacion('Registro exitoso.')
+		.on('afterClose', () => location.reload())
+		.show()
 }
 
-const enviarDatos = () => {
-	form.pre1.value = 'No especificada'
-	form.pre2.value = 'No especificada'
-	form.pre3.value = 'No especificada'
-	const fd = new FormData(form)
-	$.ajax({
-		url: 'backend/registrarPreguntasRespuestas.php',
-		type: 'POST',
-		data: fd,
-		contentType: false,
-		processData: false,
-		success: recibirRespuesta
-	})
-}
-
-const esperarRespuesta = () => {
-	$('.noty_close_button').click(() => {
-		overlay.classList.remove('w3-show')
-		overlay.classList.add('w3-hide')
-	})
-	$('#confirmar').click(enviarDatos)
-	$('#cancelar').click(() => {
-		$('#confirmacion .noty_close_button')[0].click()
-		overlay.classList.remove('w3-show')
-		overlay.classList.add('w3-hide')
-	})
-}
-
-form.querySelector('#masTarde').onclick = e => {
-	
+$('#masTarde').on('click', e => {
 	e.preventDefault()
 	overlay.style.zIndex = '999'
 	overlay.classList.remove('w3-hide')
@@ -120,35 +82,43 @@ form.querySelector('#masTarde').onclick = e => {
 		</div>
 	`
 	
-	new Noty({
+	return new Noty({
 		id: 'confirmacion',
 		theme: null,
 		text: html,
 		layout: 'center',
 		closeWith: ['button'],
-		callbacks: { onShow: esperarRespuesta }
+		callbacks: {
+			onShow: () => {
+				$('.noty_close_button').on('click', () => {
+					overlay.classList.remove('w3-show')
+					overlay.classList.add('w3-hide')
+				})
+				
+				$('#confirmar').on('click', () => {
+					form.pre1.value = 'No especificada'
+					form.pre2.value = 'No especificada'
+					form.pre3.value = 'No especificada'
+					const fd = new FormData(form)
+					ajax('backend/registrarPreguntasRespuestas.php', fd, recibirRespuesta)
+				})
+				
+				$('#cancelar').on('click', () => {
+					$('#confirmacion .noty_close_button')[0].click()
+					overlay.classList.remove('w3-show')
+					overlay.classList.add('w3-hide')
+				})
+			}
+		}
 	}).show()
-}
+})
 
 validar(form, (error, fd, e) => {
-	if (error) return new Noty({
-		text: `<i class="icon-close w3-margin-right"></i> ${error}`,
-		type: 'error',
-		timeout: 3000
-	}).show()
+	if (error) return alerta(error).show()
 	
 	e.preventDefault()
-	overlay.style.zIndex = '999'
-	overlay.classList.remove('w3-hide')
-	overlay.classList.add('w3-show')
-	form.classList.add('showLoader')
+	mostrarLoader(overlay, form)
 	
-	$.ajax({
-		url: 'backend/registrarPreguntasRespuestas.php',
-		type: 'POST',
-		data: fd,
-		contentType: false,
-		processData: false,
-		success: recibirRespuesta
-	})
+	ajax('backend/registrarPreguntasRespuestas.php', fd, recibirRespuesta)
 })
+/*=====  End of EJECUCIÓN DE FUNCIONES  ======*/

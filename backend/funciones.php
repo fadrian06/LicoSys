@@ -244,9 +244,13 @@
 	/*==================================================================
 	=            OBTENER LA ÚLTIMA VERSIÓN DE LA APLICACIÓN            =
 	==================================================================*/
-	function getUltimaVersion(){
-		$version = getRegistro("SELECT * FROM versiones ORDER BY id_v DESC LIMIT 1");
-		return $version["nombre_v"];
+	/**
+	 * Obtener la última versión de la aplicación
+	 * @return string Cadena que representa la última versión registrada.
+	 */
+	function getUltimaVersion():string {
+		$version = getRegistro('SELECT nombre FROM versiones ORDER BY id DESC LIMIT 1');
+		return $version['nombre'];
 	}
 
 	/*===================================================================

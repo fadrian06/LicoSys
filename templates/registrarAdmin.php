@@ -17,7 +17,7 @@
 							<b>Cédula:</b> <sup class="w3-text-red">(requerido)</sup>
 						</legend>
 						<div class="w3-row w3-center w3-border-bottom">
-							<div class="icon-edit w3-col s2 w3-xxlarge"></div>
+							<div class="icon-id-card w3-col s2 w3-xxlarge"></div>
 							<div class="w3-col s10 w3-display-container">
 								<input type="number" id="cedula" name="cedula" placeholder="Introduce tu cédula" required min="1" max="40000000" minlength="7" maxlength="8" pattern="[^e]?\d{7,8}" title="Un número entre 7 y 8 dígitos" class="w3-input w3-border-0 w3-large">
 								<div class="w3-display-right w3-xxlarge w3-text-green icon-check w3-hide"></div>
@@ -43,7 +43,7 @@
 							<b>Usuario:</b> <sup class="w3-text-red">(requerido)</sup>
 						</legend>
 						<div class="w3-row w3-center w3-border-bottom">
-							<div class="icon-edit w3-col s2 w3-xxlarge"></div>
+							<div class="icon-user-circle-o w3-col s2 w3-xxlarge"></div>
 							<div class="w3-col s10 w3-display-container">
 								<input id="usuario" name="usuario" placeholder="@usuario" required minlength="4" maxlength="20" pattern="^[\w-]{4,20}" title="Sólo se permiten entre 4 y 20 letras, números o guiones(-)" class="w3-input w3-border-0 w3-large">
 								<div class="w3-display-right w3-xxlarge w3-text-green icon-check w3-hide"></div>
@@ -56,7 +56,7 @@
 							<b>Contraseña:</b> <sup class="w3-text-red">(requerido)</sup>
 						</legend>
 						<div class="w3-row w3-center w3-border-bottom">
-							<div class="icon-edit w3-col s2 w3-xxlarge"></div>
+							<div class="icon-key w3-col s2 w3-xxlarge"></div>
 							<div class="w3-col s10 w3-display-container">
 								<input type="password" id="clave" name="clave" placeholder="Cree una contraseña" minlength="4" maxlength="20" pattern="^[\w.-@#/*]{4,20}" title="Sólo se permiten entre 4 y 20 letras, números y símbolos (. - _ @ # / *)" class="w3-input w3-border-0 w3-large">
 								<div class="w3-display-right w3-xxlarge icon-eye w3-show"></div>
@@ -68,7 +68,7 @@
 							<b>Repetir contraseña:</b> <sup class="w3-text-red">(requerido)</sup>
 						</legend>
 						<div class="w3-row w3-center w3-border-bottom">
-							<div class="icon-edit w3-col s2 w3-xxlarge"></div>
+							<div class="icon-key w3-col s2 w3-xxlarge"></div>
 							<div class="w3-col s10 w3-display-container">
 								<input type="password" id="confirmar" name="confirmar" placeholder="Repite la contraseña" minlength="4" maxlength="20" pattern="^[\w.-@#/*]{4,20}" title="Sólo se permiten entre 4 y 20 letras, números y símbolos (. - _ @ # / *)" class="w3-input w3-border-0 w3-large">
 								<div class="w3-display-right w3-xxlarge icon-eye w3-show"></div>
@@ -80,7 +80,7 @@
 							<b>Teléfono:</b> <sup class="w3-text-blue">(opcional)</sup>
 						</legend>
 						<div class="w3-row w3-center w3-border-bottom">
-							<div class="icon-edit w3-col s2 w3-xxlarge"></div>
+							<div class="icon-phone w3-col s2 w3-xxlarge"></div>
 							<div class="w3-col s10 w3-display-container">
 								<input id="telefono" name="telefono" placeholder="Introduce un número de teléfono" maxlength="13" pattern="^(0|\+57|\+58)\s?-?(412|414|424|416|426)-?[0-9]{3}-?[0-9]{4}" title="Ejemplo (+58 416-111-2222 o 0416-111-2222)" class="w3-input w3-border-0 w3-large">
 								<div class="w3-display-right w3-xxlarge w3-text-green icon-check w3-hide"></div>

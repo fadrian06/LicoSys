@@ -18,7 +18,7 @@
 								<b>Pregunta 1:</b>
 							</legend>
 							<div class="w3-row w3-center w3-border-bottom">
-								<div class="icon-edit w3-col s2 w3-xxlarge"></div>
+								<div class="icon-question-circle w3-col s2 w3-xxlarge"></div>
 								<div class="w3-col s10 w3-display-container">
 									<input id="pre1" name="pre1" placeholder="Cree una pregunta" required maxlength="50" pattern="[\?a-zA-ZÁáÉéÍíÓóÚúñÑ¿\s]+" title="Sólo se permiten hasta 30 letras y símbolos (¿ ?)" class="w3-input w3-border-0 w3-large">
 									<div class="w3-display-right w3-xxlarge w3-text-green icon-check w3-hide"></div>
@@ -31,7 +31,7 @@
 								<b>Pregunta 2:</b>
 							</legend>
 							<div class="w3-row w3-center w3-border-bottom">
-								<div class="icon-edit w3-col s2 w3-xxlarge"></div>
+								<div class="icon-question-circle w3-col s2 w3-xxlarge"></div>
 								<div class="w3-col s10 w3-display-container">
 									<input id="pre2" name="pre2" placeholder="Cree una pregunta" required maxlength="50" pattern="[\?a-zA-ZÁáÉéÍíÓóÚúñÑ¿\s]+" title="Sólo se permiten hasta 30 letras y símbolos (¿ ?)" class="w3-input w3-border-0 w3-large">
 									<div class="w3-display-right w3-xxlarge w3-text-green icon-check w3-hide"></div>
@@ -44,7 +44,7 @@
 								<b>Pregunta 3:</b>
 							</legend>
 							<div class="w3-row w3-center w3-border-bottom">
-								<div class="icon-edit w3-col s2 w3-xxlarge"></div>
+								<div class="icon-question-circle w3-col s2 w3-xxlarge"></div>
 								<div class="w3-col s10 w3-display-container">
 									<input id="pre3" name="pre3" placeholder="Cree una pregunta" required maxlength="50" pattern="[\?a-zA-ZÁáÉéÍíÓóÚúñÑ¿\s]+" title="Sólo se permiten hasta 30 letras y símbolos (¿ ?)" class="w3-input w3-border-0 w3-large">
 									<div class="w3-display-right w3-xxlarge w3-text-green icon-check w3-hide"></div>
@@ -59,9 +59,9 @@
 								<b>Respuesta 1:</b> <sup respuesta="res1" class="w3-text-blue"></sup>
 							</legend>
 							<div class="w3-row w3-center w3-border-bottom">
-								<div class="icon-edit w3-col s2 w3-xxlarge"></div>
+								<div class="icon-key w3-col s2 w3-xxlarge"></div>
 								<div class="w3-col s10 w3-display-container">
-									<input type="password" id="res1" name="res1" placeholder="La respuesta" required minlength="1" maxlength="20" pattern="[a-zA-Z0-9\s]{1,20}" title="Sólo se permiten letras y números" class="w3-input w3-border-0 w3-large">
+									<input type="password" id="res1" name="res1" placeholder="La respuesta" required minlength="1" maxlength="20" pattern="[a-zA-Z0-9áÁéÉíÍóÓúÚñÑ\s]{1,20}" title="Sólo se permiten letras y números" class="w3-input w3-border-0 w3-large">
 									<div class="w3-display-right w3-xxlarge icon-eye w3-show"></div>
 								</div>
 							</div>
@@ -71,9 +71,9 @@
 								<b>Respuesta 2:</b> <sup respuesta="res2" class="w3-text-blue"></sup>
 							</legend>
 							<div class="w3-row w3-center w3-border-bottom">
-								<div class="icon-edit w3-col s2 w3-xxlarge"></div>
+								<div class="icon-key w3-col s2 w3-xxlarge"></div>
 								<div class="w3-col s10 w3-display-container">
-									<input type="password" id="res2" name="res2" placeholder="La respuesta" required minlength="1" maxlength="20" pattern="[a-zA-Z0-9\s]{1,20}" title="Sólo se permiten letras y números" class="w3-input w3-border-0 w3-large">
+									<input type="password" id="res2" name="res2" placeholder="La respuesta" required minlength="1" maxlength="20" pattern="[a-zA-Z0-9áÁéÉíÍóÓúÚñÑ\s]{1,20}" title="Sólo se permiten letras y números" class="w3-input w3-border-0 w3-large">
 									<div class="w3-display-right w3-xxlarge icon-eye w3-show"></div>
 								</div>
 							</div>
@@ -83,9 +83,9 @@
 								<b>Respuesta 3:</b> <sup respuesta="res3" class="w3-text-blue"></sup>
 							</legend>
 							<div class="w3-row w3-center w3-border-bottom">
-								<div class="icon-edit w3-col s2 w3-xxlarge"></div>
+								<div class="icon-key w3-col s2 w3-xxlarge"></div>
 								<div class="w3-col s10 w3-display-container">
-									<input type="password" id="res3" name="res3" placeholder="La respuesta" required minlength="1" maxlength="20" pattern="[a-zA-Z0-9\s]{1,20}" title="Sólo se permiten letras y números" class="w3-input w3-border-0 w3-large">
+									<input type="password" id="res3" name="res3" placeholder="La respuesta" required minlength="1" maxlength="20" pattern="[a-zA-Z0-9áÁéÉíÍóÓúÚñÑ\s]{1,20}" title="Sólo se permiten letras y números" class="w3-input w3-border-0 w3-large">
 									<div class="w3-display-right w3-xxlarge icon-eye w3-show"></div>
 								</div>
 							</div>

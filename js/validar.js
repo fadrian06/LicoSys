@@ -11,7 +11,8 @@ var mensajes = {
   clave: 'La clave debe tener entre 4 y 20 letras, números o símbolos (- _ . @ # / *)',
   confirmar: 'Ambas claves deben ser iguales.',
   pregunta: 'Las preguntas deben tener entre 1 y 50 letras y símbolos (¿ ?)',
-  respuesta: 'Las respuestas deben tener entre 4 y 20 letras y números.'
+  respuesta: 'Las respuestas deben tener entre 4 y 20 letras y números.',
+  negocio: 'Por favor seleccione un negocio'
 };
 var expresiones = {
   // Entre 4 y 20 letras con espacios permitidos.
@@ -54,9 +55,9 @@ var campos = {
   usuario: false,
   clave: false,
   confirmar: false,
-  negocio: false,
   pregunta: false,
   respuesta: false,
+  negocio: false,
   codigo: false,
   stock: false,
   precio: false,
@@ -163,49 +164,16 @@ var validarInput = function validarInput(e) {
       validarCampo(expresiones.clave, input, input.name);
       compararClaves(input.form.clave, input);
       break;
-    case "pre1":
-    case "pre2":
-    case "pre3":
+    case 'pre1':
+    case 'pre2':
+    case 'pre3':
       validarCampo(expresiones.pregunta, input, 'pregunta');
       break;
-    case "res1":
+    case 'res1':
     case "res2":
-    case "res3":
+    case 'res3':
       validarCampo(expresiones.respuesta, input, 'respuesta');
       break;
-
-    // case "codigo":
-    // 	validarCampo(expresiones.codigo, e.target, "codigo");
-    // 	e.target.value = e.target.value.toUpperCase();
-    // 	break;
-
-    // case "nombreProducto":
-    // 	validarCampo(expresiones.nombreProducto, e.target, "nombreProducto");
-    // 	e.target.value = mayuscula(e.target.value);
-    // 	break;
-
-    // case "stock":
-    // 	validarCampo(expresiones.stock, e.target, "stock");
-    // 	break;
-
-    // case "precio":
-    // 	validarCampo(expresiones.precio, e.target, "precio");
-    // 	break;
-
-    // case "nombreProveedor":
-    // 	validarCampo(expresiones.nombreNegocio, e.target, "nombreProveedor");
-    // 	e.target.value = mayuscula(e.target.value);
-    // 	break;
-
-    // case "iva":
-    // case "dolar":
-    // 	validarCampo(expresiones.iva, e.target, "iva");
-    // 	validarCampo(expresiones.dolar, e.target, "dolar");
-    // 	break;
-
-    // case "peso":
-    // 	validarCampo(expresiones.peso, e.target, "peso");
-    // 	break;
   }
 };
 
@@ -213,7 +181,11 @@ var validarInput = function validarInput(e) {
  * @param  {HTMLFormElement} form El `<form>`a validar. DEBE TENER UN ID de los siguientes: <br><br>
  * <i>registrarNegocio <br>
  * registrarAdmin <br>
- * registrarPreguntasRespuestas <br></i>
+ * registrarPreguntasRespuestas <br>
+ * login <br>
+ * consultar <br>
+ * preguntasRespuestas <br>
+ * cambiarClave <br></i>
  * <br>
  * <br>
  * Los `input` deben tener alguno de los siguientes `name` y `id` <br><br>
@@ -233,6 +205,10 @@ var validarInput = function validarInput(e) {
 var validar = function validar(form) {
   var cb = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : function () {};
   var inputs = form.querySelectorAll('input');
+  /**
+   * @type {NodeListOf<HTMLInputElement>}
+   */
+  var radios = form.querySelectorAll('input[type="radio"]');
   form.onsubmit = function (e) {
     var fd = new FormData(form);
     if (form.id === 'registrarNegocio') {
@@ -296,12 +272,60 @@ var validar = function validar(form) {
         return cb(mensajes.respuesta);
       }
     }
+    if (form.id === 'login') {
+      for (var i = 0; i < radios.length; ++i) {
+        if (radios[i].checked) campos.negocio = true;
+      }
+      if (!campos.negocio) {
+        e.preventDefault();
+        return cb(mensajes.negocio);
+      } else if (!campos.usuario) {
+        e.preventDefault();
+        error(form.usuario);
+        return cb(mensajes.usuario);
+      } else if (!campos.clave) {
+        e.preventDefault();
+        error(form.clave);
+        return cb(mensajes.clave);
+      }
+    }
+    if (form.id === 'consultar') {
+      if (!campos.cedula) {
+        e.preventDefault();
+        error(form.cedula);
+        return cb(mensajes.cedula);
+      } else if (!campos.usuario) {
+        e.preventDefault();
+        error(form.usuario);
+        return cb(mensajes.usuario);
+      }
+    }
+    if (form.id === 'preguntasRespuestas') {
+      if (!campos.respuesta) {
+        e.preventDefault();
+        error(form.res1);
+        error(form.res2);
+        error(form.res3);
+        return cb(mensajes.respuesta);
+      }
+    }
+    if (form.id === 'cambiarClave') {
+      if (!campos.clave) {
+        e.preventDefault();
+        error(form.clave);
+        return cb(mensajes.clave);
+      } else if (!campos.confirmar) {
+        e.preventDefault();
+        error(form.confirmar);
+        return cb(mensajes.confirmar);
+      }
+    }
     cb(null, fd, e);
   };
   for (var i = 0; i <= inputs.length; ++i) {
     var input = inputs[i];
     if (!input) return;
-    if (input.type !== 'text' && input.type !== 'password' && input.type !== 'number' && input.type !== 'search' && input.type !== 'email') continue;
+    if (input.type !== 'text' && input.type !== 'password' && input.type !== 'number' && input.type !== 'search' && input.type !== 'email' && input.type !== 'tel') continue;
     input.onkeyup = validarInput;
     input.onblur = validarInput;
   }
