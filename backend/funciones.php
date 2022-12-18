@@ -1,23 +1,23 @@
 <?php
-	/*=====================================
-	=            GENERAR TABLA            =
-	=====================================*/
-	// PARÁMETROS
-	# $datos       ==> un array multimensional con los datos a imprimir
-	# $encabezados ==> un array con los encabezados de la tabla
-	# $desactivar  ==> indica si debe incluir un botón de desactivar
-	# $tabla       ==> indica la tabla de la cual quieres desactivar
-	# $llavePrimaria ==> indica la llave primaria INT o STRING en la cual quieres operar
-	# $desactivados ==> un array multimensional que contiene los datos de registros desactivados
-	# $editable ==> indica si los registros se pueden EDITAR
-	function TABLA(array $datos, array $encabezados, $desactivar = false, $tabla = '', $llavePrimaria = '', array $desactivados = [], $editable = false, $factura = false) {
-		echo "
-			<div class='w3-padding-large w3-responsive'>
-				<table class='w3-table w3-centered'>
+	/**
+	 * Genera una tabla a partir de ciertos parámetros.
+	 * @param  array|bool  $datos Lista de registros.
+	 * @param  array   $encabezados Encabezados de la tabla.
+	 * @param  boolean $desactivar Si desea agregar un botón de desactivar
+	 * @param  string  $tabla La tabla a la cual pertenecen los registros.
+	 * @param  string  $llavePrimaria El campo PRIMARIO de la tabla.
+	 * @param  array   $desactivados Si no desea añadir una tabla con los elementos desactivados, deja este parámetro en FALSE.
+	 * @param  boolean $editable Si desea añadir un botón de editar
+	 * @param  boolean $factura Si desea añadir un botón de factura
+	 */
+	function tabla($datos = [], array $encabezados, $desactivar = false, $tabla = '', $llavePrimaria = '', $desactivados = [], $editable = false, $factura = false) {
+		echo '
+			<div class="w3-padding-large w3-responsive">
+				<table class="w3-table w3-centered">
 					<tr>
-		";
-		for ($i = 0, $intEncabezados = count($encabezados); $i < $intEncabezados; $i++)
-			echo "<th class='w3-border w3-border-black w3-blue'>$encabezados[$i]</th>";
+		';
+		foreach ($encabezados as $encabezado)
+			echo "<th class='w3-border w3-border-black w3-blue'>$encabezado</th>";
 		if($desactivar):
 			echo '<th></th>';
 			$_SESSION['llavePrimaria'] = $llavePrimaria;
@@ -33,23 +33,24 @@
 							<input style='width: max-content' class='w3-input w3-center w3-border-0 w3-transparent' type='text' readonly name='llavePrimaria' value='$dato[0]'>
 						</td>
 			";
-			for ($i = 1; $i < $intEncabezados; $i++):
+			$i = 0;
+			foreach($encabezados as $encabezado)
 				echo "
-				 	<td class='w3-border w3-border-black w3-white'>
-				 		<input style='width: max-content' class='w3-input w3-center w3-border-0 w3-transparent' type='text' readonly value='$dato[$i]'>
-				 	</td>
+					<td class='w3-border w3-border-black w3-white'>
+						<input style='width: max-content; width: -moz-max-content' class='w3-input w3-center w3-border-0 w3-transparent' readonly value='{$dato[++$i]}'>
+					</td>
 				";
-			endfor;
-			if($desactivar || $editable || $factura):
+			if($desactivar or $editable or $factura):
 				echo '<td>';
-				if($desactivar) echo "<input class='w3-button w3-red w3-round-xlarge' type='submit' name='desactivar' value='Desactivar'>";
-				if($editable && $_SESSION["cargo"] == "a") echo "<input class='w3-button w3-indigo w3-round-large' type='submit' name='editar' value='Editar'";
+				if ($desactivar) echo '<input class="w3-button w3-red w3-round-xlarge" type="submit" name="desactivar" value="Desactivar">';
+				if ($editable && $_SESSION['cargo'] === 'a') echo '<input class="w3-button w3-indigo w3-round-large" type="submit" name="editar" value="Editar"';
 				if($factura) echo "<a class='w3-button w3-indigo w3-round-large' name='factura'>Ver Factura</a>";
 				echo '</td>';
 			endif;
 			echo "
 					</form>
-				</tr>";
+				</tr>
+			";
 		endforeach;
 		echo "
 				</table>
@@ -163,11 +164,6 @@
 		return $resultado ? $resultado->fetch_all(MYSQLI_BOTH) : NULL;
 	}
 
-	/*========================================
-	=            OBTENER UNA FILA            =
-	========================================*/
-	// Requiere una sentencia SQL
-	// Devuelve un array o NULL dependiendo si encuentra una coincidencia
 	/**
 	 * Obtener una fila
 	 * @param  string $sql Sentencia SELECT
@@ -179,12 +175,6 @@
 		return $resultado ? $resultado->fetch_assoc() : NULL;
 	}
 
-	/*================================================
-	=            CREAR/MODIFICAR UNA FILA            =
-	================================================*/
-	// Requiere una sentencia SQL
-	// Devuelve un entero que representa si hay filas afectadas
-	// Devuelve NULL en caso de error
 	/**
 	 * Crear, actualizar o eliminar una fila
 	 * @param string $sql Sentencia `INSERT, UPDATE o DELETE`.
@@ -204,10 +194,16 @@
 	// Requiere una sentencia SQL
 	// Devuelve un entero si encuentra filas
 	// Devuelve NULL en caso de error
-	function CONSULTA(string $sql):?int {
+	/**
+	 * Contar filas.
+	 * @param  string $sql Sentencia SELECT.
+	 * @return int|null Retorna el número de filas encontrada, o NULL si encuentra un error.
+	 *  <i>(ver error con `$conexion->error`)</i>
+	 */
+	function consulta(string $sql):?int {
 		global $conexion;
-		$resultado = mysqli_query($conexion, $sql);
-		return $resultado ? mysqli_num_rows($resultado) : NULL;
+		$resultado = $conexion->query($sql);
+		return $resultado ? $resultado->num_rows : NULL;
 	}
 
 	/*=================================================================
@@ -266,28 +262,31 @@
 		return (int) $id['id'] ?? null;
 	}
 
-	/*==============================================================
-	=            OBTENER EL MÁS RECIENTE IVA REGISTRADO            =
-	==============================================================*/
-	function getIVA():float{
-		$iva = getRegistro("SELECT * FROM iva ORDER BY fecha_iva DESC LIMIT 1");
-		return (float) $iva["iva"];
+	/**
+	 * Obtener el más reciente IVA registrado.
+	 * @return float|string El valor del IVA en formato `0.nn`.
+	 */
+	function getIVA() {
+		$iva = getRegistro('SELECT * FROM iva ORDER BY fecha DESC LIMIT 1');
+		return $iva && $iva['valor'] ? (float) $iva['valor'] : 'No establecido';
 	}
 
-	/*==========================================================================
-	=            OBTENER EL MÁS RECIENTE VALOR DEL DÓLAR REGISTRADO            =
-	==========================================================================*/
-	function getDolar():float{
-		$dolar = getRegistro("SELECT * FROM dolar ORDER BY fecha_dolar DESC LIMIT 1");
-		return (float) $dolar["dolar"];
+	/**
+	 * Obtener la más reciente tasa del dólar registrada.
+	 * @return float|string La tasa del dolar.
+	 */
+	function getDolar() {
+		$dolar = getRegistro('SELECT * FROM dolar ORDER BY fecha DESC LIMIT 1');
+		return $dolar && $dolar['valor'] ? (float) $dolar['valor'] : 'No establecido';
 	}
-
-	/*=========================================================================
-	=            OBTENER EL MÁS RECIENTE VALOR DEL PESO REGISTRADO            =
-	=========================================================================*/
-	function getPeso():float{
-		$peso = getRegistro("SELECT * FROM peso ORDER BY fecha_peso DESC LIMIT 1");
-		return (int) $peso["peso"];
+	
+	/**
+	 * Obtener la más reciente tasa de cambio Dolar/Peso registrada.
+	 * @return int|string La tasa de cambio Dolar/Peso
+	 */
+	function getPeso() {
+		$peso = getRegistro('SELECT * FROM peso ORDER BY fecha DESC LIMIT 1');
+		return $peso && $peso['valor'] ? (int) $peso['valor'] : 'No establecido';
 	}
 
 	/**
@@ -315,28 +314,39 @@
 	/*=================================================
 	=            CUENTA FILAS DE UNA TABLA            =
 	=================================================*/
-	function contarRegistros(string $tabla):int {
+	/**
+	 * Cuentas las filas en una tabla.
+	 * @param  string $tabla La tabla a buscar (negocios | usuarios | versiones)
+	 * @return ínt|null El número de registros. Retorna NULL si la tabla no existe.
+	 */
+	function contarRegistros(string $tabla):?int {
 		global $conexion;
-		$resultado = mysqli_query($conexion, "SELECT COUNT(*) FROM $tabla");
-		$resultado = mysqli_fetch_row($resultado);
-		return (int) $resultado[0];
+		$resultado = $conexion->query("SELECT COUNT(*) FROM $tabla");
+		return $resultado ? (int) $resultado->fetch_row()[0] : NULL;
 	}
 
 	/*================================================
 	=            ENCRIPTA CUALQUIER TEXTO            =
 	================================================*/
-	function ENCRIPTAR(string $texto):string {
+	function encriptar(string $texto):string {
 		return password_hash($texto, PASSWORD_DEFAULT);
 	}
 
 	/*============================================================
 	=            OBTENER UN TEXTO CON LA FECHA ACTUAL            =
 	============================================================*/
-	function FECHA(){
-		date_default_timezone_set("America/Caracas");
-		$semana = ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"];
-		$meses = ["Diciembre", "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre"];
-		return $semana[date("w")] . " " . date("d") . " de " . $meses[date("n")] . " del " . date("Y");
+	/**
+	 * Retorna la fecha y hora actual
+	 * @return string La fecha y hora formateada.
+	 */
+	function fecha():string {
+		date_default_timezone_set('America/Caracas');
+		$dias = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
+		$meses = [1 => 'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio',
+			'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'
+		];
+		return $dias[date('w')] . ', ' . date('d') . ' de ' . $meses[date('m')]
+			. ' del ' . date('Y');
 	}
 
 	/*========================================================
@@ -345,5 +355,19 @@
 	function formatMoney($cantidad){
 		$cantidad = number_format($cantidad, 0, ",", ".");
 		return $cantidad;
+	}
+	
+	/**
+	 * Obtiene, respalda y retorna la información de una API
+	 * @param  string $url La URL de la API
+	 * @param  string $urlJSON La ruta relativa al archivo JSON local.
+	 * @return array Un array asociativo con la respuesta de la API.
+	 */
+	function getAPI(string $url, string $urlJSON):array {
+		$data = @file_get_contents($url) ?: @file_get_contents($urlJSON);
+		@file_put_contents($urlJSON, $data);
+		$data = json_decode($data, true, 512, JSON_INVALID_UTF8_IGNORE);
+		
+		return $data;
 	}
 ?>

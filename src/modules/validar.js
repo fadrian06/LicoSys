@@ -10,7 +10,10 @@ const mensajes = {
 	confirmar: 'Ambas claves deben ser iguales.',
 	pregunta: 'Las preguntas deben tener entre 1 y 50 letras y símbolos (¿ ?)',
 	respuesta: 'Las respuestas deben tener entre 4 y 20 letras y números.',
-	negocio: 'Por favor seleccione un negocio'
+	negocio: 'Por favor seleccione un negocio',
+	iva: 'El IVA debe ser un número con decimales o un porcentaje.',
+	dolar: 'El monto en Bs. debe ser un número con o sin decimales.',
+	pesos: 'El monto en Pesos debe ser tener entre 1 y 4 números.'
 }
 
 const expresiones = {
@@ -45,12 +48,18 @@ const expresiones = {
 	
 	// Entre 4 y 50 letras y números
 	respuesta: /^[a-záÁéÉíÍóÓúÚñÑ\d\s]{4,20}$/i,
+	
+	// Un número con decimales, o un porcentaje
+	iva: /^((0\.\d)|[0-9]){2,3}$/,
+	
+	// Números con o sin decimales
+	dolar: /^\d+\.?(\d{1,2})?$/,
+	
+	// Entre 1 y 4 números
+	pesos: /^[^e]?\d{1,4}$/,
 	codigo: /^[a-z\d-.#]{3,10}$/i,
 	stock: /^[^e]?[\d]+$/,
 	precio: /^[\d.]+$/,
-	iva: /^0\.\d{2,3}$/,
-	dolar: /^\d+(\.\d{1,2})?$/,
-	peso: /^[^e]?\d{1,4}$/,
 }
 
 const campos = {
@@ -73,7 +82,7 @@ const campos = {
 	precio          : false,
 	iva             : false,
 	dolar           : false,
-	peso            : false
+	pesos           : false
 }
 
 /**
@@ -195,6 +204,18 @@ const validarInput = e => {
 		case 'res3':
 			validarCampo(expresiones.respuesta, input, 'respuesta')
 			break
+		
+		case 'iva':
+			validarCampo(expresiones[input.name], input, input.name)
+			break
+		
+		case 'dolar':
+			validarCampo(expresiones[input.name], input, input.name)
+			break
+		
+		case 'pesos':
+			validarCampo(expresiones[input.name], input, input.name)
+			break
 	}
 }
 
@@ -206,7 +227,8 @@ const validarInput = e => {
  * login <br>
  * consultar <br>
  * preguntasRespuestas <br>
- * cambiarClave <br></i>
+ * cambiarClave <br>
+ * actualizarMonedas <br></i>
  * <br>
  * <br>
  * Los `input` deben tener alguno de los siguientes `name` y `id` <br><br>
@@ -220,7 +242,10 @@ const validarInput = e => {
  * clave <br>
  * confirmar <br>
  * pre1, pre2 o pre3 <br>
- * res1, res2 o res3 <br></i>
+ * res1, res2 o res3 <br>
+ * iva <br>
+ * dolar <br>
+ * pesos <br></i>
  * @param {?(error: string, FormData: FormData, e: SubmitEvent)} cb Contiene el resultado de la validación, los datos a enviar y el Evento `submit`
  */
 const validar = (form, cb = () => {}) => {
@@ -372,6 +397,25 @@ const validar = (form, cb = () => {}) => {
 				error(form.confirmar)
 				
 				return cb(mensajes.confirmar)
+			}
+		}
+		
+		if (form.id === 'actualizarMonedas') {
+			if (!form.iva.value) {
+				e.preventDefault()
+				error(form.iva)
+				
+				return cb(mensajes.iva)
+			} else if (!form.dolar.value) {
+				e.preventDefault()
+				error(form.dolar)
+				
+				return cb(mensajes.dolar)
+			} else if (!form.pesos.value) {
+				e.preventDefault()
+				error(form.pesos)
+				
+				return cb(mensajes.pesos)
 			}
 		}
 					

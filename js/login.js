@@ -21,6 +21,8 @@ var loader = form.querySelector('#loader');
 /*==============================================
 =            EJECUCIÓN DE FUNCIONES            =
 ==============================================*/
+$('#typed-container').css('cursor', 'pointer');
+modal($('#typed-container')[0], $('#acercaDe')[0], overlay);
 reloj(contenedorReloj);
 setInterval(function () {
   return reloj(contenedorReloj);
@@ -58,10 +60,7 @@ form.usuario.addEventListener('blur', function () {
   });
 });
 var intentos = 0;
-/**
- * @param  {string} res {error: string, datos: []}
- */
-var recibirRespuesta = validar(form, function (error, fd, e) {
+validar(form, function (error, fd, e) {
   if (error) return alerta(error).show();
   e.preventDefault();
   form.classList.add('showLoader');
@@ -81,6 +80,7 @@ var recibirRespuesta = validar(form, function (error, fd, e) {
     var href = location.href;
     if (!href.indexOf('index.php')) return location.href += 'dashboard.php';
     href = href.replace(/index\.php/g, function (coincidencia) {
+      console.log(coincidencia);
       return coincidencia = 'dashboard.php';
     });
     return location.href = href;

@@ -1,0 +1,15 @@
+details
+	[class^='icon-chevron']
+		transform: rotate(0deg)
+	div
+		height: 0
+		overflow: hidden
+	summary
+		cursor: pointer
+		&::marker
+			content: none
+	&.abierto
+		div
+			height: auto
+		[class^='icon-chevron']
+			transform: rotate(90deg)

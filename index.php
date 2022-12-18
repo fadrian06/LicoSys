@@ -36,6 +36,7 @@
 		
 		$script .= '<script src="js/registrarPreguntasRespuestas.js"></script>';
 	elseif (!isset($mostrarLoader)):
+		$mostrarLogin = true;
 		include 'templates/login.php';
 		include 'templates/consultarPreguntasRespuestas.php';
 		

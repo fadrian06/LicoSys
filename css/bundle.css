@@ -367,6 +367,97 @@ form.showLoader .loader {
 .tooltip-container:hover .tooltip {
   display: block;
 }
+header#encabezado {
+  height: 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0;
+}
+header#encabezado > a {
+  max-height: 40px;
+}
+aside#menu {
+  z-index: 999;
+  margin-top: 40px;
+  width: 250px;
+}
+@media (max-width: 500px) {
+  aside#menu {
+    width: 75vw;
+  }
+}
+main {
+  min-height: 100vh;
+  padding-top: 40px !important;
+  margin-left: 250px;
+}
+@media (max-width: 600px) {
+  main {
+    margin-left: 0;
+  }
+}
+#mainLogin {
+  padding-top: 0 !important;
+  margin-left: 0;
+}
+details [class^='icon-chevron'] {
+  transform: rotate(0deg);
+}
+details div {
+  height: 0;
+  overflow: hidden;
+}
+details summary {
+  cursor: pointer;
+}
+details summary::marker {
+  content: none;
+}
+details.abierto div {
+  height: auto;
+}
+details.abierto [class^='icon-chevron'] {
+  transform: rotate(90deg);
+}
+#botones {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: max-content;
+  width: -moz-max-content;
+  display: flex;
+  justify-content: end;
+  align-items: center;
+}
+main a {
+  text-decoration: none;
+}
+main > .loader {
+  display: none;
+  width: max-content;
+  width: -moz-max-content;
+  position: fixed;
+  top: calc(50vh - 5vw);
+  left: 0;
+  right: 0;
+  margin: auto;
+  z-index: 1001;
+}
+main > .loader i {
+  font-size: 10vw;
+}
+@media (max-width: 600px) {
+  main > .loader i {
+    font-size: 25vw;
+  }
+}
+main.showLoader > .loader {
+  display: inline-block;
+}
+div#acercaDe {
+  max-width: 650px;
+}
 @media (max-width: 600px) {
   main#mainLogin {
     min-height: 100vh;

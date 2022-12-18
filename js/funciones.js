@@ -19,6 +19,34 @@ Noty.overrideDefaults({
 });
 
 /**
+ * Define el comportamiento de un menú lateral.
+ * @param  {HTMLElement} boton Botón que activa el menú, puede ser `<button>` o `<à>`
+ * @param  {HTMLElement} menu Contenedor del menú.
+ * @param  {HTMLDivElement} overlay Elemento que opaca el fondo.
+ */
+var menu = function menu(boton, _menu, overlay) {
+  boton.onclick = function () {
+    overlay.classList.remove('w3-hide');
+    overlay.classList.add('w3-show');
+    overlay.style.cursor = 'pointer';
+    _menu.classList.remove('w3-hide', 'animate__animated');
+    _menu.classList.remove('animate__slideOutLeft', 'animate__faster');
+    _menu.classList.add('w3-show', 'w3-animate-left');
+  };
+  overlay.onclick = function () {
+    overlay.classList.remove('w3-show');
+    overlay.classList.add('w3-hide');
+    _menu.classList.remove('w3-animate-left');
+    _menu.classList.add('animate__animated', 'animate__slideOutLeft');
+    _menu.classList.add('animate__faster');
+    setTimeout(function () {
+      _menu.classList.remove('w3-show');
+      _menu.classList.add('w3-hide');
+    }, 500);
+  };
+};
+
+/**
  * Muestra el modal :V
  * @param  {HTMLElement} modal Contenedor del modal.
  * @param  {HTMLDivElement} overlay Elemento que opaca el fondo.
@@ -136,6 +164,46 @@ var verClave = function verClave(ojo, input) {
 };
 
 /**
+ * Muestra un diálogo de confirmación.
+ * @param  {HTMLDivElement}   overlay  Elemento que opaca el fondo.
+ * @param  {string}   texto    Título de la ventana emergente.
+ * @param  {Noty.Layout}   [posicion] Default: 'center'
+ * @param  {(e: Event)} callback Función que se ejecuta al confirmar.
+ * @return {Noty} Retorna un objeto Noty activado por defecto.
+ */
+var confirmar = function confirmar(overlay, texto) {
+  var posicion = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 'center';
+  var callback = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : function () {};
+  overlay.style.zIndex = '999';
+  overlay.classList.remove('w3-hide');
+  overlay.classList.add('w3-show');
+  var html = "\n\t\t<div class=\"w3-white w3-round-xlarge w3-padding w3-center w3-border\" style=\"z-index: 1000\">\n\t\t\t<div class=\"animate__animated animate__flip animate__infinite icon-question w3-xxxlarge\"></div>\n\t\t\t<h2 class=\"w3-large w3-margin-bottom\">\n\t\t\t\t<strong>".concat(texto, "</strong>\n\t\t\t</h2>\n\t\t\t<div class=\"w3-center w3-padding w3-margin-top\">\n\t\t\t\t<button id=\"confirmar\" class=\"w3-button w3-round-xlarge w3-blue\">S\xED</button>\n\t\t\t\t<button id=\"cancelar\" class=\"w3-button w3-round-xlarge w3-red\">No</button>\n\t\t\t</div>\n\t\t</div>\n\t");
+  return new Noty({
+    id: 'confirmacion',
+    theme: null,
+    text: html,
+    layout: posicion,
+    closeWith: ['button'],
+    callbacks: {
+      onShow: function onShow() {
+        $('.noty_close_button').on('click', function () {
+          overlay.classList.remove('w3-show');
+          overlay.classList.add('w3-hide');
+        });
+        $('#confirmar').on('click', function (e) {
+          return callback(e);
+        });
+        $('#cancelar').on('click', function () {
+          $('#confirmacion .noty_close_button')[0].click();
+          overlay.classList.remove('w3-show');
+          overlay.classList.add('w3-hide');
+        });
+      }
+    }
+  }).show();
+};
+
+/**
  * Muestra una alerta :V
  * @param  {string} texto Texto de la alerta.
  * @param {number} timer Milisegundos que deben pasar para ocultar la alerta.
@@ -176,24 +244,6 @@ onoffline = function onoffline() {
 ononline = function ononline() {
   return notificacion('Se ha restablecido la conexión').show();
 };
-
-// function menu(boton, modal, overlay) {
-// 	boton.addEventListener("click", e => {
-// 		overlay.classList.replace("w3-hide", "w3-show");
-// 		overlay.style.cursor = "pointer";
-// 		modal.classList.replace("w3-hide", "w3-show");
-// 		modal.classList.replace("animate__animated", "w3-animate-left");
-// 		modal.classList.remove("animate__slideOutLeft");
-// 		modal.classList.remove("animate__faster");
-// 	});
-// 	overlay.addEventListener("click", e => {
-// 		modal.classList.replace("w3-animate-left", "animate__animated");
-// 		modal.classList.add("animate__slideOutLeft");
-// 		modal.classList.add("animate__faster");
-// 		e.target.classList.replace("w3-show", "w3-hide");
-// 		setTimeout(() => modal.classList.replace("w3-show", "w3-hide"), 500);
-// 	});
-// }
 
 // // Filter
 // function filterFunction(input, div) {

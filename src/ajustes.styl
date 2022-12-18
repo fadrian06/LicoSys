@@ -1,3 +1,26 @@
+main
+	a
+		text-decoration: none
+	& > .loader
+		display: none
+		width: max-content
+		width: -moz-max-content	
+		position: fixed
+		top: calc(50vh - 5vw)
+		left: 0
+		right: 0
+		margin: auto
+		z-index: 1001
+		i
+			font-size: 10vw
+			@media (max-width: 600px)
+				font-size: 25vw
+	&.showLoader > .loader
+		display: inline-block
+
+div#acercaDe
+	max-width: 650px
+
 main#mainLogin
 	@media (max-width: 600px)
 		min-height: 100vh

@@ -19,6 +19,9 @@ const loader = form.querySelector('#loader')
 /*==============================================
 =            EJECUCIÓN DE FUNCIONES            =
 ==============================================*/
+$('#typed-container').css('cursor', 'pointer')
+modal($('#typed-container')[0], $('#acercaDe')[0], overlay)
+
 reloj(contenedorReloj)
 setInterval(() => reloj(contenedorReloj), 1 * 1000 * 60)
 
@@ -66,42 +69,39 @@ form.usuario.addEventListener('blur', () => {
 })
 
 let intentos = 0
-/**
- * @param  {string} res {error: string, datos: []}
- */
-const recibirRespuesta = 
-
-	validar(form, (error, fd, e) => {
-		if (error) return alerta(error).show()
-	
-		e.preventDefault()
-	
-		form.classList.add('showLoader')
-	
-		fd.append('login', true)
-		ajax('backend/login.php', fd, res => {
-			/** @type {Respuesta} */
-			const datos = JSON.parse(res)
-			
-			if (datos.error) {
-				let text = `<i class="icon-close w3-margin-right"></i> ${datos.error}`
-				if (datos.error === 'Contraseña incorrecta') ++intentos
-				if (intentos <= 3) text += ` <strong>(intento: ${intentos} / 3)</strong>`
-				return alerta(text)
-					.on('afterClose', () => form.classList.remove('showLoader'))
-					.show()
-			}
+validar(form, (error, fd, e) => {
+	if (error) return alerta(error).show()
 		
-			form.classList.remove('showLoader')
+	e.preventDefault()
+		
+	form.classList.add('showLoader')
+		
+	fd.append('login', true)
+	ajax('backend/login.php', fd, res => {
+		/** @type {Respuesta} */
+		const datos = JSON.parse(res)
 			
-			let href = location.href
+		if (datos.error) {
+			let text = `<i class="icon-close w3-margin-right"></i> ${datos.error}`
+			if (datos.error === 'Contraseña incorrecta') ++intentos
+			if (intentos <= 3) text += ` <strong>(intento: ${intentos} / 3)</strong>`
+			return alerta(text)
+				.on('afterClose', () => form.classList.remove('showLoader'))
+				.show()
+		}
+		
+		form.classList.remove('showLoader')
 			
-			if (!href.indexOf('index.php'))
-				return location.href += 'dashboard.php'
+		let href = location.href
 			
-			href = href.replace(/index\.php/g, coincidencia => coincidencia = 'dashboard.php')
-			return location.href = href
+		if (!href.indexOf('index.php'))
+			return location.href += 'dashboard.php'
 			
+		href = href.replace(/index\.php/g, coincidencia => {
+			console.log(coincidencia)
+			return coincidencia = 'dashboard.php'
 		})
+		return location.href = href
 	})
+})
 /*=====  End of EJECUCIÓN DE FUNCIONES  ======*/

@@ -1,7 +1,9 @@
 <main class="w3-row" id="mainLogin">
-	<aside class="w3-padding-large w3-hide-small w3-col m6 w3-display-container w3-topbar w3-bottombar w3-leftbar w3-rightbar w3-border-black w3-round-xlarge">
-		<div id="typed-container" class="w3-padding-large w3-xlarge w3-right">
-			<b class="w3-block w3-xxlarge">LICOSYS <?=getUltimaVersion()?></b>
+	<aside class="w3-padding-large w3-hide-small w3-col l6 m5 w3-display-container w3-topbar w3-bottombar w3-leftbar w3-rightbar w3-border-black w3-round-xlarge">
+		<div id="typed-container" class="w3-padding-large w3-xlarge w3-right w3-hover-black">
+			<b class="w3-block w3-xxlarge">
+				LICOSYS <?=getUltimaVersion()?>
+			</b>
 			<div class="w3-padding">
 				<span id="typed"></span>
 			</div>
@@ -35,32 +37,8 @@
 		</section>
 		<section class="w3-display-container">
 			<i class="w3-spin icon-spinner w3-display-middle w3-jumbo loader"></i>
-			<fieldset class="w3-border-0">
-				<legend class="w3-large w3-padding">
-					<b>Usuario:</b>
-				</legend>
-				<div class="w3-row w3-center w3-border-bottom">
-					<div class="icon-user-circle-o w3-col s2 w3-xxlarge"></div>
-					<div class="w3-col s10 w3-display-container">
-						<input id="usuario" name="usuario" placeholder="Introduzca su usuario" required minlength="4" maxlength="20" pattern="^[\w-]{4,20}$" title="Sólo se permiten entre 4 y 20 letras, números o guiones(-)" class="w3-input w3-border-0 w3-large">
-						<div class="w3-display-right w3-xxlarge w3-hide" id="loader">
-							<i class="w3-block w3-spin icon-spinner"></i>
-						</div>
-					</div>
-				</div>
-			</fieldset>
-			<fieldset class="w3-border-0">
-				<legend class="w3-large w3-padding">
-					<b>Contraseña:</b>
-				</legend>
-				<div class="w3-row w3-center w3-border-bottom">
-					<div class="icon-key w3-col s2 w3-xxlarge"></div>
-					<div class="w3-col s10 w3-display-container">
-						<input type="password" id="clave" name="clave" placeholder="Introduzca su contraseña" minlength="4" maxlength="20" pattern="^[\w.-@#/*]{4,20}" title="Sólo se permiten entre 4 y 20 letras, números y símbolos (. - _ @ # / *)" class="w3-input w3-border-0 w3-large">
-						<div class="w3-display-right w3-xxlarge icon-eye w3-show"></div>
-					</div>
-				</div>
-			</fieldset>
+			<?=generarINPUT('USUARIO', 'Usuario:', 'Introduzca su usuario')?>
+			<?=generarINPUT('CLAVE', 'Contraseña:', 'Introduzca su contraseña')?>
 		</section>
 		<section class="w3-panel w3-center">
 			<button class="w3-button w3-round-xlarge w3-blue w3-ripple w3-block" style="width: 75%; margin: auto">
