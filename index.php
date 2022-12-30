@@ -4,9 +4,6 @@
 	
 	include 'templates/head.php';
 	
-	$negocios = getRegistros('SELECT * FROM negocios WHERE activo=1');
-	$admin    = getRegistro("SELECT * FROM usuarios WHERE cargo='a'");
-	
 	if (!empty($_SESSION['userID'])) $_SESSION['userID'] = $admin['id'];
 ?>
 

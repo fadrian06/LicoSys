@@ -4,7 +4,7 @@
 			"name": "LicoSys",
 			"path": ".",
 			"folder_exclude_patterns": [
-				"backup",
+				// "backup",
 				"css",
 				"fonts",
 				"icons",
@@ -16,7 +16,7 @@
 			],
 			"file_exclude_patterns": [
 				".babelrc",
-				// ".gitignore",
+				".gitignore",
 				".htaccess",
 				"package-lock.json"
 			],

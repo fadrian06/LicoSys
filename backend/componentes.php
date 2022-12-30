@@ -7,13 +7,31 @@
 	
 	/**
 	 * Botones HTML
-	 * @var array ['REGISTRAR_USUARIO']
+	 * @var array ['REGISTRAR_USUARIO', 'NUEVA_VENTA']
 	 */
 	const BOTONES = [
 		'REGISTRAR_USUARIO' => <<<HTML
-			<button class="w3-blue w3-text-black w3-button w3-circle">
+			<button onclick="modal(this)" data-target="#registrarUsuario" class="w3-blue w3-text-black w3-button w3-circle">
 				<i class="w3-block w3-center icon-user-plus w3-xxlarge"></i>
 				Registrar<br>Usuario
+			</button>
+		HTML,
+		'NUEVA_VENTA' => <<<HTML
+			<a href="views/nuevaVenta.php" role="navegacion" class="w3-blue w3-text-black w3-button w3-circle">
+				<i class="w3-block w3-center icon-cart-plus w3-xxlarge"></i>
+				Nueva<br>Venta
+			</a>
+		HTML,
+		'VACIAR_LOG' => <<<HTML
+			<button onclick="vaciarLog()" class="w3-blue w3-text-black w3-button w3-circle">
+				<i class="w3-block w3-center icon-trash w3-xxlarge"></i>
+				Vaciar<br>Registro
+			</button>
+		HTML,
+		'REGISTRAR_CLIENTE' => <<<HTML
+			<button onclick="modal(this)" data-target="#registrarCliente" class="w3-blue w3-text-black w3-button w3-circle">
+				<i class="w3-block w3-center icon-id-card w3-xxlarge"></i>
+				Registrar<br>Cliente
 			</button>
 		HTML
 	];
@@ -24,7 +42,7 @@
 	 * `'CLAVE', 'CONFIRMAR', 'USUARIO', 'CEDULA', 'IVA', `<br>`
 	 * 'DOLAR', 'PESO', 'res1', 'res2', 'res3', 'NOMBRE', `<br>`
 	 * 'TELEFONO', 'NOMBRE_NEGOCIO', 'RIF', 'DIRECCION', `<br>`
-	 * 'pre1', 'pre2', 'pre3'`
+	 * 'pre1', 'pre2', 'pre3', 'ID'`
 	 * @param  string $label El título del `<input>`
 	 * @param  string $placeholder El placeholder del input.
 	 * @param string $value El valor por defecto del `<input>`
@@ -48,7 +66,7 @@
 			case 'CONFIRMAR':
 				return <<<HTML
 					<fieldset class="w3-border-0">
-						<legend class="w3-large w3-padding"><b>Repetir contraseña:</b></legend>
+						<legend class="w3-large w3-padding">$label</legend>
 						<div class="w3-row w3-center w3-border-bottom">
 							<div class="icon-key w3-col s2 w3-xxlarge"></div>
 							<div class="w3-col s10 w3-display-container">
@@ -66,9 +84,10 @@
 							<div class="icon-user-circle-o w3-col s2 w3-xxlarge"></div>
 							<div class="w3-col s10 w3-display-container">
 								<input id="usuario" name="usuario" placeholder="$placeholder" value="$value" required minlength="4" maxlength="20" pattern="^[\w-]{4,20}$" title="Sólo se permiten entre 4 y 20 letras, números o guiones(-)" class="w3-input w3-border-0 w3-large">
-								<div class="w3-display-right w3-xxlarge w3-hide" id="loader">
+								<div class="w3-display-right w3-xxlarge w3-hide" id="usuarioLoader">
 									<i class="w3-block w3-spin icon-spinner"></i>
 								</div>
+								<div class="w3-display-right w3-xxlarge w3-text-red icon-close w3-hide"></div>
 							</div>
 						</div>
 					</fieldset>
@@ -151,7 +170,7 @@
 						<div class="w3-row w3-center w3-border-bottom">
 							<div class="icon-edit w3-col s2 w3-xxlarge"></div>
 							<div class="w3-col s10 w3-display-container">
-								<input id="nombre" name="nombre" placeholder="$placeholder" value="$value" required minlength="4" maxlength="20" pattern="[a-zA-Z]{4,20}" title="Sólo se permiten entre 4 y 20 letras sin espacios" class="w3-input w3-border-0 w3-large">
+								<input id="nombre" name="nombre" placeholder="$placeholder" value="$value" required minlength="4" maxlength="20" pattern="[a-zA-ZáÁéÉíÍóÓúÚñÑ]{4,20}" title="Sólo se permiten entre 4 y 20 letras sin espacios" class="w3-input w3-border-0 w3-large">
 								<div class="w3-display-right w3-xxlarge w3-text-green icon-check w3-hide"></div>
 								<div class="w3-display-right w3-xxlarge w3-text-red icon-close w3-hide"></div>
 							</div>
@@ -230,6 +249,36 @@
 						</div>
 					</fieldset>
 				HTML;
+			case 'ID':
+				return <<<HTML
+					<input type="hidden" name="id" value="$value" class="w3-hide">
+				HTML;
 		endswitch;
+	}
+	
+	/**
+	 * @param  string       $tipo      `div` o `form`
+	 * @param  string       $id        El ID del modal.
+	 * @param  string       $titulo    Contenido HTML para el título del modal.
+	 * @param  string       $contenido Contenido HTML para el contenido del modal.
+	 * @param  bool|boolean $cerrar    Si quieres agregar el botón de cerrar el modal, por defecto es `true`.
+	 * @param  bool|boolean $mostrar   Si quieres mostrar el modal cuando cargue la vista, por defecto es `false`.
+	 * @return void                    No retorna, imprime el modal.
+	 */
+	function generarModal(string $tipo, string $id, string $titulo, string $contenido, bool $cerrar = true, bool $mostrar = false) {
+		$mostrar = $mostrar ? 'w3-show' : 'w3-hide';
+		
+		echo "<$tipo id='$id' class='modal w3-white w3-card w3-round-large animate__animated animate__fadeInUp animate__faster $mostrar'>";
+			if ($cerrar)
+				echo <<<HTML
+					<div class="w3-right-align">
+						<span class="icon-close w3-button w3-transparent w3-hover-red"></span>
+					</div>
+				HTML;
+			echo <<<HTML
+				<h2 class="w3-center w3-xxlarge oswald w3-margin-bottom">$titulo</h2>
+				$contenido
+			HTML;
+		echo "</$tipo>";
 	}
 ?>

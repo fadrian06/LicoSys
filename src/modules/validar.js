@@ -223,7 +223,10 @@ const validarInput = e => {
  * @param  {HTMLFormElement} form El `<form>`a validar. DEBE TENER UN ID de los siguientes: <br><br>
  * <i>registrarNegocio <br>
  * registrarAdmin <br>
+ * registrarUsuario <br>
  * registrarPreguntasRespuestas <br>
+ * registrarCliente <br>
+ * editarCliente <br>
  * login <br>
  * consultar <br>
  * preguntasRespuestas <br>
@@ -288,7 +291,7 @@ const validar = (form, cb = () => {}) => {
 			}
 		}
 		
-		if (form.id === 'registrarAdmin') {
+		if (form.id === 'registrarAdmin' || form.id === 'registrarUsuario') {
 			if (!campos.cedula) {
 				e.preventDefault()
 				error(form.cedula)
@@ -416,6 +419,29 @@ const validar = (form, cb = () => {}) => {
 				error(form.pesos)
 				
 				return cb(mensajes.pesos)
+			}
+		}
+		
+		if (form.id === 'registrarCliente') {
+			if (!campos.cedula) {
+				e.preventDefault()
+				error(form.cedula)
+				
+				return cb(mensajes.cedula)
+			} else if (!campos.nombre) {
+				e.preventDefault()
+				error(form.nombre)
+				
+				return cb(mensajes.nombre)
+			}
+		}
+		
+		if (form.id === 'editarCliente') {
+			if (!form.nombre.value || (form.nombre.value && !campos.nombre)) {
+				e.preventDefault()
+				error(form.nombre)
+				
+				return cb(mensajes.nombre)
 			}
 		}
 					

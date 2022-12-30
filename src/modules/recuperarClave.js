@@ -7,13 +7,10 @@
 =====================================*/
 /** @type {HTMLButtonElement} */
 const botonRecuperar = document.querySelector('#recuperar')
-
 /** @type {HTMLFormElement} */
 const formConsulta = document.querySelector('#consultar')
-
 /** @type {HTMLFormElement} */
 const formPreguntasRespuestas = document.querySelector('#preguntasRespuestas')
-
 /** @type {HTMLFormElement} */
 const formClave = document.querySelector('#cambiarClave')
 /*=====  End of DECLARACIONES  ======*/
@@ -21,7 +18,10 @@ const formClave = document.querySelector('#cambiarClave')
 /*==============================================
 =            EJECUCIÓN DE FUNCIONES            =
 ==============================================*/
-modal(botonRecuperar, formConsulta, overlay)
+botonRecuperar.onclick = e => {
+	e.preventDefault()
+	modal(botonRecuperar)
+}
 
 validar(formConsulta, (error, fd, e) => {
 	if (error) return alerta(error).show()
@@ -35,7 +35,7 @@ validar(formConsulta, (error, fd, e) => {
 		
 		if (datos.error)
 			return alerta(datos.error)
-				.on('afterClose', () => formConsulta.classList.remove('showLoader'))
+				.on('onShow', () => formConsulta.classList.remove('showLoader'))
 				.show()
 		
 		formConsulta.classList.remove('showLoader')
@@ -44,7 +44,7 @@ validar(formConsulta, (error, fd, e) => {
 })
 
 if (formPreguntasRespuestas) {
-	mostrarModal(formPreguntasRespuestas, overlay, () => {
+	mostrarModal(formPreguntasRespuestas, () => {
 		return $.post('backend/recuperarClave.php', { cerrar: true }, res => {
 			console.log(res)
 		})
@@ -61,11 +61,11 @@ if (formPreguntasRespuestas) {
 		return ajax('backend/recuperarClave.php', fd, res => {
 			/** @type {Respuesta} */
 			const datos = JSON.parse(res)
-			if (datos.error) {
-				return alerta(datos.error)
-					.on('afterClose', () => formPreguntasRespuestas.classList.remove('showLoader'))
-					.show()
-			}
+			if (datos.error) return alerta(datos.error)
+				.on('onShow', () => {
+					formPreguntasRespuestas.classList.remove('showLoader')
+				})
+				.show()
 		
 			formPreguntasRespuestas.classList.remove('showLoader')
 			location.reload()
@@ -74,7 +74,7 @@ if (formPreguntasRespuestas) {
 }
 
 if (formClave) {
-	mostrarModal(formClave, overlay, () => {
+	mostrarModal(formClave, () => {
 		return $.post('backend/recuperarClave.php', { cerrar: true }, res => {
 			console.log(res)
 		})
@@ -93,7 +93,7 @@ if (formClave) {
 			const datos = JSON.parse(res)
 			
 			if (datos.error) return alerta(datos.error)
-				.on('afterClose', () => formClave.classList.remove('showLoader'))
+				.on('onShow', () => formClave.classList.remove('showLoader'))
 				.show()
 			
 			formClave.classList.remove('showLoader')

@@ -54,6 +54,13 @@
 		elseif (!$filaUsuario['activo'])
 			$respuesta['error'] = 'Este usuario se encuentra desactivado';
 		
+		if ($filaUsuario['cargo'] === 'v'):
+			$sql = "INSERT INTO log(usuario_id, negocio_id) VALUES({$filaUsuario['id']}, {$negocioSeleccionado['id']})";
+			$resultado = setRegistro($sql);
+			
+			if (!$resultado) $respuesta['error'] = $conexion->error;
+		endif;
+		
 		if ($respuesta['error']):
 			session_destroy();
 			exit(json_encode($respuesta, JSON_INVALID_UTF8_IGNORE));

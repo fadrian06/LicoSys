@@ -5,15 +5,10 @@
 =====================================*/
 /** @type {HTMLFormElement} */
 const form = document.querySelector('#registrarNegocio')
-
 /** @type {HTMLInputElement} */
 const inputFile = form.logo
-
 /** @type {HTMLImageElement} */
 const image = form.querySelector('.image-result')
-
-/** @type {HTMLDivElement} */
-const overlay = form.previousElementSibling
 /*=====  End of DECLARACIONES  ======*/
 
 /*==============================================
@@ -25,7 +20,7 @@ validar(form, (error, fd, e) => {
 	if (error) return alerta(error).show()
 	
 	e.preventDefault()
-	mostrarLoader(overlay, form)
+	mostrarLoader(form)
 	
 	fd.append(inputFile.id, inputFile.files[0])
 	
@@ -34,13 +29,13 @@ validar(form, (error, fd, e) => {
 		let respuesta = JSON.parse(res)
 		
 		if (respuesta.error) return alerta(respuesta.error)
-			.on('afterClose', () => ocultarLoader(overlay, form))
+			.on('afterClose', () => ocultarLoader(form))
 			.show()
 		
-		ocultarLoader(overlay, form)
+		ocultarLoader(form)
 		
 		return notificacion('Negocio registrado exitósamente.')
-			.on('afterClose', () => location.reload())
+			.on('onClose', () => location.reload())
 			.show()
 	})
 })

@@ -1,12 +1,9 @@
+// @ts-nocheck
 /** @typedef {import('./funciones')} */
 
 /*=====================================
 =            DECLARACIONES            =
 =====================================*/
-/** @type {HTMLButtonElement} */
-const btnVersion = document.querySelector('#version')
-/** @type {HTMLDivElement} */
-const modalAcercaDe = document.querySelector('#acercaDe')
 /** @type {HTMLDivElement} */
 const overlay = document.querySelector('.w3-overlay')
 /** @type {HTMLButtonElement} */
@@ -16,7 +13,7 @@ const menuLateral = document.querySelector('#menu')
 /** @type {HTMLButtonElement} */
 const btnModenas = document.querySelector('#btn-monedas')
 /** @type {HTMLFormElement} */
-const formMonedas = document.querySelector('#actualizarModenas')
+const formMonedas = document.querySelector('#actualizarMonedas')
 const main = document.querySelector('main')
 const dashboardHTML = main.innerHTML
 /*=====  End of DECLARACIONES  ======*/
@@ -24,31 +21,11 @@ const dashboardHTML = main.innerHTML
 /*==============================================
 =            EJECUCIÓN DE FUNCIONES            =
 ==============================================*/
-$('a').each((_i, enlace) => {
-	enlace.addEventListener('click', e => {
-		/** @type {HTMLAnchorElement} */
-		const enlace = e.currentTarget
-		e.preventDefault()
-		main.classList.add('showLoader')
-		
-		if (enlace.href.includes('dashboard.php')) 
-			return setTimeout(() => {
-				main.classList.remove('showLoader')
-				main.innerHTML = dashboardHTML
-			}, 500)
-		
-		if (enlace.href.includes('salir.php'))
-			return main.classList.remove('showLoader')
-		
-		$.get(enlace.href, res => {
-			main.classList.remove('showLoader')
-			main.innerHTML = res
-		})
-	})
-})
+reajustar()
+menu()
+navegacion()
 
 if (formMonedas) {
-	modal(btnModenas, formMonedas, overlay)
 	validar(formMonedas, (error, fd, e) => {
 		if (error) return alerta(error).show()
 		
@@ -59,34 +36,30 @@ if (formMonedas) {
 			const datos = JSON.parse(res)
 			if (datos.error)
 				return alerta(datos.error)
-					.on('afterClose', () => formMonedas.classList.remove('showLoader'))
+					.on('onClose', () => formMonedas.classList.remove('showLoader'))
 					.show()
 			
+			$('#tablaMonedas').html(`
+				<tr>
+					<td>IVA</td>
+					<td colspan="2"><b>${formMonedas.iva.value}%</b></td>
+				</tr>
+				<tr>
+					<td>DÓLAR</td>
+					<td>
+						<b><i>Bs. </i>${formMonedas.dolar.value}</b>
+					</td>
+					<td><b>${formMonedas.pesos.value}<i> Pesos</i></b></td>
+				</tr>	
+			`)
 			formMonedas.classList.remove('showLoader')
 			
 			return notificacion('Valores actualizados correctamente.')
-				.on('onShow', () => formMonedas.querySelector('.icon-close').click())
+				.on('onShow', () => {
+					formMonedas.querySelector('.icon-close').click()
+				})
 				.show()
 		})
 	})
 }
-
-modal(btnVersion, modalAcercaDe, overlay)
-menu(barras, menuLateral, overlay)
-
-$('summary').each((_i, summary) => {
-	summary.onclick = () => {
-		summary.parentElement.classList.toggle('abierto')
-		summary.parentElement.removeAttribute('open')
-	}
-})
-
-$('[href="salir.php"]').on('click', e => {
-	e.preventDefault()
-	return confirmar(overlay, '¿Seguro que desea cerrar sesión?', 'center', () => {
-		const url = location.href.split('/')
-		url[url.length - 1] = 'salir.php'
-		location.href = url.join('/')
-	})
-})
 /*=====  End of EJECUCIÓN DE FUNCIONES  ======*/

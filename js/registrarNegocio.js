@@ -7,15 +7,10 @@
 =====================================*/
 /** @type {HTMLFormElement} */
 var form = document.querySelector('#registrarNegocio');
-
 /** @type {HTMLInputElement} */
 var inputFile = form.logo;
-
 /** @type {HTMLImageElement} */
 var image = form.querySelector('.image-result');
-
-/** @type {HTMLDivElement} */
-var overlay = form.previousElementSibling;
 /*=====  End of DECLARACIONES  ======*/
 
 /*==============================================
@@ -27,16 +22,16 @@ actualizarImagen(inputFile, image, function (error) {
 validar(form, function (error, fd, e) {
   if (error) return alerta(error).show();
   e.preventDefault();
-  mostrarLoader(overlay, form);
+  mostrarLoader(form);
   fd.append(inputFile.id, inputFile.files[0]);
   ajax('backend/registrarNegocio.php', fd, function (res) {
     /** @type {Respuesta} */
     var respuesta = JSON.parse(res);
     if (respuesta.error) return alerta(respuesta.error).on('afterClose', function () {
-      return ocultarLoader(overlay, form);
+      return ocultarLoader(form);
     }).show();
-    ocultarLoader(overlay, form);
-    return notificacion('Negocio registrado exitósamente.').on('afterClose', function () {
+    ocultarLoader(form);
+    return notificacion('Negocio registrado exitósamente.').on('onClose', function () {
       return location.reload();
     }).show();
   });

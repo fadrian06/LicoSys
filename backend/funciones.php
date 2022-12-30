@@ -1,153 +1,310 @@
 <?php
+	
 	/**
-	 * Genera una tabla a partir de ciertos parámetros.
-	 * @param  array|bool  $datos Lista de registros.
-	 * @param  array   $encabezados Encabezados de la tabla.
-	 * @param  boolean $desactivar Si desea agregar un botón de desactivar
-	 * @param  string  $tabla La tabla a la cual pertenecen los registros.
-	 * @param  string  $llavePrimaria El campo PRIMARIO de la tabla.
-	 * @param  array   $desactivados Si no desea añadir una tabla con los elementos desactivados, deja este parámetro en FALSE.
-	 * @param  boolean $editable Si desea añadir un botón de editar
-	 * @param  boolean $factura Si desea añadir un botón de factura
+	 * Genera una tabla con los datos que le proporcionen.
+	 * @param string $titulo El título de la tabla.
+	 * @param array $encabezados Debe tener la siguiente estructura: <br><br>
+	 * [<br>
+	 * &nbsp;'escritorio' => [...Campos a mostrar en escritorio y tablet],<br>
+	 * &nbsp;'movil' => [...Campos a mostrar en móvil]<br>
+	 * ]
+	 * @param array $datos Debe tener la siguiente estructura: <br><br>
+	 * [<br>
+	 * &nbsp;'camposEscritorio' => [...Campos de la tabla],<br>
+	 * &nbsp;'camposMovil' => [...Campos de la tabla],<br>
+	 * &nbsp;'filas' => [...Filas que debe mostrar la tabla]<br>
+	 * ]
+	 * @param array|bool $desactivar FALSE si no quieres la funcionalidad de desactivar un registro,
+	 * si es un array debe tener la siguiente estructura: <br><br>
+	 * [<br>
+	 * &nbsp;'tabla' => 'Tabla a la cual pertenecen los registros',<br>
+	 * &nbsp;'campo' => 'El campo que identifica cada registro',<br>
+	 * &nbsp;'enlace' => 'El HREF del enlace a clickear al activar o desactivar',<br>
+	 * &nbsp;'filas' => [...Filas de registros desactivados]<br>
+	 * ]
+	 * @param array|bool $actualizar FALSE si no quieres la funcionalidad de editar un registro,
+	 * si es un array debe tener la siguiente estructura: <br><br>
+	 * [<br>
+	 * &nbsp;'tabla' => 'Tabla a la cual pertenecen los registros',<br>
+	 * &nbsp;'campo' => 'El campo que identifica cada registro',<br>
+	 * &nbsp;'enlace' => 'El HREF del enlace a clickear tras actualizar.',<br>
+	 * ]
+	 * @return true La tabla se ha impreso con éxito.
 	 */
-	function tabla($datos = [], array $encabezados, $desactivar = false, $tabla = '', $llavePrimaria = '', $desactivados = [], $editable = false, $factura = false) {
-		echo '
-			<div class="w3-padding-large w3-responsive">
-				<table class="w3-table w3-centered">
-					<tr>
-		';
-		foreach ($encabezados as $encabezado)
-			echo "<th class='w3-border w3-border-black w3-blue'>$encabezado</th>";
-		if($desactivar):
-			echo '<th></th>';
-			$_SESSION['llavePrimaria'] = $llavePrimaria;
-			$_SESSION['tabla'] = $tabla;
+	function tabla(string $titulo, array $encabezados, array $datos, string $sinRegistros = '', $desactivar = false, $actualizar = false): bool {
+		$filasEscritorio = '';
+		$filasMovil = '';
+		$filasDesactivadosEscritorio = '';
+		$filasDesactivadosMovil = '';
+		$encabezadosEscritorio = '';
+		$encabezadosMovil = '';
+		$encabezadosDesactivadosMovil = '';
+				
+		if (!$datos['filas'] and empty($desactivar['filas'])):
+			print <<<HTML
+				<h2 class="w3-display-middle w3-container w3-center w3-opacity">
+					$sinRegistros
+				</h2>
+			HTML;
+			return true;
 		endif;
-		echo $factura ? '<th></th>' : '';
-		echo '</tr>';
-		foreach ($datos as $dato):
-			echo "
-				<tr>
-					<form method='POST'>
-						<td class='w3-border w3-border-black w3-white'>
-							<input style='width: max-content' class='w3-input w3-center w3-border-0 w3-transparent' type='text' readonly name='llavePrimaria' value='$dato[0]'>
-						</td>
-			";
-			$i = 0;
-			foreach($encabezados as $encabezado)
-				echo "
-					<td class='w3-border w3-border-black w3-white'>
-						<input style='width: max-content; width: -moz-max-content' class='w3-input w3-center w3-border-0 w3-transparent' readonly value='{$dato[++$i]}'>
+		
+		// Rellenamos los encabezados en escritorio.
+		foreach ($encabezados['escritorio'] as $encabezado)
+			$encabezadosEscritorio .= <<<HTML
+				<th>$encabezado</th>
+			HTML;
+		if ($desactivar) $encabezadosEscritorio .= '<th></th>';
+		if ($actualizar) $encabezadosEscritorio .= '<th></th>';
+		
+		// Rellenamos lo encabezados en móvil.
+		foreach ($encabezados['movil'] as $encabezado)
+			$encabezadosMovil .= <<<HTML
+				<div class="w3-padding w3-col s5 w3-indigo">
+					<b>$encabezado</b>
+				</div>
+			HTML;
+		
+		// Rellenamos lo encabezados en móvil.
+		foreach ($encabezados['movil'] as $encabezado)
+			$encabezadosDesactivadosMovil .= <<<HTML
+				<div class="w3-padding w3-col s5 w3-red">
+					<b>$encabezado</b>
+				</div>
+			HTML;
+		
+		// Rellenamos las filas en escritorio.
+		foreach ($datos['filas'] as $fila):
+			$campos = '';
+			foreach ($datos['camposEscritorio'] as $campo)
+				$campos .= <<<HTML
+					<td>$fila[$campo]</td>
+				HTML;
+			
+			if ($desactivar)
+				$campos .= <<<HTML
+					<td>
+						<button onclick="desactivar('{$desactivar['tabla']}', '{$desactivar['campo']}', {$fila[$desactivar['campo']]}, '{$desactivar['enlace']}')" class="w3-button w3-round-xlarge w3-red w3-hover-black">
+							Desactivar
+						</button>
 					</td>
-				";
-			if($desactivar or $editable or $factura):
-				echo '<td>';
-				if ($desactivar) echo '<input class="w3-button w3-red w3-round-xlarge" type="submit" name="desactivar" value="Desactivar">';
-				if ($editable && $_SESSION['cargo'] === 'a') echo '<input class="w3-button w3-indigo w3-round-large" type="submit" name="editar" value="Editar"';
-				if($factura) echo "<a class='w3-button w3-indigo w3-round-large' name='factura'>Ver Factura</a>";
-				echo '</td>';
-			endif;
-			echo "
-					</form>
-				</tr>
-			";
+				HTML;
+			
+			if ($actualizar && $_SESSION['cargo'] === 'a')
+				$campos .= <<<HTML
+					<td>
+						<button onclick="editar(this, '{$actualizar['tabla']}', '{$actualizar['campo']}', {$fila[$actualizar['campo']]}, '{$actualizar['enlace']}')" data-target="#editarCliente" class="w3-button w3-round-xlarge w3-blue w3-hover-black">
+							Editar
+						</button>
+					</td>
+				HTML;
+			
+			$filasEscritorio .= <<<HTML
+				<tr class="w3-left-align">$campos</tr>
+			HTML;
 		endforeach;
-		echo "
-				</table>
-			</div>
-		";
-		if($desactivados) mostrarDesactivados($desactivados, $encabezados, $tabla, $llavePrimaria);
-		if($editable) editar($tabla, $llavePrimaria);
-	}
-
-	function editar(string $tabla, $llavePrimaria){
-		if(isset($_POST['llavePrimaria'])):
-			$llave = $_POST['llavePrimaria'];
-			$sql = ($tabla == 'proveedor')
-				? "SELECT * FROM $tabla WHERE $llavePrimaria=$llave"
-				: "SELECT * FROM $tabla WHERE $llavePrimaria='$llave'";
-			$registro = getRegistro($sql);
-			if(!empty($registro["ci_u"])) unset($registro["ci_u"]);
-			if(!empty($registro["id_p"])) unset($registro["id_p"]);
-			if(!empty($registro["id_n"])) unset($registro["id_n"]);
-		endif;
-	}
-
-	function mostrarDesactivados(array $datos, array $encabezados/*, string $tabla, string $llavePrimaria*/){
-		echo "
-			<details class='w3-section w3-padding-large w3-responsive'>
-				<summary class='w3-large w3-bottombar w3-border-red w3-round-large'>Desactivados</summary>
-				<table class='w3-section w3-table w3-centered' id='activar'>
-					<tr>
-		";
-		for($i = 0, $intEncabezados = count($encabezados); $i < $intEncabezados; $i++):
-			echo "<th class='w3-border w3-border-black w3-red'>$encabezados[$i]</th>";
-		endfor;
-		echo "
-				<th></th>
-			</tr>
-		";
-		foreach($datos as $dato):
-			echo "
-				<tr>
-					<form method='POST'>
-						<td class='w3-border w3-border-black w3-white'>
-							<input class='w3-input w3-center w3-border-0 w3-transparent' type='text' readonly name='llavePrimaria' value='$dato[0]'>
-						</td>
-			";
-			for ($i = 1; $i < $intEncabezados; $i++):
-				echo "
-				 	<td class='w3-border w3-border-black w3-white'>
-				 		<input class='w3-input w3-center w3-border-0 w3-transparent' type='text' readonly value='$dato[$i]'>
-				 	</td>
-				";
-			endfor;
-			echo "
+		
+		// Rellenamos las filas en móvil.
+		foreach ($datos['filas'] as $fila):
+			$campos = '';
+			$verMas = '';
+			foreach ($datos['camposMovil'] as $campo)
+				$campos .= <<<HTML
+					<div class="w3-col s5">$fila[$campo]</div>
+				HTML;
+			
+			$cantidadDatosVerMas = count($datos['camposEscritorio']);
+			for ($i = 0; $i < $cantidadDatosVerMas; ++$i)
+				$verMas .= <<<HTML
+					<li class="w3-block w3-row-padding w3-border-bottom w3-border-black">
+						<div class="w3-col s4">
+							<b class="w3-tag">{$encabezados['escritorio'][$i]}:</b>
+						</div>
+						<div class="w3-rest">
+							<span>{$fila[$datos['camposEscritorio'][$i]]}</span>
+						</div>
+					</li>
+				HTML;
+			
+			if ($desactivar)
+				$verMas .= <<<HTML
+					<li class="w3-block">
+						<div class=w3-container>
+							<button onclick="desactivar('{$desactivar['tabla']}', '{$desactivar['campo']}', {$fila[$desactivar['campo']]}, '{$desactivar['enlace']}')" class="w3-block w3-button w3-round-xlarge w3-red w3-hover-black">
+								Desactivar
+							</button>
+						</div>
+					</li>
+				HTML;
+			
+			if ($actualizar && $_SESSION['cargo'] === 'a')
+				$verMas .= <<<HTML
+					<li class="w3-block">
+						<div class=w3-container>
+							<button onclick="editar(this, '{$actualizar['tabla']}', '{$actualizar['campo']}', {$fila[$actualizar['campo']]}, '{$actualizar['enlace']}')" data-target="#editarCliente" class="w3-block w3-button w3-round-xlarge w3-blue w3-hover-black">
+								Editar
+							</button>
+						</div>
+					</li>
+				HTML;
+			
+			$filasMovil .= <<<HTML
+				<div role="accordion">
+					<button class="w3-block w3-button w3-row w3-center">
+						$campos
+						<div class="w3-rest">
+							<i class="icon-chevron-right"></i>
+						</div>
+					</button>
+					<div class="w3-hide w3-animate-opacity">
+						<ul class="w3-ul w3-grey">
+							$verMas
+						</ul>
+					</div>
+				</div>
+			HTML;
+		endforeach;
+		
+		// Rellenamos las filas de desactivados en escritorio.
+		if ($desactivar):
+			foreach ($desactivar['filas'] as $fila):
+				$campos = '';
+				foreach ($datos['camposEscritorio'] as $campo)
+					$campos .= <<<HTML
+						<td>$fila[$campo]</td>
+					HTML;
+				
+				if ($desactivar)
+					$campos .= <<<HTML
 						<td>
-							<input class='w3-button w3-green w3-round-xlarge' type='submit' name='activar' value='Activar'>
+							<button onclick="activar('{$desactivar['tabla']}', '{$desactivar['campo']}', '{$fila[$desactivar['campo']]}', '{$desactivar['enlace']}')" class="w3-button w3-round-xlarge w3-green w3-hover-black">
+								Activar
+							</button>
 						</td>
-					</form>
-				</tr>
-			";
-		endforeach;
-		echo "
-				</table>
-			</details>
-		";
+					HTML;
+				
+				$filasDesactivadosEscritorio .= <<<HTML
+					<tr class="w3-left-align">$campos</tr>
+				HTML;
+			endforeach;
+			
+			// Rellenamos las filas en móvil.
+			foreach ($desactivar['filas'] as $fila):
+				$campos = '';
+				$verMas = '';
+				foreach ($datos['camposMovil'] as $campo)
+					$campos .= <<<HTML
+						<div class="w3-col s5">$fila[$campo]</div>
+					HTML;
+				
+				$cantidadDatosVerMas = count($datos['camposEscritorio']);
+				for ($i = 0; $i < $cantidadDatosVerMas; ++$i)
+					$verMas .= <<<HTML
+						<li class="w3-block w3-row-padding w3-border-bottom w3-border-black">
+							<div class="w3-col s4">
+								<b class="w3-tag">{$encabezados['escritorio'][$i]}:</b>
+							</div>
+							<div class="w3-rest">
+								<span>{$fila[$datos['camposEscritorio'][$i]]}</span>
+							</div>
+						</li>
+					HTML;
+				
+				if ($desactivar)
+					$verMas .= <<<HTML
+						<li class="w3-block">
+							<div class=w3-container>
+								<button onclick="activar('{$desactivar['tabla']}', '{$desactivar['campo']}', '{$fila[$desactivar['campo']]}', '{$desactivar['enlace']}')" class="w3-block w3-button w3-round-xlarge w3-green w3-hover-black">
+									Activar
+								</button>
+							</div>
+						</li>
+					HTML;
+				
+				$filasDesactivadosMovil .= <<<HTML
+					<div role="accordion">
+						<button class="w3-block w3-button w3-row w3-center">
+							$campos
+							<div class="w3-rest">
+								<i class="icon-chevron-right"></i>
+							</div>
+						</button>
+						<div class="w3-hide w3-animate-opacity">
+							<ul class="w3-ul w3-grey">
+								$verMas
+							</ul>
+						</div>
+					</div>
+				HTML;
+			endforeach;
+		endif;
+		
+		/*==================================================
+		=            ESTRUCTURA TABLA ACTIVADOS            =
+		==================================================*/
+		if ($datos['filas'])
+			echo <<<HTML
+				<h2 class='w3-center w3-bottombar w3-border-blue w3-round-medium'>$titulo</h2>
+				<div class="w3-animate-opacity w3-margin-top w3-margin-bottom w3-card-4 w3-responsive">
+					<table class="w3-table w3-centered w3-hoverable w3-hide-small">
+						<tr class="w3-indigo">$encabezadosEscritorio</tr>
+						$filasEscritorio
+					</table>
+					<div class="w3-hide-medium w3-hide-large">
+						<div class="w3-row w3-center">
+							$encabezadosMovil
+							<div class="w3-padding w3-rest w3-indigo">
+								<b style="opacity: 0">Ver</b>
+							</div>
+						</div>
+						<div role="accordions">
+							$filasMovil
+						</div>
+					</div>
+				</div>
+			HTML;
+		
+		/*=====================================================
+		=            ESTRUCTURA TABLA DESACTIVADOS            =
+		=====================================================*/
+		if ($desactivar['filas'])
+			echo <<<HTML
+				<br>
+				<details class="w3-margin-top">
+					<summary class="w3-xlarge w3-padding">
+						<i class="icon-lock"> Desactivados</i>
+						<i class="icon-chevron-right w3-margin-left"></i>
+					</summary>
+					<div class="w3-margin w3-card-4 w3-responsive">
+						<table class="w3-table w3-centered w3-hoverable w3-hide-small">
+							<tr class="w3-red">
+								$encabezadosEscritorio
+							</tr>
+							$filasDesactivadosEscritorio
+						</table>
+					</div>
+					<div class="w3-card-4 w3-hide-medium w3-hide-large">
+						<div class="w3-row w3-center">
+							$encabezadosDesactivadosMovil
+							<div class="w3-padding w3-rest w3-red">
+								<b style="opacity: 0">Ver</b>
+							</div>
+						</div>
+						<div role="accordions">
+							$filasDesactivadosMovil
+						</div>
+					</div>
+				</details>
+				<br><br><br><br><br><br><br><br><br><br>
+			HTML;
+		return true;
 	}
 
-	/*======================================================
-	=            RESTRINGE ACCESO A UN VENDEDOR            =
-	======================================================*/
-	function REDIRECCIONAR(){
-		return "
-			<script>
-				Swal.fire({
-					title: 'ACCESO DENEGADO',
-					icon: 'error',
-					footer: 'Volviendo a la página principal',
-					timer: 3000,
-					timerProgressBar: true,
-					allowOutsideClick: false,
-					allowEscapeKey: false,
-					allowEnterKey: false,
-					showConfirmButton: false,
-				})
-				setTimeout(function(){
-					window.location.href = 'http://localhost/licoreria/sistema/';
-				}, 3000);
-			</script>
-		";
-	}
-
-	/*================================================================
-	=            MUESTRA VARIABLES EN FORMATO MÁS LEGIBLE            =
-	================================================================*/
 	/**
 	 * Muestra arrays y objetos en formato más legible
 	 * @param  iterable $dato
 	 */
-	function depurar(Iterable $dato){
+	function depurar(iterable $dato) {
 		$formato = print_r('<pre class="w3-orange w3-padding-large">');
 		$formato += print_r($dato);
 		$formato += print_r('</pre>');
@@ -181,51 +338,31 @@
 	 * @return int|null Retorna el número de filas afectadas o `NULL` en caso
 	 * de error, para ver el error utilice `$conexion->error`. 
 	 */
-	function setRegistro(string $sql):?int {
+	function setRegistro(string $sql): ?int {
 		global $conexion;
 		$conexion->query($sql);
 		$afectadas = $conexion->affected_rows;
 		return $afectadas != -1 ? $afectadas : NULL;
 	}
 
-	/*====================================
-	=            CONTAR FILAS            =
-	====================================*/
-	// Requiere una sentencia SQL
-	// Devuelve un entero si encuentra filas
-	// Devuelve NULL en caso de error
 	/**
 	 * Contar filas.
 	 * @param  string $sql Sentencia SELECT.
 	 * @return int|null Retorna el número de filas encontrada, o NULL si encuentra un error.
 	 *  <i>(ver error con `$conexion->error`)</i>
 	 */
-	function consulta(string $sql):?int {
+	function consulta(string $sql): ?int {
 		global $conexion;
 		$resultado = $conexion->query($sql);
 		return $resultado ? $resultado->num_rows : NULL;
 	}
 
-	/*=================================================================
-	=            MUESTRA UN ERROR POR ALERTA Y POR CONSOLA            =
-	=================================================================*/
 	// Debe ser llamado dentro de una etiqueta <script></script>
-	function getSQLError():string{
+	function getSQLError(): string{
 		global $conexion;
 		return "
 			console.log(\"" . mysqli_error($conexion) . "\");
 			alerta('Ha ocurrido un error, por favor intente nuevamente')
-		";
-	}
-
-	/*================================================
-	=            MUESTRA REGISTRO EXITOSO            =
-	================================================*/
-	function registroExitoso(){
-		return "
-			<script>
-				notificacion('Registro Exitoso', false);
-			</script>
 		";
 	}
 
@@ -237,27 +374,20 @@
 		return date("d-m-Y, h:i a");
 	}
 
-	/*==================================================================
-	=            OBTENER LA ÚLTIMA VERSIÓN DE LA APLICACIÓN            =
-	==================================================================*/
 	/**
 	 * Obtener la última versión de la aplicación
 	 * @return string Cadena que representa la última versión registrada.
 	 */
-	function getUltimaVersion():string {
+	function getUltimaVersion(): string {
 		$version = getRegistro('SELECT nombre FROM versiones ORDER BY id DESC LIMIT 1');
 		return $version['nombre'];
 	}
 
-	/*===================================================================
-	=            OBTENER EL ID DEL ÚLTIMO NEGOCIO REGISTRADO            =
-	===================================================================*/
-	// Se utiliza por ejemplo para insertar un logo a un nuevo negocio
 	/**
 	 * Obtener el ID del último negocio registrado
 	 * @return int|null Retorna el ID o NULL si no existen negocios.
 	 */
-	function getUltimoNegocio():?int {
+	function getUltimoNegocio(): ?int {
 		$id = getRegistro('SELECT * FROM negocios ORDER BY id DESC LIMIT 1');
 		return (int) $id['id'] ?? null;
 	}
@@ -293,7 +423,7 @@
 	 * Cambia cada inicial a mayúscula
 	 * @param string $texto
 	 */
-	function capitalize(string $texto):string {
+	function capitalize(string $texto): string {
 		return mb_convert_case($texto, MB_CASE_TITLE, 'UTF-8');
 	}
 
@@ -303,7 +433,7 @@
 	 * @return string El `texto` con caracteres especiales escapados como `'' ""`
 	 * y etiquetas.
 	 */
-	function escapar(string $texto):string {
+	function escapar(string $texto): string {
 		global $conexion;
 		$texto = $conexion->real_escape_string($texto);
 		$texto = quotemeta($texto);
@@ -311,35 +441,31 @@
 		return $texto;
 	}
 
-	/*=================================================
-	=            CUENTA FILAS DE UNA TABLA            =
-	=================================================*/
 	/**
 	 * Cuentas las filas en una tabla.
 	 * @param  string $tabla La tabla a buscar (negocios | usuarios | versiones)
 	 * @return ínt|null El número de registros. Retorna NULL si la tabla no existe.
 	 */
-	function contarRegistros(string $tabla):?int {
+	function contarRegistros(string $tabla): ?int {
 		global $conexion;
 		$resultado = $conexion->query("SELECT COUNT(*) FROM $tabla");
 		return $resultado ? (int) $resultado->fetch_row()[0] : NULL;
 	}
 
-	/*================================================
-	=            ENCRIPTA CUALQUIER TEXTO            =
-	================================================*/
-	function encriptar(string $texto):string {
+	/**
+	 * Encripta cualquier texto
+	 * @param  string $texto El texto a encriptar.
+	 * @return string        El texto encriptado.
+	 */
+	function encriptar(string $texto): string {
 		return password_hash($texto, PASSWORD_DEFAULT);
 	}
 
-	/*============================================================
-	=            OBTENER UN TEXTO CON LA FECHA ACTUAL            =
-	============================================================*/
 	/**
 	 * Retorna la fecha y hora actual
 	 * @return string La fecha y hora formateada.
 	 */
-	function fecha():string {
+	function fecha(): string {
 		date_default_timezone_set('America/Caracas');
 		$dias = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
 		$meses = [1 => 'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio',
@@ -352,7 +478,7 @@
 	/*========================================================
 	=            FORMATEAR UNA CANTIDAD MONETARIA            =
 	========================================================*/
-	function formatMoney($cantidad){
+	function formatMoney($cantidad) {
 		$cantidad = number_format($cantidad, 0, ",", ".");
 		return $cantidad;
 	}
@@ -363,11 +489,27 @@
 	 * @param  string $urlJSON La ruta relativa al archivo JSON local.
 	 * @return array Un array asociativo con la respuesta de la API.
 	 */
-	function getAPI(string $url, string $urlJSON):array {
+	function getAPI(string $url, string $urlJSON): array {
 		$data = @file_get_contents($url) ?: @file_get_contents($urlJSON);
 		@file_put_contents($urlJSON, $data);
 		$data = json_decode($data, true, 512, JSON_INVALID_UTF8_IGNORE);
 		
 		return $data;
+	}
+	
+	/**
+	 * Elimina los duplicados de una lista de datos.
+	 * @param  array  $arrays El array de arrays a procesar.
+	 * @param array $clave La clave del arreglo necesaria para detectar duplicados.
+	 * @return array Un nuevo arreglo sin elementos duplicados.
+	 */
+	function eliminarDuplicados(array $arrays, string $clave): array {
+		$sinDuplicados = [];
+		if (!$arrays) return $sinDuplicados;
+		
+		foreach($arrays as $array)
+			$sinDuplicados[$array[$clave]] = $array;
+		
+		return $sinDuplicados;
 	}
 ?>

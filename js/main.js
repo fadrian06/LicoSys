@@ -1,14 +1,11 @@
 "use strict";
 
+// @ts-nocheck
 /** @typedef {import('./funciones')} */
 
 /*=====================================
 =            DECLARACIONES            =
 =====================================*/
-/** @type {HTMLButtonElement} */
-var btnVersion = document.querySelector('#version');
-/** @type {HTMLDivElement} */
-var modalAcercaDe = document.querySelector('#acercaDe');
 /** @type {HTMLDivElement} */
 var overlay = document.querySelector('.w3-overlay');
 /** @type {HTMLButtonElement} */
@@ -18,7 +15,7 @@ var menuLateral = document.querySelector('#menu');
 /** @type {HTMLButtonElement} */
 var btnModenas = document.querySelector('#btn-monedas');
 /** @type {HTMLFormElement} */
-var formMonedas = document.querySelector('#actualizarModenas');
+var formMonedas = document.querySelector('#actualizarMonedas');
 var main = document.querySelector('main');
 var dashboardHTML = main.innerHTML;
 /*=====  End of DECLARACIONES  ======*/
@@ -26,25 +23,10 @@ var dashboardHTML = main.innerHTML;
 /*==============================================
 =            EJECUCIÓN DE FUNCIONES            =
 ==============================================*/
-$('a').each(function (_i, enlace) {
-  enlace.addEventListener('click', function (e) {
-    /** @type {HTMLAnchorElement} */
-    var enlace = e.currentTarget;
-    e.preventDefault();
-    main.classList.add('showLoader');
-    if (enlace.href.includes('dashboard.php')) return setTimeout(function () {
-      main.classList.remove('showLoader');
-      main.innerHTML = dashboardHTML;
-    }, 500);
-    if (enlace.href.includes('salir.php')) return main.classList.remove('showLoader');
-    $.get(enlace.href, function (res) {
-      main.classList.remove('showLoader');
-      main.innerHTML = res;
-    });
-  });
-});
+reajustar();
+menu();
+navegacion();
 if (formMonedas) {
-  modal(btnModenas, formMonedas, overlay);
   validar(formMonedas, function (error, fd, e) {
     if (error) return alerta(error).show();
     e.preventDefault();
@@ -52,30 +34,15 @@ if (formMonedas) {
     ajax('backend/actualizarMonedas.php', fd, function (res) {
       /** @type {Respuesta} */
       var datos = JSON.parse(res);
-      if (datos.error) return alerta(datos.error).on('afterClose', function () {
+      if (datos.error) return alerta(datos.error).on('onClose', function () {
         return formMonedas.classList.remove('showLoader');
       }).show();
+      $('#tablaMonedas').html("\n\t\t\t\t<tr>\n\t\t\t\t\t<td>IVA</td>\n\t\t\t\t\t<td colspan=\"2\"><b>".concat(formMonedas.iva.value, "%</b></td>\n\t\t\t\t</tr>\n\t\t\t\t<tr>\n\t\t\t\t\t<td>D\xD3LAR</td>\n\t\t\t\t\t<td>\n\t\t\t\t\t\t<b><i>Bs. </i>").concat(formMonedas.dolar.value, "</b>\n\t\t\t\t\t</td>\n\t\t\t\t\t<td><b>").concat(formMonedas.pesos.value, "<i> Pesos</i></b></td>\n\t\t\t\t</tr>\t\n\t\t\t"));
       formMonedas.classList.remove('showLoader');
       return notificacion('Valores actualizados correctamente.').on('onShow', function () {
-        return formMonedas.querySelector('.icon-close').click();
+        formMonedas.querySelector('.icon-close').click();
       }).show();
     });
   });
 }
-modal(btnVersion, modalAcercaDe, overlay);
-menu(barras, menuLateral, overlay);
-$('summary').each(function (_i, summary) {
-  summary.onclick = function () {
-    summary.parentElement.classList.toggle('abierto');
-    summary.parentElement.removeAttribute('open');
-  };
-});
-$('[href="salir.php"]').on('click', function (e) {
-  e.preventDefault();
-  return confirmar(overlay, '¿Seguro que desea cerrar sesión?', 'center', function () {
-    var url = location.href.split('/');
-    url[url.length - 1] = 'salir.php';
-    location.href = url.join('/');
-  });
-});
 /*=====  End of EJECUCIÓN DE FUNCIONES  ======*/

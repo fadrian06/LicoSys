@@ -5,9 +5,6 @@
 =====================================*/
 /** @type {HTMLFormElement} */
 const form = document.querySelector('#registrarPreguntasRespuestas')
-
-/** @type {HTMLDivElement} */
-const overlay = form.previousElementSibling
 /*=====  End of DECLARACIONES  ======*/
 
 /*==============================================
@@ -22,7 +19,7 @@ form.pre1.addEventListener('keyup', () => {
 	legendRespuesta.innerText = `(${form.pre1.value})`
 })
 
-form.pre3.addEventListener('keyup', () => {
+form.pre2.addEventListener('keyup', () => {
 	const legendRespuesta = form.querySelector(`sup[respuesta=${form.res2.id}]`)
 	legendRespuesta.innerText = `(${form.pre2.value})`
 })
@@ -32,34 +29,29 @@ form.pre3.addEventListener('keyup', () => {
 	legendRespuesta.innerText = `(${form.pre3.value})`
 })
 
-/**
- * @param  {RespuestaCruda} res
- */
+/** @param  {RespuestaCruda} res */
 const recibirRespuesta = res => {
 	/** @type {Respuesta} */
 	const datos = JSON.parse(res)
 		
 	if (datos.error)
 		return alerta(datos.error)
-			.on('afterClose', () => ocultarLoader(overlay, form))
+			.on('afterClose', () => ocultarLoader(form))
 			.show()
 		
-	ocultarLoader(overlay, form)
+	ocultarLoader(form)
 		
 	Noty.closeAll()
 		
 	return notificacion('Registro exitoso.')
-		.on('afterClose', () => location.reload())
+		.on('onClose', () => location.reload())
 		.show()
 }
 
 $('#masTarde').on('click', e => {
 	e.preventDefault()
-	overlay.style.zIndex = '999'
-	overlay.classList.remove('w3-hide')
-	overlay.classList.add('w3-show')
 	
-	let html = `
+	let text = `
 		<div class="w3-white w3-round-xlarge w3-padding w3-center w3-border" style="z-index: 1000">
 			<div class="animate__animated animate__flip animate__infinite icon-question w3-xxxlarge"></div>
 			<h2 class="w3-large w3-margin-bottom">
@@ -85,16 +77,12 @@ $('#masTarde').on('click', e => {
 	return new Noty({
 		id: 'confirmacion',
 		theme: null,
-		text: html,
+		text,
 		layout: 'center',
 		closeWith: ['button'],
+		modal: true,
 		callbacks: {
 			onShow: () => {
-				$('.noty_close_button').on('click', () => {
-					overlay.classList.remove('w3-show')
-					overlay.classList.add('w3-hide')
-				})
-				
 				$('#confirmar').on('click', () => {
 					form.pre1.value = 'No especificada'
 					form.pre2.value = 'No especificada'
@@ -105,8 +93,6 @@ $('#masTarde').on('click', e => {
 				
 				$('#cancelar').on('click', () => {
 					$('#confirmacion .noty_close_button')[0].click()
-					overlay.classList.remove('w3-show')
-					overlay.classList.add('w3-hide')
 				})
 			}
 		}
@@ -117,7 +103,7 @@ validar(form, (error, fd, e) => {
 	if (error) return alerta(error).show()
 	
 	e.preventDefault()
-	mostrarLoader(overlay, form)
+	mostrarLoader(form)
 	
 	ajax('backend/registrarPreguntasRespuestas.php', fd, recibirRespuesta)
 })

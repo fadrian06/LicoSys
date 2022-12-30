@@ -20,7 +20,7 @@ body {
   font: 16px 'Roboto', sans-serif;
 }
 .modal {
-  padding: 10px;
+  padding: 0 0 10px;
   max-width: max-content;
   max-width: -moz-max-content;
   height: max-content;
@@ -429,6 +429,25 @@ details.abierto [class^='icon-chevron'] {
   display: flex;
   justify-content: end;
   align-items: center;
+}
+#botones button,
+#botones a {
+  min-width: 5.62rem;
+  min-height: 5.62rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+#typed-container {
+  cursor: pointer;
+}
+.w3-overlay {
+  cursor: pointer;
+  z-index: 999;
+}
+.icon-spinner {
+  text-shadow: -2px 2px 10px #fff;
 }
 main a {
   text-decoration: none;

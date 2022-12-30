@@ -32,6 +32,15 @@ CREATE TABLE IF NOT EXISTS usuarios (
 	res3 varchar(255)
 );
 
+DROP TABLE IF EXISTS log;
+CREATE TABLE IF NOT EXISTS log (
+	fecha datetime DEFAULT CURRENT_TIMESTAMP,
+	usuario_id int NOT NULL,
+	negocio_id int NOT NULL,
+	CONSTRAINT FOREIGN KEY(usuario_id) REFERENCES usuarios(id),
+	CONSTRAINT FOREIGN KEY(negocio_id) REFERENCES negocios(id)
+);
+
 DROP TABLE IF EXISTS dolar;
 CREATE TABLE IF NOT EXISTS dolar(
 	fecha datetime DEFAULT CURRENT_TIMESTAMP,
@@ -48,6 +57,25 @@ DROP TABLE IF EXISTS peso;
 CREATE TABLE IF NOT EXISTS peso(
 	fecha datetime DEFAULT CURRENT_TIMESTAMP,
 	valor varchar(255) NOT NULL
+);
+
+DROP TABLE IF EXISTS clientes;
+CREATE TABLE IF NOT EXISTS clientes(
+	id int PRIMARY KEY AUTO_INCREMENT,
+	cedula int NOT NULL,
+	nombre varchar(255) NOT NULL,
+	usuario_id int NOT NULL,
+	CONSTRAINT FOREIGN KEY(usuario_id) REFERENCES usuarios(id)
+);
+
+DROP TABLE IF EXISTS proveedores;
+CREATE TABLE IF NOT EXISTS proveedores(
+	id int PRIMARY KEY AUTO_INCREMENT,
+	nombre varchar(255) NOT NULL,
+	usuario_id int NOT NULL,
+	negocio_id int NOT NULL,
+	CONSTRAINT FOREIGN KEY(usuario_id) REFERENCES usuarios(id),
+	CONSTRAINT FOREIGN KEY(negocio_id) REFERENCES negocios(id)
 );
 
 DROP TABLE IF EXISTS versiones;

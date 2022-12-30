@@ -34,7 +34,7 @@
 					</div>
 				</section>
 				<section class="w3-third w3-topbar w3-bottombar w3-center">
-					<label for="logo" class="w3-display-container w3-hover-opacity">
+					<label for="logo" class="w3-display-container w3-hover-opacity" style="cursor: pointer">
 						<i class="icon-camera w3-xxxlarge w3-display-middle w3-display-hover"></i>
 						<input type="file" id="logo" accept="image/jpeg,image/png" name="logo" class="w3-hide">
 						<img class="image-result w3-image" src="images/logoNegocio.jpg" style="width: 150px">

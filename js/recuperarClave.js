@@ -9,13 +9,10 @@
 =====================================*/
 /** @type {HTMLButtonElement} */
 var botonRecuperar = document.querySelector('#recuperar');
-
 /** @type {HTMLFormElement} */
 var formConsulta = document.querySelector('#consultar');
-
 /** @type {HTMLFormElement} */
 var formPreguntasRespuestas = document.querySelector('#preguntasRespuestas');
-
 /** @type {HTMLFormElement} */
 var formClave = document.querySelector('#cambiarClave');
 /*=====  End of DECLARACIONES  ======*/
@@ -23,7 +20,10 @@ var formClave = document.querySelector('#cambiarClave');
 /*==============================================
 =            EJECUCIÓN DE FUNCIONES            =
 ==============================================*/
-modal(botonRecuperar, formConsulta, overlay);
+botonRecuperar.onclick = function (e) {
+  e.preventDefault();
+  modal(botonRecuperar);
+};
 validar(formConsulta, function (error, fd, e) {
   if (error) return alerta(error).show();
   e.preventDefault();
@@ -32,7 +32,7 @@ validar(formConsulta, function (error, fd, e) {
   ajax('backend/recuperarClave.php', fd, function (res) {
     /** @type {Respuesta} */
     var datos = JSON.parse(res);
-    if (datos.error) return alerta(datos.error).on('afterClose', function () {
+    if (datos.error) return alerta(datos.error).on('onShow', function () {
       return formConsulta.classList.remove('showLoader');
     }).show();
     formConsulta.classList.remove('showLoader');
@@ -40,7 +40,7 @@ validar(formConsulta, function (error, fd, e) {
   });
 });
 if (formPreguntasRespuestas) {
-  mostrarModal(formPreguntasRespuestas, overlay, function () {
+  mostrarModal(formPreguntasRespuestas, function () {
     return $.post('backend/recuperarClave.php', {
       cerrar: true
     }, function (res) {
@@ -58,18 +58,16 @@ if (formPreguntasRespuestas) {
     return ajax('backend/recuperarClave.php', fd, function (res) {
       /** @type {Respuesta} */
       var datos = JSON.parse(res);
-      if (datos.error) {
-        return alerta(datos.error).on('afterClose', function () {
-          return formPreguntasRespuestas.classList.remove('showLoader');
-        }).show();
-      }
+      if (datos.error) return alerta(datos.error).on('onShow', function () {
+        formPreguntasRespuestas.classList.remove('showLoader');
+      }).show();
       formPreguntasRespuestas.classList.remove('showLoader');
       location.reload();
     });
   });
 }
 if (formClave) {
-  mostrarModal(formClave, overlay, function () {
+  mostrarModal(formClave, function () {
     return $.post('backend/recuperarClave.php', {
       cerrar: true
     }, function (res) {
@@ -86,7 +84,7 @@ if (formClave) {
     return ajax('backend/recuperarClave.php', fd, function (res) {
       /** @type {Respuesta} */
       var datos = JSON.parse(res);
-      if (datos.error) return alerta(datos.error).on('afterClose', function () {
+      if (datos.error) return alerta(datos.error).on('onShow', function () {
         return formClave.classList.remove('showLoader');
       }).show();
       formClave.classList.remove('showLoader');

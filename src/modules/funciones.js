@@ -1,5 +1,7 @@
+//@ts-nocheck
 /**
  * @typedef {object} Respuesta Respuesta del servidor
+ * @property {string} Respuesta.ok El mensaje de éxito.
  * @property {string} Respuesta.error Errores que lanza el servidor.
  * @property {object} Respuesta.datos Objeto con datos de la posible consulta.
  * @typedef {string} RespuestaCruda Respuesta serializada `"{error: string, datos: {}}"`
@@ -12,78 +14,145 @@
  * @typedef {import('./reloj')}
  */
 
-Noty.overrideDefaults({
-	theme: 'sunset'
-})
+Noty.overrideDefaults({ theme: 'sunset' })
 
 /**
- * Define el comportamiento de un menú lateral.
- * @param  {HTMLElement} boton Botón que activa el menú, puede ser `<button>` o `<à>`
- * @param  {HTMLElement} menu Contenedor del menú.
- * @param  {HTMLDivElement} overlay Elemento que opaca el fondo.
+ * Comportamiento de un acordión de filas en una tabla. <br>
+ * <u>Requisitos</u>
+ * <ul>
+ *  <li>Cada acordeón debe tener el atributo `role="accordion`</li>
+ *  <li>Cada acordeón debe tener un botón que sirva para abrir y cerrar</li>
+ *  <li>Cada acordeón debe tener una flecha que indique su estado</li>
+ * </ul>
  */
-const menu = (boton, menu, overlay) => {
+const acordeon = () => {
+	const acordeones = document.querySelectorAll('[role="accordion"]')
+	for (let i = 0; i < acordeones.length; ++i) {
+		/** @type {HTMLButtonElement} */
+		const boton = acordeones[i].firstElementChild
+		const flecha = boton.querySelector('[class^="icon-chevron"]')
+		boton.onclick = () => {
+			boton.nextElementSibling.classList.toggle('w3-hide')
+			boton.nextElementSibling.classList.toggle('w3-show')
+			if (flecha) {
+				flecha.classList.toggle('icon-chevron-right')
+				flecha.classList.toggle('icon-chevron-down')
+			}
+		}
+	}
+}
+
+/**
+ * Comportamiento de un elemento `<details> para navegadores que no lo soportan`
+ * @param  {HTMLElement} details Elemento `<details>`
+ */
+const mostrarDetails = details => {
+	if (details) {
+		const summary = details.querySelector('summary')
+		const flecha = summary.querySelector('[class^="icon-chevron"]')
+		summary.onclick = () => {
+			details.removeAttribute('open')
+			details.classList.toggle('abierto')
+			if (flecha) {
+				flecha.classList.toggle('icon-chevron-right')
+				flecha.classList.toggle('icon-chevron-down')
+			}
+		}
+	}
+}
+
+/** Reajusta la estructura del LicoSys, dependiendo la resolución. */
+const reajustar = () => {
+	if (document.body.offsetWidth < 992) {
+		$('main').css('margin-left', '0')
+	} else $('main').css('margin-left', '250px')
+}
+
+/** Define el comportamiento de un menú lateral. */
+const menu = () => {
+	/** @type {HTMLButtonElement} */
+	const boton = document.querySelector('.icon-bars').parentElement
+	/** @type {HTMLDivElement} */
+	const overlay = document.querySelector('[role="menuOverlay"]')
+	/** @type {HTMLElement} */
+	const menu = document.querySelector('#menu')
+	
 	boton.onclick = () => {
+		// Mostramos el fondo.
 		overlay.classList.remove('w3-hide')
 		overlay.classList.add('w3-show')
-		overlay.style.cursor = 'pointer'
+		// Mostramos el menú y cambiamos a la animación de cierre.
 		menu.classList.remove('w3-hide', 'animate__animated')
 		menu.classList.remove('animate__slideOutLeft', 'animate__faster')
 		menu.classList.add('w3-show', 'w3-animate-left')
 	}
 	
+	// Al cerrar el menú.
 	overlay.onclick = () => {
+		// Ocultar el fondo.
 		overlay.classList.remove('w3-show')
 		overlay.classList.add('w3-hide')
+		// Cambiar a la animación de apertura.
 		menu.classList.remove('w3-animate-left')
 		menu.classList.add('animate__animated', 'animate__slideOutLeft')
 		menu.classList.add('animate__faster')
 		setTimeout(() => {
+			// Ocultar el menú
 			menu.classList.remove('w3-show')
 			menu.classList.add('w3-hide')
 		}, 500)
 	}
+	
+	onresize = () => reajustar()
 }
 
 /**
- * Muestra el modal :V
  * @param  {HTMLElement} modal Contenedor del modal.
- * @param  {HTMLDivElement} overlay Elemento que opaca el fondo.
  * @param {()} [callback] Función adicional a ejecutar al cerrar el modal. 
  */
-const mostrarModal = (modal, overlay, callback = () => {}) => {
+const mostrarModal = (modal, callback = () => {}) => {
 	/** @type {HTMLSpanElement} */
 	const cerrar = modal.querySelector('.icon-close')
+	/** @type {HTMLDivElement} */
+	const overlay = document.querySelector('[role="modalOverlay"]')
+	
+	// Oscurecemos el fondo
 	overlay.classList.remove('w3-hide')
 	overlay.classList.add('w3-show')
-	overlay.style.cursor = 'pointer'
-	overlay.style.zIndex = '999'
-	modal.style.paddingTop = '0'
-	modal.style.paddingRight = '0'
-	modal.style.paddingLeft = '0'
+	
+	// Mostramos el modal
 	modal.classList.remove('w3-hide')
 	modal.classList.add('w3-show')
+	// Cambiamos a la animación de apertura
 	modal.classList.remove('animate__fadeOutDown')
 	modal.classList.add('animate__fadeInUp')
 	
+	// Al hacer click en el fondo
 	overlay.onclick = () => {
+		// Ocultamos el fondo
 		overlay.classList.remove('w3-show')
 		overlay.classList.add('w3-hide')
+		// Cambiamos a la animación de cierre
 		modal.classList.remove('animate__fadeInUp')
 		modal.classList.add('animate__fadeOutDown')
 		setTimeout(() => {
+			// Ocultamos el modal
 			modal.classList.remove('w3-show')
 			modal.classList.add('w3-hide')
 		}, 500)
 		callback()
 	}
 	
+	// Al hacer click en la X
 	cerrar.onclick = () => {
+		// Ocultamos el fondo
 		overlay.classList.remove('w3-show')
 		overlay.classList.add('w3-hide')
+		// Cambiamos a la animación de cierre
 		modal.classList.remove('animate__fadeInUp')
 		modal.classList.add('animate__fadeOutDown')
 		setTimeout(() => {
+			// Ocultamos el modal
 			modal.classList.remove('w3-show')
 			modal.classList.add('w3-hide')
 		}, 500)
@@ -92,39 +161,41 @@ const mostrarModal = (modal, overlay, callback = () => {}) => {
 }
 
 /**
- * Define el comportamiento de un modal.
- * @param  {HTMLElement} boton Un element `<button>` o `<a>`
- * @param  {HTMLElement} modal El contenedor del modal.
- * @param  {HTMLDivElement} overlay El elemento que opaca el fondo.
+ * Define el comportamiento de un modal.<br>
+ * &nbsp;<u>Requisitos</u>
+ * <ul>
+ *   <li>Para llamar a esta función a el botón o enlace debes agregarle el atributo `onclick="modal(this)"`.</li>
+ *   <li>Define un atributo `data-target="selectorCSS"` al elemento modal, ya sea por `#id` o `.class`.</li>
+ *   <li>Verifica que coincida el `selectorCSS` con el elemento del modal.</li>
+ * </ul>
+ * @param  {HTMLElement} boton El elemento que abre el modal al hacer click o touch.
  */
-const modal = (boton, modal, overlay) => {
-	boton.onclick = e => {
-		e.preventDefault()
-		mostrarModal(modal, overlay)
-	}
+const modal = boton => {
+	const selector = boton.getAttribute('data-target')
+	const modal = document.querySelector(selector)
+	mostrarModal(modal)
 }
 
 /**
  * Opaca el fondo y muestra el loader.
- * @param  {HTMLDivElement} overlay Elemento `<div>` que opaca el fondo.
- * @param  {HTMLFormElement} form Formulario contenedor de algún elemento con `id='loader'`
+ * @param  {HTMLElement} modal Modal contenedor de algún elemento con `id='loader'`
  */
-const mostrarLoader = (overlay, form) => {
-	overlay.style.zIndex = '999'
+const mostrarLoader = modal => {
+	const overlay = document.querySelector('[role="modalOverlay"]')
 	overlay.classList.remove('w3-hide')
 	overlay.classList.add('w3-show')
-	form.classList.add('showLoader')
+	modal.classList.add('showLoader')
 }
 
 /**
  * Quita el fondo opaco y el loader.
- * @param  {HTMLDivElement} overlay Elemento `<div>` que opaca el fondo.
- * @param  {HTMLFormElement} form    Formulario contenedor de algún elemento con `id='loader'`
+ * @param  {HTMLElement} modal    Modal contenedor de algún elemento con `id='loader'`
  */
-const ocultarLoader = (overlay, form) => {
+const ocultarLoader = modal => {
+	const overlay = document.querySelector('[role="modalOverlay"]')
 	overlay.classList.remove('w3-show')
 	overlay.classList.add('w3-hide')
-	form.classList.remove('showLoader')
+	modal.classList.remove('showLoader')
 }
 
 /**
@@ -166,25 +237,20 @@ const verClave = (ojo, input) => {
 
 /**
  * Muestra un diálogo de confirmación.
- * @param  {HTMLDivElement}   overlay  Elemento que opaca el fondo.
  * @param  {string}   texto    Título de la ventana emergente.
  * @param  {Noty.Layout}   [posicion] Default: 'center'
  * @param  {(e: Event)} callback Función que se ejecuta al confirmar.
  * @return {Noty} Retorna un objeto Noty activado por defecto.
  */
-const confirmar = (overlay, texto, posicion = 'center', callback = () => {}) => {
-	overlay.style.zIndex = '999'
-	overlay.classList.remove('w3-hide')
-	overlay.classList.add('w3-show')
-	
-	let html = `
+const confirmar = (texto, posicion = 'center', callback = () => {}) => {
+	let text = `
 		<div class="w3-white w3-round-xlarge w3-padding w3-center w3-border" style="z-index: 1000">
 			<div class="animate__animated animate__flip animate__infinite icon-question w3-xxxlarge"></div>
 			<h2 class="w3-large w3-margin-bottom">
 				<strong>${texto}</strong>
 			</h2>
 			<div class="w3-center w3-padding w3-margin-top">
-				<button id="confirmar" class="w3-button w3-round-xlarge w3-blue">Sí</button>
+				<button id="btnConfirmar" class="w3-button w3-round-xlarge w3-blue">Sí</button>
 				<button id="cancelar" class="w3-button w3-round-xlarge w3-red">No</button>
 			</div>
 		</div>
@@ -193,22 +259,18 @@ const confirmar = (overlay, texto, posicion = 'center', callback = () => {}) => 
 	return new Noty({
 		id: 'confirmacion',
 		theme: null,
-		text: html,
+		text,
 		layout: posicion,
+		modal: true,
 		closeWith: ['button'],
 		callbacks: {
 			onShow: () => {
-				$('.noty_close_button').on('click', () => {
-					overlay.classList.remove('w3-show')
-					overlay.classList.add('w3-hide')
+				$('#btnConfirmar').on('click', e => {
+					$('#confirmacion .noty_close_button')[0].click()
+					callback(e)
 				})
-				
-				$('#confirmar').on('click', e => callback(e))
-				
 				$('#cancelar').on('click', () => {
 					$('#confirmacion .noty_close_button')[0].click()
-					overlay.classList.remove('w3-show')
-					overlay.classList.add('w3-hide')
 				})
 			}
 		}
@@ -228,9 +290,7 @@ const alerta = (texto, timer = 2000) => {
 	})
 }
 
-/**
- * @param  {string} texto
- */
+/** @param  {string} texto */
 const notificacion = texto => {
 	return new Noty({
 		text: `<i class="icon-check w3-margin-right"></i> ${texto}`,
@@ -239,9 +299,7 @@ const notificacion = texto => {
 	})
 }
 
-/**
- * @param  {string} texto
- */
+/** @param  {string} texto */
 const advertencia = texto => {
 	return new Noty({
 		text: `<i class="icon-warning w3-margin-right"></i> ${texto}`,
@@ -250,8 +308,338 @@ const advertencia = texto => {
 	})
 }
 
+/**
+ * @param  {string} texto
+ */
+const informacion = texto => {
+	return new Noty({
+		text: `<i class="w3-margin-right">!</i> ${texto}`,
+		type: 'info',
+		timeout: 3000
+	})
+}
+
+/**
+ * Envia la petición al servidor para activar o desactivar un registro.
+ * @param  {string} tabla  De qué tabla es el registro.
+ * @param  {string} campo  El nombre del campo para identificar el registro.
+ * @param  {number} valor  Valor único de cada registro.
+ * @param  {string} accion Si quieres `activar` o `desactivar`.
+ * @param  {string} hrefEnlace El HREF del enlace a clickear cuando se active o se desactive un registro.
+ */
+const activarDesactivar = (tabla, campo, valor, accion, hrefEnlace) => {
+	const post = {
+		tabla: tabla,
+		campo: campo,
+		valor: valor,
+		accion: accion
+	}
+	return $.post('backend/activarDesactivar.php', post, res => {
+		/** @type {Respuesta} */
+		const respuesta = JSON.parse(res)
+		
+		if (respuesta.error) return alerta(respuesta.error).show()
+		
+		if (accion === 'activar')
+			notificacion(respuesta.ok)
+				.on('beforeShow', () => $(`[href="${hrefEnlace}"]`)[0].click())
+				.show()
+		else if (accion === 'desactivar')
+			informacion(respuesta.ok)
+				.on('beforeShow', () => $(`[href="${hrefEnlace}"]`)[0].click())
+				.show()
+	})
+}
+
+/**
+ * Funcionalidad de activar un registro.
+ * @param  {string} tabla De qué tabla es el registro.
+ * @param  {string} campo Nombre del campo para identificar el registro.
+ * @param  {number} valor Valor único de cada registro.
+ * @param  {string} hrefEnlace El HREF del enlace a clickear al activar.
+ */
+const activar = (tabla, campo, valor, hrefEnlace) => {
+	return activarDesactivar(tabla, campo, valor, 'activar', hrefEnlace)
+}
+
+/**
+ * Funcionalidad de desactivar un registro.
+ * @param  {string} tabla De qué tabla es el registro.
+ * @param  {string} campo Nombre del campo para identificar el registro.
+ * @param  {number} valor Valor único de cada registro.
+ * @param  {string} hrefEnlace El HREF del enlace a clickear al activar.
+ */
+const desactivar = (tabla, campo, valor, hrefEnlace) => {
+	return activarDesactivar(tabla, campo, valor, 'desactivar', hrefEnlace)
+}
+
+/**
+ * Funcionalidad del módulo Usuarios
+ * @param {HTMLElement} contenedor Contenedor del módulo.
+ */
+const moduloUsuarios = contenedor => {
+	/** @type {HTMLFormElement} */
+	const formRegistrar = contenedor.querySelector('#registrarUsuario')
+	acordeon()
+	verClave(formRegistrar.clave.nextElementSibling, formRegistrar.clave)
+	verClave(formRegistrar.confirmar.nextElementSibling, formRegistrar.confirmar)
+	mostrarDetails(contenedor.querySelector('details'))
+	
+	validar(formRegistrar, (error, fd, e) => {
+		if (error) return alerta(error).show()
+			
+		e.preventDefault()
+		mostrarLoader(formRegistrar)
+		fd.append('cargo', 'v')
+		ajax('backend/registrarUsuario.php', fd, res => {
+			/** @type {Respuesta} */
+			const datos = JSON.parse(res)
+			
+			if (datos.error)
+				return alerta(datos.error)
+					.on('onShow', () => formRegistrar.classList.remove('showLoader'))
+					.show()
+			
+			ocultarLoader(formRegistrar)
+			return notificacion('Usuario registrado correctamente')
+				.on('onShow', () => $('[href="views/usuarios.php"]')[0].click())
+				.show()
+		})
+	})
+}
+
+/**
+ * Funcionalidad del módulo log.
+ * @param  {HTMLElement} _contenedor Contenedor del módulo.
+ */
+const moduloLog = _contenedor => acordeon()
+
+const moduloClientes = contenedor => {
+	/** @type {HTMLFormElement} */
+	const formRegistrar = contenedor.querySelector('#registrarCliente')
+	acordeon()
+	mostrarDetails(contenedor.querySelector('details'))
+	validar(formRegistrar, (error, fd, e) => {
+		if (error) return alerta(error).show()
+			
+		e.preventDefault()
+		mostrarLoader(formRegistrar)
+		ajax('backend/registrarCliente.php', fd, res => {
+			/** @type {Respuesta} */
+			const datos = JSON.parse(res)
+			
+			if (datos.error)
+				return alerta(datos.error)
+					.on('onShow', () => ocultarLoader(formRegistrar))
+					.show()
+			
+			ocultarLoader(formRegistrar)
+			return notificacion(datos.ok)
+				.on('onShow', () => $('[href="views/clientes.php"]')[0].click())
+				.show()
+		})
+	})
+}
+
+/** Comportamiento de la navegación */
+const navegacion = () => {
+	$('a[role="navegacion"]').each((_i, enlace) => {
+		enlace.addEventListener('click', e => {
+			/** @type {HTMLAnchorElement} */
+			const enlace = e.currentTarget
+			e.preventDefault()
+			main.classList.add('showLoader')
+			
+			if (document.body.offsetWidth < 993)
+				$('[role="menuOverlay"]')[0].click()
+			
+			// Quitamos el resaltado azul a todos los enlaces.
+			$('a').each((_i, enlace) => enlace.classList.remove('w3-blue'))
+			
+			// Si el enlace redirecciona a la nueva venta.
+			if (enlace.href.includes('nuevaVenta.php'))
+				$('a.w3-bar-item[href$="nuevaVenta.php"]').addClass('w3-blue')
+			
+			// Si el enlace redirecciona a la nueva venta.
+			if (enlace.href.includes('nuevaCompra.php'))
+				$('a.w3-bar-item[href$="nuevaCompra.php"]').addClass('w3-blue')
+			
+			// Si el enlace redirecciona a las ventas.
+			if (enlace.href.includes('ventas.php'))
+				$('a.w3-bar-item[href$="ventas.php"]').addClass('w3-blue')
+			
+			// Si el enlace redirecciona a las ventas.
+			if (enlace.href.includes('compras.php'))
+				$('a.w3-bar-item[href$="compras.php"]').addClass('w3-blue')
+			
+			// Si el enlace redirecciona al inventario.
+			if (enlace.href.includes('inventario.php'))
+				$('a.w3-bar-item[href$="inventario.php"]').addClass('w3-blue')
+			
+			// Si el enlace redirecciona a los usuarios.
+			if (enlace.href.includes('usuarios.php'))
+				$('a.w3-bar-item[href$="usuarios.php"]').addClass('w3-blue')
+			
+			// Si el enlace redirecciona a los clientes.
+			if (enlace.href.includes('clientes.php'))
+				$('a.w3-bar-item[href$="clientes.php"]').addClass('w3-blue')
+			
+			// Si el enlace redirecciona a la página principal.
+			if (enlace.href.includes('dashboard.php'))
+				// Espera unos segundos para simular :D
+				return setTimeout(() => {
+					// Pinta el enlace de azul sólo si está en el menú lateral.
+					if (enlace.classList.contains('w3-bar-item'))
+						enlace.classList.add('w3-blue')
+					/*En caso que se haga click en el nombre del negocio, colorea
+					el enlace en el menú lateral.*/
+					$('a.w3-bar-item[href="dashboard.php"]').addClass('w3-blue')
+					
+					// Reinicia los acordeones del menú lateral.
+					$('nav summary').each((_i, summary) => {
+						summary.classList.remove('w3-blue')
+						summary.parentElement.classList.remove('abierto')
+					})
+					
+					// Oculta el menú sólo en móviles.
+					if (document.body.scrollWidth <= 600) overlay.click()
+						
+					// Oculta el loader.
+					main.classList.remove('showLoader')
+					// Carga la el Panel Principal.
+					main.innerHTML = dashboardHTML
+					// Reajusta la navegación del Panel Principal.
+					navegacion()
+				}, 500)
+			
+			// Si no es un enlace al Panel Principal, solicita la vista
+			$.get(enlace.getAttribute('href'), res => {
+				// Sólo pinta los enlaces del menú.
+				if (!enlace.href.includes('miPerfil.php'))
+					enlace.classList.add('w3-blue')
+				
+				// Si el enlace está dentro de un acordeón
+				if (enlace.href.includes('usuarios.php')
+					|| enlace.href.includes('log.php')
+					|| enlace.href.includes('compras.php')
+					|| enlace.href.includes('nuevaCompra.php')
+				) {
+					// Cierra todos los acordeones
+					$('nav summary').each((_i, summary) => {
+						summary.classList.remove('w3-blue')
+						if (summary.parentElement)
+							summary.parentElement.classList.remove('abierto')
+					})
+					
+					// Pinta el acordeón del enlace.
+					if (enlace.parentElement.previousElementSibling
+						&& enlace.parentElement.parentElement
+					) {
+						enlace.parentElement.previousElementSibling.classList.add('w3-blue')
+						enlace.parentElement.parentElement.classList.add('abierto')
+					}
+				} else $('nav summary').each((_i, summary) => {
+					// Si el enlace no está dentro de un acordeón, reinicia los acordeones.
+					summary.classList.remove('w3-blue')
+					summary.parentElement.classList.remove('abierto')
+				})
+				
+				// Cierra el menú sólo en móvil.
+				if (document.body.scrollWidth <= 600) overlay.click()
+				// Quita el loader
+				main.classList.remove('showLoader')
+				// Carga la vista
+				main.innerHTML = res
+				
+				// Funcionalidades de la vista cargada.
+				if ($('#moduloUsuarios')[0]) moduloUsuarios($('#moduloUsuarios')[0])			
+				if ($('#moduloLog')[0]) moduloLog($('#moduloLog')[0])			
+				if ($('#moduloClientes')[0]) moduloClientes($('#moduloClientes')[0])			
+			})
+		})
+	})
+	
+	$('details').each((_i, details) => mostrarDetails(details))
+}
+
+const vaciarLog = () => {
+	return confirmar('¿Seguro que desea vaciar el registro?', 'center', () => {
+		w3.addClass('main', 'showLoader')
+		return $.post('backend/vaciarLog.php', { vaciar: true }, res => {
+			w3.removeClass('main', 'showLoader')
+			console.log(res)
+			/** @type {Respuesta} */
+			const respuesta = JSON.parse(res)
+			
+			if (respuesta.error) return alerta(respuesta.error).show()
+			
+			return notificacion(respuesta.ok)
+				.on('onShow', () => $('nav [href="views/log.php"]')[0].click())
+				.show()
+		})
+	})
+}
+
+const cerrarSesion = () => {
+	return confirmar('¿Seguro que desea cerrar sesión?', 'center', () => {
+		w3.addClass('main', 'showLoader')
+		const url = location.href.split('/')
+		url[url.length - 1] = 'salir.php'
+		location.href = url.join('/')
+	})
+}
+
+/**
+ * Funcionalidad de editar registros.
+ * @param  {HTMLElement} boton  El botón del registro que quieres editar.
+ * @param  {string} tabla  La tabla a la cual pertenecen los registros.
+ * @param  {string} campo  El nombre del campo que identifica cada registro.
+ * @param  {number} valor  Un valor único por cada registro.
+ * @param  {string} hrefEnlace El HREF del enlace al clickear tras editar.
+ */
+const editar = (boton, tabla, campo, valor, hrefEnlace) => {
+	const url = 'backend/editar.php'
+	const datos = {
+		editar: true,
+		tabla: tabla,
+		campo: campo,
+		valor: valor
+	}
+	$.post(url, datos, res => {
+		const respuesta = JSON.parse(res)
+		
+		if (respuesta.error) return alerta(respuesta.error).show()
+		
+		/** @type {HTMLFormElement} */
+		const form = document.querySelector(boton.getAttribute('data-target'))
+		form.innerHTML = respuesta.ok
+		modal(boton)
+		validar(form, (error, fd, e) => {
+			if (error) return alerta(error).show()
+			
+			e.preventDefault()
+			fd.append('tabla', tabla)
+			mostrarLoader(form)
+			ajax(url, fd, res => {
+				const respuesta = JSON.parse(res)
+				
+				if (respuesta.error) return alerta(respuesta.error)
+					.on('onShow', () => form.classList.remove('showLoader'))
+					.show()
+				
+				return notificacion(respuesta.ok)
+					.on('onShow', () => {
+						ocultarLoader(form)
+						$(`a[href="${hrefEnlace}"]`)[0].click()
+					})
+					.show()
+			})
+		})
+	})
+}
+
 onoffline = () => advertencia('Se ha perdido la conexión').show()
-ononline  = () => notificacion('Se ha restablecido la conexión').show()
+ononline = () => notificacion('Se ha restablecido la conexión').show()
 
 // // Filter
 // function filterFunction(input, div) {

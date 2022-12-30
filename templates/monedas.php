@@ -1,7 +1,7 @@
 <?php if (isset($_SESSION['activa'])): ?>
 	<section class="w3-half w3-container w3-padding-24">
 		<h2 class="w3-large">Datos Financieros</h2>
-		<table class="w3-table w3-bordered w3-border w3-hoverable w3-white">
+		<table id="tablaMonedas" class="w3-table w3-bordered w3-border w3-hoverable w3-white">
 			<tr>
 				<td>IVA</td>
 				<td colspan="2"><b><?=getIVA() === 'No establecido' ? getIVA() : getIVA() * 100 . '%'?></b></td>
@@ -19,7 +19,7 @@
 		<?php if($_SESSION['cargo'] === 'a')
 			echo <<<HTML
 				<div class="w3-padding-large">
-					<button id="btn-monedas" class="w3-block w3-button w3-dark-grey">
+					<button onclick="modal(this)" data-target="#actualizarMonedas" class="w3-block w3-button w3-dark-grey">
 						Actualizar
 					</button>
 				</div>
@@ -28,7 +28,7 @@
 	</section>
 	<!-- ACTUALIZAR MONEDAS -->
 	<?php if($_SESSION['cargo'] === 'a'): ?>
-		<form id="actualizarModenas" autocomplete="off" class="modal w3-white w3-card w3-round-large animate__animated animate__fadeInUp animate__faster w3-hide">
+		<form id="actualizarMonedas" autocomplete="off" class="modal w3-white w3-card w3-round-large animate__animated animate__fadeInUp animate__faster w3-hide">
 			<div class="w3-right-align">
 				<span class="icon-close w3-button w3-transparent w3-hover-red"></span>
 			</div>
@@ -51,7 +51,10 @@
 					$label = getIVA() !== 'No establecido'
 						? 'IVA (Actual): <b>' . getIVA() * 100 . '%</b>'
 						: '<b class="w3-block w3-margin-left">Establecer IVA:</b>';
-					echo generarINPUT('IVA', $label, '', getIVA() * 100);
+					$value = getIVA() !== 'No establecido'
+						? getIVA() * 100
+						: '';
+					echo generarINPUT('IVA', $label, '', $value);
 					
 					$label = getDolar() !== 'No establecido'
 						? 'DÓLAR: (actual) <b class="w3-block w3-margin-left">Bs. ' . getDolar() . '</b>'
