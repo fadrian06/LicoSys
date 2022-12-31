@@ -3,11 +3,6 @@
 	if (!empty($_POST['vaciar'])):
 		require 'conexion.php';
 		require 'funciones.php';
-		$respuesta = [
-			'error' => '',
-			'ok'    => '',
-			'datos' => []
-		];
 		
 		if (empty($_SESSION['activa']) and $_SESSION['cargo'] !== 'a')
 			$respuesta['error'] = 'No tienes los permisos necesarios';

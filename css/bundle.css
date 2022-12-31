@@ -439,6 +439,25 @@ details.abierto [class^='icon-chevron'] {
   align-items: center;
   flex-direction: column;
 }
+@media (min-width: 993px) {
+  ul.w3-bottombar.w3-leftbar {
+    border-bottom: 0 solid transparent !important;
+  }
+}
+@media (max-width: 600px) {
+  ul.w3-bottombar.w3-leftbar {
+    border-width: 0 !important;
+  }
+}
+@media (max-width: 600px) {
+  #moduloPerfil div.w3-padding-top-24 {
+    padding-top: 0.5rem !important;
+    width: max-content;
+    width: -moz-max-content;
+    margin-left: auto;
+    border-width: 0 !important;
+  }
+}
 #typed-container {
   cursor: pointer;
 }

@@ -15,18 +15,7 @@ var form = document.querySelector('#registrarPreguntasRespuestas');
 verClave(form.res1.nextElementSibling, form.res1);
 verClave(form.res2.nextElementSibling, form.res2);
 verClave(form.res3.nextElementSibling, form.res3);
-form.pre1.addEventListener('keyup', function () {
-  var legendRespuesta = form.querySelector("sup[respuesta=".concat(form.res1.id, "]"));
-  legendRespuesta.innerText = "(".concat(form.pre1.value, ")");
-});
-form.pre2.addEventListener('keyup', function () {
-  var legendRespuesta = form.querySelector("sup[respuesta=".concat(form.res2.id, "]"));
-  legendRespuesta.innerText = "(".concat(form.pre2.value, ")");
-});
-form.pre3.addEventListener('keyup', function () {
-  var legendRespuesta = form.querySelector("sup[respuesta=".concat(form.res3.id, "]"));
-  legendRespuesta.innerText = "(".concat(form.pre3.value, ")");
-});
+labelPreguntas(form);
 
 /** @param  {RespuestaCruda} res */
 var recibirRespuesta = function recibirRespuesta(res) {

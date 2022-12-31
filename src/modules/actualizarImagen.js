@@ -21,6 +21,9 @@ const actualizarImagen = (input, image, cb = () => {}) => {
 		
 		const fileReader = new FileReader()
 		fileReader.readAsDataURL(file)
-		fileReader.onload = e => image.setAttribute('src', e.target.result)
+		fileReader.onload = e => {
+			image.setAttribute('src', e.target.result)
+			return cb()
+		}
 	}
 }

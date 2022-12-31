@@ -3,11 +3,6 @@
 	session_start();
 	require 'conexion.php';
 	require 'funciones.php';
-	
-	$respuesta = [
-		'error' => '',
-		'datos' => []
-	];
 
 	if (!empty($_POST['consultar'])):
 		$cedula = (int) $_POST['cedula'];
@@ -20,7 +15,10 @@
 		if ($respuesta['error'])
 			exit(json_encode($respuesta, JSON_INVALID_UTF8_IGNORE));
 		
-		$sql = "SELECT id, pre1, pre2, pre3, res1, activo FROM usuarios WHERE cedula=$cedula AND BINARY(usuario)=BINARY('$usuario')";
+		$sql = <<<SQL
+			SELECT id, pre1, pre2, pre3, res1, activo
+			FROM usuarios WHERE cedula=$cedula AND BINARY(usuario)=BINARY('$usuario')
+		SQL;
 		$filaUsuario = getRegistro($sql);
 		
 		if (!$filaUsuario)

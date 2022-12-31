@@ -4,11 +4,6 @@
 	require 'conexion.php';
 	require 'funciones.php';
 	
-	$respuesta = [
-		'error' => '',
-		'datos' => []
-	];
-	
 	if (!empty($_POST['verificarUsuario'])):
 		$usuario = escapar($_POST['usuario']);
 		
@@ -39,9 +34,9 @@
 		if (!$usuario or !$clave)
 			$respuesta['error'] = 'Por favor introduzca un usuario y una contraseña';
 		
-		$sql = "SELECT id, nombre, usuario, clave, activo, foto, cargo FROM usuarios 
-			WHERE BINARY(usuario)=BINARY('$usuario')
-		";
+		$sql = <<<SQL
+			SELECT * FROM usuarios WHERE BINARY(usuario)=BINARY('$usuario')
+		SQL;
 		$filaUsuario = getRegistro($sql);
 		
 		$sql = "SELECT id, logo, nombre FROM negocios WHERE id=$idNegocio";
@@ -68,16 +63,18 @@
 		/*----------  FIN DE VALIDACIONES  ----------*/
 		
 		$_SESSION = [
-			'activa'    => true,
-			'user'      => $filaUsuario['usuario'],
-			'userName'  => $filaUsuario['nombre'],
-			'userID'    => $filaUsuario['id'],
-			'cargo'     => $filaUsuario['cargo'],
-			'userFoto'  => $filaUsuario['foto']
-											? "images/perfil/{$filaUsuario['foto']}"
-											: 'images/avatar3.png',
-			'negocio'   => $negocioSeleccionado['nombre'],
-			'negocioID' => $negocioSeleccionado['id'],
+			'activa'     => true,
+			'user'       => $filaUsuario['usuario'],
+			'userName'   => $filaUsuario['nombre'],
+			'userID'     => $filaUsuario['id'],
+			'userCedula' => $filaUsuario['cedula'],
+			'cargo'      => $filaUsuario['cargo'],
+			'userFoto'   => $filaUsuario['foto']
+									 		? "images/perfil/{$filaUsuario['foto']}"
+									 		: 'images/avatar3.png',
+			'userTlf'    => $filaUsuario['telefono'] ?: 'No especificado',
+			'negocio'    => $negocioSeleccionado['nombre'],
+			'negocioID'  => $negocioSeleccionado['id'],
 			'negocioLogo'      => $negocioSeleccionado['logo']
 											? "images/negocios/{$negocioSeleccionado['logo']}"
 											: 'images/logoNegocio.jpg'

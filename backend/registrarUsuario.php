@@ -3,12 +3,6 @@
 		require 'conexion.php';
 		require 'funciones.php';
 		
-		$respuesta = [
-			'error' => '',
-			'ok'    => '',
-			'datos' => [],
-		];
-		
 		$cedula    = (int) $_POST['cedula'];
 		$nombre    = escapar(capitalize($_POST['nombre']));
 		$usuario   = escapar($_POST['usuario']);

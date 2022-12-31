@@ -7,7 +7,12 @@
 	
 	/**
 	 * Botones HTML
-	 * @var array ['REGISTRAR_USUARIO', 'NUEVA_VENTA']
+	 * @var array [<br>
+	 * &nbsp;'REGISTRAR_USUARIO' or<br>
+	 * &nbsp;'NUEVA_VENTA' or<br>
+	 * &nbsp;'REGISTRAR_CLIENTE' or<br>
+	 * &nbsp;'REGISTRAR_PROVEEDOR'<br>
+	 * ]
 	 */
 	const BOTONES = [
 		'REGISTRAR_USUARIO' => <<<HTML
@@ -32,6 +37,12 @@
 			<button onclick="modal(this)" data-target="#registrarCliente" class="w3-blue w3-text-black w3-button w3-circle">
 				<i class="w3-block w3-center icon-id-card w3-xxlarge"></i>
 				Registrar<br>Cliente
+			</button>
+		HTML,
+		'REGISTRAR_PROVEEDOR' => <<<HTML
+			<button onclick="modal(this)" data-target="#registrarProveedor" class="w3-blue w3-text-black w3-button w3-circle">
+				<i class="w3-block w3-center icon-truck w3-xxlarge"></i>
+				Registrar<br>Proveedor
 			</button>
 		HTML
 	];

@@ -11,8 +11,35 @@
 	require "{$BASE_URL}backend/conexion.php";
 	require "{$BASE_URL}backend/funciones.php";
 
-	if ($archivoActual !== 'index.php')
+	if ($archivoActual !== 'index.php'):
 		$script .= "<script src='{$BASE_URL}js/main.js'></script>";
+		
+		$sql = <<<SQL
+			SELECT pre1, pre2, pre3 FROM usuarios WHERE id={$_SESSION['userID']}
+		SQL;
+		$usuario = getRegistro($sql);
+		if ($usuario['pre1'] === 'No especificada' || !$usuario['pre1']
+			|| $usuario['pre2'] === 'No especificada' || !$usuario['pre2']
+			|| $usuario['pre3'] === 'No especificada' || !$usuario['pre3']
+		) $script .= <<<HTML
+			<script>
+				let texto = `
+					No tienes preguntas y respuestas registradas.<br>
+					<small>¿Desea registrarlas?</small>
+				`
+				confirmar(texto, 'center', () => {
+					$('[href="views/miPerfil.php"]')[0].click()
+					let intervalo = setInterval(() => {
+						if ($('#moduloPerfil')[0]) {
+							$('[role="botonPanel"]:last-child')[0].click()
+							$('[data-target="#editarPreguntasRespuestas"]')[0].click()
+							clearInterval(intervalo)
+						}
+					}, 500)
+				})
+			</script>
+		HTML;
+	endif;
 	
 	$negocios = getRegistros('SELECT * FROM negocios WHERE activo=1');
 	$admin    = getRegistro("SELECT * FROM usuarios WHERE cargo='a'");
@@ -37,6 +64,7 @@
 		<script src="<?=$BASE_URL?>libs/jquery.min.js"></script>
 		<script src="<?=$BASE_URL?>libs/w3/w3.min.js"></script>
 		<script src="<?=$BASE_URL?>libs/noty/noty.min.js"></script>
+		<script src="<?=$BASE_URL?>js/actualizarImagen.js"></script>
 		<script src="<?=$BASE_URL?>js/funciones.js"></script>
 		<script src="<?=$BASE_URL?>js/validar.js"></script>
 	</head>
@@ -78,7 +106,7 @@
 						<img id="fotoPerfil" src="<?="$BASE_URL{$_SESSION['userFoto']}"?>" class="w3-image w3-circle w3-margin-right w3-padding-small">
 					</a>
 					<div class="w3-col s9 w3-center">
-						<div>Bienvenido, <b><?=$_SESSION['userName']?></b></div>
+						<div>Bienvenido, <b id="menuNombreUsuario"><?=$_SESSION['userName']?></b></div>
 						<hr style="margin: 5px">
 						<a href="views/miPerfil.php" role="navegacion" title="Mi Perfil" class="w3-button icon-cog"></a>
 						<button onclick="cerrarSesion()" title="Cerrar Sesión" class="w3-button icon-sign-out"></button>

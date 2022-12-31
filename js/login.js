@@ -64,7 +64,7 @@ validar(form, function (error, fd, e) {
     if (datos.error) {
       var text = datos.error;
       if (datos.error === 'Contraseña incorrecta') ++intentos;
-      if (intentos <= 3) text += " <strong>(intento: ".concat(intentos, " / 3)</strong>");else {
+      if (intentos <= 3 && intentos > 0) text += " <strong>(intento: ".concat(intentos, " / 3)</strong>");else {
         /**
         
         	TODO:
@@ -73,7 +73,7 @@ validar(form, function (error, fd, e) {
          */
         intentos = 0;
       }
-      return alerta(text).on('afterClose', function () {
+      return alerta(text).on('onShow', function () {
         return form.classList.remove('showLoader');
       }).show();
     }

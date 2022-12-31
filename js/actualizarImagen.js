@@ -20,7 +20,8 @@ var actualizarImagen = function actualizarImagen(input, image) {
     var fileReader = new FileReader();
     fileReader.readAsDataURL(file);
     fileReader.onload = function (e) {
-      return image.setAttribute('src', e.target.result);
+      image.setAttribute('src', e.target.result);
+      return cb();
     };
   };
 };

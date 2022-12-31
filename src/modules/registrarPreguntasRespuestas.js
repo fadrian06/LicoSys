@@ -13,21 +13,7 @@ const form = document.querySelector('#registrarPreguntasRespuestas')
 verClave(form.res1.nextElementSibling, form.res1)
 verClave(form.res2.nextElementSibling, form.res2)
 verClave(form.res3.nextElementSibling, form.res3)
-
-form.pre1.addEventListener('keyup', () => {
-	const legendRespuesta = form.querySelector(`sup[respuesta=${form.res1.id}]`)
-	legendRespuesta.innerText = `(${form.pre1.value})`
-})
-
-form.pre2.addEventListener('keyup', () => {
-	const legendRespuesta = form.querySelector(`sup[respuesta=${form.res2.id}]`)
-	legendRespuesta.innerText = `(${form.pre2.value})`
-})
-
-form.pre3.addEventListener('keyup', () => {
-	const legendRespuesta = form.querySelector(`sup[respuesta=${form.res3.id}]`)
-	legendRespuesta.innerText = `(${form.pre3.value})`
-})
+labelPreguntas(form)
 
 /** @param  {RespuestaCruda} res */
 const recibirRespuesta = res => {

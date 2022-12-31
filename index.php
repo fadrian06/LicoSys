@@ -14,7 +14,6 @@
 		
 		$mostrarRegistro = true;
 		include 'templates/registrarNegocio.php';
-		$script .= '<script src="js/actualizarImagen.js"></script>';
 		$script .= '<script src="js/registrarNegocio.js"></script>';
 	elseif (!isset($mostrarLoader) and !$admin):
 		if (file_exists('backup/licosys.sql'))
@@ -22,7 +21,6 @@
 		
 		$mostrarRegistro = true;
 		include 'templates/registrarAdmin.php';
-		$script .= '<script src="js/actualizarImagen.js"></script>';
 		$script .= '<script src="js/registrarAdmin.js"></script>';
 	elseif (!isset($mostrarLoader) and !$admin['pre1']):
 		if (file_exists('backup/licosys.sql'))

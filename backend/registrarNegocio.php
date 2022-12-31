@@ -3,11 +3,6 @@
 		require 'conexion.php';
 		require 'funciones.php';
 		
-		$respuesta = [
-			'error' => '',
-			'datos' => []
-		];
-		
 		$nombre    = escapar(capitalize($_POST['nombreNegocio']));
 		$rif       = escapar(strtoupper($_POST['rif']));
 		$telefono  = escapar($_POST['telefono']);

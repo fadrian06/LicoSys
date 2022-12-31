@@ -1,4 +1,11 @@
 <?php
+	/** @var array Respuesta del servidor al cliente. */
+	$respuesta = [
+		'ok'    => '',
+		'error' => '',
+		'datos' => []
+	];
+
 	// LOCAL
 	const HOST    = 'localhost';
 	const USUARIO = 'root';

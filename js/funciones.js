@@ -318,6 +318,25 @@ var informacion = function informacion(texto) {
 };
 
 /**
+ * Actualiza una ayuda que vincula cada pregunta con su respectiva respuesta
+ * @param  {HTMLFormElement} form El formulario que contiene a los inputs de preguntas y respuestas.
+ */
+var labelPreguntas = function labelPreguntas(form) {
+  form.pre1.addEventListener('keyup', function () {
+    var legendRespuesta = form.querySelector("sup[respuesta=".concat(form.res1.id, "]"));
+    legendRespuesta.innerText = "(".concat(form.pre1.value, ")");
+  });
+  form.pre2.addEventListener('keyup', function () {
+    var legendRespuesta = form.querySelector("sup[respuesta=".concat(form.res2.id, "]"));
+    legendRespuesta.innerText = "(".concat(form.pre2.value, ")");
+  });
+  form.pre3.addEventListener('keyup', function () {
+    var legendRespuesta = form.querySelector("sup[respuesta=".concat(form.res3.id, "]"));
+    legendRespuesta.innerText = "(".concat(form.pre3.value, ")");
+  });
+};
+
+/**
  * Envia la petición al servidor para activar o desactivar un registro.
  * @param  {string} tabla  De qué tabla es el registro.
  * @param  {string} campo  El nombre del campo para identificar el registro.
@@ -403,6 +422,11 @@ var moduloUsuarios = function moduloUsuarios(contenedor) {
 var moduloLog = function moduloLog(_contenedor) {
   return acordeon();
 };
+
+/**
+ * Funcionalidad del módulo clientes.
+ * @param  {HTMLElement} contenedor Contenedor del módulo.
+ */
 var moduloClientes = function moduloClientes(contenedor) {
   /** @type {HTMLFormElement} */
   var formRegistrar = contenedor.querySelector('#registrarCliente');
@@ -423,6 +447,72 @@ var moduloClientes = function moduloClientes(contenedor) {
         return $('[href="views/clientes.php"]')[0].click();
       }).show();
     });
+  });
+};
+
+/**
+ * Funcionalidad del módulo proveedores.
+ * @param  {HTMLElement} contenedor Contenedor del módulo.
+ */
+var moduloProveedores = function moduloProveedores(contenedor) {
+  var formRegistrar = contenedor.querySelector('#registrarProveedor');
+  acordeon();
+  mostrarDetails(contenedor.querySelector('details'));
+  validar(formRegistrar, function (error, fd, e) {
+    if (error) return alerta(error).show();
+    e.preventDefault();
+    mostrarLoader(formRegistrar);
+    ajax('backend/registrarProveedor.php', fd, function (res) {
+      console.log(res);
+      /** @type {Respuesta} */
+      var datos = JSON.parse(res);
+      if (datos.error) return alerta(datos.error).on('onShow', function () {
+        return formRegistrar.classList.remove('showLoader');
+      }).show();
+      ocultarLoader(formRegistrar);
+      return notificacion(datos.ok).on('onShow', function () {
+        return $('[href="views/proveedores.php"]')[0].click();
+      }).show();
+    });
+  });
+};
+
+/**
+ * Funcionalidad del módulo perfil.
+ * @param  {HTMLElement} contenedor El contenedor del módulo.
+ */
+var moduloPerfil = function moduloPerfil(contenedor) {
+  /** @type {HTMLFormElement} */
+  var formFoto = contenedor.querySelector('[enctype="multipart/form-data"]');
+  /** @type {HTMLButtonElement} */
+  var boton = formFoto.querySelector('button');
+  /** @type {HTMLImageElement} */
+  var imagen = formFoto.foto.nextElementSibling;
+  $('#menuNombreUsuario').html($('#nombreUsuario').html());
+  actualizarImagen(formFoto.foto, imagen, function (error) {
+    if (error) return alerta(error).show();
+    boton.classList.remove('w3-hide');
+    boton.classList.add('w3-show-inline-block');
+    formFoto.onsubmit = function (e) {
+      e.preventDefault();
+      var fd = new FormData(formFoto);
+      fd.append('foto', formFoto.foto.files[0]);
+      w3.addClass('main', 'showLoader');
+      ajax('backend/actualizarImagen.php', fd, function (res) {
+        /** @type {Respuesta} */
+        var respuesta = JSON.parse(res);
+        if (respuesta.error) return alerta(respuesta.error).on('onShow', function () {
+          return w3.removeClass('main', 'showLoader');
+        }).show();
+        w3.removeClass('main', 'showLoader');
+        boton.classList.remove('w3-show-inline-block');
+        boton.classList.add('w3-hide');
+        return notificacion(respuesta.ok).on('onShow', function () {
+          $('[href="views/miPerfil.php"]')[0].click();
+          $('aside a img')[0].src = imagen.src;
+        }).show();
+      });
+    };
   });
 };
 
@@ -524,6 +614,8 @@ var navegacion = function navegacion() {
         if ($('#moduloUsuarios')[0]) moduloUsuarios($('#moduloUsuarios')[0]);
         if ($('#moduloLog')[0]) moduloLog($('#moduloLog')[0]);
         if ($('#moduloClientes')[0]) moduloClientes($('#moduloClientes')[0]);
+        if ($('#moduloProveedores')[0]) moduloProveedores($('#moduloProveedores')[0]);
+        if ($('#moduloPerfil')[0]) moduloPerfil($('#moduloPerfil')[0]);
       });
     });
   });
@@ -538,7 +630,6 @@ var vaciarLog = function vaciarLog() {
       vaciar: true
     }, function (res) {
       w3.removeClass('main', 'showLoader');
-      console.log(res);
       /** @type {Respuesta} */
       var respuesta = JSON.parse(res);
       if (respuesta.error) return alerta(respuesta.error).show();
@@ -565,7 +656,8 @@ var cerrarSesion = function cerrarSesion() {
  * @param  {number} valor  Un valor único por cada registro.
  * @param  {string} hrefEnlace El HREF del enlace al clickear tras editar.
  */
-var editar = function editar(boton, tabla, campo, valor, hrefEnlace) {
+var editar = function editar(boton, tabla, campo, valor) {
+  var hrefEnlace = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : '';
   var url = 'backend/editar.php';
   var datos = {
     editar: true,
@@ -581,23 +673,54 @@ var editar = function editar(boton, tabla, campo, valor, hrefEnlace) {
     var form = document.querySelector(boton.getAttribute('data-target'));
     form.innerHTML = respuesta.ok;
     modal(boton);
+    if (tabla === 'usuarios:preguntasRespuestas') {
+      labelPreguntas(form);
+      verClave(form.res1.nextElementSibling, form.res1);
+      verClave(form.res2.nextElementSibling, form.res2);
+      verClave(form.res3.nextElementSibling, form.res3);
+    }
+    if (tabla === 'usuarios:clave') {
+      verClave(form.clave.nextElementSibling, form.clave);
+      verClave(form.confirmar.nextElementSibling, form.confirmar);
+    }
     validar(form, function (error, fd, e) {
       if (error) return alerta(error).show();
       e.preventDefault();
       fd.append('tabla', tabla);
       mostrarLoader(form);
       ajax(url, fd, function (res) {
+        console.log(res);
         var respuesta = JSON.parse(res);
         if (respuesta.error) return alerta(respuesta.error).on('onShow', function () {
           return form.classList.remove('showLoader');
         }).show();
         return notificacion(respuesta.ok).on('onShow', function () {
           ocultarLoader(form);
-          $("a[href=\"".concat(hrefEnlace, "\"]"))[0].click();
+          if (hrefEnlace) $("a[href=\"".concat(hrefEnlace, "\"]"))[0].click();
         }).show();
       });
     });
   });
+};
+
+/**
+ * Comportamiento de cambiar los páneles.
+ * @param  {HTMLElement} boton El botón clickeado.
+ * @param  {string} id    El ID del panel a mostrar (incluido el #).
+ */
+var mostrarPanel = function mostrarPanel(boton, id) {
+  /** @type {HTMLDivElement} */
+  var panel = $(id)[0];
+  $('[role="botonPanel"]').each(function (_i, boton) {
+    return boton.classList.remove('w3-blue');
+  });
+  boton.classList.add('w3-blue');
+  $('[role="panel"]').each(function (_i, panel) {
+    panel.classList.remove('w3-show');
+    panel.classList.add('w3-hide');
+  });
+  panel.classList.remove('w3-hide');
+  panel.classList.add('w3-show');
 };
 onoffline = function onoffline() {
   return advertencia('Se ha perdido la conexión').show();

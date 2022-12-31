@@ -3,12 +3,6 @@
 		require 'conexion.php';
 		require 'funciones.php';
 		
-		$respuesta = [
-			'ok'    => '',
-			'error' => '',
-			'datos' => []
-		];
-		
 		/** @var string La tabla a la que pertenece el registro. */
 		$tabla = escapar($_POST['tabla']);
 		/** @var string Campo que identifica cada registro. */

@@ -3,11 +3,6 @@
 	if (!empty($_POST)):
 		require 'conexion.php';
 		require 'funciones.php';
-		
-		$respuesta = [
-			'error' => '',
-			'datos' => []
-		];
 				
 		$pre1 = escapar(capitalize($_POST['pre1']));
 		$pre2 = escapar(capitalize($_POST['pre2']));

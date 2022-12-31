@@ -77,7 +77,7 @@ validar(form, (error, fd, e) => {
 		if (datos.error) {
 			let text = datos.error
 			if (datos.error === 'Contraseña incorrecta') ++intentos
-			if (intentos <= 3) text += ` <strong>(intento: ${intentos} / 3)</strong>`
+			if (intentos <= 3 && intentos > 0) text += ` <strong>(intento: ${intentos} / 3)</strong>`
 			else {
 				/**
 			
@@ -88,7 +88,7 @@ validar(form, (error, fd, e) => {
 				intentos = 0
 			}
 			return alerta(text)
-				.on('afterClose', () => form.classList.remove('showLoader'))
+				.on('onShow', () => form.classList.remove('showLoader'))
 				.show()
 		}
 		

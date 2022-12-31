@@ -320,6 +320,27 @@ const informacion = texto => {
 }
 
 /**
+ * Actualiza una ayuda que vincula cada pregunta con su respectiva respuesta
+ * @param  {HTMLFormElement} form El formulario que contiene a los inputs de preguntas y respuestas.
+ */
+const labelPreguntas = form => {
+	form.pre1.addEventListener('keyup', () => {
+		const legendRespuesta = form.querySelector(`sup[respuesta=${form.res1.id}]`)
+		legendRespuesta.innerText = `(${form.pre1.value})`
+	})
+
+	form.pre2.addEventListener('keyup', () => {
+		const legendRespuesta = form.querySelector(`sup[respuesta=${form.res2.id}]`)
+		legendRespuesta.innerText = `(${form.pre2.value})`
+	})
+
+	form.pre3.addEventListener('keyup', () => {
+		const legendRespuesta = form.querySelector(`sup[respuesta=${form.res3.id}]`)
+		legendRespuesta.innerText = `(${form.pre3.value})`
+	})
+}
+
+/**
  * Envia la petición al servidor para activar o desactivar un registro.
  * @param  {string} tabla  De qué tabla es el registro.
  * @param  {string} campo  El nombre del campo para identificar el registro.
@@ -414,6 +435,10 @@ const moduloUsuarios = contenedor => {
  */
 const moduloLog = _contenedor => acordeon()
 
+/**
+ * Funcionalidad del módulo clientes.
+ * @param  {HTMLElement} contenedor Contenedor del módulo.
+ */
 const moduloClientes = contenedor => {
 	/** @type {HTMLFormElement} */
 	const formRegistrar = contenedor.querySelector('#registrarCliente')
@@ -438,6 +463,84 @@ const moduloClientes = contenedor => {
 				.on('onShow', () => $('[href="views/clientes.php"]')[0].click())
 				.show()
 		})
+	})
+}
+
+/**
+ * Funcionalidad del módulo proveedores.
+ * @param  {HTMLElement} contenedor Contenedor del módulo.
+ */
+const moduloProveedores = contenedor => {
+	const formRegistrar = contenedor.querySelector('#registrarProveedor')
+	acordeon()
+	mostrarDetails(contenedor.querySelector('details'))
+	validar(formRegistrar, (error, fd, e) => {
+		if (error) return alerta(error).show()
+			
+		e.preventDefault()
+		mostrarLoader(formRegistrar)
+		ajax('backend/registrarProveedor.php', fd, res => {
+			console.log(res)
+			/** @type {Respuesta} */
+			const datos = JSON.parse(res)
+			
+			if (datos.error) return alerta(datos.error)
+				.on('onShow', () => formRegistrar.classList.remove('showLoader'))
+				.show()
+			
+			ocultarLoader(formRegistrar)
+			return notificacion(datos.ok)
+				.on('onShow', () => $('[href="views/proveedores.php"]')[0].click())
+				.show()
+		})
+	})
+}
+
+/**
+ * Funcionalidad del módulo perfil.
+ * @param  {HTMLElement} contenedor El contenedor del módulo.
+ */
+const moduloPerfil = contenedor => {
+	/** @type {HTMLFormElement} */
+	const formFoto = contenedor.querySelector('[enctype="multipart/form-data"]')
+	/** @type {HTMLButtonElement} */
+	const boton = formFoto.querySelector('button')
+	/** @type {HTMLImageElement} */
+	const imagen = formFoto.foto.nextElementSibling
+	
+	$('#menuNombreUsuario').html($('#nombreUsuario').html())
+	
+	actualizarImagen(formFoto.foto, imagen, error => {
+		if (error) return alerta(error).show()
+			
+		boton.classList.remove('w3-hide')
+		boton.classList.add('w3-show-inline-block')
+		
+		formFoto.onsubmit = e => {
+			e.preventDefault()
+			const fd = new FormData(formFoto)
+			fd.append('foto', formFoto.foto.files[0])
+			w3.addClass('main', 'showLoader')
+			ajax('backend/actualizarImagen.php', fd, res => {
+				/** @type {Respuesta} */
+				const respuesta = JSON.parse(res)
+				
+				if (respuesta.error) return alerta(respuesta.error)
+					.on('onShow', () => w3.removeClass('main', 'showLoader'))
+					.show()
+				
+				w3.removeClass('main', 'showLoader')
+				boton.classList.remove('w3-show-inline-block')
+				boton.classList.add('w3-hide')
+				
+				return notificacion(respuesta.ok)
+					.on('onShow', () => {
+						$('[href="views/miPerfil.php"]')[0].click()
+						$('aside a img')[0].src = imagen.src
+					})
+					.show()
+			})
+		}
 	})
 }
 
@@ -555,6 +658,8 @@ const navegacion = () => {
 				if ($('#moduloUsuarios')[0]) moduloUsuarios($('#moduloUsuarios')[0])			
 				if ($('#moduloLog')[0]) moduloLog($('#moduloLog')[0])			
 				if ($('#moduloClientes')[0]) moduloClientes($('#moduloClientes')[0])			
+				if ($('#moduloProveedores')[0]) moduloProveedores($('#moduloProveedores')[0])			
+				if ($('#moduloPerfil')[0]) moduloPerfil($('#moduloPerfil')[0])			
 			})
 		})
 	})
@@ -567,7 +672,6 @@ const vaciarLog = () => {
 		w3.addClass('main', 'showLoader')
 		return $.post('backend/vaciarLog.php', { vaciar: true }, res => {
 			w3.removeClass('main', 'showLoader')
-			console.log(res)
 			/** @type {Respuesta} */
 			const respuesta = JSON.parse(res)
 			
@@ -597,7 +701,7 @@ const cerrarSesion = () => {
  * @param  {number} valor  Un valor único por cada registro.
  * @param  {string} hrefEnlace El HREF del enlace al clickear tras editar.
  */
-const editar = (boton, tabla, campo, valor, hrefEnlace) => {
+const editar = (boton, tabla, campo, valor, hrefEnlace = '') => {
 	const url = 'backend/editar.php'
 	const datos = {
 		editar: true,
@@ -614,6 +718,19 @@ const editar = (boton, tabla, campo, valor, hrefEnlace) => {
 		const form = document.querySelector(boton.getAttribute('data-target'))
 		form.innerHTML = respuesta.ok
 		modal(boton)
+		
+		if (tabla === 'usuarios:preguntasRespuestas') {
+			labelPreguntas(form)
+			verClave(form.res1.nextElementSibling, form.res1)
+			verClave(form.res2.nextElementSibling, form.res2)
+			verClave(form.res3.nextElementSibling, form.res3)
+		}
+		
+		if (tabla === 'usuarios:clave') {
+			verClave(form.clave.nextElementSibling, form.clave)
+			verClave(form.confirmar.nextElementSibling, form.confirmar)
+		}
+		
 		validar(form, (error, fd, e) => {
 			if (error) return alerta(error).show()
 			
@@ -621,6 +738,7 @@ const editar = (boton, tabla, campo, valor, hrefEnlace) => {
 			fd.append('tabla', tabla)
 			mostrarLoader(form)
 			ajax(url, fd, res => {
+				console.log(res)
 				const respuesta = JSON.parse(res)
 				
 				if (respuesta.error) return alerta(respuesta.error)
@@ -630,12 +748,32 @@ const editar = (boton, tabla, campo, valor, hrefEnlace) => {
 				return notificacion(respuesta.ok)
 					.on('onShow', () => {
 						ocultarLoader(form)
-						$(`a[href="${hrefEnlace}"]`)[0].click()
+						if (hrefEnlace)
+							$(`a[href="${hrefEnlace}"]`)[0].click()
 					})
 					.show()
 			})
 		})
 	})
+}
+
+/**
+ * Comportamiento de cambiar los páneles.
+ * @param  {HTMLElement} boton El botón clickeado.
+ * @param  {string} id    El ID del panel a mostrar (incluido el #).
+ */
+const mostrarPanel = (boton, id) => {
+	/** @type {HTMLDivElement} */
+	const panel = $(id)[0]
+	$('[role="botonPanel"]').each((_i, boton) => boton.classList.remove('w3-blue'))
+	boton.classList.add('w3-blue')
+	$('[role="panel"]').each((_i, panel) => {
+		panel.classList.remove('w3-show')
+		panel.classList.add('w3-hide')
+	})
+	
+	panel.classList.remove('w3-hide')
+	panel.classList.add('w3-show')
 }
 
 onoffline = () => advertencia('Se ha perdido la conexión').show()

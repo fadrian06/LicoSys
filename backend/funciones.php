@@ -28,6 +28,7 @@
 	 * &nbsp;'tabla' => 'Tabla a la cual pertenecen los registros',<br>
 	 * &nbsp;'campo' => 'El campo que identifica cada registro',<br>
 	 * &nbsp;'enlace' => 'El HREF del enlace a clickear tras actualizar.',<br>
+	 * &nbsp;'IDform' => 'El ID del formulario para editar registros (incluido el #).',<br>
 	 * ]
 	 * @return true La tabla se ha impreso con éxito.
 	 */
@@ -93,7 +94,7 @@
 			if ($actualizar && $_SESSION['cargo'] === 'a')
 				$campos .= <<<HTML
 					<td>
-						<button onclick="editar(this, '{$actualizar['tabla']}', '{$actualizar['campo']}', {$fila[$actualizar['campo']]}, '{$actualizar['enlace']}')" data-target="#editarCliente" class="w3-button w3-round-xlarge w3-blue w3-hover-black">
+						<button onclick="editar(this, '{$actualizar['tabla']}', '{$actualizar['campo']}', {$fila[$actualizar['campo']]}, '{$actualizar['enlace']}')" data-target="{$actualizar['IDform']}" class="w3-button w3-round-xlarge w3-blue w3-hover-black">
 							Editar
 						</button>
 					</td>
@@ -141,7 +142,7 @@
 				$verMas .= <<<HTML
 					<li class="w3-block">
 						<div class=w3-container>
-							<button onclick="editar(this, '{$actualizar['tabla']}', '{$actualizar['campo']}', {$fila[$actualizar['campo']]}, '{$actualizar['enlace']}')" data-target="#editarCliente" class="w3-block w3-button w3-round-xlarge w3-blue w3-hover-black">
+							<button onclick="editar(this, '{$actualizar['tabla']}', '{$actualizar['campo']}', {$fila[$actualizar['campo']]}, '{$actualizar['enlace']}')" data-target="{$actualizar['IDform']}" class="w3-block w3-button w3-round-xlarge w3-blue w3-hover-black">
 								Editar
 							</button>
 						</div>

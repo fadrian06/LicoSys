@@ -199,7 +199,10 @@ var validarInput = function validarInput(e) {
  * registrarUsuario <br>
  * registrarPreguntasRespuestas <br>
  * registrarCliente <br>
+ * registrarProveedor <br>
  * editarCliente <br>
+ * editarProveedor <br>
+ * editarUsuario <br>
  * login <br>
  * consultar <br>
  * preguntasRespuestas <br>
@@ -357,6 +360,17 @@ var validar = function validar(form) {
         return cb(mensajes.pesos);
       }
     }
+    if (form.id === 'registrarProveedor') {
+      if (!campos.rif) {
+        e.preventDefault();
+        error(form.rif);
+        return cb(mensajes.rif);
+      } else if (!campos.nombreNegocio) {
+        e.preventDefault();
+        error(form.nombreNegocio);
+        return cb(mensajes.nombreNegocio);
+      }
+    }
     if (form.id === 'registrarCliente') {
       if (!campos.cedula) {
         e.preventDefault();
@@ -373,6 +387,32 @@ var validar = function validar(form) {
         e.preventDefault();
         error(form.nombre);
         return cb(mensajes.nombre);
+      }
+    }
+    if (form.id === 'editarProveedor') {
+      if (!form.rif.value || form.rif.value && !campos.nombre) {
+        e.preventDefault();
+        error(form.rif);
+        return cb(mensajes.rif);
+      } else if (!form.nombreNegocio.value || form.nombreNegocio.value && !campos.nombreNegocio) {
+        e.preventDefault();
+        error(form.nombreNegocio);
+        return cb(mensajes.nombreNegocio);
+      }
+    }
+    if (form.id === 'editarUsuario') {
+      if (!campos.nombre) {
+        e.preventDefault();
+        error(form.nombre);
+        return cb(mensajes.nombre);
+      } else if (!campos.usuario) {
+        e.preventDefault();
+        error(form.usuario);
+        return cb(mensajes.usuario);
+      } else if (form.telefono.value && !campos.telefono) {
+        e.preventDefault();
+        error(form.telefono);
+        return cb(mensajes.telefono);
       }
     }
     cb(null, fd, e);
