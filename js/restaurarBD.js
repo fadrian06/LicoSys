@@ -8,14 +8,46 @@ var enviarPeticion = function enviarPeticion(e) {
   e.target.innerHTML = '<i class="w3-spin icon-spinner"></i>';
   $('.w3-spin').removeClass('icon-question');
   $('.w3-spin').addClass('icon-spinner');
+  $.post('backend/backupBD.php', {
+    restaurar: true
+  }, function (res) {
+    /** @type {Respuesta} */
+    var respuesta = JSON.parse(res);
+    if (respuesta.error) return alerta(respuesta.error).show();
+    $('#no')[0].click();
+    var html = "\n\t\t\t<div class=\"w3-card w3-round-xlarge w3-white w3-padding-large w3-center\">\n\t\t\t\t<h1 class=\"w3-xlarge oswald\">".concat(respuesta.ok, "</h1>\n\t\t\t\t<h2 class=\"w3-large w3-padding-top-24 w3-topbar\">\n\t\t\t\t\tReiniciando el Sistema...\n\t\t\t\t</h2>\t\n\t\t\t</div>\n\t\t");
+    new Noty({
+      theme: null,
+      id: 'intro',
+      type: 'info',
+      text: html,
+      layout: 'center',
+      modal: true,
+      closeWith: [null],
+      animation: {
+        open: 'w3-animate-zoom'
+      },
+      timeout: 5000,
+      callbacks: {
+        onShow: function onShow() {
+          return mostrarLoader($('form')[0]);
+        },
+        afterClose: function afterClose() {
+          return location.reload();
+        }
+      }
+    }).show();
+  });
 };
 var esperarRespuesta = function esperarRespuesta() {
-  $('.noty_close_button').click(function () {
+  $('.noty_close_button').on('click', function () {
     overlay.classList.remove('w3-show');
     overlay.classList.add('w3-hide');
   });
-  $('#si').click(enviarPeticion);
-  $('#no').click(function () {
+  $('#si').on('click', function (e) {
+    return enviarPeticion(e);
+  });
+  $('#no').on('click', function () {
     $('#restaurar .noty_close_button')[0].click();
     overlay.classList.remove('w3-show');
     overlay.classList.add('w3-hide');

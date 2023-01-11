@@ -16,6 +16,9 @@
 			case 'usuarios':
 				$respuesta['ok'] = 'Usuario ';
 				break;
+			case 'negocios':
+				$respuesta['ok'] = 'Negocio ';
+				break;
 		endswitch;
 		
 		switch ($accion):

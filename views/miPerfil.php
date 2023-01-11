@@ -10,7 +10,7 @@
 	$usuario = getRegistro("SELECT * FROM usuarios WHERE id={$_SESSION['userID']}");
 	
 	echo LOADER;
-	echo '<div id="moduloPerfil" class="w3-row w3-padding-top-48">';
+	echo '<div id="moduloPerfil" class="w3-row w3-padding-top-24">';
 	
 	/*=====================================
 	=            BARRA LATERAL            =
@@ -34,13 +34,16 @@
 	=            PANEL PRINCIPAL            =
 	=======================================*/
 	$cargo = $usuario['cargo'] === 'a' ? 'Administrador' : 'Vendedor';
-	$usuario['telefono'] = $usuario['telefono'] ?: 'No especificado';
+	$usuario['telefono'] = $usuario['telefono'] ?: '<b class="w3-text-red">No especificado</b>';
 	$usuario['foto'] = $usuario['foto']
 		? "images/perfil/{$usuario['foto']}"
 		: 'images/avatar3.png';
 	$hayPreguntasRegistradas = 'w3-blue';
-	if (!$usuario['pre1'] or !$usuario['pre2'] or !$usuario['pre3'])
+	$textoBotonHayPreguntasRegistradas = 'Cambiar';
+	if (!$usuario['pre1'] or !$usuario['pre2'] or !$usuario['pre3']):
 		$hayPreguntasRegistradas = 'w3-red';
+		$textoBotonHayPreguntasRegistradas = 'Crear';
+	endif;
 	
 	$usuario['pre1'] = $usuario['pre1'] ?: 'No definida';
 	$usuario['pre2'] = $usuario['pre2'] ?: 'No definida';
@@ -120,7 +123,7 @@
 					</li>
 					<div class="w3-center w3-padding-large">
 						<button onclick="editar(this, 'usuarios:preguntasRespuestas', 'cedula', {$usuario['cedula']}, 'views/miPerfil.php')" data-target="#editarPreguntasRespuestas" class="w3-show-inline-block w3-button w3-blue w3-round-large">
-							Cambiar
+							$textoBotonHayPreguntasRegistradas
 						</button>
 					</div>
 				</ul>
@@ -129,7 +132,7 @@
 		
 		<!------------  FOTO DE PERFIL  ------------>
 		<div class="w3-col s12 m4 w3-center">
-			<div class="w3-margin-top w3-padding-top-24 w3-leftbar">
+			<div class="w3-margin-top w3-leftbar">
 				<form enctype="multipart/form-data" class="w3-padding-large w3-center w3-white w3-card">
 					<label for="foto" class="w3-display-container w3-hover-opacity w3-circle">
 						<i class="icon-camera w3-xxxlarge w3-display-middle w3-display-hover"></i>

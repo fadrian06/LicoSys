@@ -34,7 +34,7 @@ validar(form, (error, fd, e) => {
 		
 		ocultarLoader(form)
 		
-		return notificacion('Negocio registrado exitósamente.')
+		return notificacion(respuesta.ok)
 			.on('onClose', () => location.reload())
 			.show()
 	})

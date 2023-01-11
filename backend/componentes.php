@@ -10,8 +10,14 @@
 	 * @var array [<br>
 	 * &nbsp;'REGISTRAR_USUARIO' or<br>
 	 * &nbsp;'NUEVA_VENTA' or<br>
+	 * &nbsp;'NUEVA_COMPRA' or<br>
 	 * &nbsp;'REGISTRAR_CLIENTE' or<br>
-	 * &nbsp;'REGISTRAR_PROVEEDOR'<br>
+	 * &nbsp;'REGISTRAR_PROVEEDOR' or<br>
+	 * &nbsp;'REGISTRAR_NEGOCIO' or<br>
+	 * &nbsp;'REGISTRAR_PRODUCTO' or<br>
+	 * &nbsp;'REGISTRAR_COMBO' or<br>
+	 * &nbsp;'RESPALDAR' or<br>
+	 * &nbsp;'RESTAURAR'<br>
 	 * ]
 	 */
 	const BOTONES = [
@@ -24,7 +30,13 @@
 		'NUEVA_VENTA' => <<<HTML
 			<a href="views/nuevaVenta.php" role="navegacion" class="w3-blue w3-text-black w3-button w3-circle">
 				<i class="w3-block w3-center icon-cart-plus w3-xxlarge"></i>
-				Nueva<br>Venta
+				Nueva<br>&nbsp;&nbsp;Venta&nbsp;&nbsp;
+			</a>
+		HTML,
+		'NUEVA_COMPRA' => <<<HTML
+			<a href="views/nuevaCompra.php" role="navegacion" class="w3-blue w3-text-black w3-button w3-circle">
+				<i class="w3-block w3-center icon-cart-plus w3-xxlarge"></i>
+				Nueva<br>&nbsp;&nbsp;Compra&nbsp;&nbsp;
 			</a>
 		HTML,
 		'VACIAR_LOG' => <<<HTML
@@ -44,6 +56,36 @@
 				<i class="w3-block w3-center icon-truck w3-xxlarge"></i>
 				Registrar<br>Proveedor
 			</button>
+		HTML,
+		'REGISTRAR_NEGOCIO' => <<<HTML
+			<button onclick="modal(this)" data-target="#registrarNegocio" class="w3-blue w3-button w3-circle">
+				<i class="w3-block w3-center icon-plus w3-xxlarge"></i>
+				Nuevo
+			</button>
+		HTML,
+		'REGISTRAR_PRODUCTO' => <<<HTML
+			<button onclick="modal(this)" data-target="#registrarProducto" class="w3-blue w3-button w3-circle w3-margin-right">
+				<i class="w3-block w3-center icon-plus w3-xxlarge"></i>
+				Nuevo<br>Producto
+			</button>
+		HTML,
+		'REGISTRAR_COMBO' => <<<HTML
+			<button onclick="modal(this)" data-target="#registrarCombo" class="w3-disabled w3-blue w3-button w3-circle">
+				<i class="w3-block w3-center icon-list w3-xxlarge"></i>
+				Nuevo<br>&nbsp;&nbsp;Combo&nbsp;&nbsp;
+			</button>
+		HTML,
+		'RESPALDAR' => <<<HTML
+			<button onclick="respaldarBD()" class="w3-black w3-button w3-circle w3-margin-right w3-margin-bottom">
+				<i class="w3-center icon-download w3-xlarge"></i>
+				Respaldar
+			</button>
+		HTML,
+		'RESTAURAR' => <<<HTML
+			<button onclick="restaurarBD()" class="w3-black w3-button w3-circle w3-margin-left w3-margin-right w3-margin-bottom">
+				<i class="w3-center icon-upload w3-xlarge"></i>
+				Restaurar
+			</button>
 		HTML
 	];
 	
@@ -53,7 +95,8 @@
 	 * `'CLAVE', 'CONFIRMAR', 'USUARIO', 'CEDULA', 'IVA', `<br>`
 	 * 'DOLAR', 'PESO', 'res1', 'res2', 'res3', 'NOMBRE', `<br>`
 	 * 'TELEFONO', 'NOMBRE_NEGOCIO', 'RIF', 'DIRECCION', `<br>`
-	 * 'pre1', 'pre2', 'pre3', 'ID'`
+	 * 'pre1', 'pre2', 'pre3', 'ID', 'CODIGO', 'STOCK', `<br>`
+	 * 'PRECIO', 'EXCENTO'`
 	 * @param  string $label El título del `<input>`
 	 * @param  string $placeholder El placeholder del input.
 	 * @param string $value El valor por defecto del `<input>`
@@ -77,7 +120,7 @@
 			case 'CONFIRMAR':
 				return <<<HTML
 					<fieldset class="w3-border-0">
-						<legend class="w3-large w3-padding">$label</legend>
+						<legend class="w3-large w3-padding"><b>$label</b></legend>
 						<div class="w3-row w3-center w3-border-bottom">
 							<div class="icon-key w3-col s2 w3-xxlarge"></div>
 							<div class="w3-col s10 w3-display-container">
@@ -177,11 +220,11 @@
 			case 'NOMBRE':
 				return <<<HTML
 					<fieldset class="w3-border-0">
-						<legend class="w3-large w3-padding">$label</legend>
+						<legend class="w3-large w3-padding"><b>$label</b></legend>
 						<div class="w3-row w3-center w3-border-bottom">
 							<div class="icon-edit w3-col s2 w3-xxlarge"></div>
 							<div class="w3-col s10 w3-display-container">
-								<input id="nombre" name="nombre" placeholder="$placeholder" value="$value" required minlength="4" maxlength="20" pattern="[a-zA-ZáÁéÉíÍóÓúÚñÑ]{4,20}" title="Sólo se permiten entre 4 y 20 letras sin espacios" class="w3-input w3-border-0 w3-large">
+								<input id="nombre" name="nombre" placeholder="$placeholder" value="$value" required minlength="4" maxlength="20" pattern="[a-zA-ZáÁéÉíÍóÓúÚñÑ\s]{4,20}" title="Sólo se permiten entre 4 y 20 letras" class="w3-input w3-border-0 w3-large">
 								<div class="w3-display-right w3-xxlarge w3-text-green icon-check w3-hide"></div>
 								<div class="w3-display-right w3-xxlarge w3-text-red icon-close w3-hide"></div>
 							</div>
@@ -191,7 +234,7 @@
 			case 'NOMBRE_NEGOCIO':
 				return <<<HTML
 					<fieldset class="w3-border-0">
-						<legend class="w3-large w3-padding">$label</legend>
+						<legend class="w3-large w3-padding"><b>$label</b></legend>
 						<div class="w3-row w3-center w3-border-bottom">
 							<div class="icon-building w3-col s2 w3-xxlarge"></div>
 							<div class="w3-col s10 w3-display-container">
@@ -205,7 +248,7 @@
 			case 'TELEFONO':
 				return <<<HTML
 					<fieldset class="w3-border-0">
-						<legend class="w3-large w3-padding">$label</legend>
+						<legend class="w3-large w3-padding"><b>$label</b></legend>
 						<div class="w3-row w3-center w3-border-bottom">
 							<div class="icon-phone w3-col s2 w3-xxlarge"></div>
 							<div class="w3-col s10 w3-display-container">
@@ -219,7 +262,7 @@
 			case 'RIF':
 				return <<<HTML
 					<fieldset class="w3-border-0">
-						<legend class="w3-large w3-padding">$label</legend>
+						<legend class="w3-large w3-padding"><b>$label</b></legend>
 						<div class="w3-row w3-center w3-border-bottom">
 							<div class="icon-id-card w3-col s2 w3-xxlarge"></div>
 							<div class="w3-col s10 w3-display-container">
@@ -233,7 +276,7 @@
 			case 'DIRECCION':
 				return <<<HTML
 					<fieldset class="w3-border-0">
-						<legend class="w3-large w3-padding">$label</legend>
+						<legend class="w3-large w3-padding"><b>$label</b></legend>
 						<div class="w3-row w3-center w3-border-bottom">
 							<div class="icon-map-marker w3-col s2 w3-xxlarge"></div>
 							<div class="w3-col s10 w3-display-container">
@@ -263,6 +306,66 @@
 			case 'ID':
 				return <<<HTML
 					<input type="hidden" name="id" value="$value" class="w3-hide">
+				HTML;
+			case 'CODIGO':
+				return <<<HTML
+					<fieldset class="w3-border-0">
+						<legend class="w3-large w3-padding"><b>$label</b></legend>
+						<div class="w3-row w3-center w3-border-bottom">
+							<div class="icon-barcode w3-col s2 w3-xxlarge"></div>
+							<div class="w3-col s10 w3-display-container">
+								<input id="codigo" name="codigo" placeholder="$placeholder" value="$value" required minlength="3" maxlength="10" pattern=".{3,10}" title="Sólo se permiten letras, números y símbolos (- . #)" class="w3-input w3-border-0 w3-large">
+								<div class="w3-display-right w3-xxlarge w3-text-green icon-check w3-hide"></div>
+								<div class="w3-display-right w3-xxlarge w3-text-red icon-close w3-hide"></div>
+							</div>
+						</div>
+					</fieldset>
+				HTML;
+			case 'STOCK':
+				return <<<HTML
+					<fieldset class="w3-border-0">
+						<legend class="w3-large w3-padding"><b>$label</b></legend>
+						<div class="w3-row w3-center w3-border-bottom">
+							<div class="icon-list-alt w3-col s2 w3-xxlarge"></div>
+							<div class="w3-col s10 w3-display-container">
+								<input type="number" id="stock" name="stock" placeholder="$placeholder" value="$value" min="0" pattern="[^e]?[\d]+" class="w3-input w3-border-0 w3-large">
+								<div class="w3-display-right w3-xxlarge w3-text-green icon-check w3-hide"></div>
+								<div class="w3-display-right w3-xxlarge w3-text-red icon-close w3-hide"></div>
+							</div>
+						</div>
+					</fieldset>
+				HTML;
+			case 'PRECIO':
+				return <<<HTML
+					<fieldset class="w3-border-0">
+						<legend class="w3-large w3-padding"><b>$label</b></legend>
+						<div class="w3-row w3-center w3-border-bottom">
+							<div class="icon-dollar w3-col s2 w3-xxlarge"></div>
+							<div class="w3-col s10 w3-display-container">
+								<input type="number" step="0.01" id="precio" name="precio" placeholder="$placeholder" value="$value" required min="0" pattern="[\d.]+" class="w3-input w3-border-0 w3-large">
+								<div class="w3-display-right w3-xxlarge w3-text-green icon-check w3-hide"></div>
+								<div class="w3-display-right w3-xxlarge w3-text-red icon-close w3-hide"></div>
+							</div>
+						</div>
+					</fieldset>
+				HTML;
+			case 'EXCENTO':
+				return <<<HTML
+					<fieldset class="w3-border-0">
+						<legend class="w3-large w3-padding"><b>$label</b></legend>
+						<div class="w3-row w3-center w3-border-bottom">
+							<div class="icon-question-circle w3-col s2 w3-xxlarge"></div>
+							<div class="w3-col s10 w3-display-container">
+								<select name="excento" id="excento" required class="w3-input w3-border-0 w3-large">
+									<option disabled selected>$placeholder</option>
+									<option value="1">Si</option>
+									<option value="0">No</option>
+								</select>
+								<div class="w3-display-right w3-xxlarge w3-text-green icon-check w3-hide"></div>
+								<div class="w3-display-right w3-xxlarge w3-text-red icon-close w3-hide"></div>
+							</div>
+						</div>
+					</fieldset>
 				HTML;
 		endswitch;
 	}

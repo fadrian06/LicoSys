@@ -458,6 +458,21 @@ details.abierto [class^='icon-chevron'] {
     border-width: 0 !important;
   }
 }
+@media (max-width: 600px) {
+  #moduloNegocios .w3-leftbar {
+    border-width: 0 !important;
+  }
+}
+@media (max-width: 600px) {
+  #moduloNegocios footer {
+    right: 0;
+  }
+}
+@media (max-width: 600px) {
+  #moduloNegocios button[onclick] {
+    margin-top: 16px;
+  }
+}
 #typed-container {
   cursor: pointer;
 }

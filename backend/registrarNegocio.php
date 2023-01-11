@@ -34,7 +34,7 @@
 		$resultado = setRegistro($sql);
 		if (!$resultado)
 			$respuesta['error'] = $conexion->error;
-		
+		$respuesta['ok'] = 'Negocio registrado exitósamente.';
 		exit(json_encode($respuesta, JSON_INVALID_UTF8_IGNORE));
 	endif;
 ?>

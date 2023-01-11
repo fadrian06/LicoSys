@@ -26,23 +26,5 @@ var dashboardHTML = main.innerHTML;
 reajustar();
 menu();
 navegacion();
-if (formMonedas) {
-  validar(formMonedas, function (error, fd, e) {
-    if (error) return alerta(error).show();
-    e.preventDefault();
-    formMonedas.classList.add('showLoader');
-    ajax('backend/actualizarMonedas.php', fd, function (res) {
-      /** @type {Respuesta} */
-      var datos = JSON.parse(res);
-      if (datos.error) return alerta(datos.error).on('onClose', function () {
-        return formMonedas.classList.remove('showLoader');
-      }).show();
-      $('#tablaMonedas').html("\n\t\t\t\t<tr>\n\t\t\t\t\t<td>IVA</td>\n\t\t\t\t\t<td colspan=\"2\"><b>".concat(formMonedas.iva.value, "%</b></td>\n\t\t\t\t</tr>\n\t\t\t\t<tr>\n\t\t\t\t\t<td>D\xD3LAR</td>\n\t\t\t\t\t<td>\n\t\t\t\t\t\t<b><i>Bs. </i>").concat(formMonedas.dolar.value, "</b>\n\t\t\t\t\t</td>\n\t\t\t\t\t<td><b>").concat(formMonedas.pesos.value, "<i> Pesos</i></b></td>\n\t\t\t\t</tr>\t\n\t\t\t"));
-      formMonedas.classList.remove('showLoader');
-      return notificacion('Valores actualizados correctamente.').on('onShow', function () {
-        formMonedas.querySelector('.icon-close').click();
-      }).show();
-    });
-  });
-}
+if (formMonedas) actualizarMonedas(formMonedas);
 /*=====  End of EJECUCIÓN DE FUNCIONES  ======*/

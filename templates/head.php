@@ -12,8 +12,10 @@
 	require "{$BASE_URL}backend/funciones.php";
 
 	if ($archivoActual !== 'index.php'):
+		$script .= "<script src='{$BASE_URL}js/navegacion.js'></script>";
 		$script .= "<script src='{$BASE_URL}js/main.js'></script>";
 		
+		/*----------  No tienes preguntas y respuestas registradas  ----------*/
 		$sql = <<<SQL
 			SELECT pre1, pre2, pre3 FROM usuarios WHERE id={$_SESSION['userID']}
 		SQL;
@@ -24,7 +26,9 @@
 		) $script .= <<<HTML
 			<script>
 				let texto = `
-					No tienes preguntas y respuestas registradas.<br>
+					<strong class="w3-text-red">
+						No tienes preguntas y respuestas registradas.
+					</strong><br>
 					<small>¿Desea registrarlas?</small>
 				`
 				confirmar(texto, 'center', () => {
@@ -39,10 +43,51 @@
 				})
 			</script>
 		HTML;
+		
+		/*----------  Inventario agotado  ----------*/
+		$sql = "SELECT id, producto, stock FROM inventario";
+		$productos = getRegistros($sql);
+		
+		$i = 1;
+		foreach ($productos as $producto):
+			$tiempo = 1000 * 30; /*30 segundos*/
+			if (!$producto['stock'])
+				$script .= <<<HTML
+					<script>
+						setTimeout(() => alerta('{$producto['producto']} está AGOTADO').show(),3000)
+						
+						let intervalo{$i} = setInterval(() => {
+							alerta('{$producto['producto']} está AGOTADO').show()
+						}, $tiempo)
+						
+						setTimeout(() => clearInterval(intervalo{$i}), $tiempo * 10 /*5 minutos*/)
+					</script>
+				HTML;
+			elseif ($producto['stock'] <= 5)
+				$script .= <<<HTML
+					<script>
+						setTimeout(() => advertencia('{$producto['producto']} CASI AGOTADO').show(), 3000)
+						
+						let intervalo{$i} = setInterval(() => {
+							advertencia('{$producto['producto']} CASI AGOTADO').show()
+						}, $tiempo)
+						
+						setTimeout(() => clearInterval(intervalo{$i}), $tiempo * 10 /*5 minutos*/)
+					</script>
+				HTML;
+			++$i;
+		endforeach;
+		
 	endif;
 	
 	$negocios = getRegistros('SELECT * FROM negocios WHERE activo=1');
 	$admin    = getRegistro("SELECT * FROM usuarios WHERE cargo='a'");
+	
+	$script .= <<<HTML
+		<script>
+			document.body.classList.remove('w3-disabled')
+		</script>
+	HTML;
 ?>
 
 <!DOCTYPE html>
@@ -69,7 +114,7 @@
 		<script src="<?=$BASE_URL?>js/validar.js"></script>
 	</head>
 
-	<body>
+	<body class="w3-disabled">
 		<!--==================================
 		=            FONDO OSCURO            =
 		===================================-->
@@ -94,7 +139,7 @@
 				</div>
 				<a href="dashboard.php" role="navegacion" title="Panel de Administración" class="w3-medium w3-button">
 					<img src="<?="$BASE_URL{$_SESSION['negocioLogo']}"?>" class="w3-image w3-circle" style="height: 25px; width:25px">
-					&nbsp;<?=$_SESSION['negocio']?>
+					&nbsp;<b id="menuNombreNegocio"><?=$_SESSION['negocio']?></b>
 				</a>
 			</header>
 			<!--==================================

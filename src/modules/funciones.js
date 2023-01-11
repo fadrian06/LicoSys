@@ -284,7 +284,7 @@ const confirmar = (texto, posicion = 'center', callback = () => {}) => {
  */
 const alerta = (texto, timer = 2000) => {
 	return new Noty({
-		text: `<i class="icon-close w3-margin-right"></i> ${texto}`,
+		text: `<strong><i class="icon-close w3-margin-right"></i> ${texto}</strong>`,
 		type: 'error',
 		timeout: timer
 	})
@@ -302,9 +302,9 @@ const notificacion = texto => {
 /** @param  {string} texto */
 const advertencia = texto => {
 	return new Noty({
-		text: `<i class="icon-warning w3-margin-right"></i> ${texto}`,
+		text: `<strong class="w3-text-black"><i class="icon-warning w3-margin-right"></i> ${texto}</strong>`,
 		type: 'warning',
-		timeout: 3000
+		timeout: 3000,
 	})
 }
 
@@ -394,279 +394,6 @@ const desactivar = (tabla, campo, valor, hrefEnlace) => {
 	return activarDesactivar(tabla, campo, valor, 'desactivar', hrefEnlace)
 }
 
-/**
- * Funcionalidad del módulo Usuarios
- * @param {HTMLElement} contenedor Contenedor del módulo.
- */
-const moduloUsuarios = contenedor => {
-	/** @type {HTMLFormElement} */
-	const formRegistrar = contenedor.querySelector('#registrarUsuario')
-	acordeon()
-	verClave(formRegistrar.clave.nextElementSibling, formRegistrar.clave)
-	verClave(formRegistrar.confirmar.nextElementSibling, formRegistrar.confirmar)
-	mostrarDetails(contenedor.querySelector('details'))
-	
-	validar(formRegistrar, (error, fd, e) => {
-		if (error) return alerta(error).show()
-			
-		e.preventDefault()
-		mostrarLoader(formRegistrar)
-		fd.append('cargo', 'v')
-		ajax('backend/registrarUsuario.php', fd, res => {
-			/** @type {Respuesta} */
-			const datos = JSON.parse(res)
-			
-			if (datos.error)
-				return alerta(datos.error)
-					.on('onShow', () => formRegistrar.classList.remove('showLoader'))
-					.show()
-			
-			ocultarLoader(formRegistrar)
-			return notificacion('Usuario registrado correctamente')
-				.on('onShow', () => $('[href="views/usuarios.php"]')[0].click())
-				.show()
-		})
-	})
-}
-
-/**
- * Funcionalidad del módulo log.
- * @param  {HTMLElement} _contenedor Contenedor del módulo.
- */
-const moduloLog = _contenedor => acordeon()
-
-/**
- * Funcionalidad del módulo clientes.
- * @param  {HTMLElement} contenedor Contenedor del módulo.
- */
-const moduloClientes = contenedor => {
-	/** @type {HTMLFormElement} */
-	const formRegistrar = contenedor.querySelector('#registrarCliente')
-	acordeon()
-	mostrarDetails(contenedor.querySelector('details'))
-	validar(formRegistrar, (error, fd, e) => {
-		if (error) return alerta(error).show()
-			
-		e.preventDefault()
-		mostrarLoader(formRegistrar)
-		ajax('backend/registrarCliente.php', fd, res => {
-			/** @type {Respuesta} */
-			const datos = JSON.parse(res)
-			
-			if (datos.error)
-				return alerta(datos.error)
-					.on('onShow', () => ocultarLoader(formRegistrar))
-					.show()
-			
-			ocultarLoader(formRegistrar)
-			return notificacion(datos.ok)
-				.on('onShow', () => $('[href="views/clientes.php"]')[0].click())
-				.show()
-		})
-	})
-}
-
-/**
- * Funcionalidad del módulo proveedores.
- * @param  {HTMLElement} contenedor Contenedor del módulo.
- */
-const moduloProveedores = contenedor => {
-	const formRegistrar = contenedor.querySelector('#registrarProveedor')
-	acordeon()
-	mostrarDetails(contenedor.querySelector('details'))
-	validar(formRegistrar, (error, fd, e) => {
-		if (error) return alerta(error).show()
-			
-		e.preventDefault()
-		mostrarLoader(formRegistrar)
-		ajax('backend/registrarProveedor.php', fd, res => {
-			console.log(res)
-			/** @type {Respuesta} */
-			const datos = JSON.parse(res)
-			
-			if (datos.error) return alerta(datos.error)
-				.on('onShow', () => formRegistrar.classList.remove('showLoader'))
-				.show()
-			
-			ocultarLoader(formRegistrar)
-			return notificacion(datos.ok)
-				.on('onShow', () => $('[href="views/proveedores.php"]')[0].click())
-				.show()
-		})
-	})
-}
-
-/**
- * Funcionalidad del módulo perfil.
- * @param  {HTMLElement} contenedor El contenedor del módulo.
- */
-const moduloPerfil = contenedor => {
-	/** @type {HTMLFormElement} */
-	const formFoto = contenedor.querySelector('[enctype="multipart/form-data"]')
-	/** @type {HTMLButtonElement} */
-	const boton = formFoto.querySelector('button')
-	/** @type {HTMLImageElement} */
-	const imagen = formFoto.foto.nextElementSibling
-	
-	$('#menuNombreUsuario').html($('#nombreUsuario').html())
-	
-	actualizarImagen(formFoto.foto, imagen, error => {
-		if (error) return alerta(error).show()
-			
-		boton.classList.remove('w3-hide')
-		boton.classList.add('w3-show-inline-block')
-		
-		formFoto.onsubmit = e => {
-			e.preventDefault()
-			const fd = new FormData(formFoto)
-			fd.append('foto', formFoto.foto.files[0])
-			w3.addClass('main', 'showLoader')
-			ajax('backend/actualizarImagen.php', fd, res => {
-				/** @type {Respuesta} */
-				const respuesta = JSON.parse(res)
-				
-				if (respuesta.error) return alerta(respuesta.error)
-					.on('onShow', () => w3.removeClass('main', 'showLoader'))
-					.show()
-				
-				w3.removeClass('main', 'showLoader')
-				boton.classList.remove('w3-show-inline-block')
-				boton.classList.add('w3-hide')
-				
-				return notificacion(respuesta.ok)
-					.on('onShow', () => {
-						$('[href="views/miPerfil.php"]')[0].click()
-						$('aside a img')[0].src = imagen.src
-					})
-					.show()
-			})
-		}
-	})
-}
-
-/** Comportamiento de la navegación */
-const navegacion = () => {
-	$('a[role="navegacion"]').each((_i, enlace) => {
-		enlace.addEventListener('click', e => {
-			/** @type {HTMLAnchorElement} */
-			const enlace = e.currentTarget
-			e.preventDefault()
-			main.classList.add('showLoader')
-			
-			if (document.body.offsetWidth < 993)
-				$('[role="menuOverlay"]')[0].click()
-			
-			// Quitamos el resaltado azul a todos los enlaces.
-			$('a').each((_i, enlace) => enlace.classList.remove('w3-blue'))
-			
-			// Si el enlace redirecciona a la nueva venta.
-			if (enlace.href.includes('nuevaVenta.php'))
-				$('a.w3-bar-item[href$="nuevaVenta.php"]').addClass('w3-blue')
-			
-			// Si el enlace redirecciona a la nueva venta.
-			if (enlace.href.includes('nuevaCompra.php'))
-				$('a.w3-bar-item[href$="nuevaCompra.php"]').addClass('w3-blue')
-			
-			// Si el enlace redirecciona a las ventas.
-			if (enlace.href.includes('ventas.php'))
-				$('a.w3-bar-item[href$="ventas.php"]').addClass('w3-blue')
-			
-			// Si el enlace redirecciona a las ventas.
-			if (enlace.href.includes('compras.php'))
-				$('a.w3-bar-item[href$="compras.php"]').addClass('w3-blue')
-			
-			// Si el enlace redirecciona al inventario.
-			if (enlace.href.includes('inventario.php'))
-				$('a.w3-bar-item[href$="inventario.php"]').addClass('w3-blue')
-			
-			// Si el enlace redirecciona a los usuarios.
-			if (enlace.href.includes('usuarios.php'))
-				$('a.w3-bar-item[href$="usuarios.php"]').addClass('w3-blue')
-			
-			// Si el enlace redirecciona a los clientes.
-			if (enlace.href.includes('clientes.php'))
-				$('a.w3-bar-item[href$="clientes.php"]').addClass('w3-blue')
-			
-			// Si el enlace redirecciona a la página principal.
-			if (enlace.href.includes('dashboard.php'))
-				// Espera unos segundos para simular :D
-				return setTimeout(() => {
-					// Pinta el enlace de azul sólo si está en el menú lateral.
-					if (enlace.classList.contains('w3-bar-item'))
-						enlace.classList.add('w3-blue')
-					/*En caso que se haga click en el nombre del negocio, colorea
-					el enlace en el menú lateral.*/
-					$('a.w3-bar-item[href="dashboard.php"]').addClass('w3-blue')
-					
-					// Reinicia los acordeones del menú lateral.
-					$('nav summary').each((_i, summary) => {
-						summary.classList.remove('w3-blue')
-						summary.parentElement.classList.remove('abierto')
-					})
-					
-					// Oculta el menú sólo en móviles.
-					if (document.body.scrollWidth <= 600) overlay.click()
-						
-					// Oculta el loader.
-					main.classList.remove('showLoader')
-					// Carga la el Panel Principal.
-					main.innerHTML = dashboardHTML
-					// Reajusta la navegación del Panel Principal.
-					navegacion()
-				}, 500)
-			
-			// Si no es un enlace al Panel Principal, solicita la vista
-			$.get(enlace.getAttribute('href'), res => {
-				// Sólo pinta los enlaces del menú.
-				if (!enlace.href.includes('miPerfil.php'))
-					enlace.classList.add('w3-blue')
-				
-				// Si el enlace está dentro de un acordeón
-				if (enlace.href.includes('usuarios.php')
-					|| enlace.href.includes('log.php')
-					|| enlace.href.includes('compras.php')
-					|| enlace.href.includes('nuevaCompra.php')
-				) {
-					// Cierra todos los acordeones
-					$('nav summary').each((_i, summary) => {
-						summary.classList.remove('w3-blue')
-						if (summary.parentElement)
-							summary.parentElement.classList.remove('abierto')
-					})
-					
-					// Pinta el acordeón del enlace.
-					if (enlace.parentElement.previousElementSibling
-						&& enlace.parentElement.parentElement
-					) {
-						enlace.parentElement.previousElementSibling.classList.add('w3-blue')
-						enlace.parentElement.parentElement.classList.add('abierto')
-					}
-				} else $('nav summary').each((_i, summary) => {
-					// Si el enlace no está dentro de un acordeón, reinicia los acordeones.
-					summary.classList.remove('w3-blue')
-					summary.parentElement.classList.remove('abierto')
-				})
-				
-				// Cierra el menú sólo en móvil.
-				if (document.body.scrollWidth <= 600) overlay.click()
-				// Quita el loader
-				main.classList.remove('showLoader')
-				// Carga la vista
-				main.innerHTML = res
-				
-				// Funcionalidades de la vista cargada.
-				if ($('#moduloUsuarios')[0]) moduloUsuarios($('#moduloUsuarios')[0])			
-				if ($('#moduloLog')[0]) moduloLog($('#moduloLog')[0])			
-				if ($('#moduloClientes')[0]) moduloClientes($('#moduloClientes')[0])			
-				if ($('#moduloProveedores')[0]) moduloProveedores($('#moduloProveedores')[0])			
-				if ($('#moduloPerfil')[0]) moduloPerfil($('#moduloPerfil')[0])			
-			})
-		})
-	})
-	
-	$('details').each((_i, details) => mostrarDetails(details))
-}
-
 const vaciarLog = () => {
 	return confirmar('¿Seguro que desea vaciar el registro?', 'center', () => {
 		w3.addClass('main', 'showLoader')
@@ -738,7 +465,6 @@ const editar = (boton, tabla, campo, valor, hrefEnlace = '') => {
 			fd.append('tabla', tabla)
 			mostrarLoader(form)
 			ajax(url, fd, res => {
-				console.log(res)
 				const respuesta = JSON.parse(res)
 				
 				if (respuesta.error) return alerta(respuesta.error)
@@ -776,22 +502,201 @@ const mostrarPanel = (boton, id) => {
 	panel.classList.add('w3-show')
 }
 
+const respaldarBD = () => {
+	return confirmar('¿Desea crear una copia de seguridad de todos los datos?', 'center', () => {
+		w3.addClass('main', 'showLoader')
+		$.post('backend/backupBD.php', { respaldar: true }, res => {
+			w3.removeClass('main', 'showLoader')
+			/** @type {Respuesta} */
+			const respuesta = JSON.parse(res)
+			if (respuesta.error) return alerta(respuesta.error).show()
+			
+			return notificacion(respuesta.ok).show()
+		})
+	})
+}
+
+const restaurarBD = () => {
+	let texto = `
+		Tener en cuenta que al restaurar se perderán cambios 
+		que no hayan sido respaldados<br>
+		<strong class="w3-text-red">¿Desea continuar?</strong>
+	`
+	return confirmar(texto, 'center', () => {
+		w3.addClass('main', 'showLoader')
+		$.post('backend/backupBD.php', { restaurar: true }, res => {
+			/** @type {Respuesta} */
+			const respuesta = JSON.parse(res)
+			
+			if (respuesta.error) return alerta(respuesta.error)
+				.on('onShow', () => w3.removeClass('main', 'showLoader'))
+				.show()
+			
+			let html = `
+				<div class="w3-card w3-round-xlarge w3-white w3-padding-large w3-center">
+					<h1 class="w3-xlarge oswald">${respuesta.ok}</h1>
+					<h2 class="w3-large w3-padding-top-24 w3-topbar">
+						Reiniciando el Sistema...
+					</h2>	
+				</div>
+			`
+			new Noty({
+				theme: null,
+				id: 'intro',
+				type: 'info',
+				text: html,
+				layout: 'center',
+				modal: true,
+				closeWith: [null],
+				animation: { open: 'w3-animate-zoom' },
+				timeout: 5000,
+				callbacks: { afterClose: () => location.reload() }
+			}).show()
+		})
+	})
+}
+
+/**
+ * Filtra elementos en una lista.
+ * @param  {HTMLInputElement} input Entrada de texto.
+ * @param  {string} contenedorID   ID del contenedor de la lista
+ */
+const filter = (input, contenedorID) => {
+	const contenedor = document.querySelector(`#${contenedorID}`)
+	/** @type {string} Texto a buscar en mayúsculas */
+	let texto = input.value.toUpperCase();
+	const elementos = contenedor.querySelectorAll('button')
+	for (let i = 0; i < elementos.length; ++i) {
+		/** @type {string} Texto del elemento */
+		let txtValue = elementos[i].textContent || elementos[i].innerText;
+		if (txtValue.toUpperCase().indexOf(texto) > -1)
+			elementos[i].style.display = '';
+		else elementos[i].style.display = 'none';
+	}
+}
+
+/**
+ * Funcionalidad del formulario para registrar productos.
+ * @param  {HTMLFormElement} formulario El formulario de registro.
+ * @param  {string} enlace     El HREF del enlace a clickear terminado el registro.
+ */
+const registrarProducto = (formulario, enlace) => {
+	validar(formulario, (error, fd, e) => {
+		if (error) return alerta(error).show()
+		
+		e.preventDefault()
+		mostrarLoader(formulario)
+		ajax('backend/registrarProducto.php', fd, res => {
+			/** @type {Respuesta} */
+			const datos = JSON.parse(res)
+			
+			if (datos.error)
+				return alerta(datos.error)
+					.on('onShow', () => ocultarLoader(formulario))
+					.show()
+			
+			ocultarLoader(formulario)
+			return notificacion(datos.ok)
+				.on('onShow', () => $(`[href="${enlace}"]`)[0].click())
+				.show()
+		})
+	})
+}
+
+/**
+ * Funcionalidad del formulario para registrar clientes.
+ * @param  {HTMLFormElement} formulario El formulario de registro.
+ * @param  {string} enlace     El HREF del enlace a clickear terminado el registro.
+ */
+const registrarCliente = (formulario, enlace) => {
+	validar(formulario, (error, fd, e) => {
+		if (error) return alerta(error).show()
+			
+		e.preventDefault()
+		mostrarLoader(formulario)
+		ajax('backend/registrarCliente.php', fd, res => {
+			/** @type {Respuesta} */
+			const datos = JSON.parse(res)
+			
+			if (datos.error)
+				return alerta(datos.error)
+					.on('onShow', () => ocultarLoader(formulario))
+					.show()
+			
+			ocultarLoader(formulario)
+			return notificacion(datos.ok)
+				.on('onShow', () => $(`[href="${enlace}"]`)[0].click())
+				.show()
+		})
+	})
+}
+
+/**
+ * Funcionalidad de actualizar el valor de las monedas.
+ * @param  {HTMLFormElement} formulario El formulario de actualización.
+ */
+const actualizarMonedas = formulario => {
+	validar(formulario, (error, fd, e) => {
+		if (error) return alerta(error).show()
+		
+		e.preventDefault()
+		formulario.classList.add('showLoader')
+		ajax('backend/actualizarMonedas.php', fd, res => {
+			/** @type {Respuesta} */
+			const datos = JSON.parse(res)
+			if (datos.error)
+				return alerta(datos.error)
+					.on('onClose', () => formulario.classList.remove('showLoader'))
+					.show()
+			
+			$('#tablaMonedas').html(`
+				<tr>
+					<td>IVA</td>
+					<td colspan="2"><b>${formulario.iva.value}%</b></td>
+				</tr>
+				<tr>
+					<td>DÓLAR</td>
+					<td>
+						<b><i>Bs. </i>${formulario.dolar.value}</b>
+					</td>
+					<td><b>${formulario.pesos.value}<i> Pesos</i></b></td>
+				</tr>	
+			`)
+			formulario.classList.remove('showLoader')
+			
+			return notificacion('Valores actualizados correctamente.')
+				.on('onShow', () => {
+					formulario.querySelector('.icon-close').click()
+				})
+				.show()
+		})
+	})
+}
+
+/**
+ * Actualiza dinámicamente el total de un producto.
+ * @param  {HTMLInputElement} cantidad   Un elemento `<input>` con `name="cantidad`
+ * @param  {number} excento Representa si el producto es o no es excento de IVA.
+ * @param  {string} inputTotalID ID del `<input>` en dónde mostrar el total.
+ * @param {()} cb Funcionalidad adicional tras actualizar el total.
+ */
+const actualizarTotal = (cantidad, excento, inputTotalID) => {
+	/** @type {number} El precio del producto */
+	const precio = cantidad.form.querySelector('[name="precio"]').value
+	/** @type {number} El IVA actual */
+	const iva = cantidad.form.querySelector('[name="iva"]').value
+	/** @type {HTMLInputElement} */
+	const total = cantidad.form.querySelector(inputTotalID)
+	total.value = precio * cantidad.value
+	
+	if (excento) {
+		let totalIVA = total.value * iva
+		total.value = Number(total.value) + totalIVA
+	}
+	
+	if (cantidad.value != 0)
+		cantidad.form.querySelector('button').classList.remove('w3-hide')
+}
+
 onoffline = () => advertencia('Se ha perdido la conexión').show()
 ononline = () => notificacion('Se ha restablecido la conexión').show()
-
-// // Filter
-// function filterFunction(input, div) {
-// 	let filter, ul, li, a;
-// 	div    = document.getElementById(div);
-// 	input  = document.getElementById(input);
-// 	filter = input.value.toUpperCase();
-// 	a      = div.getElementsByTagName("button");
-// 	for (let i = 0; i < a.length; i++) {
-// 		let txtValue = a[i].textContent || a[i].innerText;
-// 		if (txtValue.toUpperCase().indexOf(filter) > -1) {
-// 			a[i].style.display = "";
-// 		} else {
-// 			a[i].style.display = "none";
-// 		}
-// 	}
-// }

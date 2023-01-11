@@ -16,7 +16,7 @@
 	$sql = <<<SQL
 		SELECT p.id, p.rif, p.nombre, u.usuario FROM proveedores p
 		INNER JOIN usuarios u ON p.usuario_id=u.id
-		WHERE negocio_id={$_SESSION['negocioID']}
+		WHERE negocio_id={$_SESSION['negocioID']} ORDER BY p.rif
 	SQL;
 	
 	$encabezados = [

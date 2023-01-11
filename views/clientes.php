@@ -15,7 +15,7 @@
 	=============================*/
 	$sql = <<<SQL
 		SELECT c.cedula, c.nombre, u.usuario FROM clientes c
-		INNER JOIN usuarios u ON c.usuario_id=u.id
+		INNER JOIN usuarios u ON c.usuario_id=u.id ORDER BY c.cedula
 	SQL;
 	
 	$encabezados = [
@@ -52,9 +52,9 @@
 			<div class="w3-right-align">
 				<span class="icon-close w3-button w3-transparent w3-hover-red"></span>
 			</div>
-			<h1 class="w3-center w3-xlarge oswald w3-margin-bottom">
+			<h2 class="w3-center w3-xlarge oswald w3-margin-bottom">
 				Registrar Cliente
-			</h1>
+			</h2>
 			<section class="w3-display-container">
 				<i class="w3-spin icon-spinner w3-display-middle w3-jumbo loader"></i>
 				$inputCedula

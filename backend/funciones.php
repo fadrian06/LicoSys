@@ -79,7 +79,11 @@
 			$campos = '';
 			foreach ($datos['camposEscritorio'] as $campo)
 				$campos .= <<<HTML
-					<td>$fila[$campo]</td>
+					<td>
+						<span class="w3-button w3-transparent w3-hover-none">
+							$fila[$campo]
+						</span>
+					</td>
 				HTML;
 			
 			if ($desactivar)
@@ -172,7 +176,11 @@
 				$campos = '';
 				foreach ($datos['camposEscritorio'] as $campo)
 					$campos .= <<<HTML
-						<td>$fila[$campo]</td>
+						<td>
+							<span class="w3-button w3-transparent w3-hover-none">
+								$fila[$campo]
+							</span>
+						</td>
 					HTML;
 				
 				if ($desactivar)
@@ -268,12 +276,14 @@
 		/*=====================================================
 		=            ESTRUCTURA TABLA DESACTIVADOS            =
 		=====================================================*/
-		if ($desactivar['filas'])
+		if ($desactivar['filas']):
+			$cantidadDesactivados = count($desactivar['filas']);
 			echo <<<HTML
 				<br>
 				<details class="w3-margin-top">
 					<summary class="w3-xlarge w3-padding">
 						<i class="icon-lock"> Desactivados</i>
+						<span class="w3-badge w3-margin-left">$cantidadDesactivados</span>
 						<i class="icon-chevron-right w3-margin-left"></i>
 					</summary>
 					<div class="w3-margin w3-card-4 w3-responsive">
@@ -298,6 +308,7 @@
 				</details>
 				<br><br><br><br><br><br><br><br><br><br>
 			HTML;
+		endif;
 		return true;
 	}
 
@@ -472,8 +483,11 @@
 		$meses = [1 => 'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio',
 			'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'
 		];
-		return $dias[date('w')] . ', ' . date('d') . ' de ' . $meses[date('m')]
-			. ' del ' . date('Y');
+		$diaSemana = (int) date('w');
+		$diaActual = (int) date('d');
+		$mesActual = (int) date('m');
+		$añoActual = (int) date('Y');
+		return "$dias[$diaSemana], $diaActual de $meses[$mesActual] del $añoActual";
 	}
 
 	/*========================================================

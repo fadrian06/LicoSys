@@ -31,7 +31,7 @@ validar(form, function (error, fd, e) {
       return ocultarLoader(form);
     }).show();
     ocultarLoader(form);
-    return notificacion('Negocio registrado exitósamente.').on('onClose', function () {
+    return notificacion(respuesta.ok).on('onClose', function () {
       return location.reload();
     }).show();
   });

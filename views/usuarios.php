@@ -11,10 +11,10 @@
 		echo LOADER;
 		echo '<div id="moduloUsuarios">';
 		
-		$sql = "SELECT cedula, nombre, usuario, telefono FROM usuarios WHERE cargo='v' AND activo=1";
+		$sql = "SELECT cedula, nombre, usuario, telefono FROM usuarios WHERE cargo='v' AND activo=1 ORDER BY cedula";
 		$usuarios = getRegistros($sql);
 				
-		$sql = "SELECT cedula, nombre, usuario, telefono FROM usuarios WHERE cargo='v' AND activo=0";
+		$sql = "SELECT cedula, nombre, usuario, telefono FROM usuarios WHERE cargo='v' AND activo=0 ORDER BY cedula";
 		$desactivados = [
 			'tabla' => 'usuarios',
 			'campo' => 'cedula',
@@ -79,6 +79,6 @@
 	else:
 		include '../templates/head.php';
 		$script = "<script src='{$BASE_URL}js/restringido.js'></script>";
-		include "../templates/footer.php";
+		include '../templates/footer.php';
 	endif;
 ?>

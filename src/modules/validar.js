@@ -13,14 +13,16 @@ const mensajes = {
 	negocio: 'Por favor seleccione un negocio',
 	iva: 'El IVA debe ser un número con decimales o un porcentaje.',
 	dolar: 'El monto en Bs. debe ser un número con o sin decimales.',
-	pesos: 'El monto en Pesos debe ser tener entre 1 y 4 números.'
+	pesos: 'El monto en Pesos debe ser tener entre 1 y 4 números.',
+	codigo: 'El código debe tener entre 3 y 10 letras, números y símbolos ( - . # )',
+	stock: 'La existencia debe ser un número mayor a 0 sin decimales.',
+	precio: 'El precio debe ser un número con o sin decimales.',
+	excento: 'Debes seleccionar si el producto es excento o no.'
 }
 
 const expresiones = {
 	// Entre 4 y 20 letras con espacios permitidos.
 	nombreNegocio: /^[\wáÁéÉíÍóÓúÚñÑ\s]{4,20}$/i,
-	
-	nombreProducto: /^[\w-áÁéÉíÍóÓúÚñÑ\s]{4,50}$/i,
 	
 	// Comienza con V o E seguido de 9 a 15 números
 	rif: /^(v|e){1}\d{9,15}$/i,
@@ -35,7 +37,7 @@ const expresiones = {
 	cedula: /^[^e]?[\d]{7,8}$/,
 	
 	// Entre 4 y 20 letras
-	nombre: /^[a-záÁéÉíÍóÓúÚñÑ]{4,20}$/i,
+	nombre: /^[a-záÁéÉíÍóÓúÚñÑ\s]{4,20}$/i,
 	
 	// Entre 4 y 20 letras, números y símbolos (- _)
 	usuario: /^[\w-]{4,20}$/i,
@@ -57,15 +59,19 @@ const expresiones = {
 	
 	// Entre 1 y 4 números
 	pesos: /^[^e]?\d{1,4}$/,
-	codigo: /^[a-z\d-.#]{3,10}$/i,
+	
+	// Entre 3 y 10 letras, números y símbolos ( - . # )
+	codigo: /^[a-z\d-\.#]{3,10}$/i,
+	
+	// Un número sin decimales
 	stock: /^[^e]?[\d]+$/,
+	
+	// Un número con o sin decimales.
 	precio: /^[\d.]+$/,
 }
 
 const campos = {
 	nombreNegocio   : false,
-	nombreProducto  : false,
-	nombreProveedor : false,
 	rif             : false,
 	telefono        : false,
 	direccion       : false,
@@ -216,6 +222,19 @@ const validarInput = e => {
 		case 'pesos':
 			validarCampo(expresiones[input.name], input, input.name)
 			break
+			
+		case 'codigo':
+			validarCampo(expresiones[input.name], input, input.name)
+			input.value = input.value.toUpperCase()
+			break
+		
+		case 'stock':
+			validarCampo(expresiones[input.name], input, input.name)
+			break
+		
+		case 'precio':
+			validarCampo(expresiones[input.name], input, input.name)
+			break
 	}
 }
 
@@ -227,6 +246,7 @@ const validarInput = e => {
  * registrarPreguntasRespuestas <br>
  * registrarCliente <br>
  * registrarProveedor <br>
+ * registrarProducto <br>
  * editarCliente <br>
  * editarProveedor <br>
  * editarUsuario <br>
@@ -251,7 +271,10 @@ const validarInput = e => {
  * res1, res2 o res3 <br>
  * iva <br>
  * dolar <br>
- * pesos <br></i>
+ * pesos <br>
+ * codigo <br>
+ * stock <br>
+ * precio </i>
  * @param {?(error: string, FormData: FormData, e: SubmitEvent)} cb Contiene el resultado de la validación, los datos a enviar y el Evento `submit`
  */
 const validar = (form, cb = () => {}) => {
@@ -450,6 +473,35 @@ const validar = (form, cb = () => {}) => {
 				error(form.nombre)
 				
 				return cb(mensajes.nombre)
+			}
+		}
+		
+		if (form.id === 'registrarProducto') {
+			if (!campos.codigo) {
+				e.preventDefault()
+				error(form.codigo)
+				
+				return cb(mensajes.codigo)
+			} else if (!campos.nombre) {
+				e.preventDefault()
+				error(form.nombre)
+				
+				return cb(mensajes.nombre)
+			} else if (!campos.precio) {
+				e.preventDefault()
+				error(form.precio)
+				
+				return cb(mensajes.precio)
+			} else if (!form.excento.value) {
+				e.preventDefault()
+				error(form.excento)
+				
+				return cb(mensajes.excento)
+			} else if (form.stock.value && !campos.stock) {
+				e.preventDefault()
+				error(form.stock)
+				
+				return cb(mensajes.stock)
 			}
 		}
 		

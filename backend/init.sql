@@ -79,6 +79,75 @@ CREATE TABLE IF NOT EXISTS proveedores(
 	CONSTRAINT FOREIGN KEY(negocio_id) REFERENCES negocios(id)
 );
 
+DROP TABLE IF EXISTS inventario;
+CREATE TABLE IF NOT EXISTS inventario(
+	id int PRIMARY KEY AUTO_INCREMENT,
+	codigo varchar(255) NOT NULL,
+	producto varchar(255) NOT NULL,
+	stock int DEFAULT 0,
+	excento tinyint(1) NOT NULL,
+	precio decimal(10, 2) NOT NULL,
+	negocio_id int NOT NULL,
+	usuario_id int NOT NULL,
+	CONSTRAINT FOREIGN KEY(negocio_id) REFERENCES negocios(id),
+	CONSTRAINT FOREIGN KEY(usuario_id) REFERENCES usuarios(id)
+);
+
+DROP TABLE IF EXISTS compras;
+CREATE TABLE IF NOT EXISTS compras(
+	id int PRIMARY KEY AUTO_INCREMENT,
+	fecha datetime DEFAULT CURRENT_TIMESTAMP,
+	producto_id int NOT NULL,
+	unidades int DEFAULT 0,
+	precio decimal(10, 2) NOT NULL,
+	total decimal(10, 2) DEFAULT 0,
+	proveedor_id int NOT NULL,
+	usuario_id int NOT NULL,
+	negocio_id int NOT NULL,
+	CONSTRAINT FOREIGN KEY(producto_id) REFERENCES inventario(id),
+	CONSTRAINT FOREIGN KEY(proveedor_id) REFERENCES proveedores(id),
+	CONSTRAINT FOREIGN KEY(usuario_id) REFERENCES usuarios(id),
+	CONSTRAINT FOREIGN KEY(negocio_id) REFERENCES negocios(id)
+);
+
+DROP TABLE IF EXISTS ventas;
+CREATE TABLE IF NOT EXISTS ventas(
+	id int PRIMARY KEY AUTO_INCREMENT,
+	fecha datetime DEFAULT CURRENT_TIMESTAMP,
+	cliente_id int NOT NULL,
+	producto_id int NOT NULL,
+	unidades int DEFAULT 0,
+	total decimal(10, 2) NOT NULL,
+	iva decimal(10, 2) NOT NULL,
+	usuario_id int NOT NULL,
+	negocio_id int NOT NULL,
+	CONSTRAINT FOREIGN KEY(cliente_id) REFERENCES clientes(id),
+	CONSTRAINT FOREIGN KEY(producto_id) REFERENCES inventario(id),
+	CONSTRAINT FOREIGN KEY(usuario_id) REFERENCES usuarios(id),
+	CONSTRAINT FOREIGN KEY(negocio_id) REFERENCES negocios(id)
+);
+
+DROP TABLE IF EXISTS carrito_venta;
+CREATE TABLE IF NOT EXISTS carrito_venta(
+	producto_id int NOT NULL,
+	nuevo_stock int DEFAULT 0,
+	precio_base decimal(10, 2) NOT NULL,
+	unidades int DEFAULT 0,
+	precio_total decimal(10, 2) NOT NULL,
+	total_iva decimal(10, 2) NOT NULL,
+	CONSTRAINT FOREIGN KEY(producto_id) REFERENCES inventario(id)
+);
+
+DROP TABLE IF EXISTS carrito_compra;
+CREATE TABLE IF NOT EXISTS carrito_compra(
+	producto_id int NOT NULL,
+	nuevo_stock int DEFAULT 0,
+	precio_base decimal(10, 2) NOT NULL,
+	unidades int DEFAULT 0,
+	precio_total decimal(10, 2) NOT NULL,
+	CONSTRAINT FOREIGN KEY(producto_id) REFERENCES inventario(id)
+);
+
 DROP TABLE IF EXISTS versiones;
 CREATE TABLE IF NOT EXISTS versiones(
 	id int PRIMARY KEY AUTO_INCREMENT,

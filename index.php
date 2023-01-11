@@ -9,21 +9,21 @@
 
 <?php
 	if (!isset($mostrarLoader) and !$negocios):
-		if (file_exists('backup/licosys.sql'))
+		if (file_exists('backup/backup.sql'))
 			$script .= '<script src="js/restaurarBD.js"></script>';
 		
 		$mostrarRegistro = true;
 		include 'templates/registrarNegocio.php';
 		$script .= '<script src="js/registrarNegocio.js"></script>';
 	elseif (!isset($mostrarLoader) and !$admin):
-		if (file_exists('backup/licosys.sql'))
+		if (file_exists('backup/backup.sql'))
 			$script .= '<script src="js/restaurarBD.js"></script>';
 		
 		$mostrarRegistro = true;
 		include 'templates/registrarAdmin.php';
 		$script .= '<script src="js/registrarAdmin.js"></script>';
 	elseif (!isset($mostrarLoader) and !$admin['pre1']):
-		if (file_exists('backup/licosys.sql'))
+		if (file_exists('backup/backup.sql'))
 			$script .= '<script src="js/restaurarBD.js"></script>';
 		
 		$mostrarRegistro = true;

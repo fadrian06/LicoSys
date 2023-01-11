@@ -282,7 +282,7 @@ var confirmar = function confirmar(texto) {
 var alerta = function alerta(texto) {
   var timer = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 2000;
   return new Noty({
-    text: "<i class=\"icon-close w3-margin-right\"></i> ".concat(texto),
+    text: "<strong><i class=\"icon-close w3-margin-right\"></i> ".concat(texto, "</strong>"),
     type: 'error',
     timeout: timer
   });
@@ -300,7 +300,7 @@ var notificacion = function notificacion(texto) {
 /** @param  {string} texto */
 var advertencia = function advertencia(texto) {
   return new Noty({
-    text: "<i class=\"icon-warning w3-margin-right\"></i> ".concat(texto),
+    text: "<strong class=\"w3-text-black\"><i class=\"icon-warning w3-margin-right\"></i> ".concat(texto, "</strong>"),
     type: 'warning',
     timeout: 3000
   });
@@ -384,245 +384,6 @@ var activar = function activar(tabla, campo, valor, hrefEnlace) {
 var desactivar = function desactivar(tabla, campo, valor, hrefEnlace) {
   return activarDesactivar(tabla, campo, valor, 'desactivar', hrefEnlace);
 };
-
-/**
- * Funcionalidad del módulo Usuarios
- * @param {HTMLElement} contenedor Contenedor del módulo.
- */
-var moduloUsuarios = function moduloUsuarios(contenedor) {
-  /** @type {HTMLFormElement} */
-  var formRegistrar = contenedor.querySelector('#registrarUsuario');
-  acordeon();
-  verClave(formRegistrar.clave.nextElementSibling, formRegistrar.clave);
-  verClave(formRegistrar.confirmar.nextElementSibling, formRegistrar.confirmar);
-  mostrarDetails(contenedor.querySelector('details'));
-  validar(formRegistrar, function (error, fd, e) {
-    if (error) return alerta(error).show();
-    e.preventDefault();
-    mostrarLoader(formRegistrar);
-    fd.append('cargo', 'v');
-    ajax('backend/registrarUsuario.php', fd, function (res) {
-      /** @type {Respuesta} */
-      var datos = JSON.parse(res);
-      if (datos.error) return alerta(datos.error).on('onShow', function () {
-        return formRegistrar.classList.remove('showLoader');
-      }).show();
-      ocultarLoader(formRegistrar);
-      return notificacion('Usuario registrado correctamente').on('onShow', function () {
-        return $('[href="views/usuarios.php"]')[0].click();
-      }).show();
-    });
-  });
-};
-
-/**
- * Funcionalidad del módulo log.
- * @param  {HTMLElement} _contenedor Contenedor del módulo.
- */
-var moduloLog = function moduloLog(_contenedor) {
-  return acordeon();
-};
-
-/**
- * Funcionalidad del módulo clientes.
- * @param  {HTMLElement} contenedor Contenedor del módulo.
- */
-var moduloClientes = function moduloClientes(contenedor) {
-  /** @type {HTMLFormElement} */
-  var formRegistrar = contenedor.querySelector('#registrarCliente');
-  acordeon();
-  mostrarDetails(contenedor.querySelector('details'));
-  validar(formRegistrar, function (error, fd, e) {
-    if (error) return alerta(error).show();
-    e.preventDefault();
-    mostrarLoader(formRegistrar);
-    ajax('backend/registrarCliente.php', fd, function (res) {
-      /** @type {Respuesta} */
-      var datos = JSON.parse(res);
-      if (datos.error) return alerta(datos.error).on('onShow', function () {
-        return ocultarLoader(formRegistrar);
-      }).show();
-      ocultarLoader(formRegistrar);
-      return notificacion(datos.ok).on('onShow', function () {
-        return $('[href="views/clientes.php"]')[0].click();
-      }).show();
-    });
-  });
-};
-
-/**
- * Funcionalidad del módulo proveedores.
- * @param  {HTMLElement} contenedor Contenedor del módulo.
- */
-var moduloProveedores = function moduloProveedores(contenedor) {
-  var formRegistrar = contenedor.querySelector('#registrarProveedor');
-  acordeon();
-  mostrarDetails(contenedor.querySelector('details'));
-  validar(formRegistrar, function (error, fd, e) {
-    if (error) return alerta(error).show();
-    e.preventDefault();
-    mostrarLoader(formRegistrar);
-    ajax('backend/registrarProveedor.php', fd, function (res) {
-      console.log(res);
-      /** @type {Respuesta} */
-      var datos = JSON.parse(res);
-      if (datos.error) return alerta(datos.error).on('onShow', function () {
-        return formRegistrar.classList.remove('showLoader');
-      }).show();
-      ocultarLoader(formRegistrar);
-      return notificacion(datos.ok).on('onShow', function () {
-        return $('[href="views/proveedores.php"]')[0].click();
-      }).show();
-    });
-  });
-};
-
-/**
- * Funcionalidad del módulo perfil.
- * @param  {HTMLElement} contenedor El contenedor del módulo.
- */
-var moduloPerfil = function moduloPerfil(contenedor) {
-  /** @type {HTMLFormElement} */
-  var formFoto = contenedor.querySelector('[enctype="multipart/form-data"]');
-  /** @type {HTMLButtonElement} */
-  var boton = formFoto.querySelector('button');
-  /** @type {HTMLImageElement} */
-  var imagen = formFoto.foto.nextElementSibling;
-  $('#menuNombreUsuario').html($('#nombreUsuario').html());
-  actualizarImagen(formFoto.foto, imagen, function (error) {
-    if (error) return alerta(error).show();
-    boton.classList.remove('w3-hide');
-    boton.classList.add('w3-show-inline-block');
-    formFoto.onsubmit = function (e) {
-      e.preventDefault();
-      var fd = new FormData(formFoto);
-      fd.append('foto', formFoto.foto.files[0]);
-      w3.addClass('main', 'showLoader');
-      ajax('backend/actualizarImagen.php', fd, function (res) {
-        /** @type {Respuesta} */
-        var respuesta = JSON.parse(res);
-        if (respuesta.error) return alerta(respuesta.error).on('onShow', function () {
-          return w3.removeClass('main', 'showLoader');
-        }).show();
-        w3.removeClass('main', 'showLoader');
-        boton.classList.remove('w3-show-inline-block');
-        boton.classList.add('w3-hide');
-        return notificacion(respuesta.ok).on('onShow', function () {
-          $('[href="views/miPerfil.php"]')[0].click();
-          $('aside a img')[0].src = imagen.src;
-        }).show();
-      });
-    };
-  });
-};
-
-/** Comportamiento de la navegación */
-var navegacion = function navegacion() {
-  $('a[role="navegacion"]').each(function (_i, enlace) {
-    enlace.addEventListener('click', function (e) {
-      /** @type {HTMLAnchorElement} */
-      var enlace = e.currentTarget;
-      e.preventDefault();
-      main.classList.add('showLoader');
-      if (document.body.offsetWidth < 993) $('[role="menuOverlay"]')[0].click();
-
-      // Quitamos el resaltado azul a todos los enlaces.
-      $('a').each(function (_i, enlace) {
-        return enlace.classList.remove('w3-blue');
-      });
-
-      // Si el enlace redirecciona a la nueva venta.
-      if (enlace.href.includes('nuevaVenta.php')) $('a.w3-bar-item[href$="nuevaVenta.php"]').addClass('w3-blue');
-
-      // Si el enlace redirecciona a la nueva venta.
-      if (enlace.href.includes('nuevaCompra.php')) $('a.w3-bar-item[href$="nuevaCompra.php"]').addClass('w3-blue');
-
-      // Si el enlace redirecciona a las ventas.
-      if (enlace.href.includes('ventas.php')) $('a.w3-bar-item[href$="ventas.php"]').addClass('w3-blue');
-
-      // Si el enlace redirecciona a las ventas.
-      if (enlace.href.includes('compras.php')) $('a.w3-bar-item[href$="compras.php"]').addClass('w3-blue');
-
-      // Si el enlace redirecciona al inventario.
-      if (enlace.href.includes('inventario.php')) $('a.w3-bar-item[href$="inventario.php"]').addClass('w3-blue');
-
-      // Si el enlace redirecciona a los usuarios.
-      if (enlace.href.includes('usuarios.php')) $('a.w3-bar-item[href$="usuarios.php"]').addClass('w3-blue');
-
-      // Si el enlace redirecciona a los clientes.
-      if (enlace.href.includes('clientes.php')) $('a.w3-bar-item[href$="clientes.php"]').addClass('w3-blue');
-
-      // Si el enlace redirecciona a la página principal.
-      if (enlace.href.includes('dashboard.php'))
-        // Espera unos segundos para simular :D
-        return setTimeout(function () {
-          // Pinta el enlace de azul sólo si está en el menú lateral.
-          if (enlace.classList.contains('w3-bar-item')) enlace.classList.add('w3-blue');
-          /*En caso que se haga click en el nombre del negocio, colorea
-          el enlace en el menú lateral.*/
-          $('a.w3-bar-item[href="dashboard.php"]').addClass('w3-blue');
-
-          // Reinicia los acordeones del menú lateral.
-          $('nav summary').each(function (_i, summary) {
-            summary.classList.remove('w3-blue');
-            summary.parentElement.classList.remove('abierto');
-          });
-
-          // Oculta el menú sólo en móviles.
-          if (document.body.scrollWidth <= 600) overlay.click();
-
-          // Oculta el loader.
-          main.classList.remove('showLoader');
-          // Carga la el Panel Principal.
-          main.innerHTML = dashboardHTML;
-          // Reajusta la navegación del Panel Principal.
-          navegacion();
-        }, 500);
-
-      // Si no es un enlace al Panel Principal, solicita la vista
-      $.get(enlace.getAttribute('href'), function (res) {
-        // Sólo pinta los enlaces del menú.
-        if (!enlace.href.includes('miPerfil.php')) enlace.classList.add('w3-blue');
-
-        // Si el enlace está dentro de un acordeón
-        if (enlace.href.includes('usuarios.php') || enlace.href.includes('log.php') || enlace.href.includes('compras.php') || enlace.href.includes('nuevaCompra.php')) {
-          // Cierra todos los acordeones
-          $('nav summary').each(function (_i, summary) {
-            summary.classList.remove('w3-blue');
-            if (summary.parentElement) summary.parentElement.classList.remove('abierto');
-          });
-
-          // Pinta el acordeón del enlace.
-          if (enlace.parentElement.previousElementSibling && enlace.parentElement.parentElement) {
-            enlace.parentElement.previousElementSibling.classList.add('w3-blue');
-            enlace.parentElement.parentElement.classList.add('abierto');
-          }
-        } else $('nav summary').each(function (_i, summary) {
-          // Si el enlace no está dentro de un acordeón, reinicia los acordeones.
-          summary.classList.remove('w3-blue');
-          summary.parentElement.classList.remove('abierto');
-        });
-
-        // Cierra el menú sólo en móvil.
-        if (document.body.scrollWidth <= 600) overlay.click();
-        // Quita el loader
-        main.classList.remove('showLoader');
-        // Carga la vista
-        main.innerHTML = res;
-
-        // Funcionalidades de la vista cargada.
-        if ($('#moduloUsuarios')[0]) moduloUsuarios($('#moduloUsuarios')[0]);
-        if ($('#moduloLog')[0]) moduloLog($('#moduloLog')[0]);
-        if ($('#moduloClientes')[0]) moduloClientes($('#moduloClientes')[0]);
-        if ($('#moduloProveedores')[0]) moduloProveedores($('#moduloProveedores')[0]);
-        if ($('#moduloPerfil')[0]) moduloPerfil($('#moduloPerfil')[0]);
-      });
-    });
-  });
-  $('details').each(function (_i, details) {
-    return mostrarDetails(details);
-  });
-};
 var vaciarLog = function vaciarLog() {
   return confirmar('¿Seguro que desea vaciar el registro?', 'center', function () {
     w3.addClass('main', 'showLoader');
@@ -689,7 +450,6 @@ var editar = function editar(boton, tabla, campo, valor) {
       fd.append('tabla', tabla);
       mostrarLoader(form);
       ajax(url, fd, function (res) {
-        console.log(res);
         var respuesta = JSON.parse(res);
         if (respuesta.error) return alerta(respuesta.error).on('onShow', function () {
           return form.classList.remove('showLoader');
@@ -722,26 +482,168 @@ var mostrarPanel = function mostrarPanel(boton, id) {
   panel.classList.remove('w3-hide');
   panel.classList.add('w3-show');
 };
+var respaldarBD = function respaldarBD() {
+  return confirmar('¿Desea crear una copia de seguridad de todos los datos?', 'center', function () {
+    w3.addClass('main', 'showLoader');
+    $.post('backend/backupBD.php', {
+      respaldar: true
+    }, function (res) {
+      w3.removeClass('main', 'showLoader');
+      /** @type {Respuesta} */
+      var respuesta = JSON.parse(res);
+      if (respuesta.error) return alerta(respuesta.error).show();
+      return notificacion(respuesta.ok).show();
+    });
+  });
+};
+var restaurarBD = function restaurarBD() {
+  var texto = "\n\t\tTener en cuenta que al restaurar se perder\xE1n cambios \n\t\tque no hayan sido respaldados<br>\n\t\t<strong class=\"w3-text-red\">\xBFDesea continuar?</strong>\n\t";
+  return confirmar(texto, 'center', function () {
+    w3.addClass('main', 'showLoader');
+    $.post('backend/backupBD.php', {
+      restaurar: true
+    }, function (res) {
+      /** @type {Respuesta} */
+      var respuesta = JSON.parse(res);
+      if (respuesta.error) return alerta(respuesta.error).on('onShow', function () {
+        return w3.removeClass('main', 'showLoader');
+      }).show();
+      var html = "\n\t\t\t\t<div class=\"w3-card w3-round-xlarge w3-white w3-padding-large w3-center\">\n\t\t\t\t\t<h1 class=\"w3-xlarge oswald\">".concat(respuesta.ok, "</h1>\n\t\t\t\t\t<h2 class=\"w3-large w3-padding-top-24 w3-topbar\">\n\t\t\t\t\t\tReiniciando el Sistema...\n\t\t\t\t\t</h2>\t\n\t\t\t\t</div>\n\t\t\t");
+      new Noty({
+        theme: null,
+        id: 'intro',
+        type: 'info',
+        text: html,
+        layout: 'center',
+        modal: true,
+        closeWith: [null],
+        animation: {
+          open: 'w3-animate-zoom'
+        },
+        timeout: 5000,
+        callbacks: {
+          afterClose: function afterClose() {
+            return location.reload();
+          }
+        }
+      }).show();
+    });
+  });
+};
+
+/**
+ * Filtra elementos en una lista.
+ * @param  {HTMLInputElement} input Entrada de texto.
+ * @param  {string} contenedorID   ID del contenedor de la lista
+ */
+var filter = function filter(input, contenedorID) {
+  var contenedor = document.querySelector("#".concat(contenedorID));
+  /** @type {string} Texto a buscar en mayúsculas */
+  var texto = input.value.toUpperCase();
+  var elementos = contenedor.querySelectorAll('button');
+  for (var i = 0; i < elementos.length; ++i) {
+    /** @type {string} Texto del elemento */
+    var txtValue = elementos[i].textContent || elementos[i].innerText;
+    if (txtValue.toUpperCase().indexOf(texto) > -1) elementos[i].style.display = '';else elementos[i].style.display = 'none';
+  }
+};
+
+/**
+ * Funcionalidad del formulario para registrar productos.
+ * @param  {HTMLFormElement} formulario El formulario de registro.
+ * @param  {string} enlace     El HREF del enlace a clickear terminado el registro.
+ */
+var registrarProducto = function registrarProducto(formulario, enlace) {
+  validar(formulario, function (error, fd, e) {
+    if (error) return alerta(error).show();
+    e.preventDefault();
+    mostrarLoader(formulario);
+    ajax('backend/registrarProducto.php', fd, function (res) {
+      /** @type {Respuesta} */
+      var datos = JSON.parse(res);
+      if (datos.error) return alerta(datos.error).on('onShow', function () {
+        return ocultarLoader(formulario);
+      }).show();
+      ocultarLoader(formulario);
+      return notificacion(datos.ok).on('onShow', function () {
+        return $("[href=\"".concat(enlace, "\"]"))[0].click();
+      }).show();
+    });
+  });
+};
+
+/**
+ * Funcionalidad del formulario para registrar clientes.
+ * @param  {HTMLFormElement} formulario El formulario de registro.
+ * @param  {string} enlace     El HREF del enlace a clickear terminado el registro.
+ */
+var registrarCliente = function registrarCliente(formulario, enlace) {
+  validar(formulario, function (error, fd, e) {
+    if (error) return alerta(error).show();
+    e.preventDefault();
+    mostrarLoader(formulario);
+    ajax('backend/registrarCliente.php', fd, function (res) {
+      /** @type {Respuesta} */
+      var datos = JSON.parse(res);
+      if (datos.error) return alerta(datos.error).on('onShow', function () {
+        return ocultarLoader(formulario);
+      }).show();
+      ocultarLoader(formulario);
+      return notificacion(datos.ok).on('onShow', function () {
+        return $("[href=\"".concat(enlace, "\"]"))[0].click();
+      }).show();
+    });
+  });
+};
+
+/**
+ * Funcionalidad de actualizar el valor de las monedas.
+ * @param  {HTMLFormElement} formulario El formulario de actualización.
+ */
+var actualizarMonedas = function actualizarMonedas(formulario) {
+  validar(formulario, function (error, fd, e) {
+    if (error) return alerta(error).show();
+    e.preventDefault();
+    formulario.classList.add('showLoader');
+    ajax('backend/actualizarMonedas.php', fd, function (res) {
+      /** @type {Respuesta} */
+      var datos = JSON.parse(res);
+      if (datos.error) return alerta(datos.error).on('onClose', function () {
+        return formulario.classList.remove('showLoader');
+      }).show();
+      $('#tablaMonedas').html("\n\t\t\t\t<tr>\n\t\t\t\t\t<td>IVA</td>\n\t\t\t\t\t<td colspan=\"2\"><b>".concat(formulario.iva.value, "%</b></td>\n\t\t\t\t</tr>\n\t\t\t\t<tr>\n\t\t\t\t\t<td>D\xD3LAR</td>\n\t\t\t\t\t<td>\n\t\t\t\t\t\t<b><i>Bs. </i>").concat(formulario.dolar.value, "</b>\n\t\t\t\t\t</td>\n\t\t\t\t\t<td><b>").concat(formulario.pesos.value, "<i> Pesos</i></b></td>\n\t\t\t\t</tr>\t\n\t\t\t"));
+      formulario.classList.remove('showLoader');
+      return notificacion('Valores actualizados correctamente.').on('onShow', function () {
+        formulario.querySelector('.icon-close').click();
+      }).show();
+    });
+  });
+};
+
+/**
+ * Actualiza dinámicamente el total de un producto.
+ * @param  {HTMLInputElement} cantidad   Un elemento `<input>` con `name="cantidad`
+ * @param  {number} excento Representa si el producto es o no es excento de IVA.
+ * @param  {string} inputTotalID ID del `<input>` en dónde mostrar el total.
+ * @param {()} cb Funcionalidad adicional tras actualizar el total.
+ */
+var actualizarTotal = function actualizarTotal(cantidad, excento, inputTotalID) {
+  /** @type {number} El precio del producto */
+  var precio = cantidad.form.querySelector('[name="precio"]').value;
+  /** @type {number} El IVA actual */
+  var iva = cantidad.form.querySelector('[name="iva"]').value;
+  /** @type {HTMLInputElement} */
+  var total = cantidad.form.querySelector(inputTotalID);
+  total.value = precio * cantidad.value;
+  if (excento) {
+    var totalIVA = total.value * iva;
+    total.value = Number(total.value) + totalIVA;
+  }
+  if (cantidad.value != 0) cantidad.form.querySelector('button').classList.remove('w3-hide');
+};
 onoffline = function onoffline() {
   return advertencia('Se ha perdido la conexión').show();
 };
 ononline = function ononline() {
   return notificacion('Se ha restablecido la conexión').show();
 };
-
-// // Filter
-// function filterFunction(input, div) {
-// 	let filter, ul, li, a;
-// 	div    = document.getElementById(div);
-// 	input  = document.getElementById(input);
-// 	filter = input.value.toUpperCase();
-// 	a      = div.getElementsByTagName("button");
-// 	for (let i = 0; i < a.length; i++) {
-// 		let txtValue = a[i].textContent || a[i].innerText;
-// 		if (txtValue.toUpperCase().indexOf(filter) > -1) {
-// 			a[i].style.display = "";
-// 		} else {
-// 			a[i].style.display = "none";
-// 		}
-// 	}
-// }
