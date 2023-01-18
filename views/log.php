@@ -28,6 +28,10 @@
 			'filas' => getRegistros($sql)
 		];
 		
+		foreach ($datos['filas'] as &$log)
+			$log['fecha'] = formatearFecha($log['fecha']);
+		unset($log);
+		
 		tabla('Registro de Sesiones', $encabezados, $datos, 'No hay registros de sesiones.');
 		
 		if ($datos['filas'])

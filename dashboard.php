@@ -4,7 +4,7 @@
 	
 	include 'templates/head.php';
 	
-	$versiones = getRegistros('SELECT * FROM versiones');
+	$versiones = getRegistros('SELECT * FROM versiones ORDER BY id DESC');
 
 	$data = getAPI('https://s3.amazonaws.com/dolartoday/data.json', 'json/dolarToday.json');
 	$dolarFecha = $data['_timestamp']['fecha'];

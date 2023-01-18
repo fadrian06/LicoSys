@@ -6,6 +6,21 @@
 	';
 	
 	/**
+	 * Genera una pequeña ventana emergente con el texto que desees.<br>
+	 * <u>Requisitos</u><br>
+	 * - Debe incluirse en un contenedor con la `class="tooltip-container"`
+	 * @param  string $texto El texto del tooltip.
+	 * @return [string]        Texto HTML para incluir.
+	 */
+	function generarTooltip(string $texto): string {
+		return <<<HTML
+			<b class="tooltip w3-block w3-padding-small w3-card-4 w3-white" style="bottom: -90%">
+				$texto
+			</b>
+		HTML;
+	}
+	
+	/**
 	 * Botones HTML
 	 * @var array [<br>
 	 * &nbsp;'REGISTRAR_USUARIO' or<br>
@@ -22,69 +37,69 @@
 	 */
 	const BOTONES = [
 		'REGISTRAR_USUARIO' => <<<HTML
-			<button onclick="modal(this)" data-target="#registrarUsuario" class="w3-blue w3-text-black w3-button w3-circle">
+			<button onclick="modal(this)" data-target="#registrarUsuario" class="w3-blue w3-text-black w3-button w3-circle w3-border w3-border-black">
 				<i class="w3-block w3-center icon-user-plus w3-xxlarge"></i>
 				Registrar<br>Usuario
 			</button>
 		HTML,
 		'NUEVA_VENTA' => <<<HTML
-			<a href="views/nuevaVenta.php" role="navegacion" class="w3-blue w3-text-black w3-button w3-circle">
+			<a href="views/nuevaVenta.php" role="navegacion" class="w3-blue w3-text-black w3-button w3-circle w3-border w3-border-black">
 				<i class="w3-block w3-center icon-cart-plus w3-xxlarge"></i>
 				Nueva<br>&nbsp;&nbsp;Venta&nbsp;&nbsp;
 			</a>
 		HTML,
 		'NUEVA_COMPRA' => <<<HTML
-			<a href="views/nuevaCompra.php" role="navegacion" class="w3-blue w3-text-black w3-button w3-circle">
+			<a href="views/nuevaCompra.php" role="navegacion" class="w3-blue w3-text-black w3-button w3-circle w3-border w3-border-black">
 				<i class="w3-block w3-center icon-cart-plus w3-xxlarge"></i>
 				Nueva<br>&nbsp;&nbsp;Compra&nbsp;&nbsp;
 			</a>
 		HTML,
 		'VACIAR_LOG' => <<<HTML
-			<button onclick="vaciarLog()" class="w3-blue w3-text-black w3-button w3-circle">
+			<button onclick="vaciarLog()" class="w3-blue w3-text-black w3-button w3-circle w3-border w3-border-black">
 				<i class="w3-block w3-center icon-trash w3-xxlarge"></i>
 				Vaciar<br>Registro
 			</button>
 		HTML,
 		'REGISTRAR_CLIENTE' => <<<HTML
-			<button onclick="modal(this)" data-target="#registrarCliente" class="w3-blue w3-text-black w3-button w3-circle">
+			<button onclick="modal(this)" data-target="#registrarCliente" class="w3-blue w3-text-black w3-button w3-circle w3-border w3-border-black">
 				<i class="w3-block w3-center icon-id-card w3-xxlarge"></i>
 				Registrar<br>Cliente
 			</button>
 		HTML,
 		'REGISTRAR_PROVEEDOR' => <<<HTML
-			<button onclick="modal(this)" data-target="#registrarProveedor" class="w3-blue w3-text-black w3-button w3-circle">
+			<button onclick="modal(this)" data-target="#registrarProveedor" class="w3-blue w3-text-black w3-button w3-circle w3-border w3-border-black">
 				<i class="w3-block w3-center icon-truck w3-xxlarge"></i>
 				Registrar<br>Proveedor
 			</button>
 		HTML,
 		'REGISTRAR_NEGOCIO' => <<<HTML
-			<button onclick="modal(this)" data-target="#registrarNegocio" class="w3-blue w3-button w3-circle">
+			<button onclick="modal(this)" data-target="#registrarNegocio" class="w3-blue w3-button w3-circle w3-border w3-border-black">
 				<i class="w3-block w3-center icon-plus w3-xxlarge"></i>
 				Nuevo
 			</button>
 		HTML,
 		'REGISTRAR_PRODUCTO' => <<<HTML
-			<button onclick="modal(this)" data-target="#registrarProducto" class="w3-blue w3-button w3-circle w3-margin-right">
+			<button onclick="modal(this)" data-target="#registrarProducto" class="w3-blue w3-button w3-circle w3-border w3-border-black w3-margin-right">
 				<i class="w3-block w3-center icon-plus w3-xxlarge"></i>
 				Nuevo<br>Producto
 			</button>
 		HTML,
 		'REGISTRAR_COMBO' => <<<HTML
-			<button onclick="modal(this)" data-target="#registrarCombo" class="w3-disabled w3-blue w3-button w3-circle">
+			<button onclick="modal(this)" data-target="#registrarCombo" class="w3-disabled w3-blue w3-button w3-circle w3-border w3-border-black">
 				<i class="w3-block w3-center icon-list w3-xxlarge"></i>
 				Nuevo<br>&nbsp;&nbsp;Combo&nbsp;&nbsp;
 			</button>
 		HTML,
 		'RESPALDAR' => <<<HTML
-			<button onclick="respaldarBD()" class="w3-black w3-button w3-circle w3-margin-right w3-margin-bottom">
+			<button onclick="respaldarBD()" class="w3-black w3-button w3-circle w3-border w3-border-black w3-margin-right w3-margin-bottom">
 				<i class="w3-center icon-download w3-xlarge"></i>
-				Respaldar
+				<small>Respaldar</small>
 			</button>
 		HTML,
 		'RESTAURAR' => <<<HTML
-			<button onclick="restaurarBD()" class="w3-black w3-button w3-circle w3-margin-left w3-margin-right w3-margin-bottom">
+			<button onclick="restaurarBD()" class="w3-black w3-button w3-circle w3-border w3-border-black w3-margin-left w3-margin-right w3-margin-bottom">
 				<i class="w3-center icon-upload w3-xlarge"></i>
-				Restaurar
+				<small>Restaurar</small>
 			</button>
 		HTML
 	];
@@ -96,7 +111,7 @@
 	 * 'DOLAR', 'PESO', 'res1', 'res2', 'res3', 'NOMBRE', `<br>`
 	 * 'TELEFONO', 'NOMBRE_NEGOCIO', 'RIF', 'DIRECCION', `<br>`
 	 * 'pre1', 'pre2', 'pre3', 'ID', 'CODIGO', 'STOCK', `<br>`
-	 * 'PRECIO', 'EXCENTO'`
+	 * 'PRECIO', 'EXCENTO', 'BS'`
 	 * @param  string $label El título del `<input>`
 	 * @param  string $placeholder El placeholder del input.
 	 * @param string $value El valor por defecto del `<input>`
@@ -188,6 +203,20 @@
 						</div>
 					</fieldset>
 				HTML;
+			case 'BS':
+				return <<<HTML
+					<fieldset class="w3-border-0">
+						<legend class="w3-large w3-padding"><b>$label</b></legend>
+						<div class="w3-row w3-center w3-border-bottom">
+							<div class="w3-col s2 w3-xxlarge">Bs</div>
+							<div class="w3-col s10 w3-display-container">
+								<input type="number" step="0.01" id="bs" name="bs" placeholder="$placeholder" value="$value" required min="0" minlength="1" pattern="\d+\.?(\d{1,2})?" title="Un número con decimales opcionales" class="w3-input w3-border-0 w3-large">
+								<div class="w3-display-right w3-xxlarge w3-text-green icon-check w3-hide"></div>
+								<div class="w3-display-right w3-xxlarge w3-text-red icon-close w3-hide"></div>
+							</div>
+						</div>
+					</fieldset>
+				HTML;
 			case 'PESO':
 				return <<<HTML
 					<fieldset class="w3-border-0">
@@ -195,7 +224,7 @@
 						<div class="w3-row w3-center w3-border-bottom">
 							<div class="w3-col s2 w3-xxlarge">P</div>
 							<div class="w3-col s10 w3-display-container">
-								<input type="number" id="pesos" name="pesos" placeholder="$placeholder" value="$value" required pattern="[^e]?\d{1,4}" title="Sólo se permiten números" class="w3-input w3-border-0 w3-large">
+								<input type="number" id="pesos" name="pesos" placeholder="$placeholder" value="$value" required min="0" pattern="[^e]?\d{1,4}" title="Sólo se permiten números" class="w3-input w3-border-0 w3-large">
 								<div class="w3-display-right w3-xxlarge w3-text-green icon-check w3-hide"></div>
 								<div class="w3-display-right w3-xxlarge w3-text-red icon-close w3-hide"></div>
 							</div>

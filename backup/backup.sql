@@ -1,19 +1,22 @@
 SET foreign_key_checks=0;
 
 TRUNCATE TABLE carrito_compra;
+TRUNCATE TABLE carrito_venta;
 TRUNCATE TABLE clientes;
+INSERT INTO clientes VALUES(3, 40000000, 'No Especificado', 1);
+
 TRUNCATE TABLE compras;
 TRUNCATE TABLE dolar;
 TRUNCATE TABLE inventario;
 TRUNCATE TABLE iva;
 TRUNCATE TABLE log;
 TRUNCATE TABLE negocios;
-INSERT INTO negocios VALUES(1, 'Negocio De Prueba', 'V123456789', '', 'El Pinar, Carretera Panamericana', '', 1);
+INSERT INTO negocios VALUES(1, 'Negocio De Prueba', 'V123456789', '', '', '', 1);
 
 TRUNCATE TABLE peso;
 TRUNCATE TABLE proveedores;
 TRUNCATE TABLE usuarios;
-INSERT INTO usuarios VALUES(1, 12345678, 'Administrador', 'admin', '$2y$10$DLKP6/vdmZlH7IpbzxKl6.YMs5VpBn8PStM5Ne6P4g6lwuNTAREEe', 'a', '', '', 1, 'No Especificada', 'No Especificada', 'No Especificada', '', '', '');
+INSERT INTO usuarios VALUES(1, 12345678, 'Administrador', 'admin', '$2y$10$coZTTjQ5HUk96K0OKUBg3eL0gjEM7TnpvBVqs.5E3p69VzO21n2he', 'a', '', '', 1, 'No Especificada', 'No Especificada', 'No Especificada', '', '', '');
 
 TRUNCATE TABLE ventas;
 TRUNCATE TABLE versiones;
@@ -78,4 +81,8 @@ INSERT INTO versiones VALUES(29, '2.41', 'Advertencias de "Inventario Agotado" m
 INSERT INTO versiones VALUES(30, '2.5a', 'Posibilidad de actualizar "Productos", "Clientes" y "Proveedores"');
 
 INSERT INTO versiones VALUES(31, '2.6a', 'Ya se pueden crear y restaurar respaldo de los datos');
+
+INSERT INTO versiones VALUES(32, '3.0a', 'Nuevo LicoSys, nueva y renovada interfaz para una mejor experiencia de usuario.');
+
+INSERT INTO versiones VALUES(33, '3.1a', 'Todas las fechas ahora cuentan con mejor presentación y legibilidad.');
 

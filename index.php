@@ -5,6 +5,9 @@
 	include 'templates/head.php';
 	
 	if (!empty($_SESSION['userID'])) $_SESSION['userID'] = $admin['id'];
+	
+	setRegistro('TRUNCATE TABLE carrito_venta');
+	setRegistro('TRUNCATE TABLE carrito_compra');
 ?>
 
 <?php

@@ -16,15 +16,19 @@
 				<?php endif ?>
 			</tr>
 		</table>
-		<?php if($_SESSION['cargo'] === 'a')
+		<?php if($_SESSION['cargo'] === 'a'):
+			$textoBoton =
+				(is_string(getDolar()) or is_string(getPeso()) or is_string(getIVA()))
+					? 'Establecer'
+					: 'Actualizar';
 			echo <<<HTML
 				<div class="w3-padding-large">
 					<button onclick="modal(this)" data-target="#actualizarMonedas" class="w3-block w3-button w3-dark-grey">
-						Actualizar
+						$textoBoton
 					</button>
 				</div>
 			HTML;
-		?>
+		endif ?>
 	</section>
 	<!-- ACTUALIZAR MONEDAS -->
 	<?php if($_SESSION['cargo'] === 'a'): ?>

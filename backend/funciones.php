@@ -14,6 +14,7 @@
 	 * &nbsp;'camposMovil' => [...Campos de la tabla],<br>
 	 * &nbsp;'filas' => [...Filas que debe mostrar la tabla]<br>
 	 * ]
+	 * @param string $sinRegistros Texto a mostrar cuando no existan filas.
 	 * @param array|bool $desactivar FALSE si no quieres la funcionalidad de desactivar un registro,
 	 * si es un array debe tener la siguiente estructura: <br><br>
 	 * [<br>
@@ -30,9 +31,10 @@
 	 * &nbsp;'enlace' => 'El HREF del enlace a clickear tras actualizar.',<br>
 	 * &nbsp;'IDform' => 'El ID del formulario para editar registros (incluido el #).',<br>
 	 * ]
+	 * @param array|bool $factura FALSE si no quieres la funcionalidad de VER FACTURA (Sólo para ventas y compras)
 	 * @return true La tabla se ha impreso con éxito.
 	 */
-	function tabla(string $titulo, array $encabezados, array $datos, string $sinRegistros = '', $desactivar = false, $actualizar = false): bool {
+	function tabla(string $titulo, array $encabezados, array $datos, string $sinRegistros = '', $desactivar = false, $actualizar = false, $factura = false): bool {
 		$filasEscritorio = '';
 		$filasMovil = '';
 		$filasDesactivadosEscritorio = '';
@@ -57,6 +59,7 @@
 			HTML;
 		if ($desactivar) $encabezadosEscritorio .= '<th></th>';
 		if ($actualizar) $encabezadosEscritorio .= '<th></th>';
+		if ($factura) $encabezadosEscritorio .= '<th></th>';
 		
 		// Rellenamos lo encabezados en móvil.
 		foreach ($encabezados['movil'] as $encabezado)
@@ -80,7 +83,7 @@
 			foreach ($datos['camposEscritorio'] as $campo)
 				$campos .= <<<HTML
 					<td>
-						<span class="w3-button w3-transparent w3-hover-none">
+						<span class="w3-button w3-transparent w3-hover-none" style="padding-left: 0; padding-right: 0">
 							$fila[$campo]
 						</span>
 					</td>
@@ -104,8 +107,17 @@
 					</td>
 				HTML;
 			
+			if ($factura)
+				$campos .= <<<HTML
+					<td>
+						<button onclick="verFacturaVenta(this, '{$fila['id']}')" data-target="#modalFactura" class="w3-button w3-round-xlarge w3-blue w3-hover-black">
+							Ver factura
+						</button>
+					</td>
+				HTML;
+			
 			$filasEscritorio .= <<<HTML
-				<tr class="w3-left-align">$campos</tr>
+				<tr>$campos</tr>
 			HTML;
 		endforeach;
 		
@@ -153,6 +165,17 @@
 					</li>
 				HTML;
 			
+			if ($factura)
+				$verMas .= <<<HTML
+					<li class="w3-block">
+						<div class=w3-container>
+							<button onclick="verFacturaVenta(this, '{$fila['id']}')" data-target="#modalFactura" class="w3-block w3-button w3-round-xlarge w3-blue w3-hover-black">
+								Ver factura
+							</button>
+						</div>
+					</li>
+				HTML;
+			
 			$filasMovil .= <<<HTML
 				<div role="accordion">
 					<button class="w3-block w3-button w3-row w3-center">
@@ -177,7 +200,7 @@
 				foreach ($datos['camposEscritorio'] as $campo)
 					$campos .= <<<HTML
 						<td>
-							<span class="w3-button w3-transparent w3-hover-none">
+							<span class="w3-button w3-transparent w3-hover-none" style="padding-left: 0; padding-right: 0">
 								$fila[$campo]
 							</span>
 						</td>
@@ -255,7 +278,7 @@
 			echo <<<HTML
 				<h2 class='w3-center w3-bottombar w3-border-blue w3-round-medium'>$titulo</h2>
 				<div class="w3-animate-opacity w3-margin-top w3-margin-bottom w3-card-4 w3-responsive">
-					<table class="w3-table w3-centered w3-hoverable w3-hide-small">
+					<table class="w3-table-all w3-hoverable w3-hide-small">
 						<tr class="w3-indigo">$encabezadosEscritorio</tr>
 						$filasEscritorio
 					</table>
@@ -287,7 +310,7 @@
 						<i class="icon-chevron-right w3-margin-left"></i>
 					</summary>
 					<div class="w3-margin w3-card-4 w3-responsive">
-						<table class="w3-table w3-centered w3-hoverable w3-hide-small">
+						<table class="w3-table w3-table-all w3-hoverable w3-hide-small">
 							<tr class="w3-red">
 								$encabezadosEscritorio
 							</tr>
@@ -526,5 +549,153 @@
 			$sinDuplicados[$array[$clave]] = $array;
 		
 		return $sinDuplicados;
+	}
+	
+	/**
+	 * Calcula y retorna la diferencia entre una fecha especificada y la actual.
+	 * @param  string $fecha La fecha con la cual calcular la diferencia.
+	 * @return array        Un arreglo con la información sobre la diferencia de fechas.
+	 */
+	function obtenerDiferenciaFecha(string $fecha): array {
+		date_default_timezone_set('America/Caracas');
+		
+		$objetoFecha = DateTime::createFromFormat('Y-m-d H:i:s', $fecha);
+		$actual = time();
+		$fecha  = $objetoFecha->getTimestamp();
+		$diferencia  = $actual - $fecha;
+		
+		$datetime = [
+			'año'      => 0,
+			'mes'      => 0,
+			'semana'   => 0,
+			'dia'      => 0,
+			'hora'     => 0,
+			'minutos'  => 0,
+			'segundos' => $diferencia
+		];
+		
+		$datetime['minutos'] = (int) ($datetime['segundos'] / 60);
+		$datetime['segundos'] %= 60;
+		
+		$datetime['hora'] = (int) ($datetime['minutos'] / 60);
+		$datetime['minutos'] %= 60;
+		
+		$datetime['dia'] = (int) ($datetime['hora'] / 24);
+		$datetime['hora'] %= 24;
+		
+		$datetime['semana'] = (int) ($datetime['dia'] / 7);
+		$datetime['dia'] %= 7;
+		
+		$datetime['mes'] = (int) ($datetime['semana'] / 4);
+		$datetime['semana'] %= 4;
+		
+		$datetime['año'] = (int) ($datetime['mes'] / 12);
+		$datetime['mes'] %= 12;
+		
+		return $datetime;
+	}
+	
+	/**
+	 * Formatea la fecha y hora para mayor legibilidad.
+	 * @param  string $fecha La fecha a formatear (en formato Y-m-d H:m:s),
+	 * ejemplo (2023-01-01 16:43:32)
+	 * @return string La fecha formateada.
+	 */
+	function formatearFecha(string $fecha): string {
+		$formateada = 'Hace ';
+		$diferencia = obtenerDiferenciaFecha($fecha);
+		
+		if ($diferencia['mes']):
+			
+			if ($diferencia['mes'] === 1)
+				$formateada .= '1 mes ';
+			else $formateada .= "{$diferencia['mes']} meses ";
+			
+		elseif ($diferencia['semana']):
+			
+			if ($diferencia['semana'] === 1)
+				$formateada .= '1 semana ';
+			else $formateada .= "{$diferencia['semana']} semanas ";
+			
+		elseif ($diferencia['dia']):
+			
+			if ($diferencia['dia'] === 1)
+				$formateada .= '1 día ';
+			else $formateada .= "{$diferencia['dia']} días ";
+			
+		elseif ($diferencia['hora']):
+			
+			if ($diferencia['hora'] === 1)
+				$formateada .= '1 hora ';
+			else $formateada .= "{$diferencia['hora']} horas ";
+			
+		elseif ($diferencia['minutos']):
+			if ($diferencia['minutos'] === 1)
+				$formateada .= '1 minuto ';
+			else $formateada .= "{$diferencia['minutos']} minutos ";
+			
+		endif;
+		
+		if ($formateada === 'Hace ')
+			$formateada .= 'unos instantes ';
+		
+		return $formateada;
+	}
+	
+	/**
+	 * Filtra elementos en un arreglo con el filtro especificado.
+	 * @param  string $filtro 'diario', 'semanal', 'quincenal', 'mensual'
+	 * @param  array  $datos  Un arreglo de arreglos que tiene una clave 'fecha'<br>
+	 * con el formato 'Y-m-d H:i:s'
+	 * @return array El arreglo filtrado.
+	 */
+	function filtrarFecha(string $filtro, array $datos): array {
+		$filtrado = [];
+		
+		switch ($filtro):
+			case 'diario':
+				foreach ($datos as $dato):
+					$diferencia = obtenerDiferenciaFecha($dato['fecha']);
+					// Si no han transcurrido ni un año, ni un mes, ni una semana ni un día
+					if (!$diferencia['año']
+						and !$diferencia['mes']
+						and !$diferencia['semana']
+						and !$diferencia['dia']
+					) $filtrado[] = $dato;
+				endforeach;
+				break;
+			case 'semanal':
+				foreach ($datos as $dato):
+					$diferencia = obtenerDiferenciaFecha($dato['fecha']);
+					// Si no han transcurrido ni un año, ni un mes, ni una semana
+					if (!$diferencia['año']
+						and !$diferencia['mes']
+						and !$diferencia['semana']
+					) $filtrado[] = $dato;
+				endforeach;
+				break;
+			case 'quincenal':
+				foreach ($datos as $dato):
+					$diferencia = obtenerDiferenciaFecha($dato['fecha']);
+					// Si no han transcurrido ni un año, ni un mes y han transcurrido menos
+					// de dos semanas
+					if (!$diferencia['año']
+						and !$diferencia['mes']
+						and ($diferencia['semana'] < 2)
+					) $filtrado[] = $dato;
+				endforeach;
+				break;
+			case 'mensual':
+				foreach ($datos as $dato):
+					$diferencia = obtenerDiferenciaFecha($dato['fecha']);
+					
+					// Si no han transcurrido ni un año ni un mes
+					if (!$diferencia['año'] and !$diferencia['mes'])
+						$filtrado[] = $dato;
+				endforeach;
+				break;
+		endswitch;
+		
+		return $filtrado;
 	}
 ?>

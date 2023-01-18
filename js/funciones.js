@@ -464,6 +464,28 @@ var editar = function editar(boton, tabla, campo, valor) {
 };
 
 /**
+ * Consulta la factura de una venta específica.
+ * @param {HTMLElement} boton El botón de esa venta.
+ * @param {string} ventaID El ID de la venta.
+ */
+var verFacturaVenta = function verFacturaVenta(boton, ventaID) {
+  /** @type {HTMLElement} */
+  var modalFactura = document.querySelector('#modalFactura');
+  ventaID = ventaID.slice(7);
+  ventaID = ventaID.slice(0, -8);
+  $.get("views/ventas.php?ventaID=".concat(ventaID), function (res) {
+    /** @type {Respuesta} */
+    var respuesta = JSON.parse(res);
+    if (respuesta.error) return alerta(respuesta.error).show();
+    var textoTelefono = respuesta.datos.telefonoNegocio ? "\n\t\t\t\t<tr>\n\t\t\t\t\t<th>Tel\xE9fono:</th>\n\t\t\t\t\t<td>\n\t\t\t\t\t\t&nbsp;<span class=\"icon-whatsapp w3-text-green\"></span>\n\t\t\t\t\t\t&nbsp;".concat(respuesta.datos.telefonoNegocio, "\n\t\t\t\t\t</td>\n\t\t\t\t</tr>\n\t\t\t") : '';
+    var textoDireccion = respuesta.datos.direccionNegocio ? "\n\t\t\t\t<tr>\n\t\t\t\t\t<th>Direcci\xF3n:</th>\n\t\t\t\t\t<td>&nbsp;".concat(respuesta.datos.direccionNegocio, "</td>\n\t\t\t\t</tr>\n\t\t\t") : '';
+    var textoCliente = respuesta.datos.cedulaCliente != 40000000 ? "\n\t\t\t\t<div class=\"w3-margin\">\n\t\t\t\t\t<h5 class=\"w3-container w3-xlarge\">Datos del cliente:</h5>\n\t\t\t\t\t<table class=\"w3-table-all\">\n\t\t\t\t\t\t<tr></tr>\n\t\t\t\t\t\t<tr>\n\t\t\t\t\t\t\t<th class=\"w3-tag w3-blue\">Nombre:</th>\n\t\t\t\t\t\t\t<td>".concat(respuesta.datos.nombreCliente, "</td>\n\t\t\t\t\t\t</tr>\n\t\t\t\t\t\t<tr>\n\t\t\t\t\t\t\t<th class=\"w3-tag w3-blue\">C\xE9dula:</th>\n\t\t\t\t\t\t\t<td>").concat(respuesta.datos.cedulaCliente, "</td>\n\t\t\t\t\t\t</tr>\n\t\t\t\t\t</table>\n\t\t\t\t</div>\n\t\t\t") : '';
+    modalFactura.innerHTML = "\n\t\t\t<div class=\"w3-right-align\">\n\t\t\t\t<span class=\"icon-close w3-button w3-transparent w3-hover-red\"></span>\n\t\t\t</div>\n\t\t\t<h2 class=\"w3-center w3-xxlarge oswald w3-margin-bottom\">\n\t\t\t\t<div class=\"w3-container\">\n\t\t\t\t\t<img src=\"images/logo.png\" class=\"w3-margin-right w3-responsive\" width=\"100px\">\n\t\t\t\t\t".concat(respuesta.datos.nombreNegocio, "\n\t\t\t\t</div>\n\t\t\t</h2>\n\t\t\t<h3 class=\"w3-container w3-xlarge w3-right-align w3-blue\">Comprobante</h3>\n\t\t\t").concat(textoCliente, "\n\t\t\t<div class=\"w3-responsive w3-margin\">\n\t\t\t\t<h5 class=\"w3-container w3-xlarge\">Datos de la venta</h5>\n\t\t\t\t<table class=\"w3-table-all w3-centered\">\n\t\t\t\t\t<tr class=\"w3-bottombar\">\n\t\t\t\t\t\t<th>Cantidad</th>\n\t\t\t\t\t\t<th>Producto</th>\n\t\t\t\t\t\t<th>Precio unitario</th>\n\t\t\t\t\t\t<th>Monto total</th>\n\t\t\t\t\t</tr>\n\t\t\t\t\t<tr>\n\t\t\t\t\t\t<td>").concat(respuesta.datos.cantidad, "</td>\n\t\t\t\t\t\t<td>").concat(respuesta.datos.producto, "</td>\n\t\t\t\t\t\t<td>$ ").concat(respuesta.datos.precio, "</td>\n\t\t\t\t\t\t<td>$ ").concat(respuesta.datos.total, "</td>\n\t\t\t\t\t</tr>\n\t\t\t\t</table>\n\t\t\t\t<div class=\"w3-container w3-center w3-padding-top-24 w3-large\">\n\t\t\t\t\t<div class=\"w3-left\">\n\t\t\t\t\t\tTotal IVA\n\t\t\t\t\t\t<span class=\"w3-xlarge\">(").concat(respuesta.datos.iva * 100, "%)</span>\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class=\"w3-right\">\n\t\t\t\t\t\tMonto total:\n\t\t\t\t\t\t&nbsp;<span class=\"icon-dollar w3-text-green w3-xlarge\"></span>\n\t\t\t\t\t\t<b class=\"w3-xlarge\">").concat(respuesta.datos.total, "</b></div>\n\t\t\t\t</div>\n\t\t\t\t<div class=\"w3-row w3-padding-top-48\">\n\t\t\t\t\t<table class=\"w3-col s8 w3-container w3-left-align\">\n\t\t\t\t\t\t").concat(textoDireccion, "\n\t\t\t\t\t\t").concat(textoTelefono, "\n\t\t\t\t\t</table>\n\t\t\t\t\t<button class=\"w3-rest w3-auto w3-button w3-blue w3-round-xlarge\">\n\t\t\t\t\t\t<i class=\"icon-save\"></i>\n\t\t\t\t\t\tGuardar\n\t\t\t\t\t</button>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t");
+    modal(boton);
+  });
+};
+
+/**
  * Comportamiento de cambiar los páneles.
  * @param  {HTMLElement} boton El botón clickeado.
  * @param  {string} id    El ID del panel a mostrar (incluido el #).
@@ -597,6 +619,30 @@ var registrarCliente = function registrarCliente(formulario, enlace) {
 };
 
 /**
+ * Funcionalidad del formulario para registrar proveedores.
+ * @param  {HTMLFormElement} formulario El formulario de registro.
+ * @param  {string} enlace     El HREF del enlace a clickear terminado el registro.
+ */
+var registrarProveedor = function registrarProveedor(formulario, enlace) {
+  validar(formulario, function (error, fd, e) {
+    if (error) return alerta(error).show();
+    e.preventDefault();
+    mostrarLoader(formulario);
+    ajax('backend/registrarProveedor.php', fd, function (res) {
+      /** @type {Respuesta} */
+      var datos = JSON.parse(res);
+      if (datos.error) return alerta(datos.error).on('onShow', function () {
+        return formulario.classList.remove('showLoader');
+      }).show();
+      ocultarLoader(formulario);
+      return notificacion(datos.ok).on('onShow', function () {
+        return $("[href=\"".concat(enlace, "\"]"))[0].click();
+      }).show();
+    });
+  });
+};
+
+/**
  * Funcionalidad de actualizar el valor de las monedas.
  * @param  {HTMLFormElement} formulario El formulario de actualización.
  */
@@ -625,21 +671,40 @@ var actualizarMonedas = function actualizarMonedas(formulario) {
  * @param  {HTMLInputElement} cantidad   Un elemento `<input>` con `name="cantidad`
  * @param  {number} excento Representa si el producto es o no es excento de IVA.
  * @param  {string} inputTotalID ID del `<input>` en dónde mostrar el total.
- * @param {()} cb Funcionalidad adicional tras actualizar el total.
  */
 var actualizarTotal = function actualizarTotal(cantidad, excento, inputTotalID) {
-  /** @type {number} El precio del producto */
-  var precio = cantidad.form.querySelector('[name="precio"]').value;
-  /** @type {number} El IVA actual */
-  var iva = cantidad.form.querySelector('[name="iva"]').value;
+  var precio = Number(cantidad.form.querySelector('[name="precio"]').value);
+  var iva = Number(cantidad.form.querySelector('[name="iva"]').value);
+  var dolar = Number(cantidad.form.querySelector('[name="dolar"]').value);
+  var peso = Number(cantidad.form.querySelector('[name="peso"]').value);
   /** @type {HTMLInputElement} */
   var total = cantidad.form.querySelector(inputTotalID);
   total.value = precio * cantidad.value;
+  total.setAttribute('total', total.value);
   if (excento) {
-    var totalIVA = total.value * iva;
-    total.value = Number(total.value) + totalIVA;
+    var totalIVA = Number(total.getAttribute('total')) * iva;
+    var precioBS = (Number(total.getAttribute('total')) + totalIVA) * dolar;
+    var precioPesos = (Number(total.getAttribute('total')) + totalIVA) * peso;
+    total.parentElement.innerHTML = "\n\t\t\t<span id=\"total\" class=\"w3-left-align w3-input w3-padding w3-light-grey w3-text-black\" disabled>\n\t\t\t\t".concat(Number(total.value) + totalIVA, " <span class=\"w3-text-green\">+").concat(totalIVA, " IVA</span>\n\t\t\t</span>\n\t\t\t<b class=\"tooltip w3-block w3-padding-small w3-card-4\" style=\"bottom: -90%\">\n\t\t\t\tBs. ").concat(precioBS, "<br>\n\t\t\t\t").concat(precioPesos, " pesos\n\t\t\t</b>\n\t\t");
+  } else {
+    var _precioBS = Number(total.getAttribute('total')) * dolar;
+    var _precioPesos = Number(total.getAttribute('total')) * peso;
+    total.parentElement.innerHTML = "\n\t\t\t<span id=\"total\" class=\"w3-left-align w3-input w3-padding w3-light-grey w3-text-black\" disabled>\n\t\t\t\t".concat(total.value, "\n\t\t\t</span>\n\t\t\t<b class=\"tooltip w3-block w3-padding-small w3-card-4\" style=\"bottom: -90%\">\n\t\t\t\tBs. ").concat(_precioBS, "<br>\n\t\t\t\t").concat(_precioPesos, " pesos\n\t\t\t</b>\n\t\t");
   }
   if (cantidad.value != 0) cantidad.form.querySelector('button').classList.remove('w3-hide');
+};
+
+/**
+ * Actualiza dinámicamente el tooltip del precio.
+ * @param  {HTMLInputElement} inputPrecio El `<input>` con el precio.
+ */
+var actualizarPrecio = function actualizarPrecio(inputPrecio) {
+  var precio = Number(inputPrecio.value);
+  var dolar = Number(inputPrecio.form.querySelector('[name="dolar"]').value);
+  var peso = Number(inputPrecio.form.querySelector('[name="peso"]').value);
+  var precioBS = precio * dolar;
+  var precioPesos = precio * peso;
+  inputPrecio.parentElement.querySelector('.tooltip').innerHTML = "\n\t\tBs. ".concat(precioBS, "<br>\n\t\t").concat(precioPesos, " pesos\n\t");
 };
 onoffline = function onoffline() {
   return advertencia('Se ha perdido la conexión').show();

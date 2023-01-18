@@ -130,7 +130,7 @@ CREATE TABLE IF NOT EXISTS ventas(
 DROP TABLE IF EXISTS carrito_venta;
 CREATE TABLE IF NOT EXISTS carrito_venta(
 	producto_id int NOT NULL,
-	nuevo_stock int DEFAULT 0,
+	antiguo_stock int NOT NULL,
 	precio_base decimal(10, 2) NOT NULL,
 	unidades int DEFAULT 0,
 	precio_total decimal(10, 2) NOT NULL,
@@ -141,7 +141,7 @@ CREATE TABLE IF NOT EXISTS carrito_venta(
 DROP TABLE IF EXISTS carrito_compra;
 CREATE TABLE IF NOT EXISTS carrito_compra(
 	producto_id int NOT NULL,
-	nuevo_stock int DEFAULT 0,
+	antiguo_stock int NOT NULL,
 	precio_base decimal(10, 2) NOT NULL,
 	unidades int DEFAULT 0,
 	precio_total decimal(10, 2) NOT NULL,
@@ -187,3 +187,6 @@ INSERT INTO versiones VALUES(28, '2.4a', 'Integración entre "DolarToday" y "Lic
 INSERT INTO versiones VALUES(29, '2.41a', 'Advertencias de "Inventario Agotado" mejoradas');
 INSERT INTO versiones VALUES(30, '2.5a', 'Posibilidad de actualizar "Productos", "Clientes" y "Proveedores"');
 INSERT INTO versiones VALUES(31, '2.6a', 'Ya se pueden crear y restaurar respaldo de los datos');
+INSERT INTO versiones VALUES(32, '3.0a', 'Nuevo LicoSys, nueva y renovada interfaz para una mejor experiencia de usuario.');
+INSERT INTO versiones VALUES(33, '3.1a', 'Todas las fechas ahora cuentan con mejor presentación y legibilidad.');
+INSERT INTO versiones VALUES(34, '3.2a', 'Nueva "Calculadora Monetaria"');

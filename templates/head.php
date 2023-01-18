@@ -50,7 +50,7 @@
 		
 		$i = 1;
 		foreach ($productos as $producto):
-			$tiempo = 1000 * 30; /*30 segundos*/
+			$tiempo = 1000 * 60; /*60 segundos*/
 			if (!$producto['stock'])
 				$script .= <<<HTML
 					<script>
@@ -60,7 +60,7 @@
 							alerta('{$producto['producto']} está AGOTADO').show()
 						}, $tiempo)
 						
-						setTimeout(() => clearInterval(intervalo{$i}), $tiempo * 10 /*5 minutos*/)
+						setTimeout(() => clearInterval(intervalo{$i}), $tiempo * 10 /*10 minutos*/)
 					</script>
 				HTML;
 			elseif ($producto['stock'] <= 5)
@@ -88,6 +88,9 @@
 			document.body.classList.remove('w3-disabled')
 		</script>
 	HTML;
+	
+	$productosEnCarrito = contarRegistros('carrito_venta');
+	$productosEnCarritoCompra = contarRegistros('carrito_compra');
 ?>
 
 <!DOCTYPE html>
@@ -137,6 +140,16 @@
 						LicoSys <?=getUltimaVersion()?>
 					</button>
 				</div>
+				<div>
+					<a href="views/nuevaVenta.php" role="navegacion" title="Nueva Venta" class="w3-large w3-button">
+						<i class="icon-cart-arrow-down"></i>
+						<b id="productosEnCarrito"><?=$productosEnCarrito?></b>
+					</a>
+					<a href="views/nuevaCompra.php" role="navegacion" title="Nueva Compra" class="w3-large w3-button w3-hide-small">
+						<i class="icon-handshake-o"></i>
+						<b id="productosEnCarritoCompra"><?=$productosEnCarritoCompra?></b>
+					</a>
+				</div>
 				<a href="dashboard.php" role="navegacion" title="Panel de Administración" class="w3-medium w3-button">
 					<img src="<?="$BASE_URL{$_SESSION['negocioLogo']}"?>" class="w3-image w3-circle" style="height: 25px; width:25px">
 					&nbsp;<b id="menuNombreNegocio"><?=$_SESSION['negocio']?></b>
@@ -151,8 +164,41 @@
 						<img id="fotoPerfil" src="<?="$BASE_URL{$_SESSION['userFoto']}"?>" class="w3-image w3-circle w3-margin-right w3-padding-small">
 					</a>
 					<div class="w3-col s9 w3-center">
-						<div>Bienvenido, <b id="menuNombreUsuario"><?=$_SESSION['userName']?></b></div>
+						<div>
+							Bienvenido,
+							&nbsp;<b id="menuNombreUsuario"><?=$_SESSION['userName']?></b>
+						</div>
 						<hr style="margin: 5px">
+						<?php
+							if (is_float(getDolar()) and is_int(getPeso())):
+								echo <<<HTML
+									<button onclick="modal(this)" data-target="#conversionMonetaria" title="Calculadora Monetaria" class="w3-button icon-calculator"></button>
+								HTML;
+								
+								$titulo = <<<HTML
+									<div class="w3-container">Conversión Monetaria</div>
+								HTML;
+								
+								$inputBS = generarINPUT('BS', 'Monto en Bs.');
+								$inputDolar = generarINPUT('DOLAR', 'Monto en Dólares');
+								$inputPesos = generarINPUT('PESO', 'Monto en Pesos');
+								
+								$valorDolar = getDolar();
+								$valorPesos = getPeso();
+								$contenido = <<<HTML
+									<section class="w3-display-container">
+										$inputBS
+										$inputDolar
+										$inputPesos
+									</section>
+									<section class="w3-hide">
+										<input type="hidden" id="valorDolar" value="$valorDolar">
+										<input type="hidden" id="valorPesos" value="$valorPesos">
+									</section>
+								HTML;
+								generarModal('form', 'conversionMonetaria', $titulo, $contenido);
+							endif;
+						?>
 						<a href="views/miPerfil.php" role="navegacion" title="Mi Perfil" class="w3-button icon-cog"></a>
 						<button onclick="cerrarSesion()" title="Cerrar Sesión" class="w3-button icon-sign-out"></button>
 					</div>

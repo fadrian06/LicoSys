@@ -22,7 +22,7 @@ setInterval(function () {
 }, 1 * 1000 * 60 /*1 minuto*/);
 verClave(form.clave.nextElementSibling, form.clave);
 new Typed('#typed', {
-  strings: ['<i>Sencillo.</i>', '<i>Rápido.</i>', '<i>Moderno.</i>', '<i>Seguro.</i>'],
+  strings: ['<i>Sencillo.</i>', '<i>Rápido.</i>', '<i>Moderno.</i>', '<i>Seguro.</i>', '<i>Completo.</i>'],
   typeSpeed: 100,
   startDelay: 1000,
   backSpeed: 50,

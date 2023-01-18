@@ -15,7 +15,8 @@
 	=============================*/
 	$sql = <<<SQL
 		SELECT c.cedula, c.nombre, u.usuario FROM clientes c
-		INNER JOIN usuarios u ON c.usuario_id=u.id ORDER BY c.cedula
+		INNER JOIN usuarios u ON c.usuario_id=u.id
+		WHERE c.cedula!=40000000 ORDER BY c.cedula
 	SQL;
 	
 	$encabezados = [

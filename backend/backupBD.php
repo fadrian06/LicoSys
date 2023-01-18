@@ -44,7 +44,7 @@
 								$campo === 'proveedor_id' ||
 								$campo === 'cliente_id' ||
 								$campo === 'iva' ||
-								$campo === 'nuevo_stock' ||
+								$campo === 'antiguo_stock' ||
 								$campo === 'precio_base' ||
 								$campo === 'precio_total' ||
 								$campo === 'total_iva'

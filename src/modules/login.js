@@ -23,7 +23,8 @@ new Typed('#typed', {
 		'<i>Sencillo.</i>',
 		'<i>Rápido.</i>',
 		'<i>Moderno.</i>',
-		'<i>Seguro.</i>'
+		'<i>Seguro.</i>',
+		'<i>Completo.</i>'
 	],
 	typeSpeed: 100,
 	startDelay: 1000,

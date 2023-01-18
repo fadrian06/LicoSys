@@ -58,22 +58,7 @@ var moduloProveedores = function moduloProveedores(contenedor) {
   var formRegistrar = contenedor.querySelector('#registrarProveedor');
   acordeon();
   mostrarDetails(contenedor.querySelector('details'));
-  validar(formRegistrar, function (error, fd, e) {
-    if (error) return alerta(error).show();
-    e.preventDefault();
-    mostrarLoader(formRegistrar);
-    ajax('backend/registrarProveedor.php', fd, function (res) {
-      /** @type {Respuesta} */
-      var datos = JSON.parse(res);
-      if (datos.error) return alerta(datos.error).on('onShow', function () {
-        return formRegistrar.classList.remove('showLoader');
-      }).show();
-      ocultarLoader(formRegistrar);
-      return notificacion(datos.ok).on('onShow', function () {
-        return $('[href="views/proveedores.php"]')[0].click();
-      }).show();
-    });
-  });
+  registrarProveedor(formRegistrar, 'views/proveedores.php');
 };
 
 /**
@@ -197,7 +182,7 @@ var moduloNegocios = function moduloNegocios(contenedor) {
  * Funcionalidad del módulo finanzas
  * @param  {HTMLElement} _contenedor Contenedor del módulo
  */
-var moduloFinanzas = function moduloFinanzas(_contenedor) {
+var moduloFinanzas = function moduloFinanzas(contenedor) {
   /*===========================================
   =            Botones de negocios            =
   ===========================================*/
@@ -222,6 +207,30 @@ var moduloFinanzas = function moduloFinanzas(_contenedor) {
       boton.classList.add('w3-blue');
     };
   });
+
+  /*===============================
+  =            FILTROS            =
+  ===============================*/
+  /** @type {HTMLTableElement} */
+  var tabla = contenedor.querySelector('table');
+  var contenedorGanancia = tabla.nextElementSibling;
+  $('input[type="radio"]').on('click', function (e) {
+    tabla.classList.add('w3-disabled');
+    contenedorGanancia.classList.add('w3-disabled');
+    /** @type {number} */
+    var negocioID = e.target.getAttribute('negocio-id');
+    /** @type {string} */
+    var rol = e.target.id;
+    if (rol.includes('diario')) rol = 'diario';else if (rol.includes('semanal')) rol = 'semanal';else if (rol.includes('quincenal')) rol = 'quincenal';else if (rol.includes('mensual')) rol = 'mensual';
+    $.get("views/finanzas.php?negocioID=".concat(negocioID, "&rol=").concat(rol), function (res) {
+      /** @type {Respuesta} */
+      var respuesta = JSON.parse(res);
+      tabla.innerHTML = "\n\t\t\t\t<tr class=\"w3-blue\">\n\t\t\t\t\t<th class=\"tooltip-container\">\n\t\t\t\t\t\tUC\n\t\t\t\t\t\t<b class=\"tooltip w3-block w3-padding-small w3-card-4 w3-white\" style=\"bottom: -90%\">\n\t\t\t\t\t\t\tUnidades compradas\n\t\t\t\t\t\t</b>\n\t\t\t\t\t</th>\n\t\t\t\t\t<th class=\"tooltip-container\">\n\t\t\t\t\t\tUV\n\t\t\t\t\t\t<b class=\"tooltip w3-block w3-padding-small w3-card-4 w3-white\" style=\"bottom: -90%\">\n\t\t\t\t\t\t\tUnidades vendidas\n\t\t\t\t\t\t</b>\n\t\t\t\t\t</th>\n\t\t\t\t\t<th>Producto</th>\n\t\t\t\t\t<th class=\"w3-red\">Gastos</th>\n\t\t\t\t\t<th class=\"w3-green\">Ingresos</th>\n\t\t\t\t</tr>\n\t\t\t\t".concat(respuesta.ok, "\n\t\t\t\t<tr class=\"w3-blue\">\n\t\t\t\t\t<td colspan=\"3\">TOTAL:</td>\n\t\t\t\t\t<td class=\"w3-red\">").concat(respuesta.datos.gastos, "</td>\n\t\t\t\t\t<td class=\"w3-green\">").concat(respuesta.datos.ingresos, "</td>\n\t\t\t\t</tr>\n\t\t\t");
+      tabla.classList.remove('w3-disabled');
+      contenedorGanancia.innerHTML = "\n\t\t\t\t<div class=\"w3-animate-opacity\">\n\t\t\t\t\t".concat(respuesta.datos.ganancia, "\n\t\t\t\t</div>\n\t\t\t");
+      contenedorGanancia.classList.remove('w3-disabled');
+    });
+  });
 };
 
 /**
@@ -239,6 +248,7 @@ var moduloInventario = function moduloInventario(contenedor) {
  * @param  {HTMLElement} contenedor Contenedor del módulo.
  */
 var moduloVentas = function moduloVentas(_contenedor) {
+  acordeon();
   $('#botones a').on('click', function (e) {
     e.preventDefault();
     document.querySelector('[href="views/nuevaVenta.php"]').click();
@@ -250,6 +260,7 @@ var moduloVentas = function moduloVentas(_contenedor) {
  * @param  {HTMLElement} contenedor Contenedor del módulo.
  */
 var moduloCompras = function moduloCompras(_contenedor) {
+  acordeon();
   $('#botones a').on('click', function (e) {
     e.preventDefault();
     document.querySelector('[href="views/nuevaCompra.php"]').click();
@@ -261,9 +272,11 @@ var moduloCompras = function moduloCompras(_contenedor) {
  * @param  {HTMLElement} contenedor Contenedor del módulo.
  */
 var moduloNuevaVenta = function moduloNuevaVenta(contenedor) {
+  var formMonedas = contenedor.querySelector('#actualizarMonedas');
   registrarProducto(contenedor.querySelector('#registrarProducto'), 'views/nuevaVenta.php');
   registrarCliente(contenedor.querySelector('#registrarCliente'), 'views/nuevaVenta.php');
-  actualizarMonedas(contenedor.querySelector('#actualizarMonedas'));
+  if (formMonedas) actualizarMonedas(formMonedas);
+  $('#productosEnCarrito').html($('#cantidadProductosEnCarrito').html());
 
   /*----------  SELECCIONAR CLIENTE  ----------*/
   /** @type {HTMLUListElement} */
@@ -279,6 +292,12 @@ var moduloNuevaVenta = function moduloNuevaVenta(contenedor) {
     });
   });
 
+  /*----------  OMITIR CLIENTE  ----------*/
+  $('[role="omitirCliente"]').on('click', function () {
+    $('[cliente-id="3"]')[0].click();
+    w3.hide('#seccionCliente');
+  });
+
   /*----------  SELECCIONAR PRODUCTO  ----------*/
   /** @type {HTMLFormElement} */
   var datosProducto = contenedor.querySelector('#datosProducto');
@@ -289,7 +308,8 @@ var moduloNuevaVenta = function moduloNuevaVenta(contenedor) {
       /** @type {Respuesta} */
       var respuesta = JSON.parse(res);
       datosProducto.classList.remove('w3-hide');
-      datosProducto.innerHTML = "\n\t\t\t\t<section class=\"w3-row\">\n\t\t\t\t\t<div class=\"w3-input w3-col s4 w3-blue\">Producto:</div>\n\t\t\t\t\t<div class=\"w3-col s8\">\n\t\t\t\t\t\t<input class=\"w3-input w3-padding\" disabled value=\"".concat(respuesta.datos.producto, "\">\n\t\t\t\t\t</div>\n\t\t\t\t</section>\n\t\t\t\t<section class=\"w3-row\">\n\t\t\t\t\t<div class=\"w3-input w3-col s4 w3-blue\">C\xF3digo:</div>\n\t\t\t\t\t<div class=\"w3-col s8\">\n\t\t\t\t\t\t<input class=\"w3-input w3-padding\" disabled value=\"").concat(respuesta.datos.codigo, "\">\n\t\t\t\t\t</div>\n\t\t\t\t</section>\n\t\t\t\t<section class=\"w3-row\">\n\t\t\t\t\t<div class=\"w3-input w3-col s4 w3-blue\">Existencia:</div>\n\t\t\t\t\t<div class=\"w3-col s8\">\n\t\t\t\t\t\t<input class=\"w3-input w3-padding\" disabled value=\"").concat(respuesta.datos.stock, "\">\n\t\t\t\t\t</div>\n\t\t\t\t</section>\n\t\t\t\t<section class=\"w3-row\">\n\t\t\t\t\t<div class=\"w3-input w3-col s4 w3-blue\">Precio (<i class=\"icon-dollar\"></i>):</div>\n\t\t\t\t\t<div class=\"w3-col s8\">\n\t\t\t\t\t\t<input name=\"precio\" class=\"w3-input w3-padding\" disabled value=\"").concat(respuesta.datos.precio, "\">\n\t\t\t\t\t</div>\n\t\t\t\t</section>\n\t\t\t\t<section class=\"w3-row\">\n\t\t\t\t\t<div class=\"w3-input w3-col s4 w3-blue\">Cantidad:</div>\n\t\t\t\t\t<div class=\"w3-col s8\">\n\t\t\t\t\t\t<input type=\"number\" name=\"cantidad\" onchange=\"actualizarTotal(this, ").concat(respuesta.datos.excento, ", '#total')\" placeholder=\"Introduce la cantidad\" required min=\"0\" max=\"").concat(respuesta.datos.stock, "\" class=\"w3-input w3-padding\">\n\t\t\t\t\t</div>\n\t\t\t\t</section>\n\t\t\t\t<section class=\"w3-row\">\n\t\t\t\t\t<div class=\"w3-input w3-col s4 w3-blue\">Total (<i class=\"icon-dollar\"></i>):</div>\n\t\t\t\t\t<div class=\"w3-col s8\">\n\t\t\t\t\t\t<input id=\"total\" class=\"w3-input w3-padding\" disabled>\n\t\t\t\t\t</div>\n\t\t\t\t</section>\n\t\t\t\t<div class=\"w3-center\">\n\t\t\t\t\t<input type=\"hidden\" name=\"productoID\" value=\"").concat(respuesta.datos.id, "\">\n\t\t\t\t\t<input type=\"hidden\" name=\"iva\" value=\"").concat(respuesta.datos.iva, "\">\n\t\t\t\t\t<button class=\"w3-margin-top w3-medium w3-button w3-blue w3-round-xlarge w3-hide w3-animate-bottom\">\n\t\t\t\t\t\t<span class=\"icon-plus\"></span>\n\t\t\t\t\t\tA\xF1adir Producto\n\t\t\t\t\t</button>\n\t\t\t\t</div>\n\t\t\t");
+      var stock = respuesta.datos.stock > 0 ? "<span class=\"w3-input w3-padding w3-left-align w3-light-grey\">".concat(respuesta.datos.stock, "</span>") : "<span class=\"w3-input w3-padding w3-red\">Agotado</span>";
+      datosProducto.innerHTML = "\n\t\t\t\t<section class=\"w3-row\">\n\t\t\t\t\t<div class=\"w3-input w3-col s4 w3-blue\">Producto:</div>\n\t\t\t\t\t<div class=\"w3-col s8\">\n\t\t\t\t\t\t<input class=\"w3-input w3-padding w3-light-grey w3-text-black\" disabled value=\"".concat(respuesta.datos.producto, "\">\n\t\t\t\t\t</div>\n\t\t\t\t</section>\n\t\t\t\t<section class=\"w3-row\">\n\t\t\t\t\t<div class=\"w3-input w3-col s4 w3-blue\">C\xF3digo:</div>\n\t\t\t\t\t<div class=\"w3-col s8\">\n\t\t\t\t\t\t<input class=\"w3-input w3-padding w3-light-grey w3-text-black\" disabled value=\"").concat(respuesta.datos.codigo, "\">\n\t\t\t\t\t</div>\n\t\t\t\t</section>\n\t\t\t\t<section class=\"w3-row\">\n\t\t\t\t\t<div class=\"w3-input w3-col s4 w3-blue\">Existencia:</div>\n\t\t\t\t\t<div class=\"w3-col s8\">\n\t\t\t\t\t\t").concat(stock, "\n\t\t\t\t\t\t<input type=\"hidden\" disabled value=\"").concat(respuesta.datos.stock, "\">\n\t\t\t\t\t</div>\n\t\t\t\t</section>\n\t\t\t\t<section class=\"w3-row\">\n\t\t\t\t\t<div class=\"w3-input w3-col s4 w3-blue\">Precio (<i class=\"icon-dollar\"></i>):</div>\n\t\t\t\t\t<div class=\"w3-col s8 tooltip-container\">\n\t\t\t\t\t\t<input name=\"precio\" class=\"w3-input w3-padding w3-light-grey w3-text-black\" disabled value=\"").concat(respuesta.datos.precio, "\">\n\t\t\t\t\t\t<b class=\"tooltip w3-block w3-padding-small w3-card-4 w3-white\" style=\"bottom: -90%\">\n\t\t\t\t\t\t\tBs. ").concat(respuesta.datos.precio * respuesta.datos.dolar, "<br>\n\t\t\t\t\t\t\t").concat(respuesta.datos.precio * respuesta.datos.peso, " pesos\n\t\t\t\t\t\t</b>\n\t\t\t\t\t</div>\n\t\t\t\t</section>\n\t\t\t\t<section class=\"w3-row\">\n\t\t\t\t\t<div class=\"w3-input w3-col s4 w3-blue\">Cantidad:</div>\n\t\t\t\t\t<div class=\"w3-col s8\">\n\t\t\t\t\t\t<input type=\"number\" name=\"cantidad\" onchange=\"actualizarTotal(this, ").concat(respuesta.datos.excento, ", '#total')\" onkeyup=\"actualizarTotal(this, ").concat(respuesta.datos.excento, ", '#total')\" placeholder=\"Introduce la cantidad\" required min=\"0\" max=\"").concat(respuesta.datos.stock, "\" class=\"w3-input w3-padding\">\n\t\t\t\t\t</div>\n\t\t\t\t</section>\n\t\t\t\t<section class=\"w3-row\">\n\t\t\t\t\t<div class=\"w3-input w3-col s4 w3-blue\">Total (<i class=\"icon-dollar\"></i>):</div>\n\t\t\t\t\t<div class=\"w3-col s8 tooltip-container\">\n\t\t\t\t\t\t<span id=\"total\" class=\"w3-left-align w3-input w3-padding w3-light-grey w3-text-black\" disabled>\n\t\t\t\t\t\t\t<i class=\"w3-opacity-min\">&nbsp;</i>\n\t\t\t\t\t\t</span>\n\t\t\t\t\t</div>\n\t\t\t\t</section>\n\t\t\t\t<div class=\"w3-center\">\n\t\t\t\t\t<input type=\"hidden\" name=\"productoID\" value=\"").concat(respuesta.datos.id, "\">\n\t\t\t\t\t<input type=\"hidden\" name=\"iva\" value=\"").concat(respuesta.datos.iva, "\">\n\t\t\t\t\t<input type=\"hidden\" name=\"dolar\" value=\"").concat(respuesta.datos.dolar, "\">\n\t\t\t\t\t<input type=\"hidden\" name=\"peso\" value=\"").concat(respuesta.datos.peso, "\">\n\t\t\t\t\t<button class=\"w3-margin-top w3-medium w3-button w3-blue w3-round-xlarge w3-hide w3-animate-bottom\">\n\t\t\t\t\t\t<span class=\"icon-plus\"></span>\n\t\t\t\t\t\tA\xF1adir Producto\n\t\t\t\t\t</button>\n\t\t\t\t</div>\n\t\t\t");
     });
   });
 
@@ -302,22 +322,187 @@ var moduloNuevaVenta = function moduloNuevaVenta(contenedor) {
       addProduct: true
     };
     $.post('backend/nuevaVenta.php', datos, function (res) {
-      console.log(res);
       /** @type {Respuesta} */
       var respuesta = JSON.parse(res);
       if (respuesta.error) return alerta(respuesta.error).show();
       return notificacion(respuesta.ok).on('onShow', function () {
-        return $('[href="views/nueveVenta.php"]')[0].click();
+        return $('[href="views/nuevaVenta.php"]')[0].click();
+      }).on('afterClose', function () {
+        return contenedor.scrollTo(contenedor.scrollHeight);
       }).show();
     });
   };
+
+  /** @type {HTMLFormElement} */
+  var carrito = contenedor.querySelector('#carritoVenta');
+  if (!carrito) return;
+  carrito.onsubmit = function (e) {
+    return e.preventDefault();
+  };
+
+  /*----------  ELIMINAR PRODUCTO  ----------*/
+  $('[role="eliminarProducto"]').on('click', function (e) {
+    e.preventDefault();
+    var datos = {
+      productoID: e.target.getAttribute('productoid'),
+      eliminar: true
+    };
+    $.post('backend/nuevaVenta.php', datos, function (res) {
+      /** @type {Respuesta} */
+      var respuesta = JSON.parse(res);
+      if (respuesta.error) return alerta(respuesta.error).show();
+      return notificacion(respuesta.ok).on('onShow', function () {
+        return $('[href="views/nuevaVenta.php"]')[0].click();
+      }).on('afterClose', function () {
+        return contenedor.scrollTo(contenedor.scrollHeight);
+      }).show();
+    });
+  });
+
+  /*----------  ANULAR VENTA  ----------*/
+  $('[role="anularVenta"]').on('click', function () {
+    $.post('backend/nuevaVenta.php', {
+      anular: true
+    }, function (res) {
+      /** @type {Respuesta} */
+      var respuesta = JSON.parse(res);
+      if (respuesta.error) return alerta(respuesta.error).show();
+      return informacion(respuesta.ok).on('onShow', function () {
+        return $('[href="views/nuevaVenta.php"]')[0].click();
+      }).show();
+    });
+  });
+
+  /*----------  GENERAR VENTA  ----------*/
+  $('[role="generarVenta"]').on('click', function () {
+    $.post('backend/nuevaVenta.php', {
+      generar: true
+    }, function (res) {
+      /** @type {Respuesta} */
+      var respuesta = JSON.parse(res);
+      if (respuesta.error) return alerta(respuesta.error).show();
+      return notificacion(respuesta.ok).on('onShow', function () {
+        return $('[href="views/nuevaVenta.php"]')[0].click();
+      }).show();
+    });
+  });
 };
 
 /**
  * Funcionalidad del módulo Nueva Compra.
- * @param  {HTMLElement} _contenedor Contenedor del módulo.
+ * @param  {HTMLElement} contenedor Contenedor del módulo.
  */
-var moduloNuevaCompra = function moduloNuevaCompra(_contenedor) {};
+var moduloNuevaCompra = function moduloNuevaCompra(contenedor) {
+  var formMonedas = contenedor.querySelector('#actualizarMonedas');
+  registrarProducto(contenedor.querySelector('#registrarProducto'), 'views/nuevaVenta.php');
+  registrarProveedor(contenedor.querySelector('#registrarProveedor'), 'views/nuevaCompra.php');
+  if (formMonedas) actualizarMonedas(formMonedas);
+  $('#productosEnCarritoCompra').html($('#cantidadProductosEnCarrito').html());
+
+  /*----------  SELECCIONAR PROVEEDOR  ----------*/
+  /** @type {HTMLUListElement} */
+  var datosProveedor = contenedor.querySelector('#datosProveedor');
+  $('[proveedor-id]').on('click', function (e) {
+    /** @type {number} */
+    var id = e.currentTarget.getAttribute('proveedor-id');
+    $.get("backend/nuevaCompra.php?proveedorID=".concat(id), function (res) {
+      /** @type {Respuesta} */
+      var respuesta = JSON.parse(res);
+      datosProveedor.classList.remove('w3-hide');
+      datosProveedor.innerHTML = "\n\t\t\t\t<li>\n\t\t\t\t\t<span class=\"w3-tag w3-blue w3-left\">RIF:</span>\n\t\t\t\t\t<b class=\"w3-right\">".concat(respuesta.datos.rif, "</b>\n\t\t\t\t\t<div class=\"w3-clear\"></div>\n\t\t\t\t</li>\n\t\t\t\t<li>\n\t\t\t\t\t<span class=\"w3-tag w3-blue w3-left\">Nombre:</span>\n\t\t\t\t\t<b class=\"w3-right\">").concat(respuesta.datos.nombre, "</b>\n\t\t\t\t\t<div class=\"w3-clear\"></div>\n\t\t\t\t</li>\n\t\t\t");
+    });
+  });
+
+  /*----------  SELECCIONAR PRODUCTO  ----------*/
+  /** @type {HTMLFormElement} */
+  var datosProducto = contenedor.querySelector('#datosProducto');
+  $('[producto-id]').on('click', function (e) {
+    /** @type {number} */
+    var id = e.currentTarget.getAttribute('producto-id');
+    $.get("backend/nuevaCompra.php?productoID=".concat(id), function (res) {
+      /** @type {Respuesta} */
+      var respuesta = JSON.parse(res);
+      datosProducto.classList.remove('w3-hide');
+      var stock = respuesta.datos.stock > 0 ? "<span class=\"w3-input w3-padding w3-left-align w3-light-grey\">".concat(respuesta.datos.stock, "</span>") : "<span class=\"w3-input w3-padding w3-red\">Agotado</span>";
+      datosProducto.innerHTML = "\n\t\t\t\t<section class=\"w3-row\">\n\t\t\t\t\t<div class=\"w3-input w3-col s4 w3-blue\">Producto:</div>\n\t\t\t\t\t<div class=\"w3-col s8\">\n\t\t\t\t\t\t<input class=\"w3-input w3-padding w3-light-grey w3-text-black\" disabled value=\"".concat(respuesta.datos.producto, "\">\n\t\t\t\t\t</div>\n\t\t\t\t</section>\n\t\t\t\t<section class=\"w3-row\">\n\t\t\t\t\t<div class=\"w3-input w3-col s4 w3-blue\">C\xF3digo:</div>\n\t\t\t\t\t<div class=\"w3-col s8\">\n\t\t\t\t\t\t<input class=\"w3-input w3-padding w3-light-grey w3-text-black\" disabled value=\"").concat(respuesta.datos.codigo, "\">\n\t\t\t\t\t</div>\n\t\t\t\t</section>\n\t\t\t\t<section class=\"w3-row\">\n\t\t\t\t\t<div class=\"w3-input w3-col s4 w3-blue\">Existencia:</div>\n\t\t\t\t\t<div class=\"w3-col s8\">\n\t\t\t\t\t\t").concat(stock, "\n\t\t\t\t\t\t<input type=\"hidden\" disabled value=\"").concat(respuesta.datos.stock, "\">\n\t\t\t\t\t</div>\n\t\t\t\t</section>\n\t\t\t\t<section class=\"w3-row\">\n\t\t\t\t\t<div class=\"w3-input w3-col s4 w3-blue\">Precio (<i class=\"icon-dollar\"></i>):</div>\n\t\t\t\t\t<div class=\"w3-col s8 tooltip-container\">\n\t\t\t\t\t\t<input type=\"number\" step=\"0.01\" name=\"precio\" onchange=\"actualizarPrecio(this)\" onkeyup=\"actualizarPrecio(this)\" class=\"w3-input w3-padding\" value=\"").concat(respuesta.datos.precio, "\">\n\t\t\t\t\t\t<b class=\"tooltip w3-block w3-padding-small w3-card-4 w3-white\" style=\"bottom: -90%\">\n\t\t\t\t\t\t\tBs. ").concat(respuesta.datos.precio * respuesta.datos.dolar, "<br>\n\t\t\t\t\t\t\t").concat(respuesta.datos.precio * respuesta.datos.peso, " pesos\n\t\t\t\t\t\t</b>\n\t\t\t\t\t</div>\n\t\t\t\t</section>\n\t\t\t\t<section class=\"w3-row\">\n\t\t\t\t\t<div class=\"w3-input w3-col s4 w3-blue\">Cantidad:</div>\n\t\t\t\t\t<div class=\"w3-col s8\">\n\t\t\t\t\t\t<input type=\"number\" name=\"cantidad\" onchange=\"actualizarTotal(this, 0, '#total')\" onkeyup=\"actualizarTotal(this, 0, '#total')\" placeholder=\"Introduce la cantidad\" required min=\"0\" class=\"w3-input w3-padding\">\n\t\t\t\t\t</div>\n\t\t\t\t</section>\n\t\t\t\t<section class=\"w3-row\">\n\t\t\t\t\t<div class=\"w3-input w3-col s4 w3-blue\">Total (<i class=\"icon-dollar\"></i>):</div>\n\t\t\t\t\t<div class=\"w3-col s8 tooltip-container\">\n\t\t\t\t\t\t<span id=\"total\" class=\"w3-left-align w3-input w3-padding w3-light-grey w3-text-black\" disabled>\n\t\t\t\t\t\t\t<i class=\"w3-opacity-min\">&nbsp;</i>\n\t\t\t\t\t\t</span>\n\t\t\t\t\t</div>\n\t\t\t\t</section>\n\t\t\t\t<div class=\"w3-center\">\n\t\t\t\t\t<input type=\"hidden\" name=\"productoID\" value=\"").concat(respuesta.datos.id, "\">\n\t\t\t\t\t<input type=\"hidden\" name=\"iva\" value=\"").concat(respuesta.datos.iva, "\">\n\t\t\t\t\t<input type=\"hidden\" name=\"dolar\" value=\"").concat(respuesta.datos.dolar, "\">\n\t\t\t\t\t<input type=\"hidden\" name=\"peso\" value=\"").concat(respuesta.datos.peso, "\">\n\t\t\t\t\t<button class=\"w3-margin-top w3-medium w3-button w3-blue w3-round-xlarge w3-hide w3-animate-bottom\">\n\t\t\t\t\t\t<span class=\"icon-plus\"></span>\n\t\t\t\t\t\tA\xF1adir Producto\n\t\t\t\t\t</button>\n\t\t\t\t</div>\n\t\t\t");
+    });
+  });
+
+  /*----------  AGREGAR PRODUCTO  ----------*/
+  datosProducto.onsubmit = function (e) {
+    e.preventDefault();
+    var datos = {
+      precio: datosProducto.precio.value,
+      cantidad: datosProducto.cantidad.value,
+      productoID: datosProducto.productoID.value,
+      addProduct: true
+    };
+    $.post('backend/nuevaCompra.php', datos, function (res) {
+      /** @type {Respuesta} */
+      var respuesta = JSON.parse(res);
+      if (respuesta.error) return alerta(respuesta.error).show();
+      return notificacion(respuesta.ok).on('onShow', function () {
+        return $('[href="views/nuevaCompra.php"]')[0].click();
+      }).on('afterClose', function () {
+        return contenedor.scrollTo(contenedor.scrollHeight);
+      }).show();
+    });
+  };
+
+  /** @type {HTMLFormElement} */
+  var carrito = contenedor.querySelector('#carritoCompra');
+  if (!carrito) return;
+  carrito.onsubmit = function (e) {
+    return e.preventDefault();
+  };
+
+  /*----------  ELIMINAR PRODUCTO  ----------*/
+  $('[role="eliminarProducto"]').on('click', function (e) {
+    e.preventDefault();
+    var datos = {
+      productoID: e.target.getAttribute('productoid'),
+      eliminar: true
+    };
+    $.post('backend/nuevaCompra.php', datos, function (res) {
+      /** @type {Respuesta} */
+      var respuesta = JSON.parse(res);
+      if (respuesta.error) return alerta(respuesta.error).show();
+      return notificacion(respuesta.ok).on('onShow', function () {
+        return $('[href="views/nuevaCompra.php"]')[0].click();
+      }).on('afterClose', function () {
+        return contenedor.scrollTo(contenedor.scrollHeight);
+      }).show();
+    });
+  });
+
+  /*----------  ANULAR COMPRA  ----------*/
+  $('[role="anularCompra"]').on('click', function () {
+    $.post('backend/nuevaCompra.php', {
+      anular: true
+    }, function (res) {
+      /** @type {Respuesta} */
+      var respuesta = JSON.parse(res);
+      if (respuesta.error) return alerta(respuesta.error).show();
+      return informacion(respuesta.ok).on('onShow', function () {
+        return $('[href="views/nuevaCompra.php"]')[0].click();
+      }).show();
+    });
+  });
+
+  /*----------  GENERAR COMPRA  ----------*/
+  $('[role="generarCompra"]').on('click', function () {
+    $.post('backend/nuevaCompra.php', {
+      generar: true
+    }, function (res) {
+      /** @type {Respuesta} */
+      var respuesta = JSON.parse(res);
+      if (respuesta.error) return alerta(respuesta.error).show();
+      return notificacion(respuesta.ok).on('onShow', function () {
+        return $('[href="views/nuevaCompra.php"]')[0].click();
+      }).show();
+    });
+  });
+};
 
 /** Comportamiento de la navegación */
 var navegacion = function navegacion() {

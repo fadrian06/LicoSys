@@ -484,6 +484,116 @@ const editar = (boton, tabla, campo, valor, hrefEnlace = '') => {
 }
 
 /**
+ * Consulta la factura de una venta específica.
+ * @param {HTMLElement} boton El botón de esa venta.
+ * @param {string} ventaID El ID de la venta.
+ */
+const verFacturaVenta = (boton, ventaID) => {
+	/** @type {HTMLElement} */
+	const modalFactura = document.querySelector('#modalFactura')
+	ventaID = ventaID.slice(7)
+	ventaID = ventaID.slice(0, -8)
+	
+	$.get(`views/ventas.php?ventaID=${ventaID}`, res => {
+		/** @type {Respuesta} */
+		const respuesta = JSON.parse(res)
+		
+		if (respuesta.error) return alerta(respuesta.error).show()
+		
+		let textoTelefono = respuesta.datos.telefonoNegocio
+			? `
+				<tr>
+					<th>Teléfono:</th>
+					<td>
+						&nbsp;<span class="icon-whatsapp w3-text-green"></span>
+						&nbsp;${respuesta.datos.telefonoNegocio}
+					</td>
+				</tr>
+			`
+			: ''
+			
+		let textoDireccion = respuesta.datos.direccionNegocio
+			? `
+				<tr>
+					<th>Dirección:</th>
+					<td>&nbsp;${respuesta.datos.direccionNegocio}</td>
+				</tr>
+			`
+			: ''
+			
+		let textoCliente = respuesta.datos.cedulaCliente != 40000000
+			? `
+				<div class="w3-margin">
+					<h5 class="w3-container w3-xlarge">Datos del cliente:</h5>
+					<table class="w3-table-all">
+						<tr></tr>
+						<tr>
+							<th class="w3-tag w3-blue">Nombre:</th>
+							<td>${respuesta.datos.nombreCliente}</td>
+						</tr>
+						<tr>
+							<th class="w3-tag w3-blue">Cédula:</th>
+							<td>${respuesta.datos.cedulaCliente}</td>
+						</tr>
+					</table>
+				</div>
+			`
+			: ''
+		modalFactura.innerHTML = `
+			<div class="w3-right-align">
+				<span class="icon-close w3-button w3-transparent w3-hover-red"></span>
+			</div>
+			<h2 class="w3-center w3-xxlarge oswald w3-margin-bottom">
+				<div class="w3-container">
+					<img src="images/logo.png" class="w3-margin-right w3-responsive" width="100px">
+					${respuesta.datos.nombreNegocio}
+				</div>
+			</h2>
+			<h3 class="w3-container w3-xlarge w3-right-align w3-blue">Comprobante</h3>
+			${textoCliente}
+			<div class="w3-responsive w3-margin">
+				<h5 class="w3-container w3-xlarge">Datos de la venta</h5>
+				<table class="w3-table-all w3-centered">
+					<tr class="w3-bottombar">
+						<th>Cantidad</th>
+						<th>Producto</th>
+						<th>Precio unitario</th>
+						<th>Monto total</th>
+					</tr>
+					<tr>
+						<td>${respuesta.datos.cantidad}</td>
+						<td>${respuesta.datos.producto}</td>
+						<td>$ ${respuesta.datos.precio}</td>
+						<td>$ ${respuesta.datos.total}</td>
+					</tr>
+				</table>
+				<div class="w3-container w3-center w3-padding-top-24 w3-large">
+					<div class="w3-left">
+						Total IVA
+						<span class="w3-xlarge">(${respuesta.datos.iva * 100}%)</span>
+					</div>
+					<div class="w3-right">
+						Monto total:
+						&nbsp;<span class="icon-dollar w3-text-green w3-xlarge"></span>
+						<b class="w3-xlarge">${respuesta.datos.total}</b></div>
+				</div>
+				<div class="w3-row w3-padding-top-48">
+					<table class="w3-col s8 w3-container w3-left-align">
+						${textoDireccion}
+						${textoTelefono}
+					</table>
+					<button class="w3-rest w3-auto w3-button w3-blue w3-round-xlarge">
+						<i class="icon-save"></i>
+						Guardar
+					</button>
+				</div>
+			</div>
+		`
+		modal(boton)
+	})
+}
+
+/**
  * Comportamiento de cambiar los páneles.
  * @param  {HTMLElement} boton El botón clickeado.
  * @param  {string} id    El ID del panel a mostrar (incluido el #).
@@ -632,6 +742,33 @@ const registrarCliente = (formulario, enlace) => {
 }
 
 /**
+ * Funcionalidad del formulario para registrar proveedores.
+ * @param  {HTMLFormElement} formulario El formulario de registro.
+ * @param  {string} enlace     El HREF del enlace a clickear terminado el registro.
+ */
+const registrarProveedor = (formulario, enlace) => {
+	validar(formulario, (error, fd, e) => {
+		if (error) return alerta(error).show()
+			
+		e.preventDefault()
+		mostrarLoader(formulario)
+		ajax('backend/registrarProveedor.php', fd, res => {
+			/** @type {Respuesta} */
+			const datos = JSON.parse(res)
+			
+			if (datos.error) return alerta(datos.error)
+				.on('onShow', () => formulario.classList.remove('showLoader'))
+				.show()
+			
+			ocultarLoader(formulario)
+			return notificacion(datos.ok)
+				.on('onShow', () => $(`[href="${enlace}"]`)[0].click())
+				.show()
+		})
+	})
+}
+
+/**
  * Funcionalidad de actualizar el valor de las monedas.
  * @param  {HTMLFormElement} formulario El formulario de actualización.
  */
@@ -678,24 +815,63 @@ const actualizarMonedas = formulario => {
  * @param  {HTMLInputElement} cantidad   Un elemento `<input>` con `name="cantidad`
  * @param  {number} excento Representa si el producto es o no es excento de IVA.
  * @param  {string} inputTotalID ID del `<input>` en dónde mostrar el total.
- * @param {()} cb Funcionalidad adicional tras actualizar el total.
  */
 const actualizarTotal = (cantidad, excento, inputTotalID) => {
-	/** @type {number} El precio del producto */
-	const precio = cantidad.form.querySelector('[name="precio"]').value
-	/** @type {number} El IVA actual */
-	const iva = cantidad.form.querySelector('[name="iva"]').value
+	const precio = Number(cantidad.form.querySelector('[name="precio"]').value)
+	const iva = Number(cantidad.form.querySelector('[name="iva"]').value)
+	const dolar = Number(cantidad.form.querySelector('[name="dolar"]').value)
+	const peso = Number(cantidad.form.querySelector('[name="peso"]').value)
 	/** @type {HTMLInputElement} */
 	const total = cantidad.form.querySelector(inputTotalID)
 	total.value = precio * cantidad.value
+	total.setAttribute('total', total.value)
 	
 	if (excento) {
-		let totalIVA = total.value * iva
-		total.value = Number(total.value) + totalIVA
+		let totalIVA = Number(total.getAttribute('total')) * iva
+		let precioBS = (Number(total.getAttribute('total')) + totalIVA) * dolar
+		let precioPesos = (Number(total.getAttribute('total')) + totalIVA) * peso
+		total.parentElement.innerHTML = `
+			<span id="total" class="w3-left-align w3-input w3-padding w3-light-grey w3-text-black" disabled>
+				${Number(total.value) + totalIVA} <span class="w3-text-green">+${totalIVA} IVA</span>
+			</span>
+			<b class="tooltip w3-block w3-padding-small w3-card-4" style="bottom: -90%">
+				Bs. ${precioBS}<br>
+				${precioPesos} pesos
+			</b>
+		`
+	} else {
+		let precioBS = Number(total.getAttribute('total')) * dolar
+		let precioPesos = Number(total.getAttribute('total')) * peso
+		total.parentElement.innerHTML = `
+			<span id="total" class="w3-left-align w3-input w3-padding w3-light-grey w3-text-black" disabled>
+				${total.value}
+			</span>
+			<b class="tooltip w3-block w3-padding-small w3-card-4" style="bottom: -90%">
+				Bs. ${precioBS}<br>
+				${precioPesos} pesos
+			</b>
+		`
 	}
 	
 	if (cantidad.value != 0)
 		cantidad.form.querySelector('button').classList.remove('w3-hide')
+}
+
+/**
+ * Actualiza dinámicamente el tooltip del precio.
+ * @param  {HTMLInputElement} inputPrecio El `<input>` con el precio.
+ */
+const actualizarPrecio = inputPrecio => {
+	const precio = Number(inputPrecio.value)
+	const dolar = Number(inputPrecio.form.querySelector('[name="dolar"]').value)
+	const peso = Number(inputPrecio.form.querySelector('[name="peso"]').value)
+	
+	let precioBS = precio * dolar
+	let precioPesos = precio * peso
+	inputPrecio.parentElement.querySelector('.tooltip').innerHTML = `
+		Bs. ${precioBS}<br>
+		${precioPesos} pesos
+	`
 }
 
 onoffline = () => advertencia('Se ha perdido la conexión').show()

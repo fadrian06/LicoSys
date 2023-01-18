@@ -47,6 +47,14 @@
 			VALUES($cedula, '$nombre', '$usuario', '$clave', '$cargo', '$telefono', '$imagen', 1)
 		SQL;
 		$resultado = setRegistro($sql);
+		
+		// REGISTRAR CLIENTE POR DEFECTO
+		$sql = <<<SQL
+			INSERT INTO clientes(id, cedula, nombre, usuario_id)
+			VALUES(3, 40000000, 'No Especificado', $conexion->insert_id)
+		SQL;
+		setRegistro($sql);
+		
 		if (!$resultado)
 			$respuesta['error'] = $conexion->error;
 		

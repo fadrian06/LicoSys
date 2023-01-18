@@ -59,25 +59,7 @@ const moduloProveedores = contenedor => {
 	const formRegistrar = contenedor.querySelector('#registrarProveedor')
 	acordeon()
 	mostrarDetails(contenedor.querySelector('details'))
-	validar(formRegistrar, (error, fd, e) => {
-		if (error) return alerta(error).show()
-			
-		e.preventDefault()
-		mostrarLoader(formRegistrar)
-		ajax('backend/registrarProveedor.php', fd, res => {
-			/** @type {Respuesta} */
-			const datos = JSON.parse(res)
-			
-			if (datos.error) return alerta(datos.error)
-				.on('onShow', () => formRegistrar.classList.remove('showLoader'))
-				.show()
-			
-			ocultarLoader(formRegistrar)
-			return notificacion(datos.ok)
-				.on('onShow', () => $('[href="views/proveedores.php"]')[0].click())
-				.show()
-		})
-	})
+	registrarProveedor(formRegistrar, 'views/proveedores.php')
 }
 
 /**
@@ -221,7 +203,7 @@ const moduloNegocios = contenedor => {
  * Funcionalidad del módulo finanzas
  * @param  {HTMLElement} _contenedor Contenedor del módulo
  */
-const moduloFinanzas = _contenedor => {
+const moduloFinanzas = contenedor => {
 	/*===========================================
 	=            Botones de negocios            =
 	===========================================*/
@@ -246,6 +228,66 @@ const moduloFinanzas = _contenedor => {
 			boton.classList.add('w3-blue')
 		}
 	})
+	
+	/*===============================
+	=            FILTROS            =
+	===============================*/
+	/** @type {HTMLTableElement} */
+	const tabla = contenedor.querySelector('table')
+	const contenedorGanancia = tabla.nextElementSibling
+	$('input[type="radio"]').on('click', e => {
+		tabla.classList.add('w3-disabled')
+		contenedorGanancia.classList.add('w3-disabled')
+		/** @type {number} */
+		const negocioID = e.target.getAttribute('negocio-id')
+		/** @type {string} */
+		let rol = e.target.id
+		if (rol.includes('diario'))
+			rol = 'diario'
+		else if (rol.includes('semanal'))
+			rol = 'semanal'
+		else if (rol.includes('quincenal'))
+			rol = 'quincenal'
+		else if (rol.includes('mensual'))
+			rol = 'mensual'
+		
+		$.get(`views/finanzas.php?negocioID=${negocioID}&rol=${rol}`, res => {
+			/** @type {Respuesta} */
+			const respuesta = JSON.parse(res)
+			tabla.innerHTML = `
+				<tr class="w3-blue">
+					<th class="tooltip-container">
+						UC
+						<b class="tooltip w3-block w3-padding-small w3-card-4 w3-white" style="bottom: -90%">
+							Unidades compradas
+						</b>
+					</th>
+					<th class="tooltip-container">
+						UV
+						<b class="tooltip w3-block w3-padding-small w3-card-4 w3-white" style="bottom: -90%">
+							Unidades vendidas
+						</b>
+					</th>
+					<th>Producto</th>
+					<th class="w3-red">Gastos</th>
+					<th class="w3-green">Ingresos</th>
+				</tr>
+				${respuesta.ok}
+				<tr class="w3-blue">
+					<td colspan="3">TOTAL:</td>
+					<td class="w3-red">${respuesta.datos.gastos}</td>
+					<td class="w3-green">${respuesta.datos.ingresos}</td>
+				</tr>
+			`
+			tabla.classList.remove('w3-disabled')
+			contenedorGanancia.innerHTML = `
+				<div class="w3-animate-opacity">
+					${respuesta.datos.ganancia}
+				</div>
+			`
+			contenedorGanancia.classList.remove('w3-disabled')
+		})
+	})
 }
 
 /**
@@ -263,6 +305,7 @@ const moduloInventario = contenedor => {
  * @param  {HTMLElement} contenedor Contenedor del módulo.
  */
 const moduloVentas = _contenedor => {
+	acordeon()
 	$('#botones a').on('click', e => {
 		e.preventDefault()
 		document.querySelector('[href="views/nuevaVenta.php"]').click()
@@ -274,6 +317,7 @@ const moduloVentas = _contenedor => {
  * @param  {HTMLElement} contenedor Contenedor del módulo.
  */
 const moduloCompras = _contenedor => {
+	acordeon()
 	$('#botones a').on('click', e => {
 		e.preventDefault()
 		document.querySelector('[href="views/nuevaCompra.php"]').click()
@@ -285,13 +329,17 @@ const moduloCompras = _contenedor => {
  * @param  {HTMLElement} contenedor Contenedor del módulo.
  */
 const moduloNuevaVenta = contenedor => {
+	const formMonedas = contenedor.querySelector('#actualizarMonedas')
 	registrarProducto(contenedor.querySelector('#registrarProducto'), 'views/nuevaVenta.php')
 	registrarCliente(contenedor.querySelector('#registrarCliente'), 'views/nuevaVenta.php')
-	actualizarMonedas(contenedor.querySelector('#actualizarMonedas'))
+	if (formMonedas) actualizarMonedas(formMonedas)
+	
+	$('#productosEnCarrito').html($('#cantidadProductosEnCarrito').html())
 	
 	/*----------  SELECCIONAR CLIENTE  ----------*/
 	/** @type {HTMLUListElement} */
 	const datosCliente = contenedor.querySelector('#datosCliente')
+	
 	
 	$('[cliente-id]').on('click', e => {
 		/** @type {number} */
@@ -315,6 +363,12 @@ const moduloNuevaVenta = contenedor => {
 		})
 	})
 	
+	/*----------  OMITIR CLIENTE  ----------*/
+	$('[role="omitirCliente"]').on('click', () => {
+		$('[cliente-id="3"]')[0].click()
+		w3.hide('#seccionCliente')
+	})
+	
 	/*----------  SELECCIONAR PRODUCTO  ----------*/
 	/** @type {HTMLFormElement} */
 	const datosProducto = contenedor.querySelector('#datosProducto')
@@ -326,46 +380,58 @@ const moduloNuevaVenta = contenedor => {
 			/** @type {Respuesta} */
 			const respuesta = JSON.parse(res)
 			datosProducto.classList.remove('w3-hide');
+			const stock = respuesta.datos.stock > 0
+				? `<span class="w3-input w3-padding w3-left-align w3-light-grey">${respuesta.datos.stock}</span>`
+				: `<span class="w3-input w3-padding w3-red">Agotado</span>`
 			datosProducto.innerHTML = `
 				<section class="w3-row">
 					<div class="w3-input w3-col s4 w3-blue">Producto:</div>
 					<div class="w3-col s8">
-						<input class="w3-input w3-padding" disabled value="${respuesta.datos.producto}">
+						<input class="w3-input w3-padding w3-light-grey w3-text-black" disabled value="${respuesta.datos.producto}">
 					</div>
 				</section>
 				<section class="w3-row">
 					<div class="w3-input w3-col s4 w3-blue">Código:</div>
 					<div class="w3-col s8">
-						<input class="w3-input w3-padding" disabled value="${respuesta.datos.codigo}">
+						<input class="w3-input w3-padding w3-light-grey w3-text-black" disabled value="${respuesta.datos.codigo}">
 					</div>
 				</section>
 				<section class="w3-row">
 					<div class="w3-input w3-col s4 w3-blue">Existencia:</div>
 					<div class="w3-col s8">
-						<input class="w3-input w3-padding" disabled value="${respuesta.datos.stock}">
+						${stock}
+						<input type="hidden" disabled value="${respuesta.datos.stock}">
 					</div>
 				</section>
 				<section class="w3-row">
 					<div class="w3-input w3-col s4 w3-blue">Precio (<i class="icon-dollar"></i>):</div>
-					<div class="w3-col s8">
-						<input name="precio" class="w3-input w3-padding" disabled value="${respuesta.datos.precio}">
+					<div class="w3-col s8 tooltip-container">
+						<input name="precio" class="w3-input w3-padding w3-light-grey w3-text-black" disabled value="${respuesta.datos.precio}">
+						<b class="tooltip w3-block w3-padding-small w3-card-4 w3-white" style="bottom: -90%">
+							Bs. ${respuesta.datos.precio * respuesta.datos.dolar}<br>
+							${respuesta.datos.precio * respuesta.datos.peso} pesos
+						</b>
 					</div>
 				</section>
 				<section class="w3-row">
 					<div class="w3-input w3-col s4 w3-blue">Cantidad:</div>
 					<div class="w3-col s8">
-						<input type="number" name="cantidad" onchange="actualizarTotal(this, ${respuesta.datos.excento}, '#total')" placeholder="Introduce la cantidad" required min="0" max="${respuesta.datos.stock}" class="w3-input w3-padding">
+						<input type="number" name="cantidad" onchange="actualizarTotal(this, ${respuesta.datos.excento}, '#total')" onkeyup="actualizarTotal(this, ${respuesta.datos.excento}, '#total')" placeholder="Introduce la cantidad" required min="0" max="${respuesta.datos.stock}" class="w3-input w3-padding">
 					</div>
 				</section>
 				<section class="w3-row">
 					<div class="w3-input w3-col s4 w3-blue">Total (<i class="icon-dollar"></i>):</div>
-					<div class="w3-col s8">
-						<input id="total" class="w3-input w3-padding" disabled>
+					<div class="w3-col s8 tooltip-container">
+						<span id="total" class="w3-left-align w3-input w3-padding w3-light-grey w3-text-black" disabled>
+							<i class="w3-opacity-min">&nbsp;</i>
+						</span>
 					</div>
 				</section>
 				<div class="w3-center">
 					<input type="hidden" name="productoID" value="${respuesta.datos.id}">
 					<input type="hidden" name="iva" value="${respuesta.datos.iva}">
+					<input type="hidden" name="dolar" value="${respuesta.datos.dolar}">
+					<input type="hidden" name="peso" value="${respuesta.datos.peso}">
 					<button class="w3-margin-top w3-medium w3-button w3-blue w3-round-xlarge w3-hide w3-animate-bottom">
 						<span class="icon-plus"></span>
 						Añadir Producto
@@ -384,25 +450,258 @@ const moduloNuevaVenta = contenedor => {
 			addProduct: true
 		}
 		$.post('backend/nuevaVenta.php', datos, res => {
-			console.log(res)
 			/** @type {Respuesta} */
 			const respuesta = JSON.parse(res)
 			
 			if (respuesta.error) return alerta(respuesta.error).show()
 			
 			return notificacion(respuesta.ok)
-				.on('onShow', () => $('[href="views/nueveVenta.php"]')[0].click())
+				.on('onShow', () => $('[href="views/nuevaVenta.php"]')[0].click())
+				.on('afterClose', () => contenedor.scrollTo(contenedor.scrollHeight))
 				.show()
 		})
 	}
+	
+	/** @type {HTMLFormElement} */
+	const carrito = contenedor.querySelector('#carritoVenta')
+	if (!carrito) return
+	
+	carrito.onsubmit = e => e.preventDefault()
+	
+	/*----------  ELIMINAR PRODUCTO  ----------*/
+	$('[role="eliminarProducto"]').on('click', e => {
+		e.preventDefault()
+		const datos = {
+			productoID: e.target.getAttribute('productoid'),
+			eliminar: true
+		}
+		$.post('backend/nuevaVenta.php', datos, res => {
+			/** @type {Respuesta} */
+			const respuesta = JSON.parse(res)
+			
+			if (respuesta.error) return alerta(respuesta.error).show()
+			
+			return notificacion(respuesta.ok)
+				.on('onShow', () => $('[href="views/nuevaVenta.php"]')[0].click())
+				.on('afterClose', () => contenedor.scrollTo(contenedor.scrollHeight))
+				.show()
+		})
+	})
+			
+	/*----------  ANULAR VENTA  ----------*/
+	$('[role="anularVenta"]').on('click', () => {
+		$.post('backend/nuevaVenta.php', { anular: true }, res => {
+			/** @type {Respuesta} */
+			const respuesta = JSON.parse(res)
+			
+			if (respuesta.error) return alerta(respuesta.error).show()
+				
+			return informacion(respuesta.ok)
+				.on('onShow', () => $('[href="views/nuevaVenta.php"]')[0].click())
+				.show()
+		})
+	})
+	
+	/*----------  GENERAR VENTA  ----------*/
+	$('[role="generarVenta"]').on('click', () => {
+		$.post('backend/nuevaVenta.php', { generar: true }, res => {
+			/** @type {Respuesta} */
+			const respuesta = JSON.parse(res)
+			
+			if (respuesta.error) return alerta(respuesta.error).show()
+				
+			return notificacion(respuesta.ok)
+				.on('onShow', () => $('[href="views/nuevaVenta.php"]')[0].click())
+				.show()
+		})
+	})
 }
 
 /**
  * Funcionalidad del módulo Nueva Compra.
- * @param  {HTMLElement} _contenedor Contenedor del módulo.
+ * @param  {HTMLElement} contenedor Contenedor del módulo.
  */
-const moduloNuevaCompra = _contenedor => {
+const moduloNuevaCompra = contenedor => {
+	const formMonedas = contenedor.querySelector('#actualizarMonedas')
+	registrarProducto(contenedor.querySelector('#registrarProducto'), 'views/nuevaVenta.php')
+	registrarProveedor(contenedor.querySelector('#registrarProveedor'), 'views/nuevaCompra.php')
+	if (formMonedas) actualizarMonedas(formMonedas)
 	
+	$('#productosEnCarritoCompra').html($('#cantidadProductosEnCarrito').html())
+	
+	/*----------  SELECCIONAR PROVEEDOR  ----------*/
+	/** @type {HTMLUListElement} */
+	const datosProveedor = contenedor.querySelector('#datosProveedor')
+	
+	$('[proveedor-id]').on('click', e => {
+		/** @type {number} */
+		const id = e.currentTarget.getAttribute('proveedor-id')
+		$.get(`backend/nuevaCompra.php?proveedorID=${id}`, res => {
+			/** @type {Respuesta} */
+			const respuesta = JSON.parse(res)
+			datosProveedor.classList.remove('w3-hide');
+			datosProveedor.innerHTML = `
+				<li>
+					<span class="w3-tag w3-blue w3-left">RIF:</span>
+					<b class="w3-right">${respuesta.datos.rif}</b>
+					<div class="w3-clear"></div>
+				</li>
+				<li>
+					<span class="w3-tag w3-blue w3-left">Nombre:</span>
+					<b class="w3-right">${respuesta.datos.nombre}</b>
+					<div class="w3-clear"></div>
+				</li>
+			`
+		})
+	})
+	
+	/*----------  SELECCIONAR PRODUCTO  ----------*/
+	/** @type {HTMLFormElement} */
+	const datosProducto = contenedor.querySelector('#datosProducto')
+	
+	$('[producto-id]').on('click', e => {
+		/** @type {number} */
+		const id = e.currentTarget.getAttribute('producto-id')
+		$.get(`backend/nuevaCompra.php?productoID=${id}`, res => {
+			/** @type {Respuesta} */
+			const respuesta = JSON.parse(res)
+			datosProducto.classList.remove('w3-hide');
+			const stock = respuesta.datos.stock > 0
+				? `<span class="w3-input w3-padding w3-left-align w3-light-grey">${respuesta.datos.stock}</span>`
+				: `<span class="w3-input w3-padding w3-red">Agotado</span>`
+			datosProducto.innerHTML = `
+				<section class="w3-row">
+					<div class="w3-input w3-col s4 w3-blue">Producto:</div>
+					<div class="w3-col s8">
+						<input class="w3-input w3-padding w3-light-grey w3-text-black" disabled value="${respuesta.datos.producto}">
+					</div>
+				</section>
+				<section class="w3-row">
+					<div class="w3-input w3-col s4 w3-blue">Código:</div>
+					<div class="w3-col s8">
+						<input class="w3-input w3-padding w3-light-grey w3-text-black" disabled value="${respuesta.datos.codigo}">
+					</div>
+				</section>
+				<section class="w3-row">
+					<div class="w3-input w3-col s4 w3-blue">Existencia:</div>
+					<div class="w3-col s8">
+						${stock}
+						<input type="hidden" disabled value="${respuesta.datos.stock}">
+					</div>
+				</section>
+				<section class="w3-row">
+					<div class="w3-input w3-col s4 w3-blue">Precio (<i class="icon-dollar"></i>):</div>
+					<div class="w3-col s8 tooltip-container">
+						<input type="number" step="0.01" name="precio" onchange="actualizarPrecio(this)" onkeyup="actualizarPrecio(this)" class="w3-input w3-padding" value="${respuesta.datos.precio}">
+						<b class="tooltip w3-block w3-padding-small w3-card-4 w3-white" style="bottom: -90%">
+							Bs. ${respuesta.datos.precio * respuesta.datos.dolar}<br>
+							${respuesta.datos.precio * respuesta.datos.peso} pesos
+						</b>
+					</div>
+				</section>
+				<section class="w3-row">
+					<div class="w3-input w3-col s4 w3-blue">Cantidad:</div>
+					<div class="w3-col s8">
+						<input type="number" name="cantidad" onchange="actualizarTotal(this, 0, '#total')" onkeyup="actualizarTotal(this, 0, '#total')" placeholder="Introduce la cantidad" required min="0" class="w3-input w3-padding">
+					</div>
+				</section>
+				<section class="w3-row">
+					<div class="w3-input w3-col s4 w3-blue">Total (<i class="icon-dollar"></i>):</div>
+					<div class="w3-col s8 tooltip-container">
+						<span id="total" class="w3-left-align w3-input w3-padding w3-light-grey w3-text-black" disabled>
+							<i class="w3-opacity-min">&nbsp;</i>
+						</span>
+					</div>
+				</section>
+				<div class="w3-center">
+					<input type="hidden" name="productoID" value="${respuesta.datos.id}">
+					<input type="hidden" name="iva" value="${respuesta.datos.iva}">
+					<input type="hidden" name="dolar" value="${respuesta.datos.dolar}">
+					<input type="hidden" name="peso" value="${respuesta.datos.peso}">
+					<button class="w3-margin-top w3-medium w3-button w3-blue w3-round-xlarge w3-hide w3-animate-bottom">
+						<span class="icon-plus"></span>
+						Añadir Producto
+					</button>
+				</div>
+			`
+		})
+	})
+	
+	/*----------  AGREGAR PRODUCTO  ----------*/
+	datosProducto.onsubmit = e => {
+		e.preventDefault()
+		const datos = {
+			precio: datosProducto.precio.value,
+			cantidad: datosProducto.cantidad.value,
+			productoID: datosProducto.productoID.value,
+			addProduct: true
+		}
+		$.post('backend/nuevaCompra.php', datos, res => {
+			/** @type {Respuesta} */
+			const respuesta = JSON.parse(res)
+			
+			if (respuesta.error) return alerta(respuesta.error).show()
+			
+			return notificacion(respuesta.ok)
+				.on('onShow', () => $('[href="views/nuevaCompra.php"]')[0].click())
+				.on('afterClose', () => contenedor.scrollTo(contenedor.scrollHeight))
+				.show()
+		})
+	}
+	
+	/** @type {HTMLFormElement} */
+	const carrito = contenedor.querySelector('#carritoCompra')
+	if (!carrito) return
+	
+	carrito.onsubmit = e => e.preventDefault()
+	
+	/*----------  ELIMINAR PRODUCTO  ----------*/
+	$('[role="eliminarProducto"]').on('click', e => {
+		e.preventDefault()
+		const datos = {
+			productoID: e.target.getAttribute('productoid'),
+			eliminar: true
+		}
+		$.post('backend/nuevaCompra.php', datos, res => {
+			/** @type {Respuesta} */
+			const respuesta = JSON.parse(res)
+			
+			if (respuesta.error) return alerta(respuesta.error).show()
+			
+			return notificacion(respuesta.ok)
+				.on('onShow', () => $('[href="views/nuevaCompra.php"]')[0].click())
+				.on('afterClose', () => contenedor.scrollTo(contenedor.scrollHeight))
+				.show()
+		})
+	})
+			
+	/*----------  ANULAR COMPRA  ----------*/
+	$('[role="anularCompra"]').on('click', () => {
+		$.post('backend/nuevaCompra.php', { anular: true }, res => {
+			/** @type {Respuesta} */
+			const respuesta = JSON.parse(res)
+			
+			if (respuesta.error) return alerta(respuesta.error).show()
+				
+			return informacion(respuesta.ok)
+				.on('onShow', () => $('[href="views/nuevaCompra.php"]')[0].click())
+				.show()
+		})
+	})
+	
+	/*----------  GENERAR COMPRA  ----------*/
+	$('[role="generarCompra"]').on('click', () => {
+		$.post('backend/nuevaCompra.php', { generar: true }, res => {
+			/** @type {Respuesta} */
+			const respuesta = JSON.parse(res)
+			
+			if (respuesta.error) return alerta(respuesta.error).show()
+				
+			return notificacion(respuesta.ok)
+				.on('onShow', () => $('[href="views/nuevaCompra.php"]')[0].click())
+				.show()
+		})
+	})
 }
 
 /** Comportamiento de la navegación */
