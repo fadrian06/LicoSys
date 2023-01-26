@@ -91,6 +91,8 @@
 						<div class="w3-third w3-center">
 							<div class="w3-margin-top w3-leftbar">
 								<form enctype="multipart/form-data" class="w3-padding-large w3-center w3-white w3-card">
+									<h3 class="w3-large">Actualizar Logo</h3>
+									<p class="w3-small w3-text-blue">Pulsa en la imagen para actualizar</p>
 									<label for="logo{$negocio['id']}" class="w3-display-container w3-hover-opacity w3-circle">
 										<i class="icon-camera w3-xxxlarge w3-display-middle w3-display-hover"></i>
 										<input type="hidden" name="id" value="{$negocio['id']}" class="w3-hide">
@@ -177,6 +179,8 @@
 							<div class="w3-third w3-center">
 								<div class="w3-margin-top w3-leftbar">
 									<form enctype="multipart/form-data" class="w3-padding-large w3-center w3-white w3-card">
+										<h3 class="w3-large">Actualizar Logo</h3>
+										<p class="w3-small w3-text-blue">Pulsa en la imagen para actualizar</p>
 										<label for="logo{$negocio['id']}" class="w3-display-container w3-hover-opacity w3-circle">
 											<i class="icon-camera w3-xxxlarge w3-display-middle w3-display-hover"></i>
 											<input type="hidden" name="id" value="{$negocio['id']}" class="w3-hide">
@@ -199,10 +203,14 @@
 					</div>
 				HTML;
 			endforeach;
+			$cantidadDesactivados = count($desactivados);
 			$mostrarDesactivados = <<<HTML
 				<details class="w3-margin-top">
 					<summary class="w3-padding w3-small">
 						<i class="icon-lock"> Desactivados</i>
+						<span class="w3-badge" style="padding-top: 3px; padding-bottom: 3px">
+							$cantidadDesactivados
+						</span>
 						<i class="icon-chevron-right w3-margin-left"></i>
 					</summary>
 					<div>

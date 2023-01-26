@@ -14,7 +14,10 @@ const image = form.querySelector('.image-result')
 /*==============================================
 =            EJECUCIÓN DE FUNCIONES            =
 ==============================================*/
-actualizarImagen(inputFile, image, error => alerta(error).show())
+actualizarImagen(inputFile, image, error => {
+	if (error)
+		alerta(error).show()
+})
 
 validar(form, (error, fd, e) => {
 	if (error) return alerta(error).show()

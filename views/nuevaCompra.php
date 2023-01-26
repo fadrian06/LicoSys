@@ -126,18 +126,22 @@
 			? "<span class='w3-input w3-left-align w3-padding w3-light-grey'>{$producto['stock']}</span>"
 			: "<span class='w3-input w3-padding w3-red'>Agotado</span>";
 		$precioBS = is_float(getDolar())
-			? $producto['precio'] * getDolar()
+			? round($producto['precio'] * getDolar(), 2)
 			: 0;
 		$precioPesos = is_int(getPeso())
-			? $producto['precio'] * getPeso()
+			? (int) ($producto['precio'] * getPeso())
 			: 0;
-		$tooltipPrecio = generarTooltip("Bs. $precioBS<br>$precioPesos pesos");
+		$tooltipPrecio = generarTooltip("Bs. $precioBS<br>$precioPesos pesos", false);
+		$tooltipRegistrarProducto = generarTooltip('Registrar Producto');
 		echo <<<HTML
 			<section class="w3-row w3-padding-large w3-bottombar w3-round-large">
 				<div class="w3-col s12 m5 w3-margin-top">
-					<button onclick="modal(this)" data-target="#registrarProducto" title="Registrar Producto" class="w3-green w3-button w3-circle">
-						<b class="w3-large">+</b>
-					</button>
+					<div class="w3-dropdown-hover w3-transparent">
+						<button onclick="modal(this)" data-target="#registrarProducto" title="Registrar Producto" class="w3-green w3-button w3-circle">
+							<b class="w3-large">+</b>
+						</button>
+						$tooltipRegistrarProducto
+					</div>
 					<div class="w3-dropdown-hover">
 						<button class="w3-button w3-blue w3-hover-blue w3-hover-text-black">
 							Seleccionar Producto
@@ -171,7 +175,7 @@
 						</section>
 						<section class="w3-row">
 							<div class="w3-input w3-col s4 w3-blue">Precio (<i class="icon-dollar"></i>):</div>
-							<div class="w3-col s8 tooltip-container">
+							<div class="w3-col s8 w3-dropdown-hover">
 								<input name="precio" onchange="actualizarPrecio(this)" onkeyup="actualizarPrecio(this)" class="w3-input w3-padding" value="{$producto['precio']}">
 								$tooltipPrecio
 							</div>
@@ -184,7 +188,7 @@
 						</section>
 						<section class="w3-row">
 							<div class="w3-input w3-col s4 w3-blue">Total (<i class="icon-dollar"></i>):</div>
-							<div class="w3-col s8 tooltip-container">
+							<div class="w3-col s8 w3-dropdown-hover">
 								<span id="total" class="w3-left-align w3-input w3-padding w3-light-grey w3-text-black" disabled>
 									<i class="w3-opacity-min">&nbsp;</i>
 								</span>
@@ -216,16 +220,15 @@
 		$carrito = getRegistros($sql);
 		
 		$filasProductos = '';
-		$i = 997;
 		$totalCarrito = 0;
 		foreach ($carrito as $producto):
-			$precioBS = $producto['precio'] * getDolar();
-			$precioPesos = $producto['precio'] * getPeso();
-			$tooltipPrecio = generarTooltip("Bs. $precioBS<br>$precioPesos pesos");
+			$precioBS = round($producto['precio'] * getDolar(), 2);
+			$precioPesos = (int) ($producto['precio'] * getPeso());
+			$tooltipPrecio = generarTooltip("Bs. $precioBS<br>$precioPesos pesos", false);
 			
-			$precioBS = (float) $producto['precio_total'] * getDolar();
-			$precioPesos = (float) $producto['precio_total'] * getPeso();
-			$tooltipTotal = generarTooltip("Bs. $precioBS<br>$precioPesos pesos");
+			$precioBS = round((float) $producto['precio_total'] * getDolar(), 2);
+			$precioPesos = (int) ((float) $producto['precio_total'] * getPeso());
+			$tooltipTotal = generarTooltip("Bs. $precioBS<br>$precioPesos pesos", false);
 			$totalCarrito += (float) $producto['precio_total'];
 			$filasProductos .= <<<HTML
 				<tr class="w3-white">
@@ -234,7 +237,7 @@
 							{$producto['producto']}
 						</button>
 					</td>
-					<td class="tooltip-container" style="z-index: $i">
+					<td class="w3-dropdown-hover">
 						<button class="w3-button w3-transparent w3-hover-none">
 							{$producto['precio']}
 						</button>
@@ -245,7 +248,7 @@
 							{$producto['unidades']}
 						</button>
 					</td>
-					<td class="tooltip-container" style="z-index: $i">
+					<td class="w3-dropdown-hover">
 						<button class="w3-button w3-transparent w3-hover-none">
 							{$producto['precio_total']}
 						</button>
@@ -258,13 +261,12 @@
 					</td>
 				</tr>
 			HTML;
-			--$i;
 		endforeach;
 		
 		if ($carrito):
-			$precioBS = $totalCarrito * getDolar();
-			$precioPesos = $totalCarrito * getPeso();
-			$tooltipTotalCarrito = generarTooltip("Bs. $precioBS<br>$precioPesos pesos");
+			$precioBS = round($totalCarrito * getDolar(), 2);
+			$precioPesos = (int) ($totalCarrito * getPeso());
+			$tooltipTotalCarrito = generarTooltip("Bs. $precioBS<br>$precioPesos pesos", false);
 			echo <<<HTML
 				<section class="w3-section w3-responsive">
 					<form id="carritoCompra">
@@ -283,7 +285,7 @@
 								<td></td>
 								<td></td>
 								<td>TOTAL:</td>
-								<td class="tooltip-container" style="z-index: $i">$totalCarrito $tooltipTotalCarrito</td>
+								<td class="w3-dropdown-hover">$totalCarrito $tooltipTotalCarrito</td>
 								<td></td>
 							</tr>
 						</table>

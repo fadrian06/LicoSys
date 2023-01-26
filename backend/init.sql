@@ -190,3 +190,4 @@ INSERT INTO versiones VALUES(31, '2.6a', 'Ya se pueden crear y restaurar respald
 INSERT INTO versiones VALUES(32, '3.0a', 'Nuevo LicoSys, nueva y renovada interfaz para una mejor experiencia de usuario.');
 INSERT INTO versiones VALUES(33, '3.1a', 'Todas las fechas ahora cuentan con mejor presentación y legibilidad.');
 INSERT INTO versiones VALUES(34, '3.2a', 'Nueva "Calculadora Monetaria"');
+INSERT INTO versiones VALUES(35, '3.3a', 'Gráfica de Productos más Vendidos añadida.');

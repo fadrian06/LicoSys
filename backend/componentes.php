@@ -8,15 +8,17 @@
 	/**
 	 * Genera una pequeña ventana emergente con el texto que desees.<br>
 	 * <u>Requisitos</u><br>
-	 * - Debe incluirse en un contenedor con la `class="tooltip-container"`
+	 * - Debe incluirse en un contenedor con la `class="w3-dropdown-hover"`
 	 * @param  string $texto El texto del tooltip.
+	 * @param  bool   $center Si quieres el tooltip centrado (Por defecto)
 	 * @return [string]        Texto HTML para incluir.
 	 */
-	function generarTooltip(string $texto): string {
+	function generarTooltip(string $texto, bool $center = true): string {
+		$centrado = $center ? 'w3-center' : 'w3-left-align';
 		return <<<HTML
-			<b class="tooltip w3-block w3-padding-small w3-card-4 w3-white" style="bottom: -90%">
-				$texto
-			</b>
+			<div class="w3-dropdown-content w3-padding-small w3-card-4 w3-white $centrado">
+				<b>$texto</b>
+			</div>
 		HTML;
 	}
 	
@@ -79,13 +81,13 @@
 			</button>
 		HTML,
 		'REGISTRAR_PRODUCTO' => <<<HTML
-			<button onclick="modal(this)" data-target="#registrarProducto" class="w3-blue w3-button w3-circle w3-border w3-border-black w3-margin-right">
+			<button onclick="modal(this)" data-target="#registrarProducto" class="w3-blue w3-text-black w3-button w3-circle w3-border w3-border-black w3-margin-right">
 				<i class="w3-block w3-center icon-plus w3-xxlarge"></i>
 				Nuevo<br>Producto
 			</button>
 		HTML,
 		'REGISTRAR_COMBO' => <<<HTML
-			<button onclick="modal(this)" data-target="#registrarCombo" class="w3-disabled w3-blue w3-button w3-circle w3-border w3-border-black">
+			<button onclick="modal(this)" data-target="#registrarCombo" class="w3-disabled w3-blue w3-text-black w3-button w3-circle w3-border w3-border-black">
 				<i class="w3-block w3-center icon-list w3-xxlarge"></i>
 				Nuevo<br>&nbsp;&nbsp;Combo&nbsp;&nbsp;
 			</button>

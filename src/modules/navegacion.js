@@ -176,6 +176,7 @@ const moduloNegocios = contenedor => {
 				fd.append('logo', inputFile.files[0])
 				w3.addClass('main', 'showLoader')
 				ajax('backend/actualizarImagen.php', fd, res => {
+					console.log(res)
 					/** @type {Respuesta} */
 					const respuesta = JSON.parse(res)
 					
@@ -340,7 +341,6 @@ const moduloNuevaVenta = contenedor => {
 	/** @type {HTMLUListElement} */
 	const datosCliente = contenedor.querySelector('#datosCliente')
 	
-	
 	$('[cliente-id]').on('click', e => {
 		/** @type {number} */
 		const id = e.currentTarget.getAttribute('cliente-id')
@@ -405,12 +405,12 @@ const moduloNuevaVenta = contenedor => {
 				</section>
 				<section class="w3-row">
 					<div class="w3-input w3-col s4 w3-blue">Precio (<i class="icon-dollar"></i>):</div>
-					<div class="w3-col s8 tooltip-container">
+					<div class="w3-col s8 w3-dropdown-hover w3-transparent">
 						<input name="precio" class="w3-input w3-padding w3-light-grey w3-text-black" disabled value="${respuesta.datos.precio}">
-						<b class="tooltip w3-block w3-padding-small w3-card-4 w3-white" style="bottom: -90%">
-							Bs. ${respuesta.datos.precio * respuesta.datos.dolar}<br>
-							${respuesta.datos.precio * respuesta.datos.peso} pesos
-						</b>
+						<div class="w3-dropdown-content w3-padding-small w3-card-4 w3-white">
+							<b>Bs. ${(respuesta.datos.precio * respuesta.datos.dolar).toFixed(2)}<br>
+							${(respuesta.datos.precio * respuesta.datos.peso).toFixed(0)} pesos</b>
+						</div>
 					</div>
 				</section>
 				<section class="w3-row">
@@ -421,7 +421,7 @@ const moduloNuevaVenta = contenedor => {
 				</section>
 				<section class="w3-row">
 					<div class="w3-input w3-col s4 w3-blue">Total (<i class="icon-dollar"></i>):</div>
-					<div class="w3-col s8 tooltip-container">
+					<div class="w3-col s8 w3-dropdown-hover">
 						<span id="total" class="w3-left-align w3-input w3-padding w3-light-grey w3-text-black" disabled>
 							<i class="w3-opacity-min">&nbsp;</i>
 						</span>
@@ -591,12 +591,12 @@ const moduloNuevaCompra = contenedor => {
 				</section>
 				<section class="w3-row">
 					<div class="w3-input w3-col s4 w3-blue">Precio (<i class="icon-dollar"></i>):</div>
-					<div class="w3-col s8 tooltip-container">
+					<div class="w3-col s8 w3-dropdown-hover">
 						<input type="number" step="0.01" name="precio" onchange="actualizarPrecio(this)" onkeyup="actualizarPrecio(this)" class="w3-input w3-padding" value="${respuesta.datos.precio}">
-						<b class="tooltip w3-block w3-padding-small w3-card-4 w3-white" style="bottom: -90%">
-							Bs. ${respuesta.datos.precio * respuesta.datos.dolar}<br>
-							${respuesta.datos.precio * respuesta.datos.peso} pesos
-						</b>
+						<div class="w3-dropdown-content w3-padding-small w3-card-4 w3-white w3-left-align">
+							<b>Bs. ${(respuesta.datos.precio * respuesta.datos.dolar).toFixed(2)}<br>
+							${(respuesta.datos.precio * respuesta.datos.peso).toFixed(0)} pesos</b>
+						</div>
 					</div>
 				</section>
 				<section class="w3-row">
@@ -607,7 +607,7 @@ const moduloNuevaCompra = contenedor => {
 				</section>
 				<section class="w3-row">
 					<div class="w3-input w3-col s4 w3-blue">Total (<i class="icon-dollar"></i>):</div>
-					<div class="w3-col s8 tooltip-container">
+					<div class="w3-col s8 w3-dropdown-hover">
 						<span id="total" class="w3-left-align w3-input w3-padding w3-light-grey w3-text-black" disabled>
 							<i class="w3-opacity-min">&nbsp;</i>
 						</span>
@@ -771,6 +771,28 @@ const navegacion = () => {
 					main.classList.remove('showLoader')
 					// Carga la el Panel Principal.
 					main.innerHTML = dashboardHTML
+					
+					// Recargamos el gráfico
+					if (document.querySelector('#productosMasVendidos'))
+						new Chart('productosMasVendidos', {
+							type: 'bar',
+							data: {
+								labels: xValues,
+								datasets: [{
+									backgroundColor: barColors,
+									data: yValues
+								}]
+							},
+							options: {
+								legend: {display: false},
+								scales: {
+									y: {
+										beginAtZero: true
+									}
+								}
+							}
+						})
+					
 					// Reajusta la navegación del Panel Principal.
 					navegacion()
 				}, 500)

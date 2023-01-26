@@ -20,6 +20,17 @@
 		if ($clave !== $confirmar)
 			$respuesta['error'] = 'Ambas contraseñas deben ser iguales.';
 		
+		$sql = <<<SQL
+			SELECT cedula, usuario FROM usuarios
+			WHERE cedula=$cedula OR usuario='$usuario'
+		SQL;
+		$usuarioEncontrado = getRegistro($sql);
+		if ($usuarioEncontrado)
+			$respuesta['error'] = 'Ya existe un usuario con esos datos.';
+		
+		if ($respuesta['error'])
+			exit(json_encode($respuesta, JSON_INVALID_UTF8_IGNORE));
+		
 		if ($foto['error'] !== 4):
 			$imagen = (string) $foto['name'];
 			$tipo   = (string) $foto['type'];
@@ -33,10 +44,6 @@
 				$respuesta['error'] = 'La imagen no puede ser mayor a 2MB';
 			else move_uploaded_file($rutaOrigen, $rutaDestino);
 		endif;
-		
-		$usuarioEncontrado = getRegistro("SELECT cedula FROM usuarios WHERE cedula=$cedula");
-		if ($usuarioEncontrado)
-			$respuesta['error'] = 'Ya existe un usuario con esa cédula.';
 		
 		if ($respuesta['error'])
 			exit(json_encode($respuesta, JSON_INVALID_UTF8_IGNORE));

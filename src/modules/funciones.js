@@ -43,6 +43,16 @@ const acordeon = () => {
 }
 
 /**
+ * Comportamiento de un Dropdown Click
+ * @param  {string} id El ID del content (incluido el '#')
+ */
+const dropdown = id => {
+	/** @type {HTMLElement} */
+	const content = document.querySelector(id)
+	content.classList.toggle('w3-show')
+}
+
+/**
  * Comportamiento de un elemento `<details> para navegadores que no lo soportan`
  * @param  {HTMLElement} details Elemento `<details>`
  */
@@ -823,33 +833,33 @@ const actualizarTotal = (cantidad, excento, inputTotalID) => {
 	const peso = Number(cantidad.form.querySelector('[name="peso"]').value)
 	/** @type {HTMLInputElement} */
 	const total = cantidad.form.querySelector(inputTotalID)
-	total.value = precio * cantidad.value
+	total.value = (precio * cantidad.value).toFixed(2)
 	total.setAttribute('total', total.value)
 	
 	if (excento) {
 		let totalIVA = Number(total.getAttribute('total')) * iva
-		let precioBS = (Number(total.getAttribute('total')) + totalIVA) * dolar
-		let precioPesos = (Number(total.getAttribute('total')) + totalIVA) * peso
+		let precioBS = ((Number(total.getAttribute('total')) + totalIVA) * dolar).toFixed(2)
+		let precioPesos = ((Number(total.getAttribute('total')) + totalIVA) * peso).toFixed(0)
 		total.parentElement.innerHTML = `
 			<span id="total" class="w3-left-align w3-input w3-padding w3-light-grey w3-text-black" disabled>
 				${Number(total.value) + totalIVA} <span class="w3-text-green">+${totalIVA} IVA</span>
 			</span>
-			<b class="tooltip w3-block w3-padding-small w3-card-4" style="bottom: -90%">
-				Bs. ${precioBS}<br>
-				${precioPesos} pesos
-			</b>
+			<div class="w3-dropdown-content w3-padding-small w3-card-4 w3-white">
+				<b>Bs. ${precioBS}<br>
+				${precioPesos} pesos</b>
+			</div>
 		`
 	} else {
-		let precioBS = Number(total.getAttribute('total')) * dolar
-		let precioPesos = Number(total.getAttribute('total')) * peso
+		let precioBS = (Number(total.getAttribute('total')) * dolar).toFixed(2)
+		let precioPesos = (Number(total.getAttribute('total')) * peso).toFixed(0)
 		total.parentElement.innerHTML = `
 			<span id="total" class="w3-left-align w3-input w3-padding w3-light-grey w3-text-black" disabled>
 				${total.value}
 			</span>
-			<b class="tooltip w3-block w3-padding-small w3-card-4" style="bottom: -90%">
-				Bs. ${precioBS}<br>
-				${precioPesos} pesos
-			</b>
+			<div class="w3-dropdown-content w3-padding-small w3-card-4 w3-white">
+				<b>Bs. ${precioBS}<br>
+				${precioPesos} pesos</b>
+			</div>
 		`
 	}
 	
@@ -866,11 +876,13 @@ const actualizarPrecio = inputPrecio => {
 	const dolar = Number(inputPrecio.form.querySelector('[name="dolar"]').value)
 	const peso = Number(inputPrecio.form.querySelector('[name="peso"]').value)
 	
-	let precioBS = precio * dolar
-	let precioPesos = precio * peso
-	inputPrecio.parentElement.querySelector('.tooltip').innerHTML = `
-		Bs. ${precioBS}<br>
-		${precioPesos} pesos
+	let precioBS = (precio * dolar).toFixed(2)
+	let precioPesos = (precio * peso).toFixed(0)
+	inputPrecio.parentElement.querySelector('.w3-dropdown-content').innerHTML = `
+		<b>
+			Bs. ${precioBS}<br>
+			${precioPesos} pesos
+		</b>
 	`
 }
 

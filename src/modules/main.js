@@ -15,7 +15,7 @@ const btnModenas = document.querySelector('#btn-monedas')
 /** @type {HTMLFormElement} */
 const formMonedas = document.querySelector('#actualizarMonedas')
 const main = document.querySelector('main')
-const dashboardHTML = main.innerHTML
+let dashboardHTML = main.innerHTML
 
 const conversionMonetaria = document.querySelector('#conversionMonetaria')
 /*=====  End of DECLARACIONES  ======*/

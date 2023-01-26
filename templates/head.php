@@ -90,7 +90,7 @@
 	HTML;
 	
 	$productosEnCarrito = contarRegistros('carrito_venta');
-	$productosEnCarritoCompra = contarRegistros('carrito_compra');
+	$productosEnCarritoCompra = contarRegistros('carrito_compra') ?? 0;
 ?>
 
 <!DOCTYPE html>
@@ -103,7 +103,7 @@
 		<meta name="description" content="Sistema Automatizado de Gestión de Compras y Ventas">
 		<meta name="theme-color" content="black">
 		<link rel="icon" href="<?=$BASE_URL?>images/logo.png">
-		<link rel="stylesheet" href="<?=$BASE_URL?>icons/style.min.css">
+		<link rel="stylesheet" href="<?=$BASE_URL?>ico/style.min.css">
 		<link rel="stylesheet" href="<?=$BASE_URL?>fonts/fuentes.min.css">
 		<link rel="stylesheet" href="<?=$BASE_URL?>libs/noty/noty.css">
 		<link rel="stylesheet" href="<?=$BASE_URL?>libs/noty/themes/sunset.css">
@@ -112,6 +112,7 @@
 		<script src="<?=$BASE_URL?>libs/jquery.min.js"></script>
 		<script src="<?=$BASE_URL?>libs/w3/w3.min.js"></script>
 		<script src="<?=$BASE_URL?>libs/noty/noty.min.js"></script>
+		<script src="<?=$BASE_URL?>libs/Chart.js"></script>
 		<script src="<?=$BASE_URL?>js/actualizarImagen.js"></script>
 		<script src="<?=$BASE_URL?>js/funciones.js"></script>
 		<script src="<?=$BASE_URL?>js/validar.js"></script>
@@ -135,25 +136,41 @@
 				<div class="w3-container w3-small w3-hide-medium w3-hide-small">
 					<?=fecha()?>
 				</div>
-				<div class="w3-medium w3-hide-small">
+				<div class="w3-medium w3-hide-small w3-dropdown-hover">
 					<button onclick="modal(this)" data-target="#acercaDe" class="w3-button">
 						LicoSys <?=getUltimaVersion()?>
 					</button>
+					<?=generarTooltip('Acerca De')?>
 				</div>
-				<div>
-					<a href="views/nuevaVenta.php" role="navegacion" title="Nueva Venta" class="w3-large w3-button">
-						<i class="icon-cart-arrow-down"></i>
-						<b id="productosEnCarrito"><?=$productosEnCarrito?></b>
-					</a>
-					<a href="views/nuevaCompra.php" role="navegacion" title="Nueva Compra" class="w3-large w3-button w3-hide-small">
-						<i class="icon-handshake-o"></i>
-						<b id="productosEnCarritoCompra"><?=$productosEnCarritoCompra?></b>
-					</a>
+				<div class="w3-row">
+					<div class="w3-half w3-medium w3-dropdown-hover w3-black">
+						<a href="views/nuevaVenta.php" role="navegacion" title="Nueva Venta" class="w3-large w3-button">
+							<i class="icon-cart-arrow-down"></i>
+							<b id="productosEnCarrito"><?=$productosEnCarrito?></b>
+						</a>
+						<?=generarTooltip('Carrito de Ventas')?>
+					</div>
+					<?php
+						$tooltipCarritoCompras = generarTooltip('Carrito de Compras');
+						if ($_SESSION['cargo'] === 'a')
+							echo <<<HTML
+								<div class="w3-half w3-medium w3-dropdown-hover w3-black">
+									<a href="views/nuevaCompra.php" role="navegacion" title="Nueva Compra" class="w3-large w3-button w3-hide-small">
+										<i class="icon-handshake-o"></i>
+										<b id="productosEnCarritoCompra">$productosEnCarritoCompra</b>
+									</a>
+									$tooltipCarritoCompras
+								</div>
+							HTML;
+					?>
 				</div>
-				<a href="dashboard.php" role="navegacion" title="Panel de Administración" class="w3-medium w3-button">
-					<img src="<?="$BASE_URL{$_SESSION['negocioLogo']}"?>" class="w3-image w3-circle" style="height: 25px; width:25px">
-					&nbsp;<b id="menuNombreNegocio"><?=$_SESSION['negocio']?></b>
-				</a>
+				<div class="w3-medium w3-dropdown-hover w3-black">
+					<a href="dashboard.php" role="navegacion" title="Panel de Administración" class="w3-medium w3-button">
+						<img src="<?="$BASE_URL{$_SESSION['negocioLogo']}"?>" class="w3-image w3-circle" style="height: 25px; width:25px">
+						&nbsp;<b id="menuNombreNegocio"><?=$_SESSION['negocio']?></b>
+					</a>
+					<?=generarTooltip('Panel de Administración')?>
+				</div>
 			</header>
 			<!--==================================
 			=            MENÚ LATERAL            =

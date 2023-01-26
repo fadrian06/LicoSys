@@ -40,11 +40,13 @@
 		$filasDesactivadosEscritorio = '';
 		$filasDesactivadosMovil = '';
 		$encabezadosEscritorio = '';
+		$encabezadosDesactivadosEscritorio = '';
 		$encabezadosMovil = '';
 		$encabezadosDesactivadosMovil = '';
-				
+		
+		// Plantilla a mostrar CUANDO NO EXISTAN REGISTROS ACTIVOS NI INACTIVOS
 		if (!$datos['filas'] and empty($desactivar['filas'])):
-			print <<<HTML
+			echo <<<HTML
 				<h2 class="w3-display-middle w3-container w3-center w3-opacity">
 					$sinRegistros
 				</h2>
@@ -52,38 +54,41 @@
 			return true;
 		endif;
 		
-		// Rellenamos los encabezados en escritorio.
-		foreach ($encabezados['escritorio'] as $encabezado)
+		// Rellenamos los encabezados activos en escritorio.
+		foreach ($encabezados['escritorio'] as $encabezado):
 			$encabezadosEscritorio .= <<<HTML
-				<th>$encabezado</th>
+				<th class="w3-indigo">$encabezado</th>
 			HTML;
+			$encabezadosDesactivadosEscritorio .= <<<HTML
+				<th class="w3-red">$encabezado</th>
+			HTML;
+		endforeach;
 		if ($desactivar) $encabezadosEscritorio .= '<th></th>';
 		if ($actualizar) $encabezadosEscritorio .= '<th></th>';
 		if ($factura) $encabezadosEscritorio .= '<th></th>';
 		
 		// Rellenamos lo encabezados en móvil.
-		foreach ($encabezados['movil'] as $encabezado)
+		foreach ($encabezados['movil'] as $encabezado):
 			$encabezadosMovil .= <<<HTML
 				<div class="w3-padding w3-col s5 w3-indigo">
 					<b>$encabezado</b>
 				</div>
 			HTML;
-		
-		// Rellenamos lo encabezados en móvil.
-		foreach ($encabezados['movil'] as $encabezado)
 			$encabezadosDesactivadosMovil .= <<<HTML
 				<div class="w3-padding w3-col s5 w3-red">
 					<b>$encabezado</b>
 				</div>
 			HTML;
+		endforeach;
+		$encabezadosDesactivadosEscritorio .= '<th class="w3-red"></th>';
 		
-		// Rellenamos las filas en escritorio.
+		// Rellenamos las filas.
 		foreach ($datos['filas'] as $fila):
 			$campos = '';
 			foreach ($datos['camposEscritorio'] as $campo)
 				$campos .= <<<HTML
 					<td>
-						<span class="w3-button w3-transparent w3-hover-none" style="padding-left: 0; padding-right: 0">
+						<span class="w3-button w3-block w3-left-align w3-transparent w3-hover-none" style="padding-left: 0; padding-right: 0">
 							$fila[$campo]
 						</span>
 					</td>
@@ -119,15 +124,12 @@
 			$filasEscritorio .= <<<HTML
 				<tr>$campos</tr>
 			HTML;
-		endforeach;
-		
-		// Rellenamos las filas en móvil.
-		foreach ($datos['filas'] as $fila):
+			
 			$campos = '';
 			$verMas = '';
 			foreach ($datos['camposMovil'] as $campo)
 				$campos .= <<<HTML
-					<div class="w3-col s5">$fila[$campo]</div>
+					<div class="w3-col s5 w3-left-align">$fila[$campo]</div>
 				HTML;
 			
 			$cantidadDatosVerMas = count($datos['camposEscritorio']);
@@ -200,7 +202,7 @@
 				foreach ($datos['camposEscritorio'] as $campo)
 					$campos .= <<<HTML
 						<td>
-							<span class="w3-button w3-transparent w3-hover-none" style="padding-left: 0; padding-right: 0">
+							<span class="w3-button w3-left-align w3-transparent w3-hover-none" style="padding-left: 0; padding-right: 0">
 								$fila[$campo]
 							</span>
 						</td>
@@ -218,15 +220,12 @@
 				$filasDesactivadosEscritorio .= <<<HTML
 					<tr class="w3-left-align">$campos</tr>
 				HTML;
-			endforeach;
-			
-			// Rellenamos las filas en móvil.
-			foreach ($desactivar['filas'] as $fila):
+				
 				$campos = '';
 				$verMas = '';
 				foreach ($datos['camposMovil'] as $campo)
 					$campos .= <<<HTML
-						<div class="w3-col s5">$fila[$campo]</div>
+						<div class="w3-col s5 w3-left-align">$fila[$campo]</div>
 					HTML;
 				
 				$cantidadDatosVerMas = count($datos['camposEscritorio']);
@@ -283,7 +282,7 @@
 						$filasEscritorio
 					</table>
 					<div class="w3-hide-medium w3-hide-large">
-						<div class="w3-row w3-center">
+						<div class="w3-row">
 							$encabezadosMovil
 							<div class="w3-padding w3-rest w3-indigo">
 								<b style="opacity: 0">Ver</b>
@@ -312,13 +311,13 @@
 					<div class="w3-margin w3-card-4 w3-responsive">
 						<table class="w3-table w3-table-all w3-hoverable w3-hide-small">
 							<tr class="w3-red">
-								$encabezadosEscritorio
+								$encabezadosDesactivadosEscritorio
 							</tr>
 							$filasDesactivadosEscritorio
 						</table>
 					</div>
 					<div class="w3-card-4 w3-hide-medium w3-hide-large">
-						<div class="w3-row w3-center">
+						<div class="w3-row">
 							$encabezadosDesactivadosMovil
 							<div class="w3-padding w3-rest w3-red">
 								<b style="opacity: 0">Ver</b>
@@ -605,39 +604,37 @@
 		$formateada = 'Hace ';
 		$diferencia = obtenerDiferenciaFecha($fecha);
 		
-		if ($diferencia['mes']):
+		if ($diferencia['mes'] > 0):
 			
 			if ($diferencia['mes'] === 1)
 				$formateada .= '1 mes ';
 			else $formateada .= "{$diferencia['mes']} meses ";
 			
-		elseif ($diferencia['semana']):
+		elseif ($diferencia['semana'] > 0):
 			
 			if ($diferencia['semana'] === 1)
 				$formateada .= '1 semana ';
 			else $formateada .= "{$diferencia['semana']} semanas ";
 			
-		elseif ($diferencia['dia']):
+		elseif ($diferencia['dia'] > 0):
 			
 			if ($diferencia['dia'] === 1)
 				$formateada .= '1 día ';
 			else $formateada .= "{$diferencia['dia']} días ";
 			
-		elseif ($diferencia['hora']):
+		elseif ($diferencia['hora'] > 0):
 			
 			if ($diferencia['hora'] === 1)
 				$formateada .= '1 hora ';
 			else $formateada .= "{$diferencia['hora']} horas ";
 			
-		elseif ($diferencia['minutos']):
+		elseif ($diferencia['minutos'] > 0):
 			if ($diferencia['minutos'] === 1)
 				$formateada .= '1 minuto ';
 			else $formateada .= "{$diferencia['minutos']} minutos ";
-			
+		else:
+			$formateada .= 'unos instantes';
 		endif;
-		
-		if ($formateada === 'Hace ')
-			$formateada .= 'unos instantes ';
 		
 		return $formateada;
 	}

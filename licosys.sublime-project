@@ -4,7 +4,7 @@
 			"name": "LicoSys",
 			"path": ".",
 			"folder_exclude_patterns": [
-				"backup ",
+				"backup",
 				"css",
 				"fonts",
 				"icons",
@@ -20,7 +20,7 @@
 				".gitignore",
 				".htaccess",
 				"package-lock.json",
-				"package.json"
+				// "package.json"
 			],
 		},
 	],

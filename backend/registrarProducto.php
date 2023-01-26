@@ -16,6 +16,10 @@
 		elseif ($excento < 0 or $excento > 1)
 			$respuesta['error'] = 'Excento sólo puede ser SI o NO.';
 		
+		$productoEncontrado = getRegistro("SELECT codigo FROM inventario WHERE codigo='$codigo'");
+		if ($productoEncontrado)
+			$respuesta['error'] = 'Ya existe un producto con ese código.';
+		
 		if ($respuesta['error'])
 			exit(json_encode($respuesta, JSON_INVALID_UTF8_IGNORE));
 		

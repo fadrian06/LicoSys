@@ -134,6 +134,8 @@
 		<div class="w3-col s12 m4 w3-center">
 			<div class="w3-margin-top w3-leftbar">
 				<form enctype="multipart/form-data" class="w3-padding-large w3-center w3-white w3-card">
+					<h3 class="w3-large">Actualizar Foto</h3>
+					<p class="w3-small w3-text-blue">Pulsa en la imagen para actualizar</p>
 					<label for="foto" class="w3-display-container w3-hover-opacity w3-circle">
 						<i class="icon-camera w3-xxxlarge w3-display-middle w3-display-hover"></i>
 						<input type="file" id="foto" accept="image/jpeg,image/png" name="foto" class="w3-hide">
