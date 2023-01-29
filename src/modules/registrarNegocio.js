@@ -15,8 +15,7 @@ const image = form.querySelector('.image-result')
 =            EJECUCIÓN DE FUNCIONES            =
 ==============================================*/
 actualizarImagen(inputFile, image, error => {
-	if (error)
-		alerta(error).show()
+	if (error) return alerta(error).show()
 })
 
 validar(form, (error, fd, e) => {
@@ -29,7 +28,7 @@ validar(form, (error, fd, e) => {
 	
 	ajax('backend/registrarNegocio.php', fd, res => {
 		/** @type {Respuesta} */
-		let respuesta = JSON.parse(res)
+		const respuesta = JSON.parse(res)
 		
 		if (respuesta.error) return alerta(respuesta.error)
 			.on('afterClose', () => ocultarLoader(form))

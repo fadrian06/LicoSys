@@ -71,8 +71,12 @@ CREATE TABLE IF NOT EXISTS clientes(
 DROP TABLE IF EXISTS proveedores;
 CREATE TABLE IF NOT EXISTS proveedores(
 	id int PRIMARY KEY AUTO_INCREMENT,
-	rif varchar(255) NOT NULL,
+	cedula int NOT NULL,
 	nombre varchar(255) NOT NULL,
+	rif varchar(255) NOT NULL,
+	nombreEmpresa varchar(255) NOT NULL,
+	telefono varchar(255) NOT NULL,
+	direccion varchar(255) NOT NULL,
 	usuario_id int NOT NULL,
 	negocio_id int NOT NULL,
 	CONSTRAINT FOREIGN KEY(usuario_id) REFERENCES usuarios(id),
@@ -191,3 +195,6 @@ INSERT INTO versiones VALUES(32, '3.0a', 'Nuevo LicoSys, nueva y renovada interf
 INSERT INTO versiones VALUES(33, '3.1a', 'Todas las fechas ahora cuentan con mejor presentación y legibilidad.');
 INSERT INTO versiones VALUES(34, '3.2a', 'Nueva "Calculadora Monetaria"');
 INSERT INTO versiones VALUES(35, '3.3a', 'Gráfica de Productos más Vendidos añadida.');
+INSERT INTO versiones VALUES(36, '3.4a', '"Conversión Monetaria" ahora acepta operaciones básicas. Tooltips en botones añadidos.');
+INSERT INTO versiones VALUES(37, '3.5a', 'LicoSys genera facturas de ventas en PDF.');
+INSERT INTO versiones VALUES(38, '3.6a', 'Ampliado el módulo "Proveedores". Correcciones de seguridad.');

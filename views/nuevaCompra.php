@@ -56,16 +56,42 @@
 				</div>
 				<div class="w3-col m7">
 					<ul id="datosProveedor" class="w3-ul w3-small w3-card w3-white w3-padding-large w3-margin-top $mostrarLista w3-animate-opacity">
-						<li>
-							<span class="w3-tag w3-blue w3-left">RIF:</span>
-							<b class="w3-right">{$proveedor['rif']}</b>
-							<div class="w3-clear"></div>
-						</li>
-						<li>
-							<span class="w3-tag w3-blue w3-left">Nombre:</span>
-							<b class="w3-right">{$proveedor['nombre']}</b>
-							<div class="w3-clear"></div>
-						</li>
+						<div class="w3-bottombar">
+							<p><b>Persona de contacto</b></p>
+							<li>
+								<span class="w3-tag w3-blue w3-left">Cédula:</span>
+								<b class="w3-right">{$proveedor['cedula']}</b>
+								<div class="w3-clear"></div>
+							</li>
+							<li>
+								<span class="w3-tag w3-blue w3-left">Nombre:</span>
+								<b class="w3-right">{$proveedor['cedula']}</b>
+								<div class="w3-clear"></div>
+							</li>
+						</div>
+						<div class="w3-bottombar">
+							<p><b>Datos del proveedor</b></p>
+							<li>
+								<span class="w3-tag w3-blue w3-left">RIF:</span>
+								<b class="w3-right">{$proveedor['rif']}</b>
+								<div class="w3-clear"></div>
+							</li>
+							<li>
+								<span class="w3-tag w3-blue w3-left">Nombre:</span>
+								<b class="w3-right">{$proveedor['nombreEmpresa']}</b>
+								<div class="w3-clear"></div>
+							</li>
+							<li>
+								<span class="w3-tag w3-blue w3-left">Teléfono:</span>
+								<b class="w3-right">{$proveedor['telefono']}</b>
+								<div class="w3-clear"></div>
+							</li>
+							<li>
+								<span class="w3-tag w3-blue w3-left">Dirección:</span>
+								<b class="w3-right">{$proveedor['direccion']}</b>
+								<div class="w3-clear"></div>
+							</li>
+						</div>
 					</ul>
 				</div>
 			</section>

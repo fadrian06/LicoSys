@@ -29,16 +29,16 @@ validar(form, (error, fd, e) => {
 	fd.append('cargo', 'a')
 	ajax('backend/registrarUsuario.php', fd, res => {
 		/** @type {Respuesta} */
-		const datos = JSON.parse(res)
+		const respuesta = JSON.parse(res)
 		
-		if (datos.error)
-			return alerta(datos.error)
+		if (respuesta.error)
+			return alerta(respuesta.error)
 				.on('afterClose', () => ocultarLoader(form))
 				.show()
 		
 		ocultarLoader(form)
 		
-		return notificacion('Administrador registrado exitósamente.')
+		return notificacion(respuesta.ok)
 			.on('afterClose', () => location.reload())
 			.show()
 	})

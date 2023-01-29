@@ -3,9 +3,9 @@
   "pair": "USDVES",
   "sources": {
     "BCV": {
-      "last_retrieved": "2023-01-25T23:00:06+00:00",
+      "last_retrieved": "2023-01-29T23:00:05+00:00",
       "name": "BCV Dollar",
-      "quote": "21.318900000"
+      "quote": "21.968900000"
     }
   },
   "warning": "API endpoints and data structure subject to changes at anytime. ALL INFORMATION IS PROVIDED \"AS IS\". EACH PARTY MAKES NO WARRANTIES, EXPRESS, IMPLIED OR OTHERWISE, REGARDING ITS ACCURACY, COMPLETENESS OR PERFORMANCE."

@@ -32,7 +32,6 @@ validar(formConsulta, (error, fd, e) => {
 	ajax('backend/recuperarClave.php', fd, res => {
 		/** @type {Respuesta} */
 		const datos = JSON.parse(res)
-		
 		if (datos.error)
 			return alerta(datos.error)
 				.on('onShow', () => formConsulta.classList.remove('showLoader'))

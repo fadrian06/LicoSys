@@ -1,5 +1,4 @@
 <?php
-	
 	/**
 	 * Genera una tabla con los datos que le proporcionen.
 	 * @param string $titulo El título de la tabla.
@@ -140,7 +139,9 @@
 							<b class="w3-tag">{$encabezados['escritorio'][$i]}:</b>
 						</div>
 						<div class="w3-rest">
-							<span>{$fila[$datos['camposEscritorio'][$i]]}</span>
+							<span class="w3-margin-left">
+								{$fila[$datos['camposEscritorio'][$i]]}
+							</span>
 						</div>
 					</li>
 				HTML;
@@ -334,14 +335,15 @@
 		return true;
 	}
 
-	/**
-	 * Muestra arrays y objetos en formato más legible
-	 * @param  iterable $dato
-	 */
-	function depurar(iterable $dato) {
-		$formato = print_r('<pre class="w3-orange w3-padding-large">');
-		$formato += print_r($dato);
-		$formato += print_r('</pre>');
+	/** Muestra variables en formato más legible */
+	function depurar($dato, string $nombre = '') {
+		echo '<pre class="w3-orange w3-padding-large">';
+		echo $nombre ? "$nombre: " : '';
+		if (is_array($dato)) print_r($dato);
+		elseif (is_object($dato)) print_r($dato);
+		elseif (is_bool($dato)) echo $dato ? 'true' : 'false';
+		else var_dump(htmlspecialchars($dato));
+		echo '</pre>';
 	}
 
 	/**
@@ -470,7 +472,7 @@
 	function escapar(string $texto): string {
 		global $conexion;
 		$texto = $conexion->real_escape_string($texto);
-		$texto = quotemeta($texto);
+		// $texto = quotemeta($texto);
 		$texto = strip_tags($texto);
 		return $texto;
 	}

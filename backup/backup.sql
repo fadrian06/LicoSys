@@ -24,10 +24,16 @@ INSERT INTO compras VALUES(4, '2023-01-22 20:50:44', 3, 6, 0.30, 1.80, 3, 1, 1);
 
 INSERT INTO compras VALUES(5, '2023-01-22 20:50:44', 2, 5, 2.00, 10.00, 3, 1, 1);
 
+INSERT INTO compras VALUES(6, '2023-01-25 18:46:27', 4, 3, 0.50, 1.50, 3, 1, 1);
+
 TRUNCATE TABLE dolar;
 INSERT INTO dolar VALUES('2023-01-18 22:14:02', '21');
 
 INSERT INTO dolar VALUES('2023-01-18 22:14:02', '21');
+
+INSERT INTO dolar VALUES('2023-01-27 12:10:25', '23');
+
+INSERT INTO dolar VALUES('2023-01-28 17:25:43', '24');
 
 TRUNCATE TABLE inventario;
 INSERT INTO inventario VALUES(1, 'ART-01', 'Articulo Excento', 10, 1, 1.00, 1, 1);
@@ -36,7 +42,7 @@ INSERT INTO inventario VALUES(2, 'ART-02', 'Articulo No Excento', 6, 0, 2.00, 1,
 
 INSERT INTO inventario VALUES(3, 'ART-03', 'Articulo De Prueba', 6, 0, 0.30, 1, 1);
 
-INSERT INTO inventario VALUES(4, 'ART-04', 'Articulo Cuatro', 20, 0, 0.50, 1, 1);
+INSERT INTO inventario VALUES(4, 'ART-04', 'Articulo Cuatro', 18, 0, 0.50, 1, 1);
 
 INSERT INTO inventario VALUES(5, 'ART-05', 'Otro Articulo', 20, 0, 0.68, 1, 1);
 
@@ -44,6 +50,10 @@ TRUNCATE TABLE iva;
 INSERT INTO iva VALUES('2023-01-18 22:14:02', '0.16');
 
 INSERT INTO iva VALUES('2023-01-18 22:14:02', '0.16');
+
+INSERT INTO iva VALUES('2023-01-27 12:10:25', '0.16');
+
+INSERT INTO iva VALUES('2023-01-28 17:25:43', '0.16');
 
 TRUNCATE TABLE log;
 INSERT INTO log VALUES('2023-01-18 22:08:37', 2, 1);
@@ -55,6 +65,10 @@ INSERT INTO log VALUES('2023-01-18 22:17:11', 2, 1);
 INSERT INTO log VALUES('2023-01-18 22:25:51', 2, 1);
 
 INSERT INTO log VALUES('2023-01-21 11:57:59', 2, 1);
+
+INSERT INTO log VALUES('2023-01-27 11:55:48', 2, 1);
+
+INSERT INTO log VALUES('2023-01-27 12:23:19', 2, 1);
 
 TRUNCATE TABLE negocios;
 INSERT INTO negocios VALUES(1, 'Negocio De Pruebas', 'V123456789', '', '', 'fmujSLHP_4x.jpg', 1);
@@ -69,6 +83,10 @@ TRUNCATE TABLE peso;
 INSERT INTO peso VALUES('2023-01-18 22:14:02', '5000');
 
 INSERT INTO peso VALUES('2023-01-18 22:14:03', '5000');
+
+INSERT INTO peso VALUES('2023-01-27 12:10:25', '5000');
+
+INSERT INTO peso VALUES('2023-01-28 17:25:43', '5000');
 
 TRUNCATE TABLE proveedores;
 INSERT INTO proveedores VALUES(1, 'V332211556', 'Proveedor Uno', 1, 1);
@@ -94,6 +112,8 @@ INSERT INTO ventas VALUES(3, '2023-01-18 22:14:44', 3, 2, 4, 8.00, 0.16, 1, 1);
 INSERT INTO ventas VALUES(4, '2023-01-18 22:15:01', 3, 5, 6, 4.08, 0.16, 1, 1);
 
 INSERT INTO ventas VALUES(5, '2023-01-18 23:10:15', 6, 1, 3, 3.48, 0.16, 1, 1);
+
+INSERT INTO ventas VALUES(6, '2023-01-25 18:46:08', 3, 4, 5, 2.50, 0.16, 1, 1);
 
 TRUNCATE TABLE versiones;
 INSERT INTO versiones VALUES(1, '1.0a', 'Módulo "Iniciar Sesión" añadido');
@@ -165,4 +185,9 @@ INSERT INTO versiones VALUES(33, '3.1a', 'Todas las fechas ahora cuentan con mej
 INSERT INTO versiones VALUES(34, '3.2a', 'Nueva "Calculadora Monetaria"');
 
 INSERT INTO versiones VALUES(35, '3.3a', 'Gráfica de Productos más Vendidos añadida.');
+
+INSERT INTO versiones VALUES(36, '3.4a', '"Conversión Monetaria" ahora acepta operaciones básicas.
+Tooltips en botones añadidos.');
+
+INSERT INTO versiones VALUES(37, '3.5a', 'LicoSys genera facturas de ventas en PDF.');
 

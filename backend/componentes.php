@@ -1,4 +1,8 @@
 <?php
+	$EXPRESIONES = [
+		'clave' => '[!#$%&/=?¿¡@+.\-\w]{4,20}'
+	];
+	
 	const LOADER = '
 		<div class="loader" id="loader">
 			<i class="w3-block w3-spin icon-spinner"></i>
@@ -87,7 +91,7 @@
 			</button>
 		HTML,
 		'REGISTRAR_COMBO' => <<<HTML
-			<button onclick="modal(this)" data-target="#registrarCombo" class="w3-disabled w3-blue w3-text-black w3-button w3-circle w3-border w3-border-black">
+			<button onclick="modal(this)" data-target="#registrarCombo" class="w3-hide w3-disabled w3-blue w3-text-black w3-button w3-circle w3-border w3-border-black">
 				<i class="w3-block w3-center icon-list w3-xxlarge"></i>
 				Nuevo<br>&nbsp;&nbsp;Combo&nbsp;&nbsp;
 			</button>
@@ -120,6 +124,7 @@
 	 * @return string El elemento `<input>`
 	 */
 	function generarINPUT(string $nombre, string $label, string $placeholder = '', string $value = ''):string {
+		global $EXPRESIONES;
 		switch ($nombre):
 			case 'CLAVE':
 				return <<<HTML
@@ -128,7 +133,18 @@
 						<div class="w3-row w3-center w3-border-bottom">
 							<div class="icon-key w3-col s2 w3-xxlarge"></div>
 							<div class="w3-col s10 w3-display-container">
-								<input type="password" id="clave" name="clave" placeholder="$placeholder" value="$value" minlength="4" maxlength="20" pattern="^[\w.-@#/*]{4,20}" title="Sólo se permiten entre 4 y 20 letras, números y símbolos (. - _ @ # / *)" class="w3-input w3-border-0 w3-large">
+								<input
+									type="password"
+									id="clave"
+									name="clave"
+									placeholder="$placeholder"
+									value="$value"
+									required
+									minlength="4"
+									maxlength="20"
+									pattern="{$EXPRESIONES['clave']}"
+									title="Sólo se permiten entre 4 y 20 letras, números y símbolos (. - _ @ # / *)"
+									class="w3-input w3-border-0 w3-large">
 								<div class="w3-display-right w3-xxlarge icon-eye w3-show"></div>
 							</div>
 						</div>
@@ -141,7 +157,18 @@
 						<div class="w3-row w3-center w3-border-bottom">
 							<div class="icon-key w3-col s2 w3-xxlarge"></div>
 							<div class="w3-col s10 w3-display-container">
-								<input type="password" id="confirmar" name="confirmar" placeholder="$placeholder" value="$value" minlength="4" maxlength="20" pattern="^[\w.-@#/*]{4,20}" title="Sólo se permiten entre 4 y 20 letras, números y símbolos (. - _ @ # / *)" class="w3-input w3-border-0 w3-large">
+								<input
+									type="password"
+									id="confirmar"
+									name="confirmar"
+									placeholder="$placeholder"
+									value="$value"
+									required
+									minlength="4"
+									maxlength="20"
+									pattern="{$EXPRESIONES['clave']}"
+									title="Sólo se permiten entre 4 y 20 letras, números y símbolos (. - _ @ # / *)"
+									class="w3-input w3-border-0 w3-large">
 								<div class="w3-display-right w3-xxlarge icon-eye w3-show"></div>
 							</div>
 						</div>

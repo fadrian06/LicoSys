@@ -30,7 +30,7 @@ new Typed('#typed', {
 	startDelay: 1000,
 	backSpeed: 50,
 	loop: true,
-	cursorChar: '/'
+	cursorChar: '<i class="w3-medium icon-chevron-left"></i>'
 })
 
 form.usuario.addEventListener('blur', () => {

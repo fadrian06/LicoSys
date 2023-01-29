@@ -43,6 +43,18 @@ const acordeon = () => {
 }
 
 /**
+ * Redirige a una ruta especificada
+ * @param  {string} destino Ruta destino
+ * @returns {string} La nueva ruta
+ */
+const redirigir = destino => {
+	let href = location.href.split('/')
+	href[href.length - 1] = destino
+	href = href.join('/')
+	return location.href = href
+}
+
+/**
  * Comportamiento de un Dropdown Click
  * @param  {string} id El ID del content (incluido el '#')
  */
@@ -261,7 +273,7 @@ const confirmar = (texto, posicion = 'center', callback = () => {}) => {
 			</h2>
 			<div class="w3-center w3-padding w3-margin-top">
 				<button id="btnConfirmar" class="w3-button w3-round-xlarge w3-blue">Sí</button>
-				<button id="cancelar" class="w3-button w3-round-xlarge w3-red">No</button>
+				<button id="btnCancelar" class="w3-button w3-round-xlarge w3-red">No</button>
 			</div>
 		</div>
 	`
@@ -279,7 +291,7 @@ const confirmar = (texto, posicion = 'center', callback = () => {}) => {
 					$('#confirmacion .noty_close_button')[0].click()
 					callback(e)
 				})
-				$('#cancelar').on('click', () => {
+				$('#btnCancelar').on('click', () => {
 					$('#confirmacion .noty_close_button')[0].click()
 				})
 			}
@@ -592,7 +604,7 @@ const verFacturaVenta = (boton, ventaID) => {
 						${textoDireccion}
 						${textoTelefono}
 					</table>
-					<button class="w3-rest w3-auto w3-button w3-blue w3-round-xlarge">
+					<button onclick="generarPDF()" class="w3-rest w3-auto w3-button w3-blue w3-round-xlarge">
 						<i class="icon-save"></i>
 						Guardar
 					</button>
@@ -601,6 +613,12 @@ const verFacturaVenta = (boton, ventaID) => {
 		`
 		modal(boton)
 	})
+}
+
+const generarPDF = () => {
+	/** @type {HTMLElement} */
+	const modalFactura = document.querySelector('#modalFactura')
+	html2pdf(modalFactura.innerHTML)
 }
 
 /**
@@ -811,10 +829,11 @@ const actualizarMonedas = formulario => {
 			`)
 			formulario.classList.remove('showLoader')
 			
-			return notificacion('Valores actualizados correctamente.')
+			return notificacion(datos.ok)
 				.on('onShow', () => {
 					formulario.querySelector('.icon-close').click()
 				})
+				.on('afterClose', () => location.reload())
 				.show()
 		})
 	})

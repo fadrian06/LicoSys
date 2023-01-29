@@ -15,7 +15,8 @@
 	=============================*/
 	$sql = <<<SQL
 		SELECT i.id, codigo, producto, stock, precio, usuario FROM inventario i
-		INNER JOIN usuarios u ON i.usuario_id=u.id ORDER BY producto
+		INNER JOIN usuarios u ON i.usuario_id=u.id
+		WHERE i.negocio_id={$_SESSION['negocioID']} ORDER BY producto
 	SQL;
 	
 	$encabezados = [
@@ -36,10 +37,15 @@
 		'IDform' => '#editarProducto'
 	];
 	
-	foreach ($datos['filas'] as &$producto)
+	foreach ($datos['filas'] as &$producto):
 		$producto['stock'] = $producto['stock'] ?: <<<HTML
 			<strong class="w3-text-red">Agotado</strong>
 		HTML;
+		
+		foreach ($producto as $clave => $valor)
+			if ($clave !== 'id')
+				$producto[$clave] = "<small>$producto[$clave]</small>";
+	endforeach;
 	unset($producto);
 	
 	tabla('Inventario', $encabezados, $datos, 'No hay productos registrados', false, $editar);

@@ -9,7 +9,7 @@
 		$clave     = escapar($_POST['clave']);
 		$confirmar = escapar($_POST['confirmar']);
 		$telefono  = escapar($_POST['telefono']);
-		$cargo     = $_POST['cargo'];
+		$cargo     = (string) $_POST['cargo'];
 		$foto      = !empty($_FILES['foto']) ? (array) $_FILES['foto'] : ['error' => 4];
 		$imagen = '';
 		
@@ -64,6 +64,10 @@
 		
 		if (!$resultado)
 			$respuesta['error'] = $conexion->error;
+		
+		$respuesta['ok'] = $cargo === 'a'
+			? 'Administrador registrado exitósamente.'
+			: 'Usuario registrado exitósamente.';
 		
 		exit(json_encode($respuesta, JSON_INVALID_UTF8_IGNORE));
 	endif;

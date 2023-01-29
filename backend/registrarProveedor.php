@@ -4,14 +4,21 @@
 		require 'conexion.php';
 		require 'funciones.php';
 		
+		$cedula = (int) $_POST['cedula'];
+		$nombrePersona = escapar($_POST['nombre']);
 		$rif = escapar($_POST['rif']);
-		$nombre = escapar($_POST['nombreNegocio']);
+		$nombreEmpresa = escapar($_POST['nombreNegocio']);
+		$telefono = escapar($_POST['telefono']);
+		$direccion = escapar(capitalize($_POST['direccion']));
 		
 		/*====================================
 		=            VALIDACIONES            =
 		====================================*/
-		if (!$rif or !$nombre)
-			$respuesta['error'] = 'El RIF y el nombre son requeridos.';
+		if (!$cedula or !$nombrePersona)
+			$respuesta['error'] = 'Los datos de persona de contacto son requeridos.';
+		
+		if (!$rif or !$nombreEmpresa)
+			$respuesta['error'] = 'El RIF y el nombre de empresa son requeridos.';
 		
 		$proveedorEncontrado = consulta("SELECT rif FROM proveedores WHERE rif='$rif'");
 		if ($proveedorEncontrado)
@@ -22,8 +29,11 @@
 			exit(json_encode($respuesta, JSON_INVALID_UTF8_IGNORE));
 		
 		$sql = <<<SQL
-			INSERT INTO proveedores(rif, nombre, usuario_id, negocio_id)
-			VALUES('$rif', '$nombre', {$_SESSION['userID']}, {$_SESSION['negocioID']})
+			INSERT INTO proveedores(cedula, nombre, rif, nombreEmpresa,
+				telefono, direccion, usuario_id, negocio_id
+			) VALUES($cedula, '$nombrePersona', '$rif', '$nombreEmpresa', '$telefono',
+				'$direccion', {$_SESSION['userID']}, {$_SESSION['negocioID']}
+			)
 		SQL;
 		
 		$resultado = setRegistro($sql);

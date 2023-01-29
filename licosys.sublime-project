@@ -7,7 +7,7 @@
 				"backup",
 				"css",
 				"fonts",
-				"icons",
+				"ico",
 				"images",
 				"js",
 				"libs",
@@ -20,7 +20,8 @@
 				".gitignore",
 				".htaccess",
 				"package-lock.json",
-				// "package.json"
+				"package.json",
+				"README.html"
 			],
 		},
 	],

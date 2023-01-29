@@ -43,11 +43,12 @@
 	endif;
 	
 	if (!empty($_POST['verificarRespuestas'])):
+		$id = (int) $_POST['id'];
 		$res1 = escapar($_POST['res1']);
 		$res2 = escapar($_POST['res2']);
 		$res3 = escapar($_POST['res3']);
 		
-		$sql = "SELECT id, res1, res2, res3 FROM usuarios WHERE id={$_SESSION['userID']}";
+		$sql = "SELECT id, usuario, res1, res2, res3 FROM usuarios WHERE id=$id";
 		$filaUsuario = getRegistro($sql);
 		
 		if (!password_verify($res1, $filaUsuario['res1'])
@@ -59,11 +60,11 @@
 		if (!$respuesta['error'])
 			$_SESSION['changePassword'] = true;
 		
-		$respuesta['datos']['id'] = $filaUsuario['id'];
 		exit(json_encode($respuesta, JSON_INVALID_UTF8_IGNORE));
 	endif;
 	
 	if (!empty($_POST['cambiarClave'])):
+		$id = (int) $_POST['id'];
 		$clave     = escapar($_POST['clave']);
 		$confirmar = escapar($_POST['confirmar']);
 		
@@ -79,7 +80,7 @@
 		endif;
 		
 		$clave = encriptar($clave);
-		$sql = "UPDATE usuarios SET clave='$clave' WHERE id={$_SESSION['userID']}";
+		$sql = "UPDATE usuarios SET clave='$clave' WHERE id=$id";
 		$resultado = setRegistro($sql);
 		
 		if (!$resultado) $respuesta['error'] = $conexion->error;

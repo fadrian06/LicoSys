@@ -43,7 +43,7 @@ const expresiones = {
 	usuario: /^[\w-]{4,20}$/i,
 	
 	// Entre 4 y 20 letras, números y símbolos (- _ . @ # / *)
-	clave: /^[\w.-@#/*]{4,20}$/i,
+	clave: /^[\!\#\$\%\&\/\=\?\¿\¡\@\+\.\-\*\w]{4,20}$/i,
 	
 	// Entre 1 y 50 letras y símbolos (¿ ?)
 	pregunta: /^[\?a-záÁéÉíÍóÓúÚñÑ¿\s]+$/i,
@@ -449,7 +449,17 @@ const validar = (form, cb = () => {}) => {
 		}
 		
 		if (form.id === 'registrarProveedor') {
-			if (!campos.rif) {
+			if (!campos.cedula) {
+				e.preventDefault()
+				error(form.cedula)
+				
+				return cb(mensajes.cedula)
+			} else if (!campos.nombre) {
+				e.preventDefault()
+				error(form.nombre)
+				
+				return cb(mensajes.nombre)
+			} else if (!campos.rif) {
 				e.preventDefault()
 				error(form.rif)
 				
@@ -459,6 +469,16 @@ const validar = (form, cb = () => {}) => {
 				error(form.nombreNegocio)
 				
 				return cb(mensajes.nombreNegocio)
+			} else if (form.telefono.value && !campos.telefono) {
+				e.preventDefault()
+				error(form.telefono)
+				
+				return cb(mensajes.telefono)
+			} else if (form.direccion.value && !campos.direccion) {
+				e.preventDefault()
+				error(form.direccion)
+				
+				return cb(mensajes.direccion)
 			}
 		}
 		
@@ -515,7 +535,17 @@ const validar = (form, cb = () => {}) => {
 		}
 		
 		if (form.id === 'editarProveedor') {
-			if (!form.rif.value || (form.rif.value && !campos.nombre)) {
+			if (!form.cedula.value || (form.cedula.value && !campos.cedula)) {
+				e.preventDefault()
+				error(form.cedula)
+				
+				return cb(mensajes.cedula)
+			} else if (!form.nombre.value || (form.nombre.value && !campos.nombre)) {
+				e.preventDefault()
+				error(form.nombre)
+				
+				return cb(mensajes.nombre)
+			} else if (!form.rif.value || (form.rif.value && !campos.rif)) {
 				e.preventDefault()
 				error(form.rif)
 				
@@ -525,6 +555,16 @@ const validar = (form, cb = () => {}) => {
 				error(form.nombreNegocio)
 				
 				return cb(mensajes.nombreNegocio)
+			} else if (!form.telefono.value || (form.telefono.value && !campos.telefono)) {
+				e.preventDefault()
+				error(form.telefono)
+				
+				return cb(mensajes.telefono)
+			} else if (!form.direccion.value || (form.direccion.value && !campos.direccion)) {
+				e.preventDefault()
+				error(form.direccion)
+				
+				return cb(mensajes.direccion)
 			}
 		}
 		

@@ -24,6 +24,7 @@
 		if (!setRegistro($sqlIVA) or !setRegistro($sqlDolar) or !setRegistro($sqlPeso))
 			$respuesta['error'] = json_encode($conexion->error_list, JSON_INVALID_UTF8_IGNORE);
 		
+		$respuesta['ok'] = 'Valores actualizados correctamente.';
 		exit(json_encode($respuesta, JSON_INVALID_UTF8_IGNORE));
 	endif;
 ?>
