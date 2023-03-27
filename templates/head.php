@@ -113,7 +113,15 @@
 		<meta name="author" content="Franyer Sánchez, Daniel Mancilla">
 		<meta name="description" content="Sistema Automatizado de Gestión de Compras y Ventas">
 		<meta name="theme-color" content="black">
-		<meta property="og:image" content="<?=$BASE_URL?>images/logo.png">
+		<meta property="og:image" content="https://licosys.orgfree.com/images/screenshot.png" />
+		<meta property="og:image:alt" content="Sistema Automatizado de Gestión de Compras y Ventas" />
+		<meta property="og:image:width" content="858" />
+		<meta property="og:image:height" content="938" />
+		<meta property="og:site_name" content="licosys.orgfree.com" />
+		<meta property="og:type" content="website" />
+		<meta property="og:title" content="LicoSys" />
+		<meta property="og:url" content="https://licosys.orgfree.com" />
+		<meta property="og:description" content="Sistema Automatizado de Gestión de Compras y Ventas" />
 		<link rel="icon" href="<?=$BASE_URL?>images/logo.png">
 		<link rel="stylesheet" href="<?=$BASE_URL?>ico/style.min.css">
 		<link rel="stylesheet" href="<?=$BASE_URL?>fonts/fuentes.min.css">

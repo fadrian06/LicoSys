@@ -12,10 +12,15 @@
 	const CLAVE   = '';
 	const BD      = 'licosys';
 	const CHARSET = 'utf8';
-	// ONLINE
+	// ONLINE - FWHA
 	// const USUARIO = '477828';
 	// const CLAVE = 'fsanchez61001';
 	// const BD = '477828';
+	
+	// ONLINE - 000webhost.com
+	// const USUARIO = 'id20496120_fsanchez';
+	// const CLAVE = 'tGB73Jd}mgcO$4I=';
+	// const BD = 'id20496120_licosys';
 
 	$conexion = @new MySQLi(HOST, USUARIO, CLAVE);
 
