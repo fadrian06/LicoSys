@@ -1,10 +1,11 @@
 <?php
-	/*=================================
-	=            ACERCA DE            =
-	=================================*/
-	if (!empty($negocios) and !empty($admin)):
-		$titulo = 'Acerca de <small>LicoSys</small>';
-		$contenido = <<<HTML
+
+/*=================================
+=            ACERCA DE            =
+=================================*/
+if (!empty($negocios) and !empty($admin)) :
+  $titulo = 'Acerca de <small>LicoSys</small>';
+  $contenido = <<<HTML
 			<div class="w3-row">
 				<div class="w3-third w3-padding-large w3-center">
 					<img src="images/logo.png" class="w3-image">
@@ -66,7 +67,6 @@
 				para que la aplicación funcione correctamente.
 			</p>
 		HTML;
-		
-		generarModal('div', 'acercaDe', $titulo, $contenido);
-	endif;
-?>
+
+  generarModal('div', 'acercaDe', $titulo, $contenido);
+endif;

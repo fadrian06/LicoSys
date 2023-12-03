@@ -5,148 +5,52 @@ TRUNCATE TABLE carrito_venta;
 TRUNCATE TABLE clientes;
 INSERT INTO clientes VALUES(3, 40000000, 'No Especificado', 1);
 
-INSERT INTO clientes VALUES(4, 28072391, 'Cliente Uno', 1);
+INSERT INTO clientes VALUES(4, 28072391, 'Franyer', 1);
 
-INSERT INTO clientes VALUES(5, 30735099, 'Cliente Dos', 1);
+INSERT INTO clientes VALUES(5, 30735099, 'Yender', 1);
 
-INSERT INTO clientes VALUES(6, 13825355, 'Cliente Tres', 1);
+INSERT INTO clientes VALUES(6, 13825355, 'Franklin', 1);
 
-INSERT INTO clientes VALUES(7, 18055034, 'Cliente Cuatro', 1);
-
-INSERT INTO clientes VALUES(8, 25577899, 'Misa', 4);
+INSERT INTO clientes VALUES(7, 18055034, 'Yenni', 1);
 
 TRUNCATE TABLE compras;
-INSERT INTO compras VALUES(1, '2023-01-18 23:24:22', 1, 10, 1.00, 10.00, 3, 1, 1);
-
-INSERT INTO compras VALUES(2, '2023-01-18 23:24:36', 4, 20, 0.50, 10.00, 3, 1, 1);
-
-INSERT INTO compras VALUES(3, '2023-01-18 23:50:02', 5, 5, 0.68, 3.40, 1, 1, 1);
-
-INSERT INTO compras VALUES(4, '2023-01-22 20:50:44', 3, 6, 0.30, 1.80, 3, 1, 1);
-
-INSERT INTO compras VALUES(5, '2023-01-22 20:50:44', 2, 5, 2.00, 10.00, 3, 1, 1);
-
-INSERT INTO compras VALUES(6, '2023-01-25 18:46:27', 4, 3, 0.50, 1.50, 3, 1, 1);
-
-INSERT INTO compras VALUES(7, '2023-01-29 10:41:22', 1, 5, 1.00, 5.00, 3, 1, 1);
-
-INSERT INTO compras VALUES(8, '2023-01-29 19:43:26', 4, 4, 0.50, 2.00, 4, 1, 1);
-
 TRUNCATE TABLE dolar;
-INSERT INTO dolar VALUES('2023-01-18 22:14:02', '21');
-
-INSERT INTO dolar VALUES('2023-01-18 22:14:02', '21');
-
-INSERT INTO dolar VALUES('2023-01-27 12:10:25', '23');
-
-INSERT INTO dolar VALUES('2023-01-28 17:25:43', '24');
+INSERT INTO dolar VALUES('2023-12-03 16:00:49', '36');
 
 TRUNCATE TABLE inventario;
-INSERT INTO inventario VALUES(1, 'ART-01', 'Articulo Excento', 15, 1, 1.00, 1, 1);
+INSERT INTO inventario VALUES(1, 'ART-01', 'Articulo Uno', 0, 1, 1.00, 1, 1);
 
-INSERT INTO inventario VALUES(2, 'ART-02', 'Articulo No Excento', 6, 0, 2.00, 1, 1);
+INSERT INTO inventario VALUES(2, 'ART-02', 'Articulo Dos', 0, 0, 2.00, 1, 1);
 
-INSERT INTO inventario VALUES(3, 'ART-03', 'Articulo De Prueba', 6, 0, 0.30, 1, 1);
+INSERT INTO inventario VALUES(3, 'ART-03', 'Articulo Tres', 0, 0, 3.00, 1, 1);
 
-INSERT INTO inventario VALUES(4, 'ART-04', 'Articulo Cuatro', 22, 0, 0.50, 1, 1);
+INSERT INTO inventario VALUES(4, 'ART-04', 'Articulo Cuatro', 0, 1, 4.00, 1, 1);
 
-INSERT INTO inventario VALUES(5, 'ART-05', 'Otro Articulo', 20, 0, 0.68, 1, 1);
+INSERT INTO inventario VALUES(5, 'ART-05', 'Articulo Cinco', 0, 0, 5.00, 1, 1);
 
 TRUNCATE TABLE iva;
-INSERT INTO iva VALUES('2023-01-18 22:14:02', '0.16');
-
-INSERT INTO iva VALUES('2023-01-18 22:14:02', '0.16');
-
-INSERT INTO iva VALUES('2023-01-27 12:10:25', '0.16');
-
-INSERT INTO iva VALUES('2023-01-28 17:25:43', '0.16');
+INSERT INTO iva VALUES('2023-12-03 16:00:49', '0.16');
 
 TRUNCATE TABLE log;
-INSERT INTO log VALUES('2023-01-18 22:08:37', 2, 1);
-
-INSERT INTO log VALUES('2023-01-18 22:09:10', 3, 1);
-
-INSERT INTO log VALUES('2023-01-18 22:17:11', 2, 1);
-
-INSERT INTO log VALUES('2023-01-18 22:25:51', 2, 1);
-
-INSERT INTO log VALUES('2023-01-21 11:57:59', 2, 1);
-
-INSERT INTO log VALUES('2023-01-27 11:55:48', 2, 1);
-
-INSERT INTO log VALUES('2023-01-27 12:23:19', 2, 1);
-
-INSERT INTO log VALUES('2023-01-28 22:31:18', 2, 1);
-
-INSERT INTO log VALUES('2023-01-29 10:26:53', 4, 1);
-
-INSERT INTO log VALUES('2023-01-29 10:27:05', 4, 1);
-
-INSERT INTO log VALUES('2023-01-29 10:27:54', 4, 1);
-
-INSERT INTO log VALUES('2023-01-29 10:29:50', 4, 1);
-
-INSERT INTO log VALUES('2023-01-29 10:31:39', 4, 2);
-
-INSERT INTO log VALUES('2023-01-29 12:15:47', 2, 1);
-
-INSERT INTO log VALUES('2023-01-29 12:32:06', 2, 1);
-
-INSERT INTO log VALUES('2023-01-29 12:53:40', 2, 1);
-
-INSERT INTO log VALUES('2023-01-29 12:57:28', 2, 1);
-
-INSERT INTO log VALUES('2023-01-29 13:28:08', 2, 1);
-
 TRUNCATE TABLE negocios;
-INSERT INTO negocios VALUES(1, 'Negocio De Pruebas', 'V123456789', '', '', 'fmujSLHP_4x.jpg', 1);
-
-INSERT INTO negocios VALUES(2, 'Negocio Dos', 'V987654321', '', '', '', 1);
-
-INSERT INTO negocios VALUES(3, 'Negocio Tres', 'V543216789', '', '', '', 0);
-
-INSERT INTO negocios VALUES(4, 'Negocio Cuatro', 'V678954321', '', '', '', 0);
+INSERT INTO negocios VALUES(1, 'Negocio De Pruebas', 'V280723911', '+584165335826', 'El Pinar, Estado Mérida', '', 1);
 
 TRUNCATE TABLE peso;
-INSERT INTO peso VALUES('2023-01-18 22:14:02', '5000');
-
-INSERT INTO peso VALUES('2023-01-18 22:14:03', '5000');
-
-INSERT INTO peso VALUES('2023-01-27 12:10:25', '5000');
-
-INSERT INTO peso VALUES('2023-01-28 17:25:43', '5000');
+INSERT INTO peso VALUES('2023-12-03 16:00:49', '4000');
 
 TRUNCATE TABLE proveedores;
-INSERT INTO proveedores VALUES(1, 3493493, 'Persona Dos', 'V332211556', 'Proveedor Uno', '', '', 1, 1);
+INSERT INTO proveedores VALUES(1, 28072391, 'Franyer', 'V280723911', 'Proveedor Uno', '+584165335826', 'El Pinar, Estado Mérida', 1, 1);
 
-INSERT INTO proveedores VALUES(2, 34934973, 'Persona Tres', 'V445356332', 'Proveedor Dos', '', '', 1, 1);
+INSERT INTO proveedores VALUES(2, 30735099, 'Yender', 'V307350999', 'Proveedor Dos', '', 'El Pinar, Estado Mérida', 1, 1);
 
-INSERT INTO proveedores VALUES(3, 22323242, 'Persona Uno', 'V282832838', 'Proveedor Tres', '', '', 1, 1);
+INSERT INTO proveedores VALUES(3, 18055034, 'Yenni', 'V180550344', 'Proveedor Tres', '04247542450', 'El Pinar, Estado Mérida', 1, 1);
 
-INSERT INTO proveedores VALUES(4, 12345678, 'Persona De Prueba', 'V543567891', 'Proveedor De Pruebas', '', 'Direccion De Pruebas', 1, 1);
+INSERT INTO proveedores VALUES(4, 13825355, 'Franklin', 'V138253555', 'Proveedor Cuatro', '', 'El Pinar, Estado Mérida', 1, 1);
 
 TRUNCATE TABLE usuarios;
-INSERT INTO usuarios VALUES(1, 12345678, 'Administrador', 'admin', '$2y$10$PfG4BMH4Ow6HUDg3wAOZpOdd3bDpmCR9APuQPZ.QXkvQ7WhG/jJc6', 'a', '', '', 1, 'pregunta', 'pregunta', 'pregunta', '$2y$10$65mYOk6huszdLqKKYWZtGO6NfeDxpQZ77P./REZGs9YYWWR7xIEV.', '$2y$10$qxOgxgF60RSo3dE/B0Et/e6VKJ0Aj8pwlashVEi0s0q0Njx85FSMS', '$2y$10$yilQqB95J8kKMoxX/Y7gPOVC41M9utN8dKTbUviOCt64hMQifayqq');
-
-INSERT INTO usuarios VALUES(2, 28072391, 'Usuario Uno', 'user1', '$2y$10$Q0WIaeyes5pUwcCSEw.wv.CliUq/whedT5.8i8kvNWM4acfQGmNK6', 'v', '', '', 1, 'juego favorito', 'lenguaje favorito', 'kouhai', '$2y$10$6qumSDKcXstVoSkuwGixi.A8BWJY5iGyqpnaYEaIpGEXgjcY933Xm', '$2y$10$HgXYRoDLmZDUDkV2yIbwYOaEK00p5GDv/PlNhAgTSu0EK7FJhtdZ2', '$2y$10$R.MUVOZ57V.O9NdE1ONqtu7smMCUcQjN7MmfLsi/QZ8aQlbqMx9d6');
-
-INSERT INTO usuarios VALUES(3, 30735099, 'Usuario Dos', 'user2', '$2y$10$ahbWkF.e050T/gZZ7QkRSOsPZgDffan5YXMQjTVmkKmSqc46T9y/m', 'v', '', '', 0, '', '', '', '', '', '');
-
-INSERT INTO usuarios VALUES(4, 27668711, 'Daniel Mancilla', 'maduro', '$2y$10$OeunZKMZZIindodNAHfeQeT83PjuHbZoHFkaqyGceJ8zwWdT1DEpm', 'v', '', '', 1, 'comida', 'color', 'pasatiempo', '$2y$10$zYyqjstF9coqoX0gRhaFpeQRzM8k.NXlMF8hffN3spyFBqQl.UlcC', '$2y$10$wQ.ic0drJmN76Eq1ZVW6.uUeWy0sFxl.9BGQT4FL7heerxJTg30oe', '$2y$10$akGA/KlqBVDBRF/EbsmAY.DIlb9ogOS0jvyKj01gawWws0hDB8ovi');
+INSERT INTO usuarios VALUES(1, 28072391, 'Franyer', 'fadrian06', '$2y$10$SBRglToaA5XR9p5pvz1.SO3xKdp1R3nzU8qat/XubK33beI8xOT2.', 'a', '+584165335826', '', 1, 'No Especificada', 'No Especificada', 'No Especificada', '', '', '');
 
 TRUNCATE TABLE ventas;
-INSERT INTO ventas VALUES(1, '2023-01-18 22:14:23', 3, 4, 3, 1.50, 0.16, 1, 1);
-
-INSERT INTO ventas VALUES(2, '2023-01-18 22:14:34', 3, 1, 7, 8.12, 0.16, 1, 1);
-
-INSERT INTO ventas VALUES(3, '2023-01-18 22:14:44', 3, 2, 4, 8.00, 0.16, 1, 1);
-
-INSERT INTO ventas VALUES(4, '2023-01-18 22:15:01', 3, 5, 6, 4.08, 0.16, 1, 1);
-
-INSERT INTO ventas VALUES(5, '2023-01-18 23:10:15', 6, 1, 3, 3.48, 0.16, 1, 1);
-
-INSERT INTO ventas VALUES(6, '2023-01-25 18:46:08', 3, 4, 5, 2.50, 0.16, 1, 1);
-
 TRUNCATE TABLE versiones;
 INSERT INTO versiones VALUES(1, '1.0a', 'Módulo "Iniciar Sesión" añadido');
 
@@ -218,8 +122,7 @@ INSERT INTO versiones VALUES(34, '3.2a', 'Nueva "Calculadora Monetaria"');
 
 INSERT INTO versiones VALUES(35, '3.3a', 'Gráfica de Productos más Vendidos añadida.');
 
-INSERT INTO versiones VALUES(36, '3.4a', '"Conversión Monetaria" ahora acepta operaciones básicas.
-Tooltips en botones añadidos.');
+INSERT INTO versiones VALUES(36, '3.4a', '"Conversión Monetaria" ahora acepta operaciones básicas. Tooltips en botones añadidos.');
 
 INSERT INTO versiones VALUES(37, '3.5a', 'LicoSys genera facturas de ventas en PDF.');
 

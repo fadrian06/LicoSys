@@ -1,4 +1,4 @@
-		<?=$mostrarLoader ?? ''?>
-		<?=$script?>
+		<?= $mostrarLoader ?? '' ?>
+		<?= $scripts ?>
 	</body>
 </html>
