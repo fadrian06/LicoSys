@@ -21,14 +21,22 @@
       "shell_cmd": "npm run build",
     }
   ],
-  "settings":
-  {
-		"LSP":
-		{
-			"formatters":
-			{
-				"embedding.php": "LSP-intelephense"
-			}
-		}
-	},
+  "settings": {
+    "LSP": {
+      "formatters": {
+        "embedding.php": "LSP-intelephense"
+      },
+      "LSP-html": {
+        "disabled_capabilities": {
+          "hoverProvider": true
+        }
+      },
+      "LSP-intelephense": {
+        "settings": {
+          "intelephense.environment.phpVersion": "8.2.18",
+          "intelephense.format.braces": "k&r"
+        }
+      }
+    }
+  }
 }

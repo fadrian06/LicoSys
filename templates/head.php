@@ -110,17 +110,34 @@ $productosEnCarritoCompra = contarRegistros('carrito_compra');
   <meta name="description" content="Sistema Automatizado de Gestión de Compras y Ventas" />
   <meta name="theme-color" content="black" />
   <link rel="icon" href="<?= $BASE_URL ?>images/logo.png" />
-  <link rel="stylesheet" href="<?= $BASE_URL ?>ico/style.min.css" />
-  <link rel="stylesheet" href="<?= $BASE_URL ?>fonts/fuentes.min.css" />
-  <link rel="stylesheet" href="<?= $BASE_URL ?>libs/noty/noty.css" />
-  <link rel="stylesheet" href="<?= $BASE_URL ?>libs/noty/themes/sunset.css" />
+  <link
+    rel="stylesheet"
+    href="https://faslatam.000webhostapp.com/compartido/iconos/fontawesome.css"
+  />
+  <link
+    rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;700&family=Roboto:wght@400;700&display=swap"
+  />
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/noty/3.1.4/noty.min.css"
+  />
+  <link
+    rel="stylesheet"
+    href="https://raw.githubusercontent.com/needim/noty/master/lib/themes/sunset.css"
+  />
+  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css" />
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+  />
   <link rel="stylesheet" href="<?= $BASE_URL ?>css/bundle.css" />
   <title>LicoSys</title>
-  <script src="<?= $BASE_URL ?>libs/jquery.min.js"></script>
-  <script src="<?= $BASE_URL ?>libs/w3/w3.min.js"></script>
-  <script src="<?= $BASE_URL ?>libs/noty/noty.min.js"></script>
-  <script src="<?= $BASE_URL ?>libs/Chart.js"></script>
-  <script src="<?= $BASE_URL ?>libs/html2pdf.bundle.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <script src="https://www.w3schools.com/lib/w3.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/noty/3.1.4/noty.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.bundle.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
   <script src="<?= $BASE_URL ?>js/actualizarImagen.js"></script>
   <script src="<?= $BASE_URL ?>js/funciones.js"></script>
   <script src="<?= $BASE_URL ?>js/validar.js"></script>

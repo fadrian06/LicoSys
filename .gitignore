@@ -1,6 +1,8 @@
-node_modules
+node_modules/
+js/
+css/
+
 Rubbish
-licosys.sublime-workspace
+*.sublime-workspace
 desktop.ini
 README.html
-package-lock.json

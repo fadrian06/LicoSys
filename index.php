@@ -63,7 +63,7 @@ elseif (!isset($mostrarLoader)) :
   }
 
   $scripts .= '<script src="js/reloj.js"></script>';
-  $scripts .= '<script src="libs/typedjs/typed.min.js"></script>';
+  $scripts .= '<script src="https://unpkg.com/typed.js@2.1.0/dist/typed.umd.js"></script>';
   $scripts .= '<script src="js/login.js"></script>';
   $scripts .= '<script src="js/recuperarClave.js"></script>';
 

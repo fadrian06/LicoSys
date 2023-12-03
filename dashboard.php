@@ -57,7 +57,7 @@
 		
 		$nombresProductos = json_encode($nombresProductos, JSON_INVALID_UTF8_IGNORE);
 		$cantidadProductos = json_encode($cantidadProductos, JSON_INVALID_UTF8_IGNORE);
-		$script .= <<<HTML
+		$scripts .= <<<HTML
 			<script>
 				const xValues = $nombresProductos
 				const yValues = $cantidadProductos

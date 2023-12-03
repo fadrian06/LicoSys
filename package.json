@@ -3,13 +3,12 @@
 		"@babel/cli": "^7.23.4",
 		"@babel/core": "^7.23.5",
 		"@babel/preset-env": "^7.23.5",
-		"@babel/preset-react": "^7.23.3",
 		"nib": "^1.2.0",
 		"stylus": "^0.62.0"
 	},
 	"scripts": {
 		"stylus": "stylus src/index.styl -o css/bundle.css -w -m -r --include-css",
 		"babel": "babel src/modules -d js -w",
-		"build": "RD /S js && RD /S css && babel src/modules -d js --minified && stylus src/index.styl -o css/bundle.css -c -r --include-css"
+		"build": "RD /S /Q js && RD /S /Q css && babel src/modules -d js --minified && stylus src/index.styl -o css/bundle.css -c -r --include-css"
 	}
 }
