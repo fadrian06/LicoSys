@@ -21,14 +21,16 @@
       "shell_cmd": "npm run build",
     }
   ],
-  "settings":
-  {
-		"LSP":
-		{
-			"formatters":
-			{
-				"embedding.php": "LSP-intelephense"
-			}
-		}
-	},
+  "settings": {
+    "LSP": {
+      "formatters": {
+        "embedding.php": "LSP-intelephense"
+      },
+      "LSP-html": {
+        "disabled_capabilities": {
+          "hoverProvider": true
+        }
+      }
+    }
+  }
 }
