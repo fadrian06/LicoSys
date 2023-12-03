@@ -20,7 +20,7 @@
  *  <li>Cada acordeón debe tener un botón que sirva para abrir y cerrar</li>
  *  <li>Cada acordeón debe tener una flecha que indique su estado</li>
  * </ul>
- */var acordeon=function acordeon(){var acordeones=document.querySelectorAll("[role=\"accordion\"]");var _loop=function _loop(i){/** @type {HTMLButtonElement} */var boton=acordeones[i].firstElementChild;var flecha=boton.querySelector("[class^=\"icon-chevron\"]");boton.onclick=function(){boton.nextElementSibling.classList.toggle("w3-hide");boton.nextElementSibling.classList.toggle("w3-show");if(flecha){flecha.classList.toggle("icon-chevron-right");flecha.classList.toggle("icon-chevron-down")}}};for(var i=0;i<acordeones.length;++i){_loop(i)}};/**
+ */var acordeon=function acordeon(){var acordeones=document.querySelectorAll("[role=\"accordion\"]");var _loop=function _loop(){/** @type {HTMLButtonElement} */var boton=acordeones[i].firstElementChild;var flecha=boton.querySelector("[class^=\"icon-chevron\"]");boton.onclick=function(){boton.nextElementSibling.classList.toggle("w3-hide");boton.nextElementSibling.classList.toggle("w3-show");if(flecha){flecha.classList.toggle("icon-chevron-right");flecha.classList.toggle("icon-chevron-down")}}};for(var i=0;i<acordeones.length;++i){_loop()}};/**
  * Redirige a una ruta especificada
  * @param  {string} destino Ruta destino
  * @returns {string} La nueva ruta
