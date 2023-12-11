@@ -4,10 +4,9 @@ session_start();
 if (!isset($_SESSION['activa'])) header('location: ../salir.php');
 
 if ($_SESSION['cargo'] === 'a') :
-  require '../backend/config.php';
-  require '../backend/componentes.php';
-  require '../backend/conexion.php';
-  require '../backend/funciones.php';
+  require __DIR__ . '/../backend/componentes.php';
+  require __DIR__ . '/../backend/conexion.php';
+  require __DIR__ . '/../backend/funciones.php';
 
   echo LOADER;
   echo '<div id="moduloNegocios" class="w3-row" style="max-height: 71vh; overflow: auto">';

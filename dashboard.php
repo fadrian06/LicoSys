@@ -14,12 +14,12 @@ include 'templates/head.php';
 
 $versiones = getRegistros('SELECT * FROM versiones ORDER BY id DESC');
 
-// $data = getAPI(Env::get('DOLLAR_TODAY'), 'json/dolarToday.json');
+// $data = getAPI(Env::get('DOLLAR_TODAY'), __DIR__ . '/storage/cache/dolarToday.json');
 $dolarFecha = $data['_timestamp']['fecha'] ?? 'Servicio no disponible';
 $dolarT     = $data['USD']['transferencia'] ?? '';
 $dolarE     = $data['USD']['efectivo'] ?? '';
 
-$data = getAPI(Env::get('DOLLAR_BCV_API'), 'json/bcv.json');
+$data = getAPI(Env::get('DOLLAR_BCV_API'), __DIR__ . '/storage/cache/bcv.json');
 $dolarBCV = round($data['sources']['BCV']['quote'], 2);
 
 $sql = <<<SQL
