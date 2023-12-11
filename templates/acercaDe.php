@@ -8,7 +8,7 @@ if (!empty($negocios) and !empty($admin)) :
   $contenido = <<<HTML
 			<div class="w3-row">
 				<div class="w3-third w3-padding-large w3-center">
-					<img src="images/logo.png" class="w3-image">
+					<img src="assets/images/logo.png" class="w3-image">
 				</div>
 				<p class="w3-padding-large w3-rest w3-xlarge w3-justify">
 					&nbsp;&nbsp;&nbsp;LicoSys es un sistema administrativo que 
@@ -56,7 +56,7 @@ if (!empty($negocios) and !empty($admin)) :
 				es web con lo cual sólo necesitarás un navegador y consume la 
 				aplicación.
 			</p>
-			<img src="images/devices.jpg" class="w3-image">
+			<img src="assets/images/devices.jpg" class="w3-image">
 			<p class="w3-container w3-large w3-justify">
 				&nbsp;&nbsp;&nbsp;LicoSys está fuertemente centrado en la 
 				<b>experiencia de usuario</b> y la <b>seguridad de la información</b>.

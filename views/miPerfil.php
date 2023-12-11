@@ -1,21 +1,22 @@
 <?php
-	session_start();
-	if (!isset($_SESSION['activa'])) header('location: ../salir.php');
-	
-	require '../backend/config.php';
-	require '../backend/componentes.php';
-	require '../backend/conexion.php';
-	require '../backend/funciones.php';
-	
-	$usuario = getRegistro("SELECT * FROM usuarios WHERE id={$_SESSION['userID']}");
-	
-	echo LOADER;
-	echo '<div id="moduloPerfil" class="w3-row w3-padding-top-24">';
-	
-	/*=====================================
+
+session_start();
+if (!isset($_SESSION['activa'])) header('location: ../salir.php');
+
+require '../backend/config.php';
+require '../backend/componentes.php';
+require '../backend/conexion.php';
+require '../backend/funciones.php';
+
+$usuario = getRegistro("SELECT * FROM usuarios WHERE id={$_SESSION['userID']}");
+
+echo LOADER;
+echo '<div id="moduloPerfil" class="w3-row w3-padding-top-24">';
+
+/*=====================================
 	=            BARRA LATERAL            =
 	=====================================*/
-	echo <<<HTML
+echo <<<HTML
 		<div class="w3-col s3 m2 w3-padding-top-64 w3-ul w3-center">
 			<ul class="w3-ul w3-card w3-white w3-tiny w3-center">
 				<li role="botonPanel" onclick="mostrarPanel(this, '#panelSobreMi')" class="w3-button w3-block w3-rightbar w3-blue">
@@ -29,27 +30,27 @@
 			</ul>
 		</div>
 	HTML;
-	
-	/*=======================================
+
+/*=======================================
 	=            PANEL PRINCIPAL            =
 	=======================================*/
-	$cargo = $usuario['cargo'] === 'a' ? 'Administrador' : 'Vendedor';
-	$usuario['telefono'] = $usuario['telefono'] ?: '<b class="w3-text-red">No especificado</b>';
-	$usuario['foto'] = $usuario['foto']
-		? "images/perfil/{$usuario['foto']}"
-		: 'images/avatar3.png';
-	$hayPreguntasRegistradas = 'w3-blue';
-	$textoBotonHayPreguntasRegistradas = 'Cambiar';
-	if (!$usuario['pre1'] or !$usuario['pre2'] or !$usuario['pre3']):
-		$hayPreguntasRegistradas = 'w3-red';
-		$textoBotonHayPreguntasRegistradas = 'Crear';
-	endif;
-	
-	$usuario['pre1'] = $usuario['pre1'] ?: 'No definida';
-	$usuario['pre2'] = $usuario['pre2'] ?: 'No definida';
-	$usuario['pre3'] = $usuario['pre3'] ?: 'No definida';
-	
-	echo <<<HTML
+$cargo = $usuario['cargo'] === 'a' ? 'Administrador' : 'Vendedor';
+$usuario['telefono'] = $usuario['telefono'] ?: '<b class="w3-text-red">No especificado</b>';
+$usuario['foto'] = $usuario['foto']
+  ? "images/perfil/{$usuario['foto']}"
+  : 'images/avatar3.png';
+$hayPreguntasRegistradas = 'w3-blue';
+$textoBotonHayPreguntasRegistradas = 'Cambiar';
+if (!$usuario['pre1'] or !$usuario['pre2'] or !$usuario['pre3']) :
+  $hayPreguntasRegistradas = 'w3-red';
+  $textoBotonHayPreguntasRegistradas = 'Crear';
+endif;
+
+$usuario['pre1'] = $usuario['pre1'] ?: 'No definida';
+$usuario['pre2'] = $usuario['pre2'] ?: 'No definida';
+$usuario['pre3'] = $usuario['pre3'] ?: 'No definida';
+
+echo <<<HTML
 		<!------------  SOBRE MI  ------------>
 		<div id="panelSobreMi" role="panel" class="w3-col s9 m6 w3-margin-top w3-container w3-card w3-white w3-show w3-animate-opacity">
 			<h2 class="w3-large w3-padding w3-border-bottom">
@@ -153,28 +154,27 @@
 				</form>
 			</div>
 		</div>
-	HTML;	
-	
-	/*==============================================
+	HTML;
+
+/*==============================================
 	=            ACTUALIZAR INFORMACIÓN            =
 	==============================================*/
-	echo <<<HTML
+echo <<<HTML
 		<form id="editarUsuario" autocomplete="off" class="modal w3-white w3-card w3-round-large animate__animated animate__fadeInUp animate__faster w3-hide"></form>
 	HTML;
 
-	/*========================================
+/*========================================
 	=            ACTUALIZAR CLAVE            =
 	========================================*/
-	echo <<<HTML
+echo <<<HTML
 		<form id="cambiarClave" autocomplete="off" class="modal w3-white w3-card w3-round-large animate__animated animate__fadeInUp animate__faster w3-hide"></form>
 	HTML;
-	
-	/*=========================================================
+
+/*=========================================================
 	=            ACTUALIZAR PREGUNTAS Y RESPUESTAS            =
 	=========================================================*/
-	echo <<<HTML
+echo <<<HTML
 		<form id="editarPreguntasRespuestas" autocomplete="off" class="modal w3-white w3-card w3-round-large animate__animated animate__fadeInUp animate__faster w3-hide"></form>
 	HTML;
-	
-	echo '</div>';
-?>
+
+echo '</div>';

@@ -1,17 +1,18 @@
 <?php
-	if(!empty($mostrarRegistro)):
-		$label = '<b>Nombre:</b> <sup class="w3-text-red">(requerido)</sup>';
-		$inputNombre = generarINPUT('NOMBRE_NEGOCIO', $label, 'Nombre del negocio');
-		
-		$label = '<b>RIF:</b> <sup class="w3-text-red">(requerido)</sup>';
-		$inputRIF = generarINPUT('RIF', $label, 'RIF del negocio');
-		
-		$label = '<b>Teléfono:</b> <sup class="w3-text-blue">(opcional)</sup>';
-		$inputTelefono = generarINPUT('TELEFONO', $label, 'Teléfono de contacto');
-		
-		$label = '<b>Dirección:</b> <sup class="w3-text-blue">(opcional)</sup>';
-		$inputDireccion = generarINPUT('DIRECCION', $label, 'Dirección del negocio');
-		echo <<<HTML
+
+if (!empty($mostrarRegistro)) :
+  $label = '<b>Nombre:</b> <sup class="w3-text-red">(requerido)</sup>';
+  $inputNombre = generarINPUT('NOMBRE_NEGOCIO', $label, 'Nombre del negocio');
+
+  $label = '<b>RIF:</b> <sup class="w3-text-red">(requerido)</sup>';
+  $inputRIF = generarINPUT('RIF', $label, 'RIF del negocio');
+
+  $label = '<b>Teléfono:</b> <sup class="w3-text-blue">(opcional)</sup>';
+  $inputTelefono = generarINPUT('TELEFONO', $label, 'Teléfono de contacto');
+
+  $label = '<b>Dirección:</b> <sup class="w3-text-blue">(opcional)</sup>';
+  $inputDireccion = generarINPUT('DIRECCION', $label, 'Dirección del negocio');
+  echo <<<HTML
 			<form id="registrarNegocio" autocomplete="off" class="w3-row modal w3-white w3-card w3-round-large w3-animate-zoom">
 				<h1 class="w3-center w3-xlarge oswald w3-margin-bottom">
 					Registro de Negocio
@@ -51,5 +52,4 @@
 				</section>
 			</form>
 		HTML;
-	endif;
-?>
+endif;

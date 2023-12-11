@@ -1,12 +1,13 @@
 <?php
-	if (isset($mostrarManual)):
-		/*=========================================
+
+if (isset($mostrarManual)) :
+  /*=========================================
 		=            MANUAL DE USUARIO            =
 		=========================================*/
-		$titulo = <<<HTML
+  $titulo = <<<HTML
 			<span class="w3-padding">Manual de Usuario</span>
 		HTML;
-		$contenido = <<<HTML
+  $contenido = <<<HTML
 			<div class="w3-display-container">
 				<a href="#temario" class="w3-button w3-grey w3-round-large w3-border w3-display-bottomright w3-margin">
 					<i class="icon-chevron-up"></i>
@@ -160,6 +161,5 @@
 				</div>
 			</div>
 		HTML;
-		generarModal('div', 'manual', $titulo, $contenido);
-	endif;
-?>
+  generarModal('div', 'manual', $titulo, $contenido);
+endif;

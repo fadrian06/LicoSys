@@ -22,7 +22,7 @@ function verificarCopiaDeSeguridad() {
   global $scriptss;
 
   if (file_exists('backup/backup.sql')) {
-    $scriptss .= '<script src="js/restaurarBD.js"></script>';
+    $scriptss .= '<script src="assets/build/js/restaurarBD.js"></script>';
   }
 }
 /*=====  End of LÓGICA INICIAL  ======*/
@@ -32,21 +32,21 @@ if (!isset($mostrarLoader) and !$negocios) :
   verificarCopiaDeSeguridad();
   $mostrarRegistro = true;
   include __DIR__ . '/templates/registrarNegocio.php';
-  $scripts .= '<script src="js/registrarNegocio.js"></script>';
+  $scripts .= '<script src="assets/build/js/registrarNegocio.js"></script>';
 
 /*----------  Si no hay administrador, solicita registro  ----------*/
 elseif (!isset($mostrarLoader) and !$admin) :
   verificarCopiaDeSeguridad();
   $mostrarRegistro = true;
   include __DIR__ . '/templates/registrarAdmin.php';
-  $scripts .= '<script src="js/registrarAdmin.js"></script>';
+  $scripts .= '<script src="assets/build/js/registrarAdmin.js"></script>';
 
 /*----------  Si el administrador no tiene preguntas secretas, solicita registro  ----------*/
 elseif (!isset($mostrarLoader) and !$admin['pre1']) :
   verificarCopiaDeSeguridad();
   $mostrarRegistro = true;
   include __DIR__ . '/templates/registroPreguntasRespuestas.php';
-  $scripts .= '<script src="js/registrarPreguntasRespuestas.js"></script>';
+  $scripts .= '<script src="assets/build/js/registrarPreguntasRespuestas.js"></script>';
 
 /*----------  Muestra el login  ----------*/
 elseif (!isset($mostrarLoader)) :
@@ -62,10 +62,10 @@ elseif (!isset($mostrarLoader)) :
     include __DIR__ . '/templates/cambiarClave.php';
   }
 
-  $scripts .= '<script src="js/reloj.js"></script>';
+  $scripts .= '<script src="assets/build/js/reloj.js"></script>';
   $scripts .= '<script src="https://unpkg.com/typed.js@2.1.0/dist/typed.umd.js"></script>';
-  $scripts .= '<script src="js/login.js"></script>';
-  $scripts .= '<script src="js/recuperarClave.js"></script>';
+  $scripts .= '<script src="assets/build/js/login.js"></script>';
+  $scripts .= '<script src="assets/build/js/recuperarClave.js"></script>';
 
 endif;
 

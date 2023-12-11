@@ -1,62 +1,63 @@
 <?php
-	session_start();
-	if (!isset($_SESSION['activa'])) header('location: ../salir.php');
-	
-	if ($_SESSION['cargo'] === 'a'):
-		require '../backend/config.php';
-		require '../backend/componentes.php';
-		require '../backend/conexion.php';
-		require '../backend/funciones.php';
-		
-		echo LOADER;
-		echo '<div id="moduloCompras">';
-		
-		/*=============================
+
+session_start();
+if (!isset($_SESSION['activa'])) header('location: ../salir.php');
+
+if ($_SESSION['cargo'] === 'a') :
+  require '../backend/config.php';
+  require '../backend/componentes.php';
+  require '../backend/conexion.php';
+  require '../backend/funciones.php';
+
+  echo LOADER;
+  echo '<div id="moduloCompras">';
+
+  /*=============================
 		=            TABLA            =
 		=============================*/
-		$sql = <<<SQL
+  $sql = <<<SQL
 			SELECT c.id, c.fecha, i.producto, c.unidades, c.total, p.nombre
 			FROM compras c INNER JOIN inventario i INNER JOIN proveedores p
 			INNER JOIN usuarios u ON c.producto_id=i.id AND c.proveedor_id=p.id
 			WHERE c.negocio_id={$_SESSION['negocioID']}
 			GROUP BY c.id ORDER BY c.fecha DESC
 		SQL;
-		
-		$encabezados = [
-			'escritorio' => ['Fecha', 'Producto', 'Unidades', 'Total', 'Proveedor'],
-			'movil' => ['Producto', 'Total']
-		];
-		
-		$datos = [
-			'camposEscritorio' => ['fecha', 'producto', 'unidades', 'total', 'nombre'],
-			'camposMovil' => ['producto', 'total'],
-			'filas' => getRegistros($sql)
-		];
-		
-		foreach ($encabezados['escritorio'] as &$encabezado)
-			$encabezado = "<small>$encabezado</small>";
-		unset($encabezado);
-		
-		foreach ($datos['filas'] as &$compra):
-			$compra['fecha'] = formatearFecha($compra['fecha']);
-			
-			foreach ($compra as $clave => $valor)
-				$compra[$clave] = "<small>$valor</small>";
-		endforeach;
-		unset($compra);
-		
-		tabla('Compras', $encabezados, $datos, 'No hay compras registradas');
-		
-		/*===================================
+
+  $encabezados = [
+    'escritorio' => ['Fecha', 'Producto', 'Unidades', 'Total', 'Proveedor'],
+    'movil' => ['Producto', 'Total']
+  ];
+
+  $datos = [
+    'camposEscritorio' => ['fecha', 'producto', 'unidades', 'total', 'nombre'],
+    'camposMovil' => ['producto', 'total'],
+    'filas' => getRegistros($sql)
+  ];
+
+  foreach ($encabezados['escritorio'] as &$encabezado)
+    $encabezado = "<small>$encabezado</small>";
+  unset($encabezado);
+
+  foreach ($datos['filas'] as &$compra) :
+    $compra['fecha'] = formatearFecha($compra['fecha']);
+
+    foreach ($compra as $clave => $valor)
+      $compra[$clave] = "<small>$valor</small>";
+  endforeach;
+  unset($compra);
+
+  tabla('Compras', $encabezados, $datos, 'No hay compras registradas');
+
+  /*===================================
 		=            VER FACTURA            =
 		===================================*/
-		$titulo = <<<HTML
+  $titulo = <<<HTML
 			<div class="w3-container">
-				<img src="images/logo.png" class="w3-margin-right w3-responsive" width="100px">
+				<img src="assets/images/logo.png" class="w3-margin-right w3-responsive" width="100px">
 				Taberna Los 7 Hermanos
 			</div>
 		HTML;
-		$contenido = <<<HTML
+  $contenido = <<<HTML
 			<h3 class="w3-container w3-xlarge w3-right-align w3-blue">Comprobante</h3>
 			<div class="w3-margin">
 				<h5 class="w3-container w3-xlarge">Datos del proveedor:</h5>
@@ -115,13 +116,12 @@
 				</div>
 			</div>
 		HTML;
-		generarModal('div', 'modalFactura', $titulo, $contenido);
-		
-		echo '<footer id="botones">' . BOTONES['NUEVA_COMPRA'] . '</footer>';
-		echo '</div>';
-	else:
-		include '../templates/head.php';
-		$script .= "<script src='{$BASE_URL}js/restringido.js'></script>";
-		include '../templates/footer.php';
-	endif;
-?>
+  generarModal('div', 'modalFactura', $titulo, $contenido);
+
+  echo '<footer id="botones">' . BOTONES['NUEVA_COMPRA'] . '</footer>';
+  echo '</div>';
+else :
+  include '../templates/head.php';
+  $script .= "<script src='{$BASE_URL}js/restringido.js'></script>";
+  include '../templates/footer.php';
+endif;

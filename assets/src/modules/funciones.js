@@ -265,9 +265,9 @@ const verClave = (ojo, input) => {
  * @return {Noty} Retorna un objeto Noty activado por defecto.
  */
 const confirmar = (texto, posicion = 'center', callback = () => {}) => {
-	let text = `
+	const text = `
 		<div class="w3-white w3-round-xlarge w3-padding w3-center w3-border" style="z-index: 1000">
-			<div class="animate__animated animate__flip animate__infinite icon-question w3-xxxlarge"></div>
+			<div class="icon-question w3-xxxlarge"></div>
 			<h2 class="w3-large w3-margin-bottom">
 				<strong>${texto}</strong>
 			</h2>

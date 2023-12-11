@@ -1,18 +1,19 @@
 <?php
-	if (!empty($mostrarRegistro)):
-		$inputPRE1 = generarINPUT('pre1', 'Pregunta 1:', 'Cree una pregunta');
-		$inputPRE2 = generarINPUT('pre2', 'Pregunta 2:', 'Cree una pregunta');
-		$inputPRE3 = generarINPUT('pre3', 'Pregunta 3:', 'Cree una pregunta');
-		
-		$label = '<b>Respuesta 1:</b> <sup respuesta="res1" class="w3-text-blue"></sup>';
-		$inputRES1 = generarINPUT('res1', $label, 'La respuesta');
-		
-		$label = '<b>Respuesta 2:</b> <sup respuesta="res2" class="w3-text-blue"></sup>';
-		$inputRES2 = generarINPUT('res2', $label, 'La respuesta');
-		
-		$label = '<b>Respuesta 3:</b> <sup respuesta="res3" class="w3-text-blue"></sup>';
-		$inputRES3 = generarINPUT('res3', $label, 'La respuesta');
-		echo <<<HTML
+
+if (!empty($mostrarRegistro)) :
+  $inputPRE1 = generarINPUT('pre1', 'Pregunta 1:', 'Cree una pregunta');
+  $inputPRE2 = generarINPUT('pre2', 'Pregunta 2:', 'Cree una pregunta');
+  $inputPRE3 = generarINPUT('pre3', 'Pregunta 3:', 'Cree una pregunta');
+
+  $label = '<b>Respuesta 1:</b> <sup respuesta="res1" class="w3-text-blue"></sup>';
+  $inputRES1 = generarINPUT('res1', $label, 'La respuesta');
+
+  $label = '<b>Respuesta 2:</b> <sup respuesta="res2" class="w3-text-blue"></sup>';
+  $inputRES2 = generarINPUT('res2', $label, 'La respuesta');
+
+  $label = '<b>Respuesta 3:</b> <sup respuesta="res3" class="w3-text-blue"></sup>';
+  $inputRES3 = generarINPUT('res3', $label, 'La respuesta');
+  echo <<<HTML
 			<form id="registrarPreguntasRespuestas" autocomplete="off" class="modal w3-white w3-card w3-round-large w3-animate-zoom">
 				<h1 class="w3-center w3-xlarge oswald w3-margin-bottom">
 					Cree sus Preguntas y Respuestas
@@ -46,5 +47,4 @@
 				</div>
 			</form>
 		HTML;
-	endif;
-?>
+endif;

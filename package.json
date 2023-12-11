@@ -1,14 +1,15 @@
 {
-	"devDependencies": {
-		"@babel/cli": "^7.23.4",
-		"@babel/core": "^7.23.5",
-		"@babel/preset-env": "^7.23.5",
-		"nib": "^1.2.0",
-		"stylus": "^0.62.0"
-	},
-	"scripts": {
-		"stylus": "stylus src/index.styl -o css/bundle.css -w -m -r --include-css",
-		"babel": "babel src/modules -d js -w",
-		"build": "RD /S js && RD /S css && babel src/modules -d js --minified && stylus src/index.styl -o css/bundle.css -c -r --include-css"
-	}
+  "devDependencies": {
+    "@babel/cli": "^7.23.4",
+    "@babel/core": "^7.23.5",
+    "@babel/preset-env": "^7.23.5",
+    "nib": "^1.2.0",
+    "stylus": "^0.62.0"
+  },
+  "scripts": {
+    "stylus": "stylus assets/src/index.styl -o assets/build/css/bundle.css -w -m -r --include-css",
+    "babel": "babel assets/src/modules -d assets/build/js -w",
+    "build:win": "RD /S /Q assets\\build || babel assets/src/modules -d assets/build/js --minified && stylus assets/src/index.styl -o assets/build/css/bundle.css -c -r --include-css",
+    "build:unix": "rm assets/build -rf && babel assets/src/modules -d assets/build/js --minified && stylus assets/src/index.styl -o assets/build/css/bundle.css -c -r --include-css"
+  }
 }

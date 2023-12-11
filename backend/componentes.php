@@ -1,133 +1,134 @@
 <?php
-	$EXPRESIONES = [
-		'clave' => '[!#$%&/=?¿¡@+.\-\w]{4,20}'
-	];
-	
-	const LOADER = '
+
+$EXPRESIONES = [
+  'clave' => '[!#$%&/=?¿¡@+.\-\w]{4,20}'
+];
+
+const LOADER = '
 		<div class="loader" id="loader">
 			<i class="w3-block w3-spin icon-spinner"></i>
 		</div>
 	';
-	
-	/**
-	 * Genera una pequeña ventana emergente con el texto que desees.<br>
-	 * <u>Requisitos</u><br>
-	 * - Debe incluirse en un contenedor con la `class="w3-dropdown-hover"`
-	 * @param  string $texto El texto del tooltip.
-	 * @param  bool   $center Si quieres el tooltip centrado (Por defecto)
-	 * @return [string]        Texto HTML para incluir.
-	 */
-	function generarTooltip(string $texto, bool $center = true): string {
-		$centrado = $center ? 'w3-center' : 'w3-left-align';
-		return <<<HTML
+
+/**
+ * Genera una pequeña ventana emergente con el texto que desees.<br>
+ * <u>Requisitos</u><br>
+ * - Debe incluirse en un contenedor con la `class="w3-dropdown-hover"`
+ * @param  string $texto El texto del tooltip.
+ * @param  bool   $center Si quieres el tooltip centrado (Por defecto)
+ * @return [string]        Texto HTML para incluir.
+ */
+function generarTooltip(string $texto, bool $center = true): string {
+  $centrado = $center ? 'w3-center' : 'w3-left-align';
+  return <<<HTML
 			<div class="w3-dropdown-content w3-padding-small w3-card-4 w3-white $centrado">
 				<b>$texto</b>
 			</div>
 		HTML;
-	}
-	
-	/**
-	 * Botones HTML
-	 * @var array [<br>
-	 * &nbsp;'REGISTRAR_USUARIO' or<br>
-	 * &nbsp;'NUEVA_VENTA' or<br>
-	 * &nbsp;'NUEVA_COMPRA' or<br>
-	 * &nbsp;'REGISTRAR_CLIENTE' or<br>
-	 * &nbsp;'REGISTRAR_PROVEEDOR' or<br>
-	 * &nbsp;'REGISTRAR_NEGOCIO' or<br>
-	 * &nbsp;'REGISTRAR_PRODUCTO' or<br>
-	 * &nbsp;'REGISTRAR_COMBO' or<br>
-	 * &nbsp;'RESPALDAR' or<br>
-	 * &nbsp;'RESTAURAR'<br>
-	 * ]
-	 */
-	const BOTONES = [
-		'REGISTRAR_USUARIO' => <<<HTML
+}
+
+/**
+ * Botones HTML
+ * @var array [<br>
+ * &nbsp;'REGISTRAR_USUARIO' or<br>
+ * &nbsp;'NUEVA_VENTA' or<br>
+ * &nbsp;'NUEVA_COMPRA' or<br>
+ * &nbsp;'REGISTRAR_CLIENTE' or<br>
+ * &nbsp;'REGISTRAR_PROVEEDOR' or<br>
+ * &nbsp;'REGISTRAR_NEGOCIO' or<br>
+ * &nbsp;'REGISTRAR_PRODUCTO' or<br>
+ * &nbsp;'REGISTRAR_COMBO' or<br>
+ * &nbsp;'RESPALDAR' or<br>
+ * &nbsp;'RESTAURAR'<br>
+ * ]
+ */
+const BOTONES = [
+  'REGISTRAR_USUARIO' => <<<HTML
 			<button onclick="modal(this)" data-target="#registrarUsuario" class="w3-blue w3-text-black w3-button w3-circle w3-border w3-border-black">
 				<i class="w3-block w3-center icon-user-plus w3-xxlarge"></i>
 				Registrar<br>Usuario
 			</button>
 		HTML,
-		'NUEVA_VENTA' => <<<HTML
+  'NUEVA_VENTA' => <<<HTML
 			<a href="views/nuevaVenta.php" role="navegacion" class="w3-blue w3-text-black w3-button w3-circle w3-border w3-border-black">
 				<i class="w3-block w3-center icon-cart-plus w3-xxlarge"></i>
 				Nueva<br>&nbsp;&nbsp;Venta&nbsp;&nbsp;
 			</a>
 		HTML,
-		'NUEVA_COMPRA' => <<<HTML
+  'NUEVA_COMPRA' => <<<HTML
 			<a href="views/nuevaCompra.php" role="navegacion" class="w3-blue w3-text-black w3-button w3-circle w3-border w3-border-black">
 				<i class="w3-block w3-center icon-cart-plus w3-xxlarge"></i>
 				Nueva<br>&nbsp;&nbsp;Compra&nbsp;&nbsp;
 			</a>
 		HTML,
-		'VACIAR_LOG' => <<<HTML
+  'VACIAR_LOG' => <<<HTML
 			<button onclick="vaciarLog()" class="w3-blue w3-text-black w3-button w3-circle w3-border w3-border-black">
 				<i class="w3-block w3-center icon-trash w3-xxlarge"></i>
 				Vaciar<br>Registro
 			</button>
 		HTML,
-		'REGISTRAR_CLIENTE' => <<<HTML
+  'REGISTRAR_CLIENTE' => <<<HTML
 			<button onclick="modal(this)" data-target="#registrarCliente" class="w3-blue w3-text-black w3-button w3-circle w3-border w3-border-black">
 				<i class="w3-block w3-center icon-id-card w3-xxlarge"></i>
 				Registrar<br>Cliente
 			</button>
 		HTML,
-		'REGISTRAR_PROVEEDOR' => <<<HTML
+  'REGISTRAR_PROVEEDOR' => <<<HTML
 			<button onclick="modal(this)" data-target="#registrarProveedor" class="w3-blue w3-text-black w3-button w3-circle w3-border w3-border-black">
 				<i class="w3-block w3-center icon-truck w3-xxlarge"></i>
 				Registrar<br>Proveedor
 			</button>
 		HTML,
-		'REGISTRAR_NEGOCIO' => <<<HTML
+  'REGISTRAR_NEGOCIO' => <<<HTML
 			<button onclick="modal(this)" data-target="#registrarNegocio" class="w3-blue w3-button w3-circle w3-border w3-border-black">
 				<i class="w3-block w3-center icon-plus w3-xxlarge"></i>
 				Nuevo
 			</button>
 		HTML,
-		'REGISTRAR_PRODUCTO' => <<<HTML
+  'REGISTRAR_PRODUCTO' => <<<HTML
 			<button onclick="modal(this)" data-target="#registrarProducto" class="w3-blue w3-text-black w3-button w3-circle w3-border w3-border-black w3-margin-right">
 				<i class="w3-block w3-center icon-plus w3-xxlarge"></i>
 				Nuevo<br>Producto
 			</button>
 		HTML,
-		'REGISTRAR_COMBO' => <<<HTML
+  'REGISTRAR_COMBO' => <<<HTML
 			<button onclick="modal(this)" data-target="#registrarCombo" class="w3-hide w3-disabled w3-blue w3-text-black w3-button w3-circle w3-border w3-border-black">
 				<i class="w3-block w3-center icon-list w3-xxlarge"></i>
 				Nuevo<br>&nbsp;&nbsp;Combo&nbsp;&nbsp;
 			</button>
 		HTML,
-		'RESPALDAR' => <<<HTML
+  'RESPALDAR' => <<<HTML
 			<button onclick="respaldarBD()" class="w3-black w3-button w3-circle w3-border w3-border-black w3-margin-right w3-margin-bottom">
 				<i class="w3-center icon-download w3-xlarge"></i>
 				<small>Respaldar</small>
 			</button>
 		HTML,
-		'RESTAURAR' => <<<HTML
+  'RESTAURAR' => <<<HTML
 			<button onclick="restaurarBD()" class="w3-black w3-button w3-circle w3-border w3-border-black w3-margin-left w3-margin-right w3-margin-bottom">
 				<i class="w3-center icon-upload w3-xlarge"></i>
 				<small>Restaurar</small>
 			</button>
 		HTML
-	];
-	
-	/**
-	 * Genera un `<input>` HTML
-	 * @param  string $nombre El nombre del input. <br><br>
-	 * `'CLAVE', 'CONFIRMAR', 'USUARIO', 'CEDULA', 'IVA', `<br>`
-	 * 'DOLAR', 'PESO', 'res1', 'res2', 'res3', 'NOMBRE', `<br>`
-	 * 'TELEFONO', 'NOMBRE_NEGOCIO', 'RIF', 'DIRECCION', `<br>`
-	 * 'pre1', 'pre2', 'pre3', 'ID', 'CODIGO', 'STOCK', `<br>`
-	 * 'PRECIO', 'EXCENTO', 'BS'`
-	 * @param  string $label El título del `<input>`
-	 * @param  string $placeholder El placeholder del input.
-	 * @param string $value El valor por defecto del `<input>`
-	 * @return string El elemento `<input>`
-	 */
-	function generarINPUT(string $nombre, string $label, string $placeholder = '', string $value = ''):string {
-		global $EXPRESIONES;
-		switch ($nombre):
-			case 'CLAVE':
-				return <<<HTML
+];
+
+/**
+ * Genera un `<input>` HTML
+ * @param  string $nombre El nombre del input. <br><br>
+ * `'CLAVE', 'CONFIRMAR', 'USUARIO', 'CEDULA', 'IVA', `<br>`
+ * 'DOLAR', 'PESO', 'res1', 'res2', 'res3', 'NOMBRE', `<br>`
+ * 'TELEFONO', 'NOMBRE_NEGOCIO', 'RIF', 'DIRECCION', `<br>`
+ * 'pre1', 'pre2', 'pre3', 'ID', 'CODIGO', 'STOCK', `<br>`
+ * 'PRECIO', 'EXCENTO', 'BS'`
+ * @param  string $label El título del `<input>`
+ * @param  string $placeholder El placeholder del input.
+ * @param string $value El valor por defecto del `<input>`
+ * @return string El elemento `<input>`
+ */
+function generarINPUT(string $nombre, string $label, string $placeholder = '', string $value = ''): string {
+  global $EXPRESIONES;
+  switch ($nombre):
+    case 'CLAVE':
+      return <<<HTML
 					<fieldset class="w3-border-0">
 						<legend class="w3-large w3-padding"><b>$label</b></legend>
 						<div class="w3-row w3-center w3-border-bottom">
@@ -150,8 +151,8 @@
 						</div>
 					</fieldset>
 				HTML;
-			case 'CONFIRMAR':
-				return <<<HTML
+    case 'CONFIRMAR':
+      return <<<HTML
 					<fieldset class="w3-border-0">
 						<legend class="w3-large w3-padding"><b>$label</b></legend>
 						<div class="w3-row w3-center w3-border-bottom">
@@ -174,8 +175,8 @@
 						</div>
 					</fieldset>
 				HTML;
-			case 'USUARIO':
-				return <<<HTML
+    case 'USUARIO':
+      return <<<HTML
 					<fieldset class="w3-border-0">
 						<legend class="w3-large w3-padding"><b>$label</b></legend>
 						<div class="w3-row w3-center w3-border-bottom">
@@ -190,8 +191,8 @@
 						</div>
 					</fieldset>
 				HTML;
-			case 'CEDULA':
-				return <<<HTML
+    case 'CEDULA':
+      return <<<HTML
 					<fieldset class="w3-border-0">
 						<legend class="w3-large w3-padding"><b>$label</b></legend>
 						<div class="w3-row w3-center w3-border-bottom">
@@ -204,8 +205,8 @@
 						</div>
 					</fieldset>
 				HTML;
-			case 'IVA':
-				return <<<HTML
+    case 'IVA':
+      return <<<HTML
 					<fieldset class="w3-border-0">
 						<legend class="w3-large w3-padding"><b>$label</b></legend>
 						<div class="w3-row w3-center w3-border-bottom">
@@ -218,8 +219,8 @@
 						</div>
 					</fieldset>
 				HTML;
-			case 'DOLAR':
-				return <<<HTML
+    case 'DOLAR':
+      return <<<HTML
 					<fieldset class="w3-border-0">
 						<legend class="w3-large w3-padding"><b>$label</b></legend>
 						<div class="w3-row w3-center w3-border-bottom">
@@ -232,8 +233,8 @@
 						</div>
 					</fieldset>
 				HTML;
-			case 'BS':
-				return <<<HTML
+    case 'BS':
+      return <<<HTML
 					<fieldset class="w3-border-0">
 						<legend class="w3-large w3-padding"><b>$label</b></legend>
 						<div class="w3-row w3-center w3-border-bottom">
@@ -246,8 +247,8 @@
 						</div>
 					</fieldset>
 				HTML;
-			case 'PESO':
-				return <<<HTML
+    case 'PESO':
+      return <<<HTML
 					<fieldset class="w3-border-0">
 						<legend class="w3-large w3-padding"><b>$label</b></legend>
 						<div class="w3-row w3-center w3-border-bottom">
@@ -260,10 +261,10 @@
 						</div>
 					</fieldset>
 				HTML;
-			case 'res1':
-			case 'res2':
-			case 'res3':
-				return <<<HTML
+    case 'res1':
+    case 'res2':
+    case 'res3':
+      return <<<HTML
 					<fieldset class="w3-border-0">
 						<legend class="w3-large w3-padding"><b>$label</b></legend>
 						<div class="w3-row w3-center w3-border-bottom">
@@ -275,8 +276,8 @@
 						</div>
 					</fieldset>
 				HTML;
-			case 'NOMBRE':
-				return <<<HTML
+    case 'NOMBRE':
+      return <<<HTML
 					<fieldset class="w3-border-0">
 						<legend class="w3-large w3-padding"><b>$label</b></legend>
 						<div class="w3-row w3-center w3-border-bottom">
@@ -289,8 +290,8 @@
 						</div>
 					</fieldset>
 				HTML;
-			case 'NOMBRE_NEGOCIO':
-				return <<<HTML
+    case 'NOMBRE_NEGOCIO':
+      return <<<HTML
 					<fieldset class="w3-border-0">
 						<legend class="w3-large w3-padding"><b>$label</b></legend>
 						<div class="w3-row w3-center w3-border-bottom">
@@ -303,8 +304,8 @@
 						</div>
 					</fieldset>
 				HTML;
-			case 'TELEFONO':
-				return <<<HTML
+    case 'TELEFONO':
+      return <<<HTML
 					<fieldset class="w3-border-0">
 						<legend class="w3-large w3-padding"><b>$label</b></legend>
 						<div class="w3-row w3-center w3-border-bottom">
@@ -317,8 +318,8 @@
 						</div>
 					</fieldset>
 				HTML;
-			case 'RIF':
-				return <<<HTML
+    case 'RIF':
+      return <<<HTML
 					<fieldset class="w3-border-0">
 						<legend class="w3-large w3-padding"><b>$label</b></legend>
 						<div class="w3-row w3-center w3-border-bottom">
@@ -331,8 +332,8 @@
 						</div>
 					</fieldset>
 				HTML;
-			case 'DIRECCION':
-				return <<<HTML
+    case 'DIRECCION':
+      return <<<HTML
 					<fieldset class="w3-border-0">
 						<legend class="w3-large w3-padding"><b>$label</b></legend>
 						<div class="w3-row w3-center w3-border-bottom">
@@ -345,10 +346,10 @@
 						</div>
 					</fieldset>
 				HTML;
-			case 'pre1':
-			case 'pre2':
-			case 'pre3':
-				return <<<HTML
+    case 'pre1':
+    case 'pre2':
+    case 'pre3':
+      return <<<HTML
 					<fieldset class="w3-border-0">
 						<legend class="w3-large w3-padding"><b>$label</b></legend>
 						<div class="w3-row w3-center w3-border-bottom">
@@ -361,12 +362,12 @@
 						</div>
 					</fieldset>
 				HTML;
-			case 'ID':
-				return <<<HTML
+    case 'ID':
+      return <<<HTML
 					<input type="hidden" name="id" value="$value" class="w3-hide">
 				HTML;
-			case 'CODIGO':
-				return <<<HTML
+    case 'CODIGO':
+      return <<<HTML
 					<fieldset class="w3-border-0">
 						<legend class="w3-large w3-padding"><b>$label</b></legend>
 						<div class="w3-row w3-center w3-border-bottom">
@@ -379,8 +380,8 @@
 						</div>
 					</fieldset>
 				HTML;
-			case 'STOCK':
-				return <<<HTML
+    case 'STOCK':
+      return <<<HTML
 					<fieldset class="w3-border-0">
 						<legend class="w3-large w3-padding"><b>$label</b></legend>
 						<div class="w3-row w3-center w3-border-bottom">
@@ -393,8 +394,8 @@
 						</div>
 					</fieldset>
 				HTML;
-			case 'PRECIO':
-				return <<<HTML
+    case 'PRECIO':
+      return <<<HTML
 					<fieldset class="w3-border-0">
 						<legend class="w3-large w3-padding"><b>$label</b></legend>
 						<div class="w3-row w3-center w3-border-bottom">
@@ -407,8 +408,8 @@
 						</div>
 					</fieldset>
 				HTML;
-			case 'EXCENTO':
-				return <<<HTML
+    case 'EXCENTO':
+      return <<<HTML
 					<fieldset class="w3-border-0">
 						<legend class="w3-large w3-padding"><b>$label</b></legend>
 						<div class="w3-row w3-center w3-border-bottom">
@@ -425,32 +426,31 @@
 						</div>
 					</fieldset>
 				HTML;
-		endswitch;
-	}
-	
-	/**
-	 * @param  string       $tipo      `div` o `form`
-	 * @param  string       $id        El ID del modal.
-	 * @param  string       $titulo    Contenido HTML para el título del modal.
-	 * @param  string       $contenido Contenido HTML para el contenido del modal.
-	 * @param  bool|boolean $cerrar    Si quieres agregar el botón de cerrar el modal, por defecto es `true`.
-	 * @param  bool|boolean $mostrar   Si quieres mostrar el modal cuando cargue la vista, por defecto es `false`.
-	 * @return void                    No retorna, imprime el modal.
-	 */
-	function generarModal(string $tipo, string $id, string $titulo, string $contenido, bool $cerrar = true, bool $mostrar = false) {
-		$mostrar = $mostrar ? 'w3-show' : 'w3-hide';
-		
-		echo "<$tipo id='$id' class='modal w3-white w3-card w3-round-large animate__animated animate__fadeInUp animate__faster $mostrar'>";
-			if ($cerrar)
-				echo <<<HTML
+  endswitch;
+}
+
+/**
+ * @param  string       $tipo      `div` o `form`
+ * @param  string       $id        El ID del modal.
+ * @param  string       $titulo    Contenido HTML para el título del modal.
+ * @param  string       $contenido Contenido HTML para el contenido del modal.
+ * @param  bool|boolean $cerrar    Si quieres agregar el botón de cerrar el modal, por defecto es `true`.
+ * @param  bool|boolean $mostrar   Si quieres mostrar el modal cuando cargue la vista, por defecto es `false`.
+ * @return void                    No retorna, imprime el modal.
+ */
+function generarModal(string $tipo, string $id, string $titulo, string $contenido, bool $cerrar = true, bool $mostrar = false) {
+  $mostrar = $mostrar ? 'w3-show' : 'w3-hide';
+
+  echo "<$tipo id='$id' class='modal w3-white w3-card w3-round-large animate__animated animate__fadeInUp animate__faster $mostrar'>";
+  if ($cerrar)
+    echo <<<HTML
 					<div class="w3-right-align">
 						<span class="icon-close w3-button w3-transparent w3-hover-red"></span>
 					</div>
 				HTML;
-			echo <<<HTML
+  echo <<<HTML
 				<h2 class="w3-center w3-xxlarge oswald w3-margin-bottom">$titulo</h2>
 				$contenido
 			HTML;
-		echo "</$tipo>";
-	}
-?>
+  echo "</$tipo>";
+}

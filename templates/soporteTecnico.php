@@ -1,9 +1,10 @@
 <?php
-	if (isset($mostrarSoporteTecnico)):
-		/*=======================================
+
+if (isset($mostrarSoporteTecnico)) :
+  /*=======================================
 		=            SOPORTE TÉCNICO            =
 		=======================================*/
-		$contenido = <<<HTML
+  $contenido = <<<HTML
 			<dl class="w3-left-align w3-container">
 				<dt class="w3-tag w3-blue">
 					<i class="icon-envelope-o"></i> Correo Electrónico
@@ -73,6 +74,5 @@
 					</dd>
 			</dl>
 		HTML;
-		generarModal('div', 'soporte', 'Soporte Técnico', $contenido);
-	endif;
-?>
+  generarModal('div', 'soporte', 'Soporte Técnico', $contenido);
+endif;

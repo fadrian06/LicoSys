@@ -1,51 +1,52 @@
 <?php
-	session_start();
-	if (!isset($_SESSION['activa'])) header('location: ../salir.php');
-	
-	if ($_SESSION['cargo'] === 'a'):
-		require '../backend/config.php';
-		require '../backend/componentes.php';
-		require '../backend/conexion.php';
-		require '../backend/funciones.php';
-		
-		echo LOADER;
-		echo '<div id="moduloNegocios" class="w3-row" style="max-height: 71vh; overflow: auto">';
-		
-		$negocios = getRegistros('SELECT * FROM negocios WHERE activo=1');
-		$desactivados = getRegistros('SELECT * FROM negocios WHERE activo=0');
-		
-		/*----------  ACTIVADOS  ----------*/
-		$botones = '';
-		$paneles = '';
-		foreach ($negocios as $negocio):
-			$activo = $negocio['id'] === $_SESSION['negocioID']
-				? 'w3-blue'
-				: '';
-			$botones .= <<<HTML
+
+session_start();
+if (!isset($_SESSION['activa'])) header('location: ../salir.php');
+
+if ($_SESSION['cargo'] === 'a') :
+  require '../backend/config.php';
+  require '../backend/componentes.php';
+  require '../backend/conexion.php';
+  require '../backend/funciones.php';
+
+  echo LOADER;
+  echo '<div id="moduloNegocios" class="w3-row" style="max-height: 71vh; overflow: auto">';
+
+  $negocios = getRegistros('SELECT * FROM negocios WHERE activo=1');
+  $desactivados = getRegistros('SELECT * FROM negocios WHERE activo=0');
+
+  /*----------  ACTIVADOS  ----------*/
+  $botones = '';
+  $paneles = '';
+  foreach ($negocios as $negocio) :
+    $activo = $negocio['id'] === $_SESSION['negocioID']
+      ? 'w3-blue'
+      : '';
+    $botones .= <<<HTML
 				<li role="botonPanel" onclick="mostrarPanel(this, '#panelNegocio{$negocio['id']}')" class="w3-button w3-block w3-rightbar $activo">
 					<i class="icon-building w3-large"></i>
 					<div>{$negocio['nombre']}</div>
 				</li>
 			HTML;
-			
-			$activo = $negocio['id'] === $_SESSION['negocioID']
-				? 'w3-show'
-				: 'w3-hide';
-			$botonActualizarActivo = $negocio['id'] === $_SESSION['negocioID']
-				? 'w3-hide'
-				: 'w3-show-inline-block';
-			$negocio['logo'] = $negocio['logo']
-				? "images/negocios/{$negocio['logo']}"
-				: 'images/logoNegocio.jpg';
-			$negocio['tlf'] = $negocio['tlf'] ?: '<b class="w3-text-red">No establecido</b>';
-			$negocio['direccion'] = $negocio['direccion'] ?: '<b class="w3-text-red">No establecido</b>';
-			$permitirDesactivar = $negocio['id'] === $_SESSION['negocioID']
-				? 'w3-hide'
-				: 'w3-show-inline-block';
-			$idNegocioActivo = $negocio['id'] === $_SESSION['negocioID']
-				? 'id="nombreNegocioActivo"'
-				: '';
-			$paneles .= <<<HTML
+
+    $activo = $negocio['id'] === $_SESSION['negocioID']
+      ? 'w3-show'
+      : 'w3-hide';
+    $botonActualizarActivo = $negocio['id'] === $_SESSION['negocioID']
+      ? 'w3-hide'
+      : 'w3-show-inline-block';
+    $negocio['logo'] = $negocio['logo']
+      ? "assets/images/negocios/{$negocio['logo']}"
+      : 'assets/images/logoNegocio.jpg';
+    $negocio['tlf'] = $negocio['tlf'] ?: '<b class="w3-text-red">No establecido</b>';
+    $negocio['direccion'] = $negocio['direccion'] ?: '<b class="w3-text-red">No establecido</b>';
+    $permitirDesactivar = $negocio['id'] === $_SESSION['negocioID']
+      ? 'w3-hide'
+      : 'w3-show-inline-block';
+    $idNegocioActivo = $negocio['id'] === $_SESSION['negocioID']
+      ? 'id="nombreNegocioActivo"'
+      : '';
+    $paneles .= <<<HTML
 				<div id="panelNegocio{$negocio['id']}" role="panel" class="w3-rest $activo w3-animate-opacity">
 					<div class="w3-row">
 						<!------------  INFORMACIÓN  ------------>
@@ -114,26 +115,26 @@
 					</div>
 				</div>
 			HTML;
-		endforeach;
-		
-		/*----------  DESACTIVADOS  ----------*/
-		$mostrarDesactivados = '';
-		$botonesDesactivados = '';
-		$panelesDesactivados = '';
-		if ($desactivados):
-			foreach ($desactivados as $negocio):
-				$botonesDesactivados .= <<<HTML
+  endforeach;
+
+  /*----------  DESACTIVADOS  ----------*/
+  $mostrarDesactivados = '';
+  $botonesDesactivados = '';
+  $panelesDesactivados = '';
+  if ($desactivados) :
+    foreach ($desactivados as $negocio) :
+      $botonesDesactivados .= <<<HTML
 					<li role="botonPanel" onclick="mostrarPanel(this, '#panelNegocio{$negocio['id']}')" class="w3-button w3-block w3-rightbar w3-red">
 						<i class="icon-building w3-large"></i>
 						<div>{$negocio['nombre']}</div>
 					</li>
 				HTML;
-				$negocio['logo'] = $negocio['logo']
-					? "images/negocios/{$negocio['logo']}"
-					: 'images/logoNegocio.jpg';
-				$negocio['tlf'] = $negocio['tlf'] ?: '<b class="w3-text-red">No establecido</b>';
-				$negocio['direccion'] = $negocio['direccion'] ?: '<b class="w3-text-red">No establecido</b>';
-				$panelesDesactivados .= <<<HTML
+      $negocio['logo'] = $negocio['logo']
+        ? "assets/images/negocios/{$negocio['logo']}"
+        : 'assets/images/logoNegocio.jpg';
+      $negocio['tlf'] = $negocio['tlf'] ?: '<b class="w3-text-red">No establecido</b>';
+      $negocio['direccion'] = $negocio['direccion'] ?: '<b class="w3-text-red">No establecido</b>';
+      $panelesDesactivados .= <<<HTML
 					<div id="panelNegocio{$negocio['id']}" role="panel" class="w3-rest w3-hide w3-animate-opacity">
 						<div class="w3-row">
 							<!------------  INFORMACIÓN  ------------>
@@ -202,9 +203,9 @@
 						</div>
 					</div>
 				HTML;
-			endforeach;
-			$cantidadDesactivados = count($desactivados);
-			$mostrarDesactivados = <<<HTML
+    endforeach;
+    $cantidadDesactivados = count($desactivados);
+    $mostrarDesactivados = <<<HTML
 				<details class="w3-margin-top">
 					<summary class="w3-padding w3-small">
 						<i class="icon-lock"> Desactivados</i>
@@ -218,41 +219,41 @@
 					</div>
 				</details>
 			HTML;
-		endif;
-		
-		/*=====================================
+  endif;
+
+  /*=====================================
 		=            BARRA LATERAL            =
 		=====================================*/
-		$botonRegistrar = BOTONES['REGISTRAR_NEGOCIO'];
-		echo <<<HTML
+  $botonRegistrar = BOTONES['REGISTRAR_NEGOCIO'];
+  echo <<<HTML
 			<div class="w3-col s4 m3 w3-padding-top-64 w3-ul w3-center">
 				<ul class="w3-ul w3-card w3-white w3-tiny w3-center">$botones</ul>
 				$mostrarDesactivados
 				<div class="w3-margin w3-padding-top-24">$botonRegistrar</div>
 			</div>
 		HTML;
-		
-		/*=======================================
+
+  /*=======================================
 		=            PANEL PRINCIPAL            =
 		=======================================*/
-		echo $paneles;
-		if ($desactivados) echo $panelesDesactivados;
-		
-		/*=========================================
+  echo $paneles;
+  if ($desactivados) echo $panelesDesactivados;
+
+  /*=========================================
 		=            REGISTRAR NEGOCIO            =
 		=========================================*/
-		$label = '<b>Nombre:</b> <sup class="w3-text-red">(requerido)</sup>';
-		$inputNombre = generarINPUT('NOMBRE_NEGOCIO', $label, 'Nombre del negocio');
-		
-		$label = '<b>RIF:</b> <sup class="w3-text-red">(requerido)</sup>';
-		$inputRIF = generarINPUT('RIF', $label, 'RIF del negocio');
-		
-		$label = '<b>Teléfono:</b> <sup class="w3-text-blue">(opcional)</sup>';
-		$inputTelefono = generarINPUT('TELEFONO', $label, 'Teléfono de contacto');
-		
-		$label = '<b>Dirección:</b> <sup class="w3-text-blue">(opcional)</sup>';
-		$inputDireccion = generarINPUT('DIRECCION', $label, 'Dirección del negocio');
-		echo <<<HTML
+  $label = '<b>Nombre:</b> <sup class="w3-text-red">(requerido)</sup>';
+  $inputNombre = generarINPUT('NOMBRE_NEGOCIO', $label, 'Nombre del negocio');
+
+  $label = '<b>RIF:</b> <sup class="w3-text-red">(requerido)</sup>';
+  $inputRIF = generarINPUT('RIF', $label, 'RIF del negocio');
+
+  $label = '<b>Teléfono:</b> <sup class="w3-text-blue">(opcional)</sup>';
+  $inputTelefono = generarINPUT('TELEFONO', $label, 'Teléfono de contacto');
+
+  $label = '<b>Dirección:</b> <sup class="w3-text-blue">(opcional)</sup>';
+  $inputDireccion = generarINPUT('DIRECCION', $label, 'Dirección del negocio');
+  echo <<<HTML
 			<form id="registrarNegocio" autocomplete="off" class="w3-row modal w3-white w3-card w3-round-large animate__animated animate__fadeInUp animate__faster w3-hide">
 				<div class="w3-right-align">
 					<span class="icon-close w3-button w3-transparent w3-hover-red"></span>
@@ -276,7 +277,7 @@
 					<label for="logoRegistrar" class="w3-display-container w3-hover-opacity" style="cursor: pointer">
 						<i class="icon-camera w3-xxxlarge w3-display-middle w3-display-hover"></i>
 						<input type="file" id="logoRegistrar" accept="image/jpeg,image/png" name="logo" class="w3-hide">
-						<img class="image-result w3-image" src="images/logoNegocio.jpg" style="width: 150px">
+						<img class="image-result w3-image" src="assets/images/logoNegocio.jpg" style="width: 150px">
 					</label>
 					<div class="w3-container w3-margin-top w3-center">
 						<label for="logo" class="w3-button w3-round-xlarge w3-blue w3-ripple">
@@ -290,31 +291,30 @@
 				</section>
 			</form>
 		HTML;
-		
-		/*======================================
+
+  /*======================================
 		=            EDITAR NEGOCIO            =
 		======================================*/
-		echo <<<HTML
+  echo <<<HTML
 			<form id="editarNegocio" autocomplete="off" class="modal w3-white w3-card w3-round-large animate__animated animate__fadeInUp animate__faster w3-hide"></form>
 		HTML;
-		
-		/*==========================================
+
+  /*==========================================
 		=            BOTONES INFERIORES            =
 		==========================================*/
-		echo '
+  echo '
 			<footer id="botones" class="w3-grey w3-padding-small" style="width: 100vw; bottom: 0">
 				<button class="w3-button w3-disabled w3-opacity-min w3-hover-gray w3-margin-bottom">
 					<i class="icon-chevron-right w3-xxlarge"></i>
 					&nbsp;Base de Datos
 				</button>
 		',
-		BOTONES['RESPALDAR'],
-		BOTONES['RESTAURAR'],
-		'</footer>';
-		echo '</div>';
-	else:
-		include '../templates/head.php';
-		$script .= "<script src='{$BASE_URL}js/restringido.js'></script>";
-		include '../templates/footer.php';
-	endif;
-?>
+  BOTONES['RESPALDAR'],
+  BOTONES['RESTAURAR'],
+  '</footer>';
+  echo '</div>';
+else :
+  include '../templates/head.php';
+  $script .= "<script src='{$BASE_URL}js/restringido.js'></script>";
+  include '../templates/footer.php';
+endif;

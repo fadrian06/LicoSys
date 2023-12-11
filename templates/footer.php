@@ -1,4 +1,5 @@
 		<?= $mostrarLoader ?? '' ?>
 		<?= $scripts ?>
-	</body>
-</html>
+		</body>
+
+		</html>

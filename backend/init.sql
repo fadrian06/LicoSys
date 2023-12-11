@@ -4,159 +4,159 @@ USE licosys;
 
 DROP TABLE IF EXISTS negocios;
 CREATE TABLE IF NOT EXISTS negocios (
-	id int PRIMARY KEY AUTO_INCREMENT,
-	nombre varchar(255) NOT NULL,
-	rif varchar(255) NOT NULL,
-	tlf varchar(255),
-	direccion varchar(255),
-	logo varchar(255),
-	activo tinyint(1) NOT NULL DEFAULT 1
+  id int PRIMARY KEY AUTO_INCREMENT,
+  nombre varchar(255) NOT NULL,
+  rif varchar(255) NOT NULL,
+  tlf varchar(255),
+  direccion varchar(255),
+  logo varchar(255),
+  activo tinyint(1) NOT NULL DEFAULT 1
 );
 
 DROP TABLE IF EXISTS usuarios;
 CREATE TABLE IF NOT EXISTS usuarios (
-	id int PRIMARY KEY AUTO_INCREMENT,
-	cedula int NOT NULL,
-	nombre varchar(255) NOT NULL,
-	usuario varchar(255) NOT NULL,
-	clave varchar(255) NOT NULL,
-	cargo varchar(1) DEFAULT 'v',
-	telefono varchar(255),
-	foto varchar(255),
-	activo tinyint(1) DEFAULT 1,
-	pre1 varchar(255),
-	pre2 varchar(255),
-	pre3 varchar(255),
-	res1 varchar(255),
-	res2 varchar(255),
-	res3 varchar(255)
+  id int PRIMARY KEY AUTO_INCREMENT,
+  cedula int NOT NULL,
+  nombre varchar(255) NOT NULL,
+  usuario varchar(255) NOT NULL,
+  clave varchar(255) NOT NULL,
+  cargo varchar(1) DEFAULT 'v',
+  telefono varchar(255),
+  foto varchar(255),
+  activo tinyint(1) DEFAULT 1,
+  pre1 varchar(255),
+  pre2 varchar(255),
+  pre3 varchar(255),
+  res1 varchar(255),
+  res2 varchar(255),
+  res3 varchar(255)
 );
 
 DROP TABLE IF EXISTS log;
 CREATE TABLE IF NOT EXISTS log (
-	fecha datetime DEFAULT CURRENT_TIMESTAMP,
-	usuario_id int NOT NULL,
-	negocio_id int NOT NULL,
-	CONSTRAINT FOREIGN KEY(usuario_id) REFERENCES usuarios(id),
-	CONSTRAINT FOREIGN KEY(negocio_id) REFERENCES negocios(id)
+  fecha datetime DEFAULT CURRENT_TIMESTAMP,
+  usuario_id int NOT NULL,
+  negocio_id int NOT NULL,
+  CONSTRAINT FOREIGN KEY(usuario_id) REFERENCES usuarios(id),
+  CONSTRAINT FOREIGN KEY(negocio_id) REFERENCES negocios(id)
 );
 
 DROP TABLE IF EXISTS dolar;
 CREATE TABLE IF NOT EXISTS dolar(
-	fecha datetime DEFAULT CURRENT_TIMESTAMP,
-	valor varchar(255) NOT NULL
+  fecha datetime DEFAULT CURRENT_TIMESTAMP,
+  valor varchar(255) NOT NULL
 );
 
 DROP TABLE IF EXISTS iva;
 CREATE TABLE IF NOT EXISTS iva(
-	fecha datetime DEFAULT CURRENT_TIMESTAMP,
-	valor varchar(255) NOT NULL
+  fecha datetime DEFAULT CURRENT_TIMESTAMP,
+  valor varchar(255) NOT NULL
 );
 
 DROP TABLE IF EXISTS peso;
 CREATE TABLE IF NOT EXISTS peso(
-	fecha datetime DEFAULT CURRENT_TIMESTAMP,
-	valor varchar(255) NOT NULL
+  fecha datetime DEFAULT CURRENT_TIMESTAMP,
+  valor varchar(255) NOT NULL
 );
 
 DROP TABLE IF EXISTS clientes;
 CREATE TABLE IF NOT EXISTS clientes(
-	id int PRIMARY KEY AUTO_INCREMENT,
-	cedula int NOT NULL,
-	nombre varchar(255) NOT NULL,
-	usuario_id int NOT NULL,
-	CONSTRAINT FOREIGN KEY(usuario_id) REFERENCES usuarios(id)
+  id int PRIMARY KEY AUTO_INCREMENT,
+  cedula int NOT NULL,
+  nombre varchar(255) NOT NULL,
+  usuario_id int NOT NULL,
+  CONSTRAINT FOREIGN KEY(usuario_id) REFERENCES usuarios(id)
 );
 
 DROP TABLE IF EXISTS proveedores;
 CREATE TABLE IF NOT EXISTS proveedores(
-	id int PRIMARY KEY AUTO_INCREMENT,
-	cedula int NOT NULL,
-	nombre varchar(255) NOT NULL,
-	rif varchar(255) NOT NULL,
-	nombreEmpresa varchar(255) NOT NULL,
-	telefono varchar(255) NOT NULL,
-	direccion varchar(255) NOT NULL,
-	usuario_id int NOT NULL,
-	negocio_id int NOT NULL,
-	CONSTRAINT FOREIGN KEY(usuario_id) REFERENCES usuarios(id),
-	CONSTRAINT FOREIGN KEY(negocio_id) REFERENCES negocios(id)
+  id int PRIMARY KEY AUTO_INCREMENT,
+  cedula int NOT NULL,
+  nombre varchar(255) NOT NULL,
+  rif varchar(255) NOT NULL,
+  nombreEmpresa varchar(255) NOT NULL,
+  telefono varchar(255) NOT NULL,
+  direccion varchar(255) NOT NULL,
+  usuario_id int NOT NULL,
+  negocio_id int NOT NULL,
+  CONSTRAINT FOREIGN KEY(usuario_id) REFERENCES usuarios(id),
+  CONSTRAINT FOREIGN KEY(negocio_id) REFERENCES negocios(id)
 );
 
 DROP TABLE IF EXISTS inventario;
 CREATE TABLE IF NOT EXISTS inventario(
-	id int PRIMARY KEY AUTO_INCREMENT,
-	codigo varchar(255) NOT NULL,
-	producto varchar(255) NOT NULL,
-	stock int DEFAULT 0,
-	excento tinyint(1) NOT NULL,
-	precio decimal(10, 2) NOT NULL,
-	negocio_id int NOT NULL,
-	usuario_id int NOT NULL,
-	CONSTRAINT FOREIGN KEY(negocio_id) REFERENCES negocios(id),
-	CONSTRAINT FOREIGN KEY(usuario_id) REFERENCES usuarios(id)
+  id int PRIMARY KEY AUTO_INCREMENT,
+  codigo varchar(255) NOT NULL,
+  producto varchar(255) NOT NULL,
+  stock int DEFAULT 0,
+  excento tinyint(1) NOT NULL,
+  precio decimal(10, 2) NOT NULL,
+  negocio_id int NOT NULL,
+  usuario_id int NOT NULL,
+  CONSTRAINT FOREIGN KEY(negocio_id) REFERENCES negocios(id),
+  CONSTRAINT FOREIGN KEY(usuario_id) REFERENCES usuarios(id)
 );
 
 DROP TABLE IF EXISTS compras;
 CREATE TABLE IF NOT EXISTS compras(
-	id int PRIMARY KEY AUTO_INCREMENT,
-	fecha datetime DEFAULT CURRENT_TIMESTAMP,
-	producto_id int NOT NULL,
-	unidades int DEFAULT 0,
-	precio decimal(10, 2) NOT NULL,
-	total decimal(10, 2) DEFAULT 0,
-	proveedor_id int NOT NULL,
-	usuario_id int NOT NULL,
-	negocio_id int NOT NULL,
-	CONSTRAINT FOREIGN KEY(producto_id) REFERENCES inventario(id),
-	CONSTRAINT FOREIGN KEY(proveedor_id) REFERENCES proveedores(id),
-	CONSTRAINT FOREIGN KEY(usuario_id) REFERENCES usuarios(id),
-	CONSTRAINT FOREIGN KEY(negocio_id) REFERENCES negocios(id)
+  id int PRIMARY KEY AUTO_INCREMENT,
+  fecha datetime DEFAULT CURRENT_TIMESTAMP,
+  producto_id int NOT NULL,
+  unidades int DEFAULT 0,
+  precio decimal(10, 2) NOT NULL,
+  total decimal(10, 2) DEFAULT 0,
+  proveedor_id int NOT NULL,
+  usuario_id int NOT NULL,
+  negocio_id int NOT NULL,
+  CONSTRAINT FOREIGN KEY(producto_id) REFERENCES inventario(id),
+  CONSTRAINT FOREIGN KEY(proveedor_id) REFERENCES proveedores(id),
+  CONSTRAINT FOREIGN KEY(usuario_id) REFERENCES usuarios(id),
+  CONSTRAINT FOREIGN KEY(negocio_id) REFERENCES negocios(id)
 );
 
 DROP TABLE IF EXISTS ventas;
 CREATE TABLE IF NOT EXISTS ventas(
-	id int PRIMARY KEY AUTO_INCREMENT,
-	fecha datetime DEFAULT CURRENT_TIMESTAMP,
-	cliente_id int NOT NULL,
-	producto_id int NOT NULL,
-	unidades int DEFAULT 0,
-	total decimal(10, 2) NOT NULL,
-	iva decimal(10, 2) NOT NULL,
-	usuario_id int NOT NULL,
-	negocio_id int NOT NULL,
-	CONSTRAINT FOREIGN KEY(cliente_id) REFERENCES clientes(id),
-	CONSTRAINT FOREIGN KEY(producto_id) REFERENCES inventario(id),
-	CONSTRAINT FOREIGN KEY(usuario_id) REFERENCES usuarios(id),
-	CONSTRAINT FOREIGN KEY(negocio_id) REFERENCES negocios(id)
+  id int PRIMARY KEY AUTO_INCREMENT,
+  fecha datetime DEFAULT CURRENT_TIMESTAMP,
+  cliente_id int NOT NULL,
+  producto_id int NOT NULL,
+  unidades int DEFAULT 0,
+  total decimal(10, 2) NOT NULL,
+  iva decimal(10, 2) NOT NULL,
+  usuario_id int NOT NULL,
+  negocio_id int NOT NULL,
+  CONSTRAINT FOREIGN KEY(cliente_id) REFERENCES clientes(id),
+  CONSTRAINT FOREIGN KEY(producto_id) REFERENCES inventario(id),
+  CONSTRAINT FOREIGN KEY(usuario_id) REFERENCES usuarios(id),
+  CONSTRAINT FOREIGN KEY(negocio_id) REFERENCES negocios(id)
 );
 
 DROP TABLE IF EXISTS carrito_venta;
 CREATE TABLE IF NOT EXISTS carrito_venta(
-	producto_id int NOT NULL,
-	antiguo_stock int NOT NULL,
-	precio_base decimal(10, 2) NOT NULL,
-	unidades int DEFAULT 0,
-	precio_total decimal(10, 2) NOT NULL,
-	total_iva decimal(10, 2) NOT NULL,
-	CONSTRAINT FOREIGN KEY(producto_id) REFERENCES inventario(id)
+  producto_id int NOT NULL,
+  antiguo_stock int NOT NULL,
+  precio_base decimal(10, 2) NOT NULL,
+  unidades int DEFAULT 0,
+  precio_total decimal(10, 2) NOT NULL,
+  total_iva decimal(10, 2) NOT NULL,
+  CONSTRAINT FOREIGN KEY(producto_id) REFERENCES inventario(id)
 );
 
 DROP TABLE IF EXISTS carrito_compra;
 CREATE TABLE IF NOT EXISTS carrito_compra(
-	producto_id int NOT NULL,
-	antiguo_stock int NOT NULL,
-	precio_base decimal(10, 2) NOT NULL,
-	unidades int DEFAULT 0,
-	precio_total decimal(10, 2) NOT NULL,
-	CONSTRAINT FOREIGN KEY(producto_id) REFERENCES inventario(id)
+  producto_id int NOT NULL,
+  antiguo_stock int NOT NULL,
+  precio_base decimal(10, 2) NOT NULL,
+  unidades int DEFAULT 0,
+  precio_total decimal(10, 2) NOT NULL,
+  CONSTRAINT FOREIGN KEY(producto_id) REFERENCES inventario(id)
 );
 
 DROP TABLE IF EXISTS versiones;
 CREATE TABLE IF NOT EXISTS versiones(
-	id int PRIMARY KEY AUTO_INCREMENT,
-	nombre varchar(4) NOT NULL,
-	descripcion text NOT NULL
+  id int PRIMARY KEY AUTO_INCREMENT,
+  nombre varchar(4) NOT NULL,
+  descripcion text NOT NULL
 );
 
 TRUNCATE TABLE versiones;
