@@ -1,5 +1,9 @@
 <?php
 
+use App\Environment\Env;
+
+require_once __DIR__ . '/../vendor/autoload.php';
+
 /** @var array Respuesta del servidor al cliente. */
 $respuesta = [
   'ok'    => '',
@@ -7,28 +11,16 @@ $respuesta = [
   'datos' => []
 ];
 
-// LOCAL
-const HOST    = 'localhost';
-const USUARIO = 'root';
-const CLAVE   = '';
-const BD      = 'licosys';
-const CHARSET = 'utf8';
-
-// ONLINE - 000webhost.com
-// const USUARIO = 'id20496120_fsanchez';
-// const CLAVE = 'tGB73Jd}mgcO$4I=';
-// const BD = 'id20496120_licosys';
-
 try {
-  $conexion = new MySQLi(HOST, USUARIO, CLAVE);
-  $conexion->set_charset(CHARSET);
+  $conexion = new MySQLi(Env::get('DB_HOST'), Env::get('DB_USERNAME'), Env::get('DB_PASSWORD'));
+  $conexion->set_charset(Env::get('DB_CHARSET'));
 } catch (mysqli_sql_exception $error) {
   exit("Error, no se pudo conectar a MySQL: <b>{$error->getMessage()}</b><br>");
 }
 
 /*----------  Si no existe la base de datos, comienza la instalación  ----------*/
 try {
-  $conexion->select_db(BD);
+  $conexion->select_db(Env::get('DB_DATABASE'));
 } catch (mysqli_sql_exception) {
   $mostrarLoader = '<script src="js/loader.js"></script>';
 }

@@ -5,3 +5,6 @@ desktop.ini
 README.html
 package-lock.json
 assets/build/*
+vendor
+composer.lock
+.env.php

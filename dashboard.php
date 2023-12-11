@@ -1,107 +1,120 @@
 <?php
 
+use App\Environment\Env;
+
+require_once __DIR__ . '/vendor/autoload.php';
+
 session_start();
-if (!isset($_SESSION['activa'])) header('location: index.php');
+
+if (!isset($_SESSION['activa'])) {
+  header('location: index.php');
+}
 
 include 'templates/head.php';
 
 $versiones = getRegistros('SELECT * FROM versiones ORDER BY id DESC');
 
-$data = getAPI('https://s3.amazonaws.com/dolartoday/data.json', 'json/dolarToday.json');
-$dolarFecha = $data['_timestamp']['fecha'];
-$dolarT     = $data['USD']['transferencia'];
-$dolarE     = $data['USD']['efectivo'];
+// $data = getAPI(Env::get('DOLLAR_TODAY'), 'json/dolarToday.json');
+$dolarFecha = $data['_timestamp']['fecha'] ?? 'Servicio no disponible';
+$dolarT     = $data['USD']['transferencia'] ?? '';
+$dolarE     = $data['USD']['efectivo'] ?? '';
 
-$data = getAPI('https://api.exchangedyn.com/markets/quotes/usdves/bcv', 'json/bcv.json');
+$data = getAPI(Env::get('DOLLAR_BCV_API'), 'json/bcv.json');
 $dolarBCV = round($data['sources']['BCV']['quote'], 2);
 
 $sql = <<<SQL
-		SELECT fecha, foto, nombre, usuario FROM log
-		INNER JOIN usuarios ON usuario_id=id
-		WHERE negocio_id={$_SESSION['negocioID']}
-		GROUP BY usuario_id ORDER BY fecha DESC LIMIT 3
-	SQL;
+	SELECT fecha, foto, nombre, usuario FROM log
+	INNER JOIN usuarios ON usuario_id=id
+	WHERE negocio_id={$_SESSION['negocioID']}
+	GROUP BY usuario_id ORDER BY fecha DESC LIMIT 3
+SQL;
+
 $recientes = getRegistros($sql);
-$sql = <<<SQL
-		SELECT id FROM ventas WHERE negocio_id={$_SESSION['negocioID']}
-	SQL;
-$cantidadVentas = count(getRegistros($sql));
+
+$sql = "SELECT id FROM ventas WHERE negocio_id={$_SESSION['negocioID']}";
+$cantidadVentas = contarRegistros($sql) ?? 0;
 
 /*----------  PRODUCTOS MÁS VENDIDOS  ----------*/
 $sql = <<<SQL
-		SELECT v.fecha, v.producto_id, i.producto, v.unidades FROM ventas v
-		INNER JOIN inventario i ON v.producto_id=i.id
-		WHERE v.negocio_id={$_SESSION['negocioID']}
-	SQL;
+	SELECT v.fecha, v.producto_id, i.producto, v.unidades FROM ventas v
+	JOIN inventario i ON v.producto_id=i.id
+	WHERE v.negocio_id={$_SESSION['negocioID']}
+SQL;
+
 $ventas = getRegistros($sql);
-$ventas = filtrarFecha('semanal', $ventas);
+$ventas = filtrarFecha(DateFilter::Weekly, $ventas);
 $ventasCombinadas = [];
-foreach ($ventas as $venta) :
+foreach ($ventas as $venta) {
   $id = $venta['producto_id'];
 
-  if (count($ventasCombinadas) > 2) break;
+  if (count($ventasCombinadas) > 2) {
+    break;
+  }
 
-  if (!array_key_exists($id, $ventasCombinadas))
+  if (!array_key_exists($id, $ventasCombinadas)) {
     $ventasCombinadas[$id] = $venta;
-  else $ventasCombinadas[$id]['unidades'] += $venta['unidades'];
-endforeach;
+  } else {
+    $ventasCombinadas[$id]['unidades'] += $venta['unidades'];
+  }
+}
 
-if ($ventasCombinadas && $_SESSION['cargo'] === 'a') :
+if ($ventasCombinadas && $_SESSION['cargo'] === 'a') {
   $nombresProductos = [];
   $cantidadProductos = [];
-  foreach ($ventasCombinadas as $venta) :
+
+  foreach ($ventasCombinadas as $venta) {
     $nombresProductos[] = $venta['producto'];
     $cantidadProductos[] = $venta['unidades'];
-  endforeach;
+  }
 
   $cantidadProductos[] = 0;
 
   $nombresProductos = json_encode($nombresProductos, JSON_INVALID_UTF8_IGNORE);
   $cantidadProductos = json_encode($cantidadProductos, JSON_INVALID_UTF8_IGNORE);
   $scripts .= <<<HTML
-			<script>
-				const xValues = $nombresProductos
-				const yValues = $cantidadProductos
-				const barColors = ['red', 'green', 'yellow', 'black', 'blue']
+		<script>
+			const xValues = $nombresProductos
+			const yValues = $cantidadProductos
+			const barColors = ['red', 'green', 'yellow', 'black', 'blue']
 
-				new Chart('productosMasVendidos', {
-					type: 'bar',
-					data: {
-						labels: xValues,
-						datasets: [{
-							backgroundColor: barColors,
-							data: yValues
-						}]
-					},
-					options: {
-						legend: {display: false},
-						scales: {
-							y: {
-								beginAtZero: true
-							}
+			new Chart('productosMasVendidos', {
+				type: 'bar',
+				data: {
+					labels: xValues,
+					datasets: [{
+						backgroundColor: barColors,
+						data: yValues
+					}]
+				},
+				options: {
+					legend: {display: false},
+					scales: {
+						y: {
+							beginAtZero: true
 						}
 					}
-				})
-			</script>
-		HTML;
-endif;
+				}
+			})
+		</script>
+	HTML;
+}
 
-$sql = <<<SQL
-		SELECT id FROM inventario WHERE negocio_id={$_SESSION['negocioID']}
-	SQL;
+$sql = "SELECT id FROM inventario WHERE negocio_id={$_SESSION['negocioID']}";
 $cantidadProductos = consulta($sql);
+
 ?>
 
 <main class="w3-container w3-light-gray">
   <?= LOADER ?>
   <h1 class="w3-xlarge w3-padding-16">
-    <i class="icon-dashboard"></i> Administración
+    <i class="icon-dashboard"></i>
+    Administración
   </h1>
   <!--=============================
 	=            WIDGETS            =
 	==============================-->
   <section class="w3-row-padding w3-margin-bottom">
-    <?php if ($_SESSION['cargo'] === 'a') : ?>
+    <?php if ($_SESSION['cargo'] === 'a') { ?>
       <div class="w3-col s6 m3 w3-dropdown-hover w3-transparent">
         <a href="views/ventas.php" role="navegacion" class="w3-hover-opacity">
           <div class="w3-container w3-red w3-padding-16">
@@ -124,7 +137,7 @@ $cantidadProductos = consulta($sql);
         </a>
         <?= generarTooltip('Ver Compras') ?>
       </div>
-    <?php endif ?>
+    <?php } ?>
     <div class="w3-col <?= $_SESSION['cargo'] === 'a' ? 's6 m3' : 's6' ?> w3-dropdown-hover w3-transparent">
       <a href="views/inventario.php" role="navegacion" class="w3-hover-opacity">
         <div class="w3-container w3-teal w3-padding-16">
@@ -175,7 +188,7 @@ $cantidadProductos = consulta($sql);
       </table>
     </section>
   </div>
-  <?php if ($_SESSION['cargo'] === 'a' && $recientes) : ?>
+  <?php if ($_SESSION['cargo'] === 'a' && $recientes) { ?>
     <section class="w3-row w3-container w3-border-bottom w3-padding-24">
       <!--========================================
 			=            USUARIOS RECIENTES            =
@@ -187,12 +200,12 @@ $cantidadProductos = consulta($sql);
           </a>
           <?= generarTooltip('Ver Registro de Sesiones') ?>
         </div>
-        <?php foreach ($recientes as $usuario) : ?>
+        <?php foreach ($recientes as $usuario) { ?>
           <li class="w3-padding-16">
             <img src="<?= !empty($usuario['foto']) ? "images/perfil/{$usuario['foto']}" : "images/avatar2.png" ?>" class="w3-circle w3-margin-right" style="width: 50px">
             <span class="w3-large"><?= $usuario['nombre'] ?></span>
           </li>
-        <?php endforeach ?>
+        <?php } ?>
       </ul>
       <div class="w3-col s0 m1">&nbsp;</div>
       <!--============================================
@@ -200,21 +213,22 @@ $cantidadProductos = consulta($sql);
 			=============================================-->
       <?php
       $tooltipProductosMasVendidos = generarTooltip('Ver Finanzas');
-      if ($ventasCombinadas)
+
+      if ($ventasCombinadas) {
         echo <<<HTML
-						<div class="w3-col s12 m6 w3-ul w3-card-4 w3-white">
-							<div class="w3-dropdown-hover w3-transparent w3-block">
-								<a href="views/finanzas.php" role="navegacion" class="w3-button w3-block w3-border-bottom w3-light-gray w3-text-indigo w3-xlarge">
-									Productos más Vendidos
-								</a>
-								$tooltipProductosMasVendidos
-							</div>
-							<canvas id="productosMasVendidos"></canvas>
-						</div>
-					HTML;
-      ?>
+          <div class="w3-col s12 m6 w3-ul w3-card-4 w3-white">
+            <div class="w3-dropdown-hover w3-transparent w3-block">
+              <a href="views/finanzas.php" role="navegacion" class="w3-button w3-block w3-border-bottom w3-light-gray w3-text-indigo w3-xlarge">
+                Productos más Vendidos
+              </a>
+              $tooltipProductosMasVendidos
+            </div>
+            <canvas id="productosMasVendidos"></canvas>
+          </div>
+        HTML;
+      } ?>
     </section>
-  <?php endif ?>
+  <?php } ?>
   <!--===================================
 	=            PIE DE PÁGINA            =
 	====================================-->
@@ -233,7 +247,8 @@ $cantidadProductos = consulta($sql);
       &nbsp;<a href="https://www.w3schools.com/w3css/default.asp" target="_blank">
         w3.css
       </a>
-      &nbsp;| <i class="icon-copyright"></i> UPTM <?= date('Y') ?>
+      &nbsp;| <i class="icon-copyright"></i>
+      UPTM <?= date('Y') ?>
     </p>
   </footer>
 

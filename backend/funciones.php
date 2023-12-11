@@ -663,19 +663,26 @@ function formatearFecha(string $fecha): string {
   return $formateada;
 }
 
+enum DateFilter {
+  case Diary;
+  case Weekly;
+  case Biweekly;
+  case Monthly;
+}
+
 /**
  * Filtra elementos en un arreglo con el filtro especificado.
- * @param  string $filtro 'diario', 'semanal', 'quincenal', 'mensual'
- * @param  array  $datos  Un arreglo de arreglos que tiene una clave 'fecha'<br>
- * con el formato 'Y-m-d H:i:s'
- * @return array El arreglo filtrado.
+ * @template T of array{fecha: string}
+ * @param  T $datos  Un arreglo de arreglos que tiene una clave `fecha`
+ * con el formato `Y-m-d H:i:s`
+ * @return T El arreglo filtrado.
  */
-function filtrarFecha(string $filtro, array $datos): array {
+function filtrarFecha(DateFilter $filter, array $datos): array {
   $filtrado = [];
 
-  switch ($filtro):
-    case 'diario':
-      foreach ($datos as $dato) :
+  switch ($filter) {
+    case DateFilter::Diary:
+      foreach ($datos as $dato) {
         $diferencia = obtenerDiferenciaFecha($dato['fecha']);
         // Si no han transcurrido ni un año, ni un mes, ni una semana ni un día
         if (
@@ -683,22 +690,30 @@ function filtrarFecha(string $filtro, array $datos): array {
           and !$diferencia['mes']
           and !$diferencia['semana']
           and !$diferencia['dia']
-        ) $filtrado[] = $dato;
-      endforeach;
+        ) {
+          $filtrado[] = $dato;
+        }
+      }
+
       break;
-    case 'semanal':
-      foreach ($datos as $dato) :
+
+    case DateFilter::Weekly:
+      foreach ($datos as $dato) {
         $diferencia = obtenerDiferenciaFecha($dato['fecha']);
         // Si no han transcurrido ni un año, ni un mes, ni una semana
         if (
           !$diferencia['año']
           and !$diferencia['mes']
           and !$diferencia['semana']
-        ) $filtrado[] = $dato;
-      endforeach;
+        ) {
+          $filtrado[] = $dato;
+        }
+      }
+
       break;
-    case 'quincenal':
-      foreach ($datos as $dato) :
+
+    case DateFilter::Biweekly:
+      foreach ($datos as $dato) {
         $diferencia = obtenerDiferenciaFecha($dato['fecha']);
         // Si no han transcurrido ni un año, ni un mes y han transcurrido menos
         // de dos semanas
@@ -706,19 +721,25 @@ function filtrarFecha(string $filtro, array $datos): array {
           !$diferencia['año']
           and !$diferencia['mes']
           and ($diferencia['semana'] < 2)
-        ) $filtrado[] = $dato;
-      endforeach;
+        ) {
+          $filtrado[] = $dato;
+        }
+      }
+
       break;
-    case 'mensual':
-      foreach ($datos as $dato) :
+
+    case DateFilter::Monthly:
+      foreach ($datos as $dato) {
         $diferencia = obtenerDiferenciaFecha($dato['fecha']);
 
         // Si no han transcurrido ni un año ni un mes
-        if (!$diferencia['año'] and !$diferencia['mes'])
+        if (!$diferencia['año'] and !$diferencia['mes']) {
           $filtrado[] = $dato;
-      endforeach;
+        }
+      }
+
       break;
-  endswitch;
+  }
 
   return $filtrado;
 }

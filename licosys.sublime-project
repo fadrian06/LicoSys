@@ -24,13 +24,14 @@
   "settings": {
     "LSP": {
       "formatters": {
-        "embedding.php": "LSP-intelephense"
+        "embedding.php": "LSP-intelephense",
       },
       "LSP-html": {
         "disabled_capabilities": {
-          "hoverProvider": true
-        }
-      }
-    }
-  }
+          "hoverProvider": true,
+        },
+        "enabled": false,
+      },
+    },
+  },
 }
