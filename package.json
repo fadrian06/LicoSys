@@ -11,5 +11,10 @@
     "babel": "babel assets/src/modules -d assets/build/js -w",
     "build:win": "RD /S /Q assets\\build || babel assets/src/modules -d assets/build/js --minified && stylus assets/src/index.styl -o assets/build/css/bundle.css -c -r --include-css",
     "build:unix": "rm assets/build -rf && babel assets/src/modules -d assets/build/js --minified && stylus assets/src/index.styl -o assets/build/css/bundle.css -c -r --include-css"
+  },
+  "babel": {
+    "presets": [
+      "@babel/preset-env"
+    ]
   }
 }

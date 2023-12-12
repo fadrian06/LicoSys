@@ -1,0 +1,13 @@
+includes:
+  - vendor/phpstan/phpstan/conf/bleedingEdge.neon
+
+parameters:
+  level: 0
+  paths:
+    - app
+    - backend
+    - index.php
+    - dashboard.php
+    - salir.php
+    - views
+    - templates

@@ -18,7 +18,11 @@
     },
     {
       "name": "Build Production",
-      "shell_cmd": "npm run build",
+      "shell_cmd": "npm run build:win",
+    },
+    {
+      "name": "Lint",
+      "shell_cmd": "composer lint"
     }
   ],
   "settings": {
