@@ -16,6 +16,10 @@
     }
   },
   "scripts": {
-    "lint": "phpstan -cphpstan.neon --no-progress"
+    "lint": "phpstan -cphpstan.neon --no-progress",
+    "lint:save": "phpstan -cphpstan.neon --no-progress --generate-baseline=storage/cache/phpstan-baseline.neon --allow-empty-baseline"
+  },
+  "require": {
+    "mikecao/flight": "^2.0"
   }
 }

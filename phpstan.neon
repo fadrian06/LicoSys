@@ -1,8 +1,9 @@
 includes:
   - vendor/phpstan/phpstan/conf/bleedingEdge.neon
+  - storage/cache/phpstan-baseline.neon
 
 parameters:
-  level: 0
+  level: 1
   paths:
     - app
     - backend
