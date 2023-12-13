@@ -22,7 +22,7 @@
     },
     {
       "name": "Lint",
-      "shell_cmd": "composer lint"
+      "shell_cmd": "composer lint",
     }
   ],
   "settings": {
@@ -35,6 +35,12 @@
           "hoverProvider": true,
         },
         "enabled": false,
+      },
+      "ltex-ls": {
+        "enabled": false,
+      },
+      "marksman": {
+        "enabled": false
       },
     },
   },

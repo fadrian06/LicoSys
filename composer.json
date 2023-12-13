@@ -20,6 +20,7 @@
     "lint:save": "phpstan -cphpstan.neon --no-progress --generate-baseline=storage/cache/phpstan-baseline.neon --allow-empty-baseline"
   },
   "require": {
-    "mikecao/flight": "^2.0"
+    "faslatam/flight": "^2.0",
+    "faslatam/sparrow": "^1.0"
   }
 }
