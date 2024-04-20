@@ -24,19 +24,20 @@
   "settings": {
     "LSP": {
       "formatters": {
-        "embedding.php": "LSP-intelephense"
+        "embedding.php": "LSP-intelephense",
+        "source.json.composer": "LSP-json",
       },
       "LSP-html": {
         "disabled_capabilities": {
-          "hoverProvider": true
-        }
+          "hoverProvider": true,
+        },
       },
       "LSP-intelephense": {
         "settings": {
           "intelephense.environment.phpVersion": "8.2.18",
-          "intelephense.format.braces": "k&r"
-        }
-      }
-    }
-  }
+          "intelephense.format.braces": "k&r",
+        },
+      },
+    },
+  },
 }

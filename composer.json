@@ -1,0 +1,7 @@
+{
+  "scripts": {
+    "stylus": "node_modules/.bin/stylus src/index.styl -o css/bundle.css -w -m -r --include-css",
+    "babel": "node_modules/.bin/babel src/modules -d js -w",
+    "build": "RD /S /Q js && RD /S /Q css && node_modules/.bin/babel src/modules -d js --minified && node_modules/.bin/stylus src/index.styl -o css/bundle.css -c -r --include-css"
+  }
+}
