@@ -38,7 +38,7 @@
 			?>
 		</div>
 		<div class="w3-medium w3-dropdown-hover w3-black">
-			<a href="dashboard.php" role="navegacion" title="Panel de Administración" class="w3-medium w3-button">
+			<a href="dashboard.php" role="navegacion" title="Panel de Administración" class="w3-medium w3-button" style="max-height: 40px">
 				<img src="<?="$BASE_URL{$_SESSION['negocioLogo']}"?>" class="w3-image w3-circle" style="height: 25px; width:25px">
 				&nbsp;<b id="menuNombreNegocio"><?=$_SESSION['negocio']?></b>
 			</a>

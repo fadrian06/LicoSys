@@ -10,5 +10,8 @@
 		"stylus": "stylus src/index.styl -o css/bundle.css -w -m -r --include-css",
 		"babel": "babel src/modules -d js -w",
 		"build": "RD /S /Q js && RD /S /Q css && babel src/modules -d js --minified && stylus src/index.styl -o css/bundle.css -c -r --include-css"
+	},
+	"dependencies": {
+		"noty": "^3.2.0-beta-deprecated"
 	}
 }
