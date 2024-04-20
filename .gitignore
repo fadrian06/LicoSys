@@ -7,3 +7,4 @@ Rubbish
 *.sublime-workspace
 desktop.ini
 README.html
+.env.php

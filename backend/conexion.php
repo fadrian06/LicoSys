@@ -1,40 +1,36 @@
 <?php
 
-/** @var array Respuesta del servidor al cliente. */
+require_once __DIR__ . '/../.env.php';
+
+/** @var array{ok: string, error: string, datos: array<string, mixed>} Respuesta del servidor al cliente. */
 $respuesta = [
   'ok'    => '',
   'error' => '',
   'datos' => []
 ];
 
-// LOCAL
-const HOST    = 'localhost';
-const USUARIO = 'root';
-const CLAVE   = '';
-const BD      = 'licosys';
-const CHARSET = 'utf8';
-
-// ONLINE - 000webhost.com
-// const USUARIO = 'id20496120_fsanchez';
-// const CLAVE = 'tGB73Jd}mgcO$4I=';
-// const BD = 'id20496120_licosys';
-
 try {
-  $conexion = new MySQLi(HOST, USUARIO, CLAVE);
-  $conexion->set_charset(CHARSET);
+  $conexion = new MySQLi(
+    $_ENV['db']['host'],
+    $_ENV['db']['user'],
+    $_ENV['db']['password']
+  );
+
+  $conexion->set_charset($_ENV['db']['charset']);
 } catch (mysqli_sql_exception $error) {
   exit("Error, no se pudo conectar a MySQL: <b>{$error->getMessage()}</b><br>");
 }
 
 /*----------  Si no existe la base de datos, comienza la instalación  ----------*/
 try {
-  $conexion->select_db(BD);
+  $conexion->select_db($_ENV['db']['dbname']);
 } catch (mysqli_sql_exception) {
   $mostrarLoader = '<script src="js/loader.js"></script>';
 }
 
 /*----------  Instala la Base de Datos  ----------*/
-if (!empty($_POST['instalarBD'])) :
+if (key_exists('instalarBD', $_POST)) :
   $sql = file_get_contents(__DIR__ . '/init.sql');
+
   exit($conexion->multi_query($sql) ? 'true' : $conexion->error);
 endif;
