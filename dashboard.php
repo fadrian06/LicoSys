@@ -6,12 +6,20 @@
 	
 	$versiones = getRegistros('SELECT * FROM versiones ORDER BY id DESC');
 
-	$data = getAPI('https://s3.amazonaws.com/dolartoday/data.json', 'json/dolarToday.json');
+	$data = getAPI(
+		'https://s3.amazonaws.com/dolartoday/data.json',
+		__DIR__ . '/storage/dolarToday.json'
+	);
+
 	$dolarFecha = $data['_timestamp']['fecha'];
 	$dolarT     = $data['USD']['transferencia'];
 	$dolarE     = $data['USD']['efectivo'];
 
-	$data = getAPI('https://api.exchangedyn.com/markets/quotes/usdves/bcv', 'json/bcv.json');
+	$data = getAPI(
+		'https://api.exchangedyn.com/markets/quotes/usdves/bcv',
+		__DIR__ . '/storage/bcv.json'
+	);
+
 	$dolarBCV = round($data['sources']['BCV']['quote'], 2);
 	
 	$sql = <<<SQL
@@ -248,4 +256,4 @@
 	<footer id="botones"><?=BOTONES['NUEVA_VENTA']?></footer>
 </main>
 
-<?php include 'templates/footer.php' ?>
+<?php include 'templates/footer.php';
