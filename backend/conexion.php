@@ -1,6 +1,9 @@
 <?php
 
-/** @var array Respuesta del servidor al cliente. */
+/**
+ * Respuesta del servidor al cliente.
+ * @var array{ok: string, error: string, datos: array}
+ */
 $respuesta = [
 	'ok'    => '',
 	'error' => '',
@@ -27,7 +30,7 @@ const CHARSET = 'utf8';
 $conexion = @new MySQLi(HOST, USUARIO, CLAVE);
 
 if ($conexion->connect_errno)
-	exit("Error, no se pudo conectar a MySQL: <b>$conexion->error</b><br>");
+	exit("Error, no se pudo conectar a MySQL: <b>$conexion->error</b>");
 
 $conexion->set_charset(CHARSET);
 
@@ -38,5 +41,6 @@ if (!$conexion->select_db(BD))
 /*----------  Instala la Base de Datos  ----------*/
 if (!empty($_POST['instalarBD'])) :
 	$sql = file_get_contents('init.sql');
+
 	exit($conexion->multi_query($sql) ? 'true' : $conexion->error);
 endif;
