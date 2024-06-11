@@ -357,8 +357,14 @@ function depurar($dato, string $nombre = '') {
  */
 function getRegistros(string $sql): ?array {
 	global $conexion;
-	$resultado = $conexion->query($sql);
-	return $resultado ? $resultado->fetch_all(MYSQLI_BOTH) : NULL;
+
+	try {
+		$resultado = $conexion->query($sql);
+
+		return $resultado ? $resultado->fetch_all(MYSQLI_BOTH) : null;
+	} catch (mysqli_sql_exception) {
+		return null;
+	}
 }
 
 /**
@@ -370,8 +376,14 @@ function getRegistros(string $sql): ?array {
  */
 function getRegistro(string $sql): ?array {
 	global $conexion;
-	$resultado = $conexion->query($sql);
-	return $resultado ? $resultado->fetch_assoc() : NULL;
+
+	try {
+		$resultado = $conexion->query($sql);
+
+		return $resultado ? $resultado->fetch_assoc() : null;
+	} catch (mysqli_sql_exception) {
+		return null;
+	}
 }
 
 /**
@@ -384,9 +396,15 @@ function getRegistro(string $sql): ?array {
  */
 function setRegistro(string $sql): ?int {
 	global $conexion;
-	$conexion->query($sql);
-	$afectadas = $conexion->affected_rows;
-	return $afectadas != -1 ? $afectadas : NULL;
+
+	try {
+		$conexion->query($sql);
+		$afectadas = $conexion->affected_rows;
+
+		return $afectadas !== -1 ? $afectadas : null;
+	} catch (mysqli_sql_exception) {
+		return null;
+	}
 }
 
 /**
@@ -494,8 +512,14 @@ function escapar(string $texto): string {
  */
 function contarRegistros(string $tabla): ?int {
 	global $conexion;
-	$resultado = $conexion->query("SELECT COUNT(*) FROM $tabla");
-	return $resultado ? (int) $resultado->fetch_row()[0] : NULL;
+
+	try {
+		$resultado = $conexion->query("SELECT COUNT(*) FROM $tabla");
+
+		return $resultado ? (int) $resultado->fetch_row()[0] : null;
+	} catch (mysqli_sql_exception) {
+		return null;
+	}
 }
 
 /**

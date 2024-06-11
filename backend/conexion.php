@@ -8,6 +8,7 @@ require __DIR__ . '/../vendor/autoload.php';
 
 /**
  * Respuesta del servidor al cliente.
+ *
  * @var array{ok: string, error: string, datos: array}
  */
 $respuesta = [
@@ -28,8 +29,12 @@ if ($conexion->connect_errno)
 $conexion->set_charset('utf8');
 
 /*----------  Si no existe la base de datos, comienza la instalación  ----------*/
-if (!$conexion->select_db($_ENV['DB_DATABASE']))
+try {
+	if (!$conexion->select_db($_ENV['DB_DATABASE']))
+		throw new mysqli_sql_exception;
+} catch (mysqli_sql_exception) {
 	$mostrarLoader = '<script src="js/loader.js"></script>';
+}
 
 /*----------  Instala la Base de Datos  ----------*/
 if (!empty($_POST['instalarBD'])) :
