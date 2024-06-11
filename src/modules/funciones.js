@@ -1,14 +1,15 @@
-//@ts-nocheck
+// @ts-nocheck
+
 /**
  * @typedef {object} Respuesta Respuesta del servidor
  * @property {string} Respuesta.ok El mensaje de éxito.
  * @property {string} Respuesta.error Errores que lanza el servidor.
  * @property {object} Respuesta.datos Objeto con datos de la posible consulta.
  * @typedef {string} RespuestaCruda Respuesta serializada `"{error: string, datos: {}}"`
- * @typedef {import('../../libs/noty/index').*} Noty
- * @typedef {import('../../libs/jquery.min.js').*} $
- * @typedef {import('../../libs/typedjs/index').*} Typed
- * @typedef {import('../../libs/w3/w3.min').*} w3
+ * @typedef {import('../../assets/libs/noty/index').*} Noty
+ * @typedef {import('../../assets/libs/jquery.min.js').*} $
+ * @typedef {import('../../assets/libs/typedjs/index').*} Typed
+ * @typedef {import('../../assets/libs/w3/w3.min').*} w3
  * @typedef {import('./validar')}
  * @typedef {import('./actualizarImagen')}
  * @typedef {import('./reloj')}
@@ -567,7 +568,7 @@ const verFacturaVenta = (boton, ventaID) => {
 			</div>
 			<h2 class="w3-center w3-xxlarge oswald w3-margin-bottom">
 				<div class="w3-container">
-					<img src="images/logo.png" class="w3-margin-right w3-responsive" width="100px">
+					<img src="assets/images/logo.png" class="w3-margin-right w3-responsive" width="100px">
 					${respuesta.datos.nombreNegocio}
 				</div>
 			</h2>

@@ -33,7 +33,7 @@ try {
 	if (!$conexion->select_db($_ENV['DB_DATABASE']))
 		throw new mysqli_sql_exception;
 } catch (mysqli_sql_exception) {
-	$mostrarLoader = '<script src="js/loader.js"></script>';
+	$mostrarLoader = '<script src="assets/js/loader.js"></script>';
 }
 
 /*----------  Instala la Base de Datos  ----------*/

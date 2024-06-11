@@ -24,7 +24,7 @@
 					<?php
 						$checked = count($negocios) === 1 ? 'checked' : '';
 						foreach($negocios as $negocio):
-							$url = $negocio['logo'] ? "images/negocios/{$negocio['logo']}" : 'images/logoNegocio.jpg';
+							$url = $negocio['logo'] ? "assets/images/negocios/{$negocio['logo']}" : 'assets/images/logoNegocio.jpg';
 							$tooltipNombreNegocio = generarTooltip($negocio['nombre']);
 							echo <<<HTML
 								<div class="w3-col s4 w3-dropdown-hover w3-white">

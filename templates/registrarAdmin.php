@@ -45,7 +45,7 @@
 					<label for="foto" class="w3-display-container w3-hover-opacity w3-circle">
 						<i class="icon-camera w3-xxxlarge w3-display-middle w3-display-hover"></i>
 						<input type="file" id="foto" accept="image/jpeg,image/png" name="foto" class="w3-hide">
-						<img class="image-result w3-image" src="images/avatar1.png" style="width: 150px">
+						<img class="image-result w3-image" src="assets/images/avatar1.png" style="width: 150px">
 					</label>
 					<div class="w3-container w3-margin-top w3-center">
 						<label for="foto" class="w3-button w3-round-xlarge w3-blue w3-ripple">

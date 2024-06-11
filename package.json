@@ -8,8 +8,8 @@
 		"stylus": "^0.63.0"
 	},
 	"scripts": {
-		"stylus": "stylus src/index.styl -o css/bundle.css -w -m -r --include-css",
-		"babel": "babel src/modules -d js -w",
-		"build": "rm -rf js css & babel src/modules -d js --minified & stylus src/index.styl -o css/bundle.css -c -r --include-css"
+		"stylus": "stylus src/index.styl -o assets/css/bundle.css -w -m -r --include-css",
+		"babel": "babel src/modules -d assets/js -w",
+		"build": "rm -rf assets/js assets/css & babel src/modules -d assets/js --minified & stylus src/index.styl -o assets/css/bundle.css -c -r --include-css"
 	}
 }

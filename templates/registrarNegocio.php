@@ -37,7 +37,7 @@
 					<label for="logo" class="w3-display-container w3-hover-opacity" style="cursor: pointer">
 						<i class="icon-camera w3-xxxlarge w3-display-middle w3-display-hover"></i>
 						<input type="file" id="logo" accept="image/jpeg,image/png" name="logo" class="w3-hide">
-						<img class="image-result w3-image" src="images/logoNegocio.jpg" style="width: 150px">
+						<img class="image-result w3-image" src="assets/images/logoNegocio.jpg" style="width: 150px">
 					</label>
 					<div class="w3-container w3-margin-top w3-center">
 						<label for="logo" class="w3-button w3-round-xlarge w3-blue w3-ripple">

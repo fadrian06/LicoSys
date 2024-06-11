@@ -402,7 +402,6 @@
 		echo '</div>';
 	else:
 		include '../templates/head.php';
-		$script = "<script src='{$BASE_URL}js/restringido.js'></script>";
+		$script = "<script src='{$BASE_URL}assets/js/restringido.js'></script>";
 		include '../templates/footer.php';
 	endif;
-?>

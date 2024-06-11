@@ -188,7 +188,7 @@
 				</div>
 				<?php foreach($recientes as $usuario): ?>
 					<li class="w3-padding-16">
-						<img src="<?=!empty($usuario['foto']) ? "images/perfil/{$usuario['foto']}" : "images/avatar2.png"?>" class="w3-circle w3-margin-right" style="width: 50px">
+						<img src="<?=!empty($usuario['foto']) ? "assets/images/perfil/{$usuario['foto']}" : "images/avatar2.png"?>" class="w3-circle w3-margin-right" style="width: 50px">
 						<span class="w3-large"><?=$usuario['nombre']?></span>
 					</li>
 				<?php endforeach ?>

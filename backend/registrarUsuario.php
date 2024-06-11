@@ -36,7 +36,7 @@
 			$tipo   = (string) $foto['type'];
 			$peso   = (int) $foto['size'];
 			$rutaOrigen = (string) $foto['tmp_name'];
-			$rutaDestino = "../images/perfil/$imagen";
+			$rutaDestino = "../assets/images/perfil/$imagen";
 			
 			if ($tipo !== 'image/jpeg' && $tipo !== 'image/jpg' && $tipo !== 'image/png')
 				$respuesta['error'] = 'Sólo se permite imagenes JPG y PNG';

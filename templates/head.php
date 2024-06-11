@@ -20,8 +20,8 @@ require "{$BASE_URL}backend/funciones.php";
 	=            LÓGICA DE TODO EL SISTEMA, MENOS EL LOGIN            =
 	=================================================================*/
 if ($archivoActual !== 'index.php') :
-	$script .= "<script src='{$BASE_URL}js/navegacion.js'></script>";
-	$script .= "<script src='{$BASE_URL}js/main.js'></script>";
+	$script .= "<script src='{$BASE_URL}assets/js/navegacion.js'></script>";
+	$script .= "<script src='{$BASE_URL}assets/js/main.js'></script>";
 
 	/*----------  No tienes preguntas y respuestas registradas  ----------*/
 	$sql = <<<SQL
@@ -106,38 +106,27 @@ $productosEnCarritoCompra = contarRegistros('carrito_compra');
 ?>
 
 <!DOCTYPE html>
-<html lang="es">
+<html>
 
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<meta name="author" content="Franyer Sánchez, Daniel Mancilla">
-	<meta name="description" content="Sistema Automatizado de Gestión de Compras y Ventas">
-	<meta name="theme-color" content="black">
-	<meta property="og:image" content="https://licosys.orgfree.com/images/screenshot.png" />
-	<meta property="og:image:alt" content="Sistema Automatizado de Gestión de Compras y Ventas" />
-	<meta property="og:image:width" content="858" />
-	<meta property="og:image:height" content="938" />
-	<meta property="og:site_name" content="licosys.orgfree.com" />
-	<meta property="og:type" content="website" />
-	<meta property="og:title" content="LicoSys" />
-	<meta property="og:url" content="https://licosys.orgfree.com" />
-	<meta property="og:description" content="Sistema Automatizado de Gestión de Compras y Ventas" />
-	<link rel="icon" href="<?= $BASE_URL ?>images/logo.png">
-	<link rel="stylesheet" href="<?= $BASE_URL ?>ico/style.min.css">
-	<link rel="stylesheet" href="<?= $BASE_URL ?>fonts/fuentes.min.css">
-	<link rel="stylesheet" href="<?= $BASE_URL ?>libs/noty/noty.css">
-	<link rel="stylesheet" href="<?= $BASE_URL ?>libs/noty/themes/sunset.css">
-	<link rel="stylesheet" href="<?= $BASE_URL ?>css/bundle.css">
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width" />
+	<meta name="theme-color" content="black" />
+	<link rel="icon" href="<?= $BASE_URL ?>assets/images/logo.png" />
+	<link rel="stylesheet" href="<?= $BASE_URL ?>assets/ico/style.min.css" />
+	<link rel="stylesheet" href="<?= $BASE_URL ?>assets/fonts/fuentes.min.css" />
+	<link rel="stylesheet" href="<?= $BASE_URL ?>assets/libs/noty/noty.css" />
+	<link rel="stylesheet" href="<?= $BASE_URL ?>assets/libs/noty/themes/sunset.css" />
+	<link rel="stylesheet" href="<?= $BASE_URL ?>assets/css/bundle.css" />
 	<title>LicoSys</title>
-	<script src="<?= $BASE_URL ?>libs/jquery.min.js"></script>
-	<script src="<?= $BASE_URL ?>libs/w3/w3.min.js"></script>
-	<script src="<?= $BASE_URL ?>libs/noty/noty.min.js"></script>
-	<script src="<?= $BASE_URL ?>libs/Chart.js"></script>
-	<script src="<?= $BASE_URL ?>libs/html2pdf.bundle.min.js"></script>
-	<script src="<?= $BASE_URL ?>js/actualizarImagen.js"></script>
-	<script src="<?= $BASE_URL ?>js/funciones.js"></script>
-	<script src="<?= $BASE_URL ?>js/validar.js"></script>
+	<script src="<?= $BASE_URL ?>assets/libs/jquery.min.js"></script>
+	<script src="<?= $BASE_URL ?>assets/libs/w3/w3.min.js"></script>
+	<script src="<?= $BASE_URL ?>assets/libs/noty/noty.min.js"></script>
+	<script src="<?= $BASE_URL ?>assets/libs/Chart.js"></script>
+	<script src="<?= $BASE_URL ?>assets/libs/html2pdf.bundle.min.js"></script>
+	<script src="<?= $BASE_URL ?>assets/js/actualizarImagen.js"></script>
+	<script src="<?= $BASE_URL ?>assets/js/funciones.js"></script>
+	<script src="<?= $BASE_URL ?>assets/js/validar.js"></script>
 </head>
 
 <body class="w3-disabled">
