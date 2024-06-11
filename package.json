@@ -1,15 +1,15 @@
 {
 	"devDependencies": {
-		"@babel/cli": "^7.19.3",
-		"@babel/core": "^7.20.2",
-		"@babel/preset-env": "^7.20.2",
-		"@babel/preset-react": "^7.18.6",
+		"@babel/cli": "^7.24.7",
+		"@babel/core": "^7.24.7",
+		"@babel/preset-env": "^7.24.7",
+		"@babel/preset-react": "^7.24.7",
 		"nib": "^1.2.0",
-		"stylus": "^0.59.0"
+		"stylus": "^0.63.0"
 	},
 	"scripts": {
 		"stylus": "stylus src/index.styl -o css/bundle.css -w -m -r --include-css",
 		"babel": "babel src/modules -d js -w",
-		"build": "RD /S js && RD /S css && babel src/modules -d js --minified && stylus src/index.styl -o css/bundle.css -c -r --include-css"
+		"build": "rm -rf js css & babel src/modules -d js --minified & stylus src/index.styl -o css/bundle.css -c -r --include-css"
 	}
 }
