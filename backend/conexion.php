@@ -2,7 +2,14 @@
 
 require_once __DIR__ . '/../.env.php';
 
-/** @var array{ok: string, error: string, datos: array<string, mixed>} Respuesta del servidor al cliente. */
+/**
+ * @deprecated Use `Backend\Classes\Response::class`
+ * @var array{
+ *   ok: string,
+ *   error: string,
+ *   datos: array<string, mixed>
+ * } Respuesta del servidor al cliente
+ */
 $respuesta = [
   'ok'    => '',
   'error' => '',

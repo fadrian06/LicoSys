@@ -6,5 +6,10 @@
     "post-autoload-dump": [
       "php -r \"if (!file_exists('.env.php')) copy('.env.example.php', '.env.php');\""
     ]
+  },
+  "autoload": {
+    "psr-4": {
+      "Backend\\": "backend"
+    }
   }
 }

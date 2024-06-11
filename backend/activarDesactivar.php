@@ -1,45 +1,37 @@
 <?php
-	if (!empty($_POST)):
-		require 'conexion.php';
-		require 'funciones.php';
-		
-		/** @var string La tabla a la que pertenece el registro. */
-		$tabla = escapar($_POST['tabla']);
-		/** @var string Campo que identifica cada registro. */
-		$campo = escapar($_POST['campo']);
-		/** @var string Valor único de cada registro. */
-		$valor = (int) escapar($_POST['valor']);
-		/** @var string 'activar' | 'desactivar' */
-		$accion = escapar($_POST['accion']);
-		
-		switch ($tabla):
-			case 'usuarios':
-				$respuesta['ok'] = 'Usuario ';
-				break;
-			case 'negocios':
-				$respuesta['ok'] = 'Negocio ';
-				break;
-		endswitch;
-		
-		switch ($accion):
-			case 'activar':
-				$sql = "UPDATE $tabla SET activo=1 WHERE $campo=$valor";
-				$respuesta['ok'] .= 'activado exitósamente.';
-				break;
-			case 'desactivar':
-				$sql = "UPDATE $tabla SET activo=0 WHERE $campo=$valor";
-				$respuesta['ok'] .= 'desactivado exitósamente.';
-				break;
-			default:
-				$respuesta['error'] = "Por favor envie una opción ('activar' o 'desactivar')";
-		endswitch;
-		
-		if ($respuesta['error'])
-			exit(json_encode($respuesta, JSON_INVALID_UTF8_IGNORE));
-		
-		$resultado = setRegistro($sql);
-		if (!$resultado) $respuesta['error'] = $conexion->error;
-		
-		exit(json_encode($respuesta, JSON_INVALID_UTF8_IGNORE));
-	endif;
-?>
+
+use Backend\Classes\Response;
+use Backend\Enums\Action;
+use Backend\Enums\Table;
+
+if ($_POST) :
+  require_once __DIR__ . '/../vendor/autoload.php';
+  require_once __DIR__ . '/conexion.php';
+  require_once __DIR__ . '/funciones.php';
+
+  $table = Table::from($_POST['tabla']);
+
+  /** Campo que identifica cada registro */
+  $field = escapar($_POST['campo']);
+
+  /** Valor único de cada registro */
+  $value = (int) escapar($_POST['valor']);
+  $response = (new Response)->appendOkMessage($table->getEntityName());
+  $action = Action::tryFrom($_POST['accion']) ?? $response->sendWithError(Action::Error);
+
+  switch ($action):
+    case Action::Enable:
+      $sql = "UPDATE $table->value SET activo=1 WHERE $field=$value";
+      $response->appendOkMessage(' activado exitósamente.');
+
+      break;
+    case Action::Disable:
+      $sql = "UPDATE $table->value SET activo=0 WHERE $field=$value";
+      $response->appendOkMessage(' desactivado exitósamente.');
+
+      break;
+  endswitch;
+
+  setRegistro($sql) or $response->sendWithError($conexion->error);
+  $response->send();
+endif;
