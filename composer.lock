@@ -4,7 +4,7 @@
     "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
     "This file is @generated automatically"
   ],
-  "content-hash": "ba9732b3592224da8385878b912096a7",
+  "content-hash": "a9fa76d9daded10085f46d204bf79117",
   "packages": [
     {
       "name": "symfony/dotenv",
@@ -251,7 +251,10 @@
   "stability-flags": [],
   "prefer-stable": false,
   "prefer-lowest": false,
-  "platform": [],
+  "platform": {
+    "php": ">=8.2",
+    "ext-mysqli": "*"
+  },
   "platform-dev": [],
   "plugin-api-version": "2.6.0"
 }
