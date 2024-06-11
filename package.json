@@ -1,8 +1,4 @@
 {
-	"name": "licosys",
-	"description": "Sistema Automatizado de Gestión de Compras y Ventas",
-	"version": "0.3.6",
-	"repository": "https://github.com/fadrian06/LicoSys.git",
 	"devDependencies": {
 		"@babel/cli": "^7.19.3",
 		"@babel/core": "^7.20.2",
@@ -15,6 +11,5 @@
 		"stylus": "stylus src/index.styl -o css/bundle.css -w -m -r --include-css",
 		"babel": "babel src/modules -d js -w",
 		"build": "RD /S js && RD /S css && babel src/modules -d js --minified && stylus src/index.styl -o css/bundle.css -c -r --include-css"
-	},
-	"dependencies": {}
+	}
 }
