@@ -59,7 +59,7 @@
 					endwhile;
 				endfor;
 			endforeach;
-			$archivo = fopen('../backup/backup.sql', "w+");
+			$archivo = fopen(__DIR__ . '/../database/backup.sql', 'w+');
 			fwrite($archivo, $texto);
 			fclose($archivo);
 			$respuesta['ok'] = 'Copia de Seguridad creada exitósamente.';
@@ -71,7 +71,7 @@
 	endif;
 	
 	if (!empty($_POST['restaurar'])):
-		$archivo   = '../backup/backup.sql';
+		$archivo   = __DIR__ . '/../database/backup.sql';
 		$manejador = fopen($archivo, "r");
 		$sql       = fread($manejador, filesize($archivo));
 		$resultado = $conexion->multi_query($sql);
