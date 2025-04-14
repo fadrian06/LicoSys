@@ -1,1 +1,31 @@
 Options All -Indexes
+
+<Files .env*>
+  Order Allow,Deny
+  Deny from all
+</Files>
+
+<Files .git*>
+  Order Allow,Deny
+  Deny from all
+</Files>
+
+<Files composer.*>
+  Order Allow,Deny
+  Deny from all
+</Files>
+
+<Files *.sublime-*>
+  Order Allow,Deny
+  Deny from all
+</Files>
+
+<Files package.*>
+  Order Allow,Deny
+  Deny from all
+</Files>
+
+<Files *.sql>
+  Order Allow,Deny
+  Deny from all
+</Files>
