@@ -20,6 +20,10 @@
     <exclude name="PSR2.ControlStructures.ControlStructureSpacing.SpacingAfterOpenBrace" />
   </rule>
 
+  <rule ref="PSR12">
+    <exclude name="PSR12.Classes.ClassInstantiation.MissingParentheses" />
+  </rule>
+
   <rule ref="PSR2.Methods.FunctionCallSignature">
     <properties>
       <property name="indent" value="2" />
@@ -35,6 +39,12 @@
   <rule ref="Squiz.Functions.MultiLineFunctionDeclaration">
     <exclude name="Squiz.Functions.MultiLineFunctionDeclaration.BraceOnSameLine" />
 
+    <properties>
+      <property name="indent" value="2" />
+    </properties>
+  </rule>
+
+  <rule ref="PSR12.ControlStructures.ControlStructureSpacing">
     <properties>
       <property name="indent" value="2" />
     </properties>
