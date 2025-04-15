@@ -228,15 +228,13 @@ function tabla(string $titulo, array $encabezados, array $datos, string $sinRegi
           </td>
         HTML;
 
-      if ($desactivar) {
-        $campos .= <<<HTML
+      $campos .= <<<HTML
           <td>
             <button onclick="activar('{$desactivar['tabla']}', '{$desactivar['campo']}', '{$fila[$desactivar['campo']]}', '{$desactivar['enlace']}')" class="w3-button w3-round-xlarge w3-green w3-hover-black">
               Activar
             </button>
           </td>
         HTML;
-      }
 
       $filasDesactivadosEscritorio .= <<<HTML
         <tr class="w3-left-align">{$campos}</tr>
@@ -262,7 +260,6 @@ function tabla(string $titulo, array $encabezados, array $datos, string $sinRegi
           </li>
         HTML;
 
-      if ($desactivar) {
         $verMas .= <<<HTML
           <li class="w3-block">
             <div class=w3-container>
@@ -272,7 +269,6 @@ function tabla(string $titulo, array $encabezados, array $datos, string $sinRegi
             </div>
           </li>
         HTML;
-      }
 
       $filasDesactivadosMovil .= <<<HTML
         <div role="accordion">
@@ -475,11 +471,11 @@ function getUltimaVersion(): string {
 
 /**
  * Obtener el ID del último negocio registrado
- * @return int|null Retorna el ID o NULL si no existen negocios.
+ * @return int Retorna el ID o NULL si no existen negocios.
  */
-function getUltimoNegocio(): ?int {
+function getUltimoNegocio(): int {
   $id = getRegistro('SELECT * FROM negocios ORDER BY id DESC LIMIT 1');
-  return (int) $id['id'] ?? null;
+  return (int) $id['id'];
 }
 
 /**
