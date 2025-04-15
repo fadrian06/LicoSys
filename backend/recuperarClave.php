@@ -19,7 +19,7 @@ if (!empty($_POST['consultar'])):
 
   $sql = <<<SQL
 			SELECT id, pre1, pre2, pre3, res1, activo
-			FROM usuarios WHERE cedula=$cedula AND BINARY(usuario)=BINARY('$usuario')
+			FROM usuarios WHERE cedula={$cedula} AND BINARY(usuario)=BINARY('{$usuario}')
 		SQL;
   $filaUsuario = getRegistro($sql);
 
@@ -43,6 +43,7 @@ if (!empty($_POST['consultar'])):
     session_destroy();
     $_SESSION['userID'] = $filaUsuario['id'] ?? null;
   endif;
+
   exit(json_encode($respuesta, JSON_INVALID_UTF8_IGNORE));
 endif;
 
@@ -52,7 +53,7 @@ if (!empty($_POST['verificarRespuestas'])):
   $res2 = escapar($_POST['res2']);
   $res3 = escapar($_POST['res3']);
 
-  $sql = "SELECT id, usuario, res1, res2, res3 FROM usuarios WHERE id=$id";
+  $sql = 'SELECT id, usuario, res1, res2, res3 FROM usuarios WHERE id=' . $id;
   $filaUsuario = getRegistro($sql);
 
   if (!password_verify($res1, strval($filaUsuario['res1'])) || !password_verify($res2, strval($filaUsuario['res2'])) || !password_verify($res3, strval($filaUsuario['res3']))) {
@@ -85,7 +86,7 @@ if (!empty($_POST['cambiarClave'])):
   endif;
 
   $clave = encriptar($clave);
-  $sql = "UPDATE usuarios SET clave='$clave' WHERE id=$id";
+  $sql = sprintf("UPDATE usuarios SET clave='%s' WHERE id=%d", $clave, $id);
   $resultado = setRegistro($sql);
 
   if (!$resultado) {

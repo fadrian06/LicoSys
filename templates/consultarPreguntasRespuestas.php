@@ -17,8 +17,8 @@
 				</div>
 				<section class="w3-display-container">
 					<i class="w3-spin icon-spinner w3-display-middle w3-jumbo loader"></i>
-					$inputCedula
-					$inputUsuario
+					{$inputCedula}
+					{$inputUsuario}
 				</section>
 				<section class="w3-panel">
 					<button class="w3-button w3-round-xlarge w3-blue w3-ripple w3-block">

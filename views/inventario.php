@@ -3,14 +3,14 @@
   if (!isset($_SESSION['activa'])) {
     header('location: ../salir.php');
   }
-  
+
   require __DIR__ . '/../backend/componentes.php';
   require __DIR__ . '/../backend/conexion.php';
   require __DIR__ . '/../backend/funciones.php';
-  
+
   echo LOADER;
   echo '<div id="moduloInventario">';
-  
+
   /*=============================
   =            TABLA            =
   =============================*/
@@ -19,39 +19,40 @@
     INNER JOIN usuarios u ON i.usuario_id=u.id
     WHERE i.negocio_id={$_SESSION['negocioID']} ORDER BY producto
   SQL;
-  
+
   $encabezados = [
     'escritorio' => ['Código', 'Producto', 'Existencia', 'Precio', 'Registrado por'],
     'movil' => ['Producto', 'Precio']
   ];
-  
+
   $datos = [
     'camposEscritorio' => ['codigo', 'producto', 'stock', 'precio', 'usuario'],
     'camposMovil' => ['producto', 'precio'],
     'filas' => getRegistros($sql)
   ];
-  
+
   $editar = [
     'tabla' => 'inventario',
     'campo' => 'id',
     'enlace' => 'views/inventario.php',
     'IDform' => '#editarProducto'
   ];
-  
+
   foreach ($datos['filas'] as &$producto):
     $producto['stock'] = $producto['stock'] ?: <<<HTML
       <strong class="w3-text-red">Agotado</strong>
     HTML;
-    
+
     foreach ($producto as $clave => $valor)
       if ($clave !== 'id') {
-        $producto[$clave] = "<small>$producto[$clave]</small>";
+        $producto[$clave] = sprintf('<small>%s</small>', $producto[$clave]);
       }
   endforeach;
+
   unset($producto);
-  
+
   tabla('Inventario', $encabezados, $datos, 'No hay productos registrados', false, $editar);
-  
+
   /*==========================================
   =            REGISTRAR PRODUCTO            =
   ==========================================*/
@@ -75,11 +76,11 @@
       </h2>
       <section class="w3-display-container">
         <i class="w3-spin icon-spinner w3-display-middle w3-jumbo loader"></i>
-        $inputCodigo
-        $inputNombre
-        $inputPrecio
-        $inputExcento
-        $inputStock
+        {$inputCodigo}
+        {$inputNombre}
+        {$inputPrecio}
+        {$inputExcento}
+        {$inputStock}
       </section>
       <section class="w3-panel">
         <button class="w3-button w3-round-xlarge w3-blue w3-ripple w3-block">
@@ -88,7 +89,7 @@
       </section>
     </form>
   HTML;
-  
+
   /*=======================================
   =            REGISTRAR COMBO            =
   =======================================*/
@@ -110,14 +111,14 @@
       </section>
     </form>
   HTML;
-  
+
   /*=======================================
   =            EDITAR PRODUCTO            =
   =======================================*/
   echo <<<HTML
     <form id="editarProducto" autocomplete="off" class="modal w3-white w3-card w3-round-large animate__animated animate__fadeInUp animate__faster w3-hide"></form>
   HTML;
-  
+
   /*==========================================
   =            BOTONES INFERIORES            =
   ==========================================*/

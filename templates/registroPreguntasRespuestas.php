@@ -25,14 +25,14 @@
 				<div class="w3-row w3-display-container w3-topbar">
 					<i class="w3-spin icon-spinner w3-display-middle w3-jumbo loader"></i>
 					<section class="w3-padding-top-24 w3-half w3-rightbar">
-						$inputPRE1
-						$inputPRE2
-						$inputPRE3
+						{$inputPRE1}
+						{$inputPRE2}
+						{$inputPRE3}
 					</section>
 					<section class="w3-padding-top-24 w3-half w3-leftbar">
-						$inputRES1
-						$inputRES2
-						$inputRES3
+						{$inputRES1}
+						{$inputRES2}
+						{$inputRES3}
 					</section>
 				</div>
 				<div class="w3-margin-top w3-center">

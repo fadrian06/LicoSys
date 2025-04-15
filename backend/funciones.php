@@ -48,7 +48,7 @@ function tabla(string $titulo, array $encabezados, array $datos, string $sinRegi
   if (!$datos['filas'] && empty($desactivar['filas'])) :
     echo <<<HTML
       <h2 class="w3-display-middle w3-container w3-center w3-opacity">
-        $sinRegistros
+        {$sinRegistros}
       </h2>
     HTML;
     return true;
@@ -57,18 +57,21 @@ function tabla(string $titulo, array $encabezados, array $datos, string $sinRegi
   // Rellenamos los encabezados activos en escritorio.
   foreach ($encabezados['escritorio'] as $encabezado) :
     $encabezadosEscritorio .= <<<HTML
-      <th class="w3-indigo">$encabezado</th>
+      <th class="w3-indigo">{$encabezado}</th>
     HTML;
     $encabezadosDesactivadosEscritorio .= <<<HTML
-      <th class="w3-red">$encabezado</th>
+      <th class="w3-red">{$encabezado}</th>
     HTML;
   endforeach;
+
   if ($desactivar) {
     $encabezadosEscritorio .= '<th></th>';
   }
+
   if ($actualizar) {
     $encabezadosEscritorio .= '<th></th>';
   }
+
   if ($factura) {
     $encabezadosEscritorio .= '<th></th>';
   }
@@ -77,15 +80,16 @@ function tabla(string $titulo, array $encabezados, array $datos, string $sinRegi
   foreach ($encabezados['movil'] as $encabezado) :
     $encabezadosMovil .= <<<HTML
       <div class="w3-padding w3-col s5 w3-indigo">
-        <b>$encabezado</b>
+        <b>{$encabezado}</b>
       </div>
     HTML;
     $encabezadosDesactivadosMovil .= <<<HTML
       <div class="w3-padding w3-col s5 w3-red">
-        <b>$encabezado</b>
+        <b>{$encabezado}</b>
       </div>
     HTML;
   endforeach;
+
   $encabezadosDesactivadosEscritorio .= '<th class="w3-red"></th>';
 
   // Rellenamos las filas.
@@ -131,7 +135,7 @@ function tabla(string $titulo, array $encabezados, array $datos, string $sinRegi
     }
 
     $filasEscritorio .= <<<HTML
-      <tr>$campos</tr>
+      <tr>{$campos}</tr>
     HTML;
 
     $campos = '';
@@ -195,14 +199,14 @@ function tabla(string $titulo, array $encabezados, array $datos, string $sinRegi
     $filasMovil .= <<<HTML
       <div role="accordion">
         <button class="w3-block w3-button w3-row w3-center">
-          $campos
+          {$campos}
           <div class="w3-rest">
             <i class="icon-chevron-right"></i>
           </div>
         </button>
         <div class="w3-hide w3-animate-opacity">
           <ul class="w3-ul w3-grey">
-            $verMas
+            {$verMas}
           </ul>
         </div>
       </div>
@@ -233,7 +237,7 @@ function tabla(string $titulo, array $encabezados, array $datos, string $sinRegi
       }
 
       $filasDesactivadosEscritorio .= <<<HTML
-        <tr class="w3-left-align">$campos</tr>
+        <tr class="w3-left-align">{$campos}</tr>
       HTML;
 
       $campos = '';
@@ -271,14 +275,14 @@ function tabla(string $titulo, array $encabezados, array $datos, string $sinRegi
       $filasDesactivadosMovil .= <<<HTML
         <div role="accordion">
           <button class="w3-block w3-button w3-row w3-center">
-            $campos
+            {$campos}
             <div class="w3-rest">
               <i class="icon-chevron-right"></i>
             </div>
           </button>
           <div class="w3-hide w3-animate-opacity">
             <ul class="w3-ul w3-grey">
-              $verMas
+              {$verMas}
             </ul>
           </div>
         </div>
@@ -291,21 +295,21 @@ function tabla(string $titulo, array $encabezados, array $datos, string $sinRegi
   ==================================================*/
   if ($datos['filas']) {
     echo <<<HTML
-      <h2 class='w3-center w3-bottombar w3-border-blue w3-round-medium'>$titulo</h2>
+      <h2 class='w3-center w3-bottombar w3-border-blue w3-round-medium'>{$titulo}</h2>
       <div class="w3-animate-opacity w3-margin-top w3-margin-bottom w3-card-4 w3-responsive">
         <table class="w3-table-all w3-hoverable w3-hide-small">
-          <tr class="w3-indigo">$encabezadosEscritorio</tr>
-          $filasEscritorio
+          <tr class="w3-indigo">{$encabezadosEscritorio}</tr>
+          {$filasEscritorio}
         </table>
         <div class="w3-hide-medium w3-hide-large">
           <div class="w3-row">
-            $encabezadosMovil
+            {$encabezadosMovil}
             <div class="w3-padding w3-rest w3-indigo">
               <b style="opacity: 0">Ver</b>
             </div>
           </div>
           <div role="accordions">
-            $filasMovil
+            {$filasMovil}
           </div>
         </div>
       </div>
@@ -322,39 +326,40 @@ function tabla(string $titulo, array $encabezados, array $datos, string $sinRegi
       <details class="w3-margin-top">
         <summary class="w3-xlarge w3-padding">
           <i class="icon-lock"> Desactivados</i>
-          <span class="w3-badge w3-margin-left">$cantidadDesactivados</span>
+          <span class="w3-badge w3-margin-left">{$cantidadDesactivados}</span>
           <i class="icon-chevron-right w3-margin-left"></i>
         </summary>
         <div class="w3-margin w3-card-4 w3-responsive">
           <table class="w3-table w3-table-all w3-hoverable w3-hide-small">
             <tr class="w3-red">
-              $encabezadosDesactivadosEscritorio
+              {$encabezadosDesactivadosEscritorio}
             </tr>
-            $filasDesactivadosEscritorio
+            {$filasDesactivadosEscritorio}
           </table>
         </div>
         <div class="w3-card-4 w3-hide-medium w3-hide-large">
           <div class="w3-row">
-            $encabezadosDesactivadosMovil
+            {$encabezadosDesactivadosMovil}
             <div class="w3-padding w3-rest w3-red">
               <b style="opacity: 0">Ver</b>
             </div>
           </div>
           <div role="accordions">
-            $filasDesactivadosMovil
+            {$filasDesactivadosMovil}
           </div>
         </div>
       </details>
       <br><br><br><br><br><br><br><br><br><br>
     HTML;
   endif;
+
   return true;
 }
 
 /** Muestra variables en formato más legible */
 function depurar($dato, string $nombre = '') {
   echo '<pre class="w3-orange w3-padding-large">';
-  echo $nombre !== '' && $nombre !== '0' ? "$nombre: " : '';
+  echo $nombre !== '' && $nombre !== '0' ? $nombre . ': ' : '';
   if (is_array($dato)) {
     print_r($dato);
   } elseif (is_object($dato)) {
@@ -364,6 +369,7 @@ function depurar($dato, string $nombre = '') {
   } else {
     var_dump(htmlspecialchars(strval($dato)));
   }
+
   echo '</pre>';
 }
 
@@ -530,7 +536,7 @@ function contarRegistros(string $tabla): ?int {
   global $conexion;
 
   try {
-    $resultado = $conexion->query("SELECT COUNT(*) FROM $tabla");
+    $resultado = $conexion->query('SELECT COUNT(*) FROM ' . $tabla);
 
     return $resultado ? (int) $resultado->fetch_row()[0] : null;
   } catch (mysqli_sql_exception) {
@@ -572,7 +578,7 @@ function fecha(): string {
   $diaActual = (int) date('d');
   $mesActual = (int) date('m');
   $añoActual = (int) date('Y');
-  return "$dias[$diaSemana], $diaActual de $meses[$mesActual] del $añoActual";
+  return sprintf('%s, %s de %s del %d', $dias[$diaSemana], $diaActual, $meses[$mesActual], $añoActual);
 }
 
 /*========================================================
@@ -672,7 +678,7 @@ function formatearFecha(string $fecha): string {
     if ($diferencia['mes'] === 1) {
       $formateada .= '1 mes ';
     } else {
-      $formateada .= "{$diferencia['mes']} meses ";
+      $formateada .= $diferencia['mes'] . ' meses ';
     }
 
   elseif ($diferencia['semana'] > 0) :
@@ -680,7 +686,7 @@ function formatearFecha(string $fecha): string {
     if ($diferencia['semana'] === 1) {
       $formateada .= '1 semana ';
     } else {
-      $formateada .= "{$diferencia['semana']} semanas ";
+      $formateada .= $diferencia['semana'] . ' semanas ';
     }
 
   elseif ($diferencia['dia'] > 0) :
@@ -688,7 +694,7 @@ function formatearFecha(string $fecha): string {
     if ($diferencia['dia'] === 1) {
       $formateada .= '1 día ';
     } else {
-      $formateada .= "{$diferencia['dia']} días ";
+      $formateada .= $diferencia['dia'] . ' días ';
     }
 
   elseif ($diferencia['hora'] > 0) :
@@ -696,14 +702,14 @@ function formatearFecha(string $fecha): string {
     if ($diferencia['hora'] === 1) {
       $formateada .= '1 hora ';
     } else {
-      $formateada .= "{$diferencia['hora']} horas ";
+      $formateada .= $diferencia['hora'] . ' horas ';
     }
 
   elseif ($diferencia['minutos'] > 0) :
     if ($diferencia['minutos'] === 1) {
       $formateada .= '1 minuto ';
     } else {
-      $formateada .= "{$diferencia['minutos']} minutos ";
+      $formateada .= $diferencia['minutos'] . ' minutos ';
     }
   else :
     $formateada .= 'unos instantes';
@@ -731,6 +737,7 @@ function filtrarFecha(string $filtro, array $datos): array {
           $filtrado[] = $dato;
         }
       endforeach;
+
       break;
     case 'semanal':
       foreach ($datos as $dato) :
@@ -740,6 +747,7 @@ function filtrarFecha(string $filtro, array $datos): array {
           $filtrado[] = $dato;
         }
       endforeach;
+
       break;
     case 'quincenal':
       foreach ($datos as $dato) :
@@ -750,6 +758,7 @@ function filtrarFecha(string $filtro, array $datos): array {
           $filtrado[] = $dato;
         }
       endforeach;
+
       break;
     case 'mensual':
       foreach ($datos as $dato) :
@@ -760,6 +769,7 @@ function filtrarFecha(string $filtro, array $datos): array {
           $filtrado[] = $dato;
         }
       endforeach;
+
       break;
   endswitch;
 

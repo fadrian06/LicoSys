@@ -14,7 +14,7 @@ if (!isset($_SESSION['activa'])) {
   ============================================================*/
 if (!empty($_GET['proveedorID'])):
   $id = (int) escapar($_GET['proveedorID']);
-  $respuesta['datos'] = getRegistro("SELECT * FROM proveedores WHERE id=$id");
+  $respuesta['datos'] = getRegistro('SELECT * FROM proveedores WHERE id=' . $id);
   $_SESSION['proveedorID'] = $id;
   exit(json_encode($respuesta, JSON_INVALID_UTF8_IGNORE));
 endif;
@@ -24,7 +24,7 @@ endif;
   ===========================================================*/
 if (!empty($_GET['productoID'])):
   $id = (int) escapar($_GET['productoID']);
-  $respuesta['datos'] = getRegistro("SELECT * FROM inventario WHERE id=$id");
+  $respuesta['datos'] = getRegistro('SELECT * FROM inventario WHERE id=' . $id);
   $respuesta['datos']['iva'] = getIVA();
   $respuesta['datos']['dolar'] = getDolar();
   $respuesta['datos']['peso'] = getPeso();
@@ -42,7 +42,7 @@ if (!empty($_POST['addProduct'])):
   $proveedorID = empty($_SESSION['proveedorID'])
     ? false
     : $_SESSION['proveedorID'];
-  $producto = getRegistro("SELECT * FROM inventario WHERE id=$productoID");
+  $producto = getRegistro('SELECT * FROM inventario WHERE id=' . $productoID);
   unset($_SESSION['productoID']);
 
   /*----------  DATOS DEL PRODUCTO  ----------*/
@@ -57,6 +57,7 @@ if (!empty($_POST['addProduct'])):
   if (!$proveedorID) {
     $respuesta['error'] = 'Por favor seleccione un proveedor.';
   }
+
   if ($productoID === 0) {
     $respuesta['error'] = 'Por favor seleccione un producto.';
   }
@@ -66,7 +67,7 @@ if (!empty($_POST['addProduct'])):
   }
 
   $sql = <<<SQL
-      SELECT * FROM carrito_compra WHERE producto_id=$productoID
+      SELECT * FROM carrito_compra WHERE producto_id={$productoID}
     SQL;
   $productoEnCarrito = getRegistro($sql);
 
@@ -79,7 +80,7 @@ if (!empty($_POST['addProduct'])):
 
     $sql = <<<SQL
         UPDATE carrito_compra SET unidades={$productoEnCarrito['unidades']},
-        precio_total={$productoEnCarrito['precio_total']} WHERE producto_id=$productoID
+        precio_total={$productoEnCarrito['precio_total']} WHERE producto_id={$productoID}
       SQL;
     $resultado = setRegistro($sql);
     if (!$resultado) {
@@ -95,7 +96,7 @@ if (!empty($_POST['addProduct'])):
 
     $sql = <<<SQL
         UPDATE inventario SET stock={$producto['stock']},
-        precio={$producto['precio']} WHERE id=$productoID
+        precio={$producto['precio']} WHERE id={$productoID}
       SQL;
     $resultado = setRegistro($sql);
     if (!$resultado) {
@@ -111,7 +112,7 @@ if (!empty($_POST['addProduct'])):
   // cantidad a comprar y el total sin IVA.
   $sql = <<<SQL
       INSERT INTO carrito_compra(producto_id, antiguo_stock, precio_base, unidades, precio_total)
-      VALUES($productoID, {$producto['stock']}, {$producto['precio']}, $cantidad, $total)
+      VALUES({$productoID}, {$producto['stock']}, {$producto['precio']}, {$cantidad}, {$total})
     SQL;
   $resultado = setRegistro($sql);
 
@@ -128,7 +129,7 @@ if (!empty($_POST['addProduct'])):
 
   $sql = <<<SQL
       UPDATE inventario SET stock={$producto['stock']},
-      precio={$producto['precio']} WHERE id=$productoID
+      precio={$producto['precio']} WHERE id={$productoID}
     SQL;
   $resultado = setRegistro($sql);
   if (!$resultado) {
@@ -147,14 +148,14 @@ if (!empty($_POST['eliminar'])):
 
   $sql = <<<SQL
       SELECT antiguo_stock, precio_base FROM carrito_compra
-      WHERE producto_id=$id
+      WHERE producto_id={$id}
     SQL;
   $productoEnCarrito = getRegistro($sql);
 
   /*----------  RESTAURAMOS EL STOCK Y PRECIO DEL PRODUCTO  ----------*/
   $sql = <<<SQL
       UPDATE inventario SET stock={$productoEnCarrito['antiguo_stock']},
-      precio={$productoEnCarrito['precio_base']} WHERE id=$id
+      precio={$productoEnCarrito['precio_base']} WHERE id={$id}
     SQL;
   $resultado = setRegistro($sql);
   if (!$resultado) {
@@ -162,7 +163,7 @@ if (!empty($_POST['eliminar'])):
   }
 
   /*----------  ELIMINAMOS EL PRODUCTO DEL CARRITO  ----------*/
-  $resultado = setRegistro("DELETE FROM carrito_compra WHERE producto_id=$id");
+  $resultado = setRegistro('DELETE FROM carrito_compra WHERE producto_id=' . $id);
   if (!$resultado) {
     $respuesta['error'] = $conexion->error;
   }
@@ -194,6 +195,7 @@ if (!empty($_POST['anular'])):
   if (!$resultado) {
     $respuesta['error'] .= $conexion->error;
   }
+
   unset($_SESSION['productoID']);
   $respuesta['ok'] = 'Compra anulada exitósamente.';
 

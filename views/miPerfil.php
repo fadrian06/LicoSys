@@ -8,7 +8,7 @@
   require __DIR__ . '/../backend/conexion.php';
   require __DIR__ . '/../backend/funciones.php';
   
-  $usuario = getRegistro("SELECT * FROM usuarios WHERE id={$_SESSION['userID']}");
+  $usuario = getRegistro('SELECT * FROM usuarios WHERE id=' . $_SESSION['userID']);
   
   echo LOADER;
   echo '<div id="moduloPerfil" class="w3-row w3-padding-top-24">';
@@ -37,7 +37,7 @@
   $cargo = $usuario['cargo'] === 'a' ? 'Administrador' : 'Vendedor';
   $usuario['telefono'] = $usuario['telefono'] ?: '<b class="w3-text-red">No especificado</b>';
   $usuario['foto'] = $usuario['foto']
-    ? "assets/images/perfil/{$usuario['foto']}"
+    ? 'assets/images/perfil/' . $usuario['foto']
     : 'assets/images/avatar3.png';
   $hayPreguntasRegistradas = 'w3-blue';
   $textoBotonHayPreguntasRegistradas = 'Cambiar';
@@ -75,7 +75,7 @@
         </li>
         <li>
           <span class="w3-tag w3-blue w3-left">Cargo:</span>
-          <b class="w3-right">$cargo</b>
+          <b class="w3-right">{$cargo}</b>
           <div class="w3-clear"></div>
         </li>
         <li>
@@ -111,20 +111,20 @@
             Preguntas y Respuestas
           </h3>
           <li>
-            <span class="w3-tag $hayPreguntasRegistradas">{$usuario['pre1']}:</span>
+            <span class="w3-tag {$hayPreguntasRegistradas}">{$usuario['pre1']}:</span>
             <b class="w3-margin-top w3-block">********</b>
           </li>
           <li>
-            <span class="w3-tag $hayPreguntasRegistradas">{$usuario['pre2']}:</span>
+            <span class="w3-tag {$hayPreguntasRegistradas}">{$usuario['pre2']}:</span>
             <b class="w3-margin-top w3-block">********</b>
           </li>
           <li>
-            <span class="w3-tag $hayPreguntasRegistradas">{$usuario['pre2']}:</span>
+            <span class="w3-tag {$hayPreguntasRegistradas}">{$usuario['pre2']}:</span>
             <b class="w3-margin-top w3-block">********</b>
           </li>
           <div class="w3-center w3-padding-large">
             <button onclick="editar(this, 'usuarios:preguntasRespuestas', 'cedula', {$usuario['cedula']}, 'views/miPerfil.php')" data-target="#editarPreguntasRespuestas" class="w3-show-inline-block w3-button w3-blue w3-round-large">
-              $textoBotonHayPreguntasRegistradas
+              {$textoBotonHayPreguntasRegistradas}
             </button>
           </div>
         </ul>

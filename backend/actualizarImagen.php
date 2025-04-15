@@ -13,15 +13,16 @@ if (!empty($_FILES['foto']['name'])):
   $imagen = '';
 
   if ($foto['error'] !== 4):
-    $sql    = "SELECT foto FROM usuarios WHERE id={$_SESSION['userID']}";
+    $sql    = 'SELECT foto FROM usuarios WHERE id=' . $_SESSION['userID'];
     $imagen = (string) getRegistro($sql)['foto'];
     if ($imagen === '' || $imagen === '0') {
       $imagen = (string) $foto['name'];
     }
+
     $tipo   = (string) $foto['type'];
     $peso   = (int) $foto['size'];
     $rutaOrigen = (string) $foto['tmp_name'];
-    $rutaDestino = "../assets/images/perfil/$imagen";
+    $rutaDestino = '../assets/images/perfil/' . $imagen;
 
     $respuesta['datos'] = ['nombre' => $imagen, 'ruta' => $rutaDestino];
 
@@ -38,7 +39,7 @@ if (!empty($_FILES['foto']['name'])):
     exit(json_encode($respuesta, JSON_INVALID_UTF8_IGNORE));
   }
 
-  $sql = "UPDATE usuarios SET foto='$imagen' WHERE id={$_SESSION['userID']}";
+  $sql = sprintf("UPDATE usuarios SET foto='%s' WHERE id=%s", $imagen, $_SESSION['userID']);
   $resultado = setRegistro($sql);
 
   if (!$resultado) {
@@ -46,7 +47,7 @@ if (!empty($_FILES['foto']['name'])):
   }
 
   $respuesta['ok'] = 'Imagen actualizada exitósamente.';
-  $_SESSION['userFoto'] = "assets/images/perfil/$imagen";
+  $_SESSION['userFoto'] = 'assets/images/perfil/' . $imagen;
 
   exit(json_encode($respuesta, JSON_INVALID_UTF8_IGNORE));
 endif;
@@ -60,15 +61,16 @@ if (!empty($_FILES['logo']['name'])):
   $imagen = '';
 
   if ($foto['error'] !== 4):
-    $sql    = "SELECT logo FROM negocios WHERE id=$id";
+    $sql    = 'SELECT logo FROM negocios WHERE id=' . $id;
     $imagen = (string) getRegistro($sql)['logo'];
     if ($imagen === '' || $imagen === '0') {
       $imagen = (string) $foto['name'];
     }
+
     $tipo   = (string) $foto['type'];
     $peso   = (int) $foto['size'];
     $rutaOrigen = (string) $foto['tmp_name'];
-    $rutaDestino = "../assets/images/negocios/$imagen";
+    $rutaDestino = '../assets/images/negocios/' . $imagen;
 
     if ($tipo !== 'image/jpeg' && $tipo !== 'image/jpg' && $tipo !== 'image/png') {
       $respuesta['error'] = 'Sólo se permite imagenes JPG y PNG';
@@ -83,7 +85,7 @@ if (!empty($_FILES['logo']['name'])):
     exit(json_encode($respuesta, JSON_INVALID_UTF8_IGNORE));
   }
 
-  $sql = "UPDATE negocios SET logo='$imagen' WHERE id=$id";
+  $sql = sprintf("UPDATE negocios SET logo='%s' WHERE id=%d", $imagen, $id);
   $resultado = setRegistro($sql);
 
   if (!$resultado) {
@@ -92,7 +94,7 @@ if (!empty($_FILES['logo']['name'])):
 
   $respuesta['ok'] = 'Imagen actualizada exitósamente.';
   if ($id === $_SESSION['negocioID']) {
-    $_SESSION['negocioLogo'] = "assets/images/negocios/$imagen";
+    $_SESSION['negocioLogo'] = 'assets/images/negocios/' . $imagen;
   }
 
   exit(json_encode($respuesta, JSON_INVALID_UTF8_IGNORE));

@@ -7,7 +7,7 @@
 			AND pre2='{$_SESSION['pre2']}' AND pre3='{$_SESSION['pre3']}'
 		SQL;
 		$id = getRegistro($sql)['id'];
-		$inputID = generarINPUT('ID', '', '', "$id");
+		$inputID = generarINPUT('ID', '', '', $id);
 		echo <<<HTML
 			<form id="cambiarClave" autocomplete="off" class="modal w3-white w3-card w3-round-large animate__animated animate__fadeInUp animate__faster w3-show">
 				<div class="w3-right-align">
@@ -23,9 +23,9 @@
 				</div>
 				<section class="w3-display-container">
 					<i class="w3-spin icon-spinner w3-display-middle w3-jumbo loader"></i>
-					$inputID
-					$inputClave
-					$inputConfirmar
+					{$inputID}
+					{$inputClave}
+					{$inputConfirmar}
 				</section>
 				<section class="w3-panel">
 					<button class="w3-button w3-round-xlarge w3-blue w3-ripple w3-block">

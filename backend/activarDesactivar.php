@@ -24,11 +24,11 @@ if ($_POST !== []):
 
   switch ($accion):
     case 'activar':
-      $sql = "UPDATE $tabla SET activo=1 WHERE $campo=$valor";
+      $sql = sprintf('UPDATE %s SET activo=1 WHERE %s=%s', $tabla, $campo, $valor);
       $respuesta['ok'] .= 'activado exitósamente.';
       break;
     case 'desactivar':
-      $sql = "UPDATE $tabla SET activo=0 WHERE $campo=$valor";
+      $sql = sprintf('UPDATE %s SET activo=0 WHERE %s=%s', $tabla, $campo, $valor);
       $respuesta['ok'] .= 'desactivado exitósamente.';
       break;
     default:

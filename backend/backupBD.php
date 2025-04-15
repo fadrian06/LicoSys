@@ -23,14 +23,14 @@ if (!empty($_POST['respaldar'])):
 
     // ITERA SOBRE CADA TABLA
     foreach ($tablas as $tabla):
-      $resultado = $conexion->query("SELECT * FROM $tabla");
+      $resultado = $conexion->query('SELECT * FROM ' . $tabla);
       $columnas = $resultado->field_count;
-      $texto .= "TRUNCATE TABLE $tabla;\n";
+      $texto .= "TRUNCATE TABLE {$tabla};\n";
 
       // ITERAR SOBRE LOS CAMPOS
       for ($i = 0; $i < $columnas; $i++):
         while ($fila = $resultado->fetch_assoc()):
-          $texto .= "INSERT INTO $tabla VALUES(";
+          $texto .= sprintf('INSERT INTO %s VALUES(', $tabla);
           $j = 0;
           foreach ($fila as $campo => $dato):
             if ($campo === 'id' ||
@@ -51,19 +51,23 @@ if (!empty($_POST['respaldar'])):
             $campo === 'precio_base' ||
             $campo === 'precio_total' ||
             $campo === 'total_iva') {
-              $texto .= "$dato";
+              $texto .= $dato;
             } else {
-              $texto .= "'$dato'";
+              $texto .= sprintf("'%s'", $dato);
             }
+
             if ($j !== ($columnas - 1)) {
               $texto .= ", ";
             }
+
             $j++;
           endforeach;
+
           $texto .= ");\n\n";
         endwhile;
       endfor;
     endforeach;
+
     $archivo = fopen(__DIR__ . '/../database/backup.sql', 'w+');
     fwrite($archivo, $texto);
     fclose($archivo);
@@ -85,6 +89,7 @@ if (!empty($_POST['restaurar'])):
   } else {
     session_destroy();
   }
+
   $respuesta['ok'] = 'Copia de Seguridad restaurada exitósamente.';
   exit(json_encode($respuesta, JSON_INVALID_UTF8_IGNORE));
 endif;

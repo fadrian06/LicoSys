@@ -24,15 +24,15 @@
 					<?php
 						$checked = count($negocios) === 1 ? 'checked' : '';
 						foreach($negocios as $negocio):
-							$url = $negocio['logo'] ? "assets/images/negocios/{$negocio['logo']}" : 'assets/images/logoNegocio.jpg';
+							$url = $negocio['logo'] ? 'assets/images/negocios/' . $negocio['logo'] : 'assets/images/logoNegocio.jpg';
 							$tooltipNombreNegocio = generarTooltip($negocio['nombre']);
 							echo <<<HTML
 								<div class="w3-col s4 w3-dropdown-hover w3-white">
-									<input type="radio" id="negocio#{$negocio['id']}" name="negocio" value="{$negocio['id']}" $checked class="w3-hide">
+									<input type="radio" id="negocio#{$negocio['id']}" name="negocio" value="{$negocio['id']}" {$checked} class="w3-hide">
 									<label for="negocio#{$negocio['id']}" class="w3-block w3-topbar w3-bottombar w3-leftbar w3-rightbar w3-border-black w3-round-xlarge w3-center">
-										<img src="$url" class="w3-image w3-round-xlarge">
+										<img src="{$url}" class="w3-image w3-round-xlarge">
 									</label>
-									$tooltipNombreNegocio
+									{$tooltipNombreNegocio}
 								</div>
 							HTML;
 						endforeach

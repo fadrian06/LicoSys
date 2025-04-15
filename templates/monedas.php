@@ -24,7 +24,7 @@
 			echo <<<HTML
 				<div class="w3-padding-large">
 					<button onclick="modal(this)" data-target="#actualizarMonedas" class="w3-block w3-button w3-dark-grey">
-						$textoBoton
+						{$textoBoton}
 					</button>
 				</div>
 			HTML;

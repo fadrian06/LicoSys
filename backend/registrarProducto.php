@@ -18,7 +18,7 @@ if ($_POST !== []):
     $respuesta['error'] = 'Excento sólo puede ser SI o NO.';
   }
 
-  $productoEncontrado = getRegistro("SELECT codigo FROM inventario WHERE codigo='$codigo'");
+  $productoEncontrado = getRegistro(sprintf("SELECT codigo FROM inventario WHERE codigo='%s'", $codigo));
   if ($productoEncontrado) {
     $respuesta['error'] = 'Ya existe un producto con ese código.';
   }
@@ -29,7 +29,7 @@ if ($_POST !== []):
 
   $sql = <<<SQL
 			INSERT INTO inventario(codigo, producto, stock, excento, precio, negocio_id, usuario_id)
-			VALUES('$codigo', '$producto', $stock, $excento, $precio, {$_SESSION['negocioID']}, {$_SESSION['userID']})
+			VALUES('{$codigo}', '{$producto}', {$stock}, {$excento}, {$precio}, {$_SESSION['negocioID']}, {$_SESSION['userID']})
 		SQL;
 
   $resultado = setRegistro($sql);

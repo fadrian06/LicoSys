@@ -20,9 +20,9 @@ if ($_POST !== []):
     exit(json_encode($respuesta, JSON_INVALID_UTF8_IGNORE));
   }
 
-  $sqlIVA = "INSERT INTO iva(valor) VALUES('$nuevoIVA')";
-  $sqlDolar = "INSERT INTO dolar(valor) VALUES('$nuevoDolar')";
-  $sqlPeso = "INSERT INTO peso(valor) VALUES('$nuevoPeso')";
+  $sqlIVA = sprintf("INSERT INTO iva(valor) VALUES('%s')", $nuevoIVA);
+  $sqlDolar = sprintf("INSERT INTO dolar(valor) VALUES('%s')", $nuevoDolar);
+  $sqlPeso = sprintf("INSERT INTO peso(valor) VALUES('%d')", $nuevoPeso);
 
   if (!setRegistro($sqlIVA) || !setRegistro($sqlDolar) || !setRegistro($sqlPeso)) {
     $respuesta['error'] = json_encode($conexion->error_list, JSON_INVALID_UTF8_IGNORE);

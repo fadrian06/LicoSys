@@ -8,10 +8,10 @@
     require __DIR__ . '/../backend/componentes.php';
     require __DIR__ . '/../backend/conexion.php';
     require __DIR__ . '/../backend/funciones.php';
-    
+
     echo LOADER;
     echo '<div id="moduloCompras">';
-    
+
     /*=============================
     =            TABLA            =
     =============================*/
@@ -22,32 +22,34 @@
       WHERE c.negocio_id={$_SESSION['negocioID']}
       GROUP BY c.id ORDER BY c.fecha DESC
     SQL;
-    
+
     $encabezados = [
       'escritorio' => ['Fecha', 'Producto', 'Unidades', 'Total', 'Proveedor'],
       'movil' => ['Producto', 'Total']
     ];
-    
+
     $datos = [
       'camposEscritorio' => ['fecha', 'producto', 'unidades', 'total', 'nombre'],
       'camposMovil' => ['producto', 'total'],
       'filas' => getRegistros($sql)
     ];
-    
+
     foreach ($encabezados['escritorio'] as &$encabezado)
-      $encabezado = "<small>$encabezado</small>";
+      $encabezado = sprintf('<small>%s</small>', $encabezado);
+
     unset($encabezado);
-    
+
     foreach ($datos['filas'] as &$compra):
       $compra['fecha'] = formatearFecha($compra['fecha']);
-      
+
       foreach ($compra as $clave => $valor)
-        $compra[$clave] = "<small>$valor</small>";
+        $compra[$clave] = sprintf('<small>%s</small>', $valor);
     endforeach;
+
     unset($compra);
-    
+
     tabla('Compras', $encabezados, $datos, 'No hay compras registradas');
-    
+
     /*===================================
     =            VER FACTURA            =
     ===================================*/
@@ -117,11 +119,11 @@
       </div>
     HTML;
     generarModal('div', 'modalFactura', $titulo, $contenido);
-    
+
     echo '<footer id="botones">' . BOTONES['NUEVA_COMPRA'] . '</footer>';
     echo '</div>';
   else:
     include __DIR__ . '/../templates/head.php';
-    $script .= "<script src='{$BASE_URL}assets/js/restringido.js'></script>";
+    $script .= sprintf("<script src='%sassets/js/restringido.js'></script>", $BASE_URL);
     include __DIR__ . '/../templates/footer.php';
   endif;

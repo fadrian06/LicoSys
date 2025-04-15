@@ -23,10 +23,10 @@
 				</div>
 				<section class="w3-padding-top-24 w3-twothird w3-rightbar w3-topbar w3-bottombar w3-display-container">
 					<i class="w3-spin icon-spinner w3-display-middle w3-jumbo loader"></i>
-					$inputNombre
-					$inputRIF
-					$inputTelefono
-					$inputDireccion
+					{$inputNombre}
+					{$inputRIF}
+					{$inputTelefono}
+					{$inputDireccion}
 					<div class="w3-panel">
 						<button class="w3-button w3-round-xlarge w3-blue w3-ripple w3-block">
 							Registrar

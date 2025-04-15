@@ -30,9 +30,9 @@
 						<div class="w3-half w3-medium w3-dropdown-hover w3-black">
 							<a href="views/nuevaCompra.php" role="navegacion" title="Nueva Compra" class="w3-large w3-button w3-hide-small">
 								<i class="icon-handshake-o"></i>
-								<b id="productosEnCarritoCompra">$productosEnCarritoCompra</b>
+								<b id="productosEnCarritoCompra">{$productosEnCarritoCompra}</b>
 							</a>
-							$tooltipCarritoCompras
+							{$tooltipCarritoCompras}
 						</div>
 					HTML;
                 }
@@ -40,7 +40,7 @@
 		</div>
 		<div class="w3-medium w3-dropdown-hover w3-black">
 			<a href="dashboard.php" role="navegacion" title="Panel de Administración" class="w3-medium w3-button">
-				<img src="<?="$BASE_URL{$_SESSION['negocioLogo']}"?>" class="w3-image w3-circle" style="height: 25px; width:25px">
+				<img src="<?=$BASE_URL . $_SESSION['negocioLogo']?>" class="w3-image w3-circle" style="height: 25px; width:25px">
 				&nbsp;<b id="menuNombreNegocio"><?=$_SESSION['negocio']?></b>
 			</a>
 			<?=generarTooltip('Panel de Administración')?>
@@ -52,7 +52,7 @@
 	<aside id="menu" class="w3-sidebar w3-collapse w3-white w3-animate-left w3-hide">
 		<section class="w3-padding-top-24 w3-black w3-container w3-row w3-border-bottom w3-margin-bottom">
 			<a href="views/miPerfil.php" role="navegacion" title="Mi Perfil" class="w3-block w3-col s3">
-				<img id="fotoPerfil" src="<?="$BASE_URL{$_SESSION['userFoto']}"?>" class="w3-image w3-circle w3-margin-right w3-padding-small">
+				<img id="fotoPerfil" src="<?=$BASE_URL . $_SESSION['userFoto']?>" class="w3-image w3-circle w3-margin-right w3-padding-small">
 			</a>
 			<div class="w3-col s9 w3-center">
 				<div>
@@ -80,9 +80,9 @@
 						$contenido = <<<HTML
 							<div class="w3-row" style="max-width: 600px">
 								<section class="w3-half w3-display-container">
-									$inputBS
-									$inputDolar
-									$inputPesos
+									{$inputBS}
+									{$inputDolar}
+									{$inputPesos}
 								</section>
 								<ul class="w3-half w3-ul w3-padding-large w3-small w3-margin-top w3-left-align">
 									<li>Introduce un número en alguno de los campos para realizar la conversión.</li>
@@ -92,8 +92,8 @@
 								</ul>
 							</div>
 							<section class="w3-hide">
-								<input type="hidden" id="valorDolar" value="$valorDolar">
-								<input type="hidden" id="valorPesos" value="$valorPesos">
+								<input type="hidden" id="valorDolar" value="{$valorDolar}">
+								<input type="hidden" id="valorPesos" value="{$valorPesos}">
 							</section>
 						HTML;
 						generarModal('form', 'conversionMonetaria', $titulo, $contenido);

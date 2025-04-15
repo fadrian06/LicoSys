@@ -73,8 +73,8 @@
 		$cantidadProductos = json_encode($cantidadProductos, JSON_INVALID_UTF8_IGNORE);
 		$script .= <<<HTML
 			<script>
-				const xValues = $nombresProductos
-				const yValues = $cantidadProductos
+				const xValues = {$nombresProductos}
+				const yValues = {$cantidadProductos}
 				const barColors = ['red', 'green', 'yellow', 'black', 'blue']
 				
 				new Chart('productosMasVendidos', {
@@ -202,7 +202,7 @@
 				</div>
 				<?php foreach($recientes as $usuario): ?>
 					<li class="w3-padding-16">
-						<img src="<?=empty($usuario['foto']) ? "images/avatar2.png" : "assets/images/perfil/{$usuario['foto']}"?>" class="w3-circle w3-margin-right" style="width: 50px">
+						<img src="<?=empty($usuario['foto']) ? "images/avatar2.png" : 'assets/images/perfil/' . $usuario['foto']?>" class="w3-circle w3-margin-right" style="width: 50px">
 						<span class="w3-large"><?=$usuario['nombre']?></span>
 					</li>
 				<?php endforeach ?>
@@ -220,7 +220,7 @@
 								<a href="views/finanzas.php" role="navegacion" class="w3-button w3-block w3-border-bottom w3-light-gray w3-text-indigo w3-xlarge">
 									Productos más Vendidos
 								</a>
-								$tooltipProductosMasVendidos
+								{$tooltipProductosMasVendidos}
 							</div>
 							<canvas id="productosMasVendidos"></canvas>
 						</div>

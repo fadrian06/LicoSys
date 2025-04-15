@@ -23,7 +23,7 @@
         ? 'w3-blue'
         : '';
       $botones .= <<<HTML
-        <li role="botonPanel" onclick="mostrarPanel(this, '#panelNegocio{$negocio['id']}')" class="w3-button w3-block w3-rightbar $activo">
+        <li role="botonPanel" onclick="mostrarPanel(this, '#panelNegocio{$negocio['id']}')" class="w3-button w3-block w3-rightbar {$activo}">
           <i class="icon-building w3-large"></i>
           <div>{$negocio['nombre']}</div>
         </li>
@@ -36,7 +36,7 @@
         ? 'w3-hide'
         : 'w3-show-inline-block';
       $negocio['logo'] = $negocio['logo']
-        ? "assets/images/negocios/{$negocio['logo']}"
+        ? 'assets/images/negocios/' . $negocio['logo']
         : 'assets/images/logoNegocio.jpg';
       $negocio['tlf'] = $negocio['tlf'] ?: '<b class="w3-text-red">No establecido</b>';
       $negocio['direccion'] = $negocio['direccion'] ?: '<b class="w3-text-red">No establecido</b>';
@@ -47,7 +47,7 @@
         ? 'id="nombreNegocioActivo"'
         : '';
       $paneles .= <<<HTML
-        <div id="panelNegocio{$negocio['id']}" role="panel" class="w3-rest $activo w3-animate-opacity">
+        <div id="panelNegocio{$negocio['id']}" role="panel" class="w3-rest {$activo} w3-animate-opacity">
           <div class="w3-row">
             <!------------  INFORMACIÓN  ------------>
             <div class="w3-twothird m6 w3-margin-top w3-container w3-white w3-card">
@@ -60,7 +60,7 @@
                 </li>
                 <li>
                   <span class="w3-tag w3-blue w3-left">Nombre:</span>
-                  <b $idNegocioActivo class="w3-right">{$negocio['nombre']}</b>
+                  <b {$idNegocioActivo} class="w3-right">{$negocio['nombre']}</b>
                   <div class="w3-clear"></div>
                 </li>
                 <li>
@@ -83,7 +83,7 @@
                 <button onclick="editar(this, 'negocios', 'id', {$negocio['id']}, 'views/negocios.php')" data-target="#editarNegocio" class="w3-show-inline-block w3-button w3-blue w3-round-large">
                   Actualizar Datos
                 </button>
-                <button onclick="desactivar('negocios', 'id', {$negocio['id']}, 'views/negocios.php')" class="$permitirDesactivar w3-button w3-red w3-round-large">
+                <button onclick="desactivar('negocios', 'id', {$negocio['id']}, 'views/negocios.php')" class="{$permitirDesactivar} w3-button w3-red w3-round-large">
                   Desactivar
                 </button>
               </div>
@@ -130,7 +130,7 @@
           </li>
         HTML;
         $negocio['logo'] = $negocio['logo']
-          ? "assets/images/negocios/{$negocio['logo']}"
+          ? 'assets/images/negocios/' . $negocio['logo']
           : 'assets/images/logoNegocio.jpg';
         $negocio['tlf'] = $negocio['tlf'] ?: '<b class="w3-text-red">No establecido</b>';
         $negocio['direccion'] = $negocio['direccion'] ?: '<b class="w3-text-red">No establecido</b>';
@@ -204,18 +204,19 @@
           </div>
         HTML;
       endforeach;
+
       $cantidadDesactivados = count($desactivados);
       $mostrarDesactivados = <<<HTML
         <details class="w3-margin-top">
           <summary class="w3-padding w3-small">
             <i class="icon-lock"> Desactivados</i>
             <span class="w3-badge" style="padding-top: 3px; padding-bottom: 3px">
-              $cantidadDesactivados
+              {$cantidadDesactivados}
             </span>
             <i class="icon-chevron-right w3-margin-left"></i>
           </summary>
           <div>
-            <ul class="w3-ul w3-card w3-white w3-tiny w3-center">$botonesDesactivados</ul>
+            <ul class="w3-ul w3-card w3-white w3-tiny w3-center">{$botonesDesactivados}</ul>
           </div>
         </details>
       HTML;
@@ -227,9 +228,9 @@
     $botonRegistrar = BOTONES['REGISTRAR_NEGOCIO'];
     echo <<<HTML
       <div class="w3-col s4 m3 w3-padding-top-64 w3-ul w3-center">
-        <ul class="w3-ul w3-card w3-white w3-tiny w3-center">$botones</ul>
-        $mostrarDesactivados
-        <div class="w3-margin w3-padding-top-24">$botonRegistrar</div>
+        <ul class="w3-ul w3-card w3-white w3-tiny w3-center">{$botones}</ul>
+        {$mostrarDesactivados}
+        <div class="w3-margin w3-padding-top-24">{$botonRegistrar}</div>
       </div>
     HTML;
     
@@ -265,10 +266,10 @@
         </h2>
         <section class="w3-padding-top-24 w3-twothird w3-rightbar w3-topbar w3-bottombar w3-display-container">
           <i class="w3-spin icon-spinner w3-display-middle w3-jumbo loader"></i>
-          $inputNombre
-          $inputRIF
-          $inputTelefono
-          $inputDireccion
+          {$inputNombre}
+          {$inputRIF}
+          {$inputTelefono}
+          {$inputDireccion}
           <div class="w3-panel">
             <button class="w3-button w3-round-xlarge w3-blue w3-ripple w3-block">
               Registrar
@@ -317,6 +318,6 @@
     echo '</div>';
   else:
     include __DIR__ . '/../templates/head.php';
-    $script .= "<script src='{$BASE_URL}assets/js/restringido.js'></script>";
+    $script .= sprintf("<script src='%sassets/js/restringido.js'></script>", $BASE_URL);
     include __DIR__ . '/../templates/footer.php';
   endif;

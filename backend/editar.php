@@ -20,20 +20,21 @@ if (!empty($_POST['editar'])):
     $copiaTabla = 'usuarios';
   }
 
-  $registro = getRegistro("SELECT * FROM $copiaTabla WHERE $campo=$valor");
+  $registro = getRegistro(sprintf('SELECT * FROM %s WHERE %s=%d', $copiaTabla, $campo, $valor));
 
   if (!$registro) {
     $respuesta['error'] = $conexion->error;
   }
+
   if ($respuesta['error']) {
     exit(json_encode($respuesta, JSON_INVALID_UTF8_IGNORE));
   }
 
-  $inputID = generarINPUT('ID', '', '', "{$registro['id']}");
+  $inputID = generarINPUT('ID', '', '', $registro['id']);
   switch ($tabla):
     case 'clientes':
       $label = '<b>Nombre: </b><sup class="w3-text-red">(requerido)</sup>';
-      $inputNombre = generarINPUT('NOMBRE', $label, '', "{$registro['nombre']}");
+      $inputNombre = generarINPUT('NOMBRE', $label, '', $registro['nombre']);
 
       $respuesta['ok'] = <<<HTML
           <div class="w3-right-align">
@@ -44,8 +45,8 @@ if (!empty($_POST['editar'])):
           </h1>
           <section class="w3-display-container">
             <i class="w3-spin icon-spinner w3-display-middle w3-jumbo loader"></i>
-            $inputID
-            $inputNombre
+            {$inputID}
+            {$inputNombre}
           </section>
           <section class="w3-panel">
             <button class="w3-button w3-round-xlarge w3-blue w3-ripple w3-block">
@@ -56,22 +57,22 @@ if (!empty($_POST['editar'])):
       break;
     case 'proveedores':
       $label = '<b>Cédula: </b><sup class="w3-text-red">(requerido)</sup>';
-      $inputCedula = generarINPUT('CEDULA', $label, '', "{$registro['cedula']}");
+      $inputCedula = generarINPUT('CEDULA', $label, '', $registro['cedula']);
 
       $label = '<b>Nombre: </b><sup class="w3-text-red">(requirido)</sup>';
-      $inputNombre = generarINPUT('NOMBRE', $label, '', "{$registro['nombre']}");
+      $inputNombre = generarINPUT('NOMBRE', $label, '', $registro['nombre']);
 
       $label = '<b>RIF: </b><sup class="w3-text-red">(requerido)</sup>';
-      $inputRIF = generarINPUT('RIF', $label, '', "{$registro['rif']}");
+      $inputRIF = generarINPUT('RIF', $label, '', $registro['rif']);
 
       $label = '<b>Nombre: </b><sup class="w3-text-red">(requerido)</sup>';
-      $inputNombreEmpresa = generarINPUT('NOMBRE_NEGOCIO', $label, '', "{$registro['nombreEmpresa']}");
+      $inputNombreEmpresa = generarINPUT('NOMBRE_NEGOCIO', $label, '', $registro['nombreEmpresa']);
 
       $label = '<b>Teléfono: </b><sup class="w3-text-blue">(opcional)</sup>';
-      $inputTelefono = generarINPUT('TELEFONO', $label, "{$registro['telefono']}");
+      $inputTelefono = generarINPUT('TELEFONO', $label, $registro['telefono']);
 
       $label = '<b>Dirección: </b><sup class="w3-text-blue">(opcional)</sup>';
-      $inputDireccion = generarINPUT('DIRECCION', $label, "{$registro['direccion']}");
+      $inputDireccion = generarINPUT('DIRECCION', $label, $registro['direccion']);
 
       $respuesta['ok'] = <<<HTML
           <div class="w3-right-align">
@@ -82,18 +83,18 @@ if (!empty($_POST['editar'])):
           </h1>
           <section class="w3-display-container w3-row-padding">
             <i class="w3-spin icon-spinner w3-display-middle w3-jumbo loader"></i>
-            $inputID
+            {$inputID}
             <div class="w3-half w3-bottombar w3-topbar">
               <h2 class="w3-container w3-large"><b>Datos de persona de contacto</b></h2>
-              $inputCedula
-              $inputNombre
+              {$inputCedula}
+              {$inputNombre}
             </div>
             <div class="w3-half w3-bottombar w3-topbar">
               <h2 class="w3-container w3-large"><b>Datos del proveedor</b></h2>
-              $inputRIF
-              $inputNombreEmpresa
-              $inputTelefono
-              $inputDireccion
+              {$inputRIF}
+              {$inputNombreEmpresa}
+              {$inputTelefono}
+              {$inputDireccion}
             </div>
           </section>
           <section class="w3-panel" style="width: 50%; margin-left: auto; margin-right: auto">
@@ -105,11 +106,11 @@ if (!empty($_POST['editar'])):
       break;
     case 'inventario':
       $label = '<b>Código: </b><sup class="w3-text-red">(requerido)</sup>';
-      $inputCodigo = generarINPUT('CODIGO', $label, '', "{$registro['codigo']}");
+      $inputCodigo = generarINPUT('CODIGO', $label, '', $registro['codigo']);
       $label = '<b>Nombre: </b><sup class="w3-text-red">(requerido)</sup>';
-      $inputNombre = generarINPUT('NOMBRE', $label, '', "{$registro['producto']}");
+      $inputNombre = generarINPUT('NOMBRE', $label, '', $registro['producto']);
       $label = '<b>Precio: </b><sup class="w3-text-red">(requerido)</sup>';
-      $inputPrecio = generarINPUT('PRECIO', $label, '', "{$registro['precio']}");
+      $inputPrecio = generarINPUT('PRECIO', $label, '', $registro['precio']);
       $label = '<b>Excento: </b><sup class="w3-text-red">(requerido)</sup>';
       $inputExcento = generarINPUT('EXCENTO', $label, '¿Excento de IVA?');
       $respuesta['ok'] = <<<HTML
@@ -121,11 +122,11 @@ if (!empty($_POST['editar'])):
           </h1>
           <section class="w3-display-container">
             <i class="w3-spin icon-spinner w3-display-middle w3-jumbo loader"></i>
-            $inputID
-            $inputCodigo
-            $inputNombre
-            $inputPrecio
-            $inputExcento
+            {$inputID}
+            {$inputCodigo}
+            {$inputNombre}
+            {$inputPrecio}
+            {$inputExcento}
           </section>
           <section class="w3-panel">
             <button class="w3-button w3-round-xlarge w3-blue w3-ripple w3-block">
@@ -136,16 +137,16 @@ if (!empty($_POST['editar'])):
       break;
     case 'usuarios:informacion':
       $label = '<b>Nombre: </b><sup class="w3-text-red">(requerido)</sup>';
-      $inputNombre = generarINPUT('NOMBRE', $label, '', "{$registro['nombre']}");
+      $inputNombre = generarINPUT('NOMBRE', $label, '', $registro['nombre']);
 
       $label = '<b>Usuario: </b><sup class="w3-text-red">(requerido)</sup>';
-      $inputUsuario = generarINPUT('USUARIO', $label, '', "{$registro['usuario']}");
+      $inputUsuario = generarINPUT('USUARIO', $label, '', $registro['usuario']);
 
       $registro['telefono'] = $registro['telefono'] ?: 'No especificado';
       $label = '<b>Teléfono: </b><sup class="w3-text-blue">(opcional)</sup>';
-      $inputTelefono = generarINPUT('TELEFONO', $label, "{$registro['telefono']}");
+      $inputTelefono = generarINPUT('TELEFONO', $label, $registro['telefono']);
 
-      $inputID = generarINPUT('ID', '', '', "{$registro['id']}");
+      $inputID = generarINPUT('ID', '', '', $registro['id']);
       $respuesta['ok'] = <<<HTML
           <div class="w3-right-align">
             <span class="icon-close w3-button w3-transparent w3-hover-red"></span>
@@ -155,10 +156,10 @@ if (!empty($_POST['editar'])):
           </h1>
           <section class="w3-display-container">
             <i class="w3-spin icon-spinner w3-display-middle w3-jumbo loader"></i>
-            $inputID
-            $inputNombre
-            $inputUsuario
-            $inputTelefono
+            {$inputID}
+            {$inputNombre}
+            {$inputUsuario}
+            {$inputTelefono}
           </section>
           <section class="w3-panel">
             <button class="w3-button w3-round-xlarge w3-blue w3-ripple w3-block">
@@ -170,7 +171,7 @@ if (!empty($_POST['editar'])):
     case 'usuarios:clave':
       $inputClave = generarINPUT('CLAVE', 'Nueva Contraseña:', '********');
       $inputConfirmar = generarINPUT('CONFIRMAR', 'Confirmar Contraseña:', '********');
-      $inputID = generarINPUT('ID', '', '', "{$_SESSION['userID']}");
+      $inputID = generarINPUT('ID', '', '', $_SESSION['userID']);
       $respuesta['ok'] = <<<HTML
           <div class="w3-right-align">
             <span class="icon-close w3-button w3-transparent w3-hover-red"></span>
@@ -180,9 +181,9 @@ if (!empty($_POST['editar'])):
           </h1>
           <section class="w3-display-container">
             <i class="w3-spin icon-spinner w3-display-middle w3-jumbo loader"></i>
-            $inputID
-            $inputClave
-            $inputConfirmar
+            {$inputID}
+            {$inputClave}
+            {$inputConfirmar}
           </section>
           <section class="w3-panel">
             <button class="w3-button w3-round-xlarge w3-blue w3-ripple w3-block">
@@ -195,9 +196,9 @@ if (!empty($_POST['editar'])):
       $registro['pre1'] = $registro['pre1'] ?: 'No definida';
       $registro['pre2'] = $registro['pre2'] ?: 'No definida';
       $registro['pre3'] = $registro['pre3'] ?: 'No definida';
-      $inputPRE1 = generarINPUT('pre1', 'Pregunta 1:', '', "{$registro['pre1']}");
-      $inputPRE2 = generarINPUT('pre2', 'Pregunta 2:', '', "{$registro['pre2']}");
-      $inputPRE3 = generarINPUT('pre3', 'Pregunta 3:', '', "{$registro['pre3']}");
+      $inputPRE1 = generarINPUT('pre1', 'Pregunta 1:', '', $registro['pre1']);
+      $inputPRE2 = generarINPUT('pre2', 'Pregunta 2:', '', $registro['pre2']);
+      $inputPRE3 = generarINPUT('pre3', 'Pregunta 3:', '', $registro['pre3']);
 
       $label = '<b>Respuesta 1:</b> <sup respuesta="res1" class="w3-text-blue"></sup>';
       $inputRES1 = generarINPUT('res1', $label, '********');
@@ -217,16 +218,16 @@ if (!empty($_POST['editar'])):
           </h2>
           <div class="w3-row w3-display-container w3-topbar">
             <i class="w3-spin icon-spinner w3-display-middle w3-jumbo loader"></i>
-            $inputID
+            {$inputID}
             <section class="w3-padding-top-24 w3-half w3-rightbar">
-              $inputPRE1
-              $inputPRE2
-              $inputPRE3
+              {$inputPRE1}
+              {$inputPRE2}
+              {$inputPRE3}
             </section>
             <section class="w3-padding-top-24 w3-half w3-leftbar">
-              $inputRES1
-              $inputRES2
-              $inputRES3
+              {$inputRES1}
+              {$inputRES2}
+              {$inputRES3}
             </section>
           </div>
           <div class="w3-margin-top w3-center">
@@ -242,16 +243,16 @@ if (!empty($_POST['editar'])):
       $registro['direccion'] = $registro['direccion'] ?: 'No establecido';
 
       $label = '<b>Nombre:</b> <sup class="w3-text-red">(requerido)</sup>';
-      $inputNombre = generarINPUT('NOMBRE_NEGOCIO', $label, '', "{$registro['nombre']}");
+      $inputNombre = generarINPUT('NOMBRE_NEGOCIO', $label, '', $registro['nombre']);
 
       $label = '<b>RIF:</b> <sup class="w3-text-red">(requerido)</sup>';
-      $inputRIF = generarINPUT('RIF', $label, '', "{$registro['rif']}");
+      $inputRIF = generarINPUT('RIF', $label, '', $registro['rif']);
 
       $label = '<b>Teléfono:</b> <sup class="w3-text-blue">(opcional)</sup>';
-      $inputTelefono = generarINPUT('TELEFONO', $label, "{$registro['tlf']}");
+      $inputTelefono = generarINPUT('TELEFONO', $label, $registro['tlf']);
 
       $label = '<b>Dirección:</b> <sup class="w3-text-blue">(opcional)</sup>';
-      $inputDireccion = generarINPUT('DIRECCION', $label, "{$registro['direccion']}");
+      $inputDireccion = generarINPUT('DIRECCION', $label, $registro['direccion']);
       $respuesta['ok'] = <<<HTML
           <div class="w3-right-align">
             <span class="icon-close w3-button w3-transparent w3-hover-red"></span>
@@ -261,11 +262,11 @@ if (!empty($_POST['editar'])):
           </h2>
           <section class="w3-padding-top-24 w3-display-container">
             <i class="w3-spin icon-spinner w3-display-middle w3-jumbo loader"></i>
-            $inputID
-            $inputNombre
-            $inputRIF
-            $inputTelefono
-            $inputDireccion
+            {$inputID}
+            {$inputNombre}
+            {$inputRIF}
+            {$inputTelefono}
+            {$inputDireccion}
           </section>
           <section class="w3-panel">
             <button class="w3-button w3-round-xlarge w3-blue w3-ripple w3-block">
@@ -320,32 +321,36 @@ if (!empty($_POST['id'])):
       if ($_POST['clave'] !== $_POST['confirmar']) {
         $respuesta['error'] = 'Ambas claves deben ser iguales.';
       }
+
       continue;
     endif;
 
     if ($copiaTabla === 'negocios' && $clave === 'telefono') {
       $clave = 'tlf';
     }
+
     if ($copiaTabla === 'inventario' && $clave === 'nombre') {
       $clave = 'producto';
     }
 
     /*----------  ENTRECOMILLAMOS LOS CAMPOS NO NUMÉRICOS  ----------*/
     if ($clave === 'id' || $clave === 'cedula' || $clave === 'stock' || $clave === 'precio') {
-      $camposActualizados .= "$clave=$valor,";
+      $camposActualizados .= sprintf('%s=%s,', $clave, $valor);
     } else {
-      $camposActualizados .= "$clave='$valor',";
+      $camposActualizados .= sprintf("%s='%s',", $clave, $valor);
     }
   endforeach;
+
   // Quitamos la última ,
   $camposActualizados[strlen($camposActualizados) - 1] = ' ';
 
-  $sql = "UPDATE $copiaTabla SET $camposActualizados WHERE id=$id";
+  $sql = sprintf('UPDATE %s SET %s WHERE id=%d', $copiaTabla, $camposActualizados, $id);
   $resultado = setRegistro($sql);
 
   if (!$resultado) {
     $respuesta['error'] = $conexion->error;
   }
+
   if ($respuesta['error']) {
     exit(json_encode($respuesta, JSON_INVALID_UTF8_IGNORE));
   }

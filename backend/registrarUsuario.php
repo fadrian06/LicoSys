@@ -25,7 +25,7 @@ if ($_POST !== []):
 
   $sql = <<<SQL
 			SELECT cedula, usuario FROM usuarios
-			WHERE cedula=$cedula OR usuario='$usuario'
+			WHERE cedula={$cedula} OR usuario='{$usuario}'
 		SQL;
   $usuarioEncontrado = getRegistro($sql);
   if ($usuarioEncontrado) {
@@ -41,7 +41,7 @@ if ($_POST !== []):
     $tipo   = (string) $foto['type'];
     $peso   = (int) $foto['size'];
     $rutaOrigen = (string) $foto['tmp_name'];
-    $rutaDestino = "../assets/images/perfil/$imagen";
+    $rutaDestino = '../assets/images/perfil/' . $imagen;
 
     if ($tipo !== 'image/jpeg' && $tipo !== 'image/jpg' && $tipo !== 'image/png') {
       $respuesta['error'] = 'Sólo se permite imagenes JPG y PNG';
@@ -59,7 +59,7 @@ if ($_POST !== []):
   $clave = encriptar($clave);
   $sql = <<<SQL
 			INSERT INTO usuarios(cedula, nombre, usuario, clave, cargo, telefono, foto, activo)
-			VALUES($cedula, '$nombre', '$usuario', '$clave', '$cargo', '$telefono', '$imagen', 1)
+			VALUES({$cedula}, '{$nombre}', '{$usuario}', '{$clave}', '{$cargo}', '{$telefono}', '{$imagen}', 1)
 		SQL;
   $resultado = setRegistro($sql);
 

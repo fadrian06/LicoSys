@@ -60,12 +60,12 @@
         </h1>
         <section class="w3-display-container">
           <i class="w3-spin icon-spinner w3-display-middle w3-jumbo loader"></i>
-          $inputCedula
-          $inputNombre
-          $inputUsuario
-          $inputClave
-          $inputConfirmar
-          $inputTelefono
+          {$inputCedula}
+          {$inputNombre}
+          {$inputUsuario}
+          {$inputClave}
+          {$inputConfirmar}
+          {$inputTelefono}
         </section>
         <section class="w3-panel">
           <button class="w3-button w3-round-xlarge w3-blue w3-ripple w3-block">
@@ -79,6 +79,6 @@
     echo '</div>';
   else:
     include __DIR__ . '/../templates/head.php';
-    $script = "<script src='{$BASE_URL}assets/js/restringido.js'></script>";
+    $script = sprintf("<script src='%sassets/js/restringido.js'></script>", $BASE_URL);
     include __DIR__ . '/../templates/footer.php';
   endif;

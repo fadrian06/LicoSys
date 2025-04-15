@@ -20,7 +20,7 @@
       $sql = <<<SQL
         SELECT v.producto_id, v.fecha, i.producto, v.unidades, v.total
         FROM ventas v INNER JOIN inventario i ON v.producto_id=i.id
-        WHERE v.negocio_id=$negocioID ORDER BY i.producto DESC
+        WHERE v.negocio_id={$negocioID} ORDER BY i.producto DESC
       SQL;
       $ventas = getRegistros($sql);
       $ventas = filtrarFecha($rol, $ventas);
@@ -43,7 +43,7 @@
       foreach ($ventasCombinadas as $venta):
         $sql = <<<SQL
           SELECT producto_id, unidades, total, fecha FROM compras
-          WHERE producto_id={$venta['producto_id']} AND negocio_id=$negocioID
+          WHERE producto_id={$venta['producto_id']} AND negocio_id={$negocioID}
         SQL;
         $compras = getRegistros($sql);
         $compras = filtrarFecha($rol, $compras);
@@ -57,15 +57,16 @@
             $comprasCombinadas[$id]['total'] += $compra['total'];
           endif;
         endforeach;
+
         $compra = empty($comprasCombinadas[$id])
           ? ['total' => 0, 'unidades' => 0]
           : $comprasCombinadas[$id];
         $compra['total'] = (float) $compra['total'];
         $venta['total'] = (float) $venta['total'];
-        
+
         $totalGastos += $compra['total'];
         $totalIngresos += $venta['total'];
-        
+
         $filasProductos .= <<<HTML
           <tr>
             <td>{$compra['unidades']}</td>
@@ -82,12 +83,12 @@
         ? <<<HTML
           <b class="w3-margin-right">Ganancias: </b>
           <i class="icon-dollar w3-text-green"></i>
-          $ganancia
+          {$ganancia}
         HTML
         : <<<HTML
           <b class="w3-margin-right">Pérdidas: </b>
           <i class="icon-dollar w3-text-red"></i>
-          $ganancia
+          {$ganancia}
         HTML;
       
       $respuesta['ok'] = $filasProductos;
@@ -136,7 +137,7 @@
         ? 'w3-blue'
         : 'w3-white';
       $botones .= <<<HTML
-        <li role="botonPanel" data-target="#panelNegocio{$negocio['id']}" class="w3-card w3-col s6 m4 w3-button w3-border-left w3-border-right $negocioActivo">
+        <li role="botonPanel" data-target="#panelNegocio{$negocio['id']}" class="w3-card w3-col s6 m4 w3-button w3-border-left w3-border-right {$negocioActivo}">
           <i class="icon-building w3-xlarge"></i>
           <div>{$negocio['nombre']}</div>
         </li>
@@ -184,15 +185,16 @@
             $comprasCombinadas[$id]['total'] += $compra['total'];
           endif;
         endforeach;
+
         $compra = empty($comprasCombinadas[$id])
           ? ['total' => 0, 'unidades' => 0]
           : $comprasCombinadas[$id];
         $compra['total'] = (float) $compra['total'];
         $venta['total'] = (float) $venta['total'];
-        
+
         $totalGastos += $compra['total'];
         $totalIngresos += $venta['total'];
-        
+
         $filasProductos .= <<<HTML
           <tr class="w3-animate-opacity">
             <td>{$compra['unidades']}</td>
@@ -209,12 +211,12 @@
         ? <<<HTML
           <b class="w3-margin-right">Ganancias: </b>
           <i class="icon-dollar w3-text-green"></i>
-          $ganancia
+          {$ganancia}
         HTML
         : <<<HTML
           <b class="w3-margin-right">Pérdidas: </b>
           <i class="icon-dollar w3-text-red"></i>
-          $ganancia
+          {$ganancia}
         HTML;
       
       $tooltipCompradas = generarTooltip('Unidades compradas');
@@ -224,7 +226,7 @@
         ? 'w3-show-inline-block'
         : 'w3-hide';
       $paneles .= <<<HTML
-        <div id="panelNegocio{$negocio['id']}" role="panel" class="w3-panel w3-card w3-white $panelActivo" style="width: 100%">
+        <div id="panelNegocio{$negocio['id']}" role="panel" class="w3-panel w3-card w3-white {$panelActivo}" style="width: 100%">
           <form class="w3-center">
             <div class="w3-padding w3-row w3-left-align">
               <div class="w3-col s6 m3">
@@ -250,25 +252,25 @@
               <tr class="w3-blue">
                 <th class="tooltip-container">
                   UC
-                  $tooltipCompradas
+                  {$tooltipCompradas}
                 </th>
                 <th class="tooltip-container">
                   UV
-                  $tooltipVendidas
+                  {$tooltipVendidas}
                 </th>
                 <th>Producto</th>
                 <th class="w3-red">Gastos</th>
                 <th class="w3-green">Ingresos</th>
               </tr>
-              $filasProductos
+              {$filasProductos}
               <tr class="w3-blue w3-animate-opacity">
                 <td colspan="3">TOTAL:</td>
-                <td class="w3-red">$totalGastos</td>
-                <td class="w3-green">$totalIngresos</td>
+                <td class="w3-red">{$totalGastos}</td>
+                <td class="w3-green">{$totalIngresos}</td>
               </tr>
             </table>
             <div class="w3-panel w3-xxlarge w3-right-align oswald">
-              $textoGanancia
+              {$textoGanancia}
             </div>
           </div>
         </div>
@@ -283,14 +285,14 @@
         Resumen Financiero
       </h2>
       <ul class="w3-row w3-margin-top w3-ul w3-small">
-        $botones
+        {$botones}
       </ul>
-      $paneles
+      {$paneles}
     HTML;
     
     echo '</div>';
   else:
     include __DIR__ . '/../templates/head.php';
-    $script .= "<script src='{$BASE_URL}assets/js/restringido.js'></script>";
+    $script .= sprintf("<script src='%sassets/js/restringido.js'></script>", $BASE_URL);
     include __DIR__ . '/../templates/footer.php';
   endif;

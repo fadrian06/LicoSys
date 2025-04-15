@@ -24,7 +24,7 @@
     ];
     
     if (!empty($_SESSION['proveedorID'])) {
-      $proveedor = getRegistro("SELECT * FROM proveedores WHERE id={$_SESSION['proveedorID']}");
+      $proveedor = getRegistro('SELECT * FROM proveedores WHERE id=' . $_SESSION['proveedorID']);
     }
     
     $botonesProveedores = '';
@@ -52,12 +52,12 @@
             </button>
             <div id="listaProveedores" class="w3-dropdown-content w3-bar-block w3-card w3-light-grey">
               <input type="number" onkeyup="filter(this, 'listaProveedores')" class="w3-input w3-padding" placeholder="Buscar...">
-              $botonesProveedores
+              {$botonesProveedores}
             </div>
           </div>
         </div>
         <div class="w3-col m7">
-          <ul id="datosProveedor" class="w3-ul w3-small w3-card w3-white w3-padding-large w3-margin-top $mostrarLista w3-animate-opacity">
+          <ul id="datosProveedor" class="w3-ul w3-small w3-card w3-white w3-padding-large w3-margin-top {$mostrarLista} w3-animate-opacity">
             <div class="w3-bottombar">
               <p><b>Persona de contacto</b></p>
               <li>
@@ -128,7 +128,7 @@
       'excento' => ''
     ];
     if (!empty($_SESSION['productoID'])) {
-      $producto = getRegistro("SELECT * FROM inventario WHERE id={$_SESSION['productoID']}");
+      $producto = getRegistro('SELECT * FROM inventario WHERE id=' . $_SESSION['productoID']);
     }
     
     $botonesProductos = '';
@@ -152,7 +152,7 @@
       ? getPeso()
       : 0;
     $stock = $producto['stock'] > 0
-      ? "<span class='w3-input w3-left-align w3-padding w3-light-grey'>{$producto['stock']}</span>"
+      ? sprintf("<span class='w3-input w3-left-align w3-padding w3-light-grey'>%s</span>", $producto['stock'])
       : "<span class='w3-input w3-padding w3-red'>Agotado</span>";
     $precioBS = is_float(getDolar())
       ? round($producto['precio'] * getDolar(), 2)
@@ -160,7 +160,7 @@
     $precioPesos = is_int(getPeso())
       ? (int) ($producto['precio'] * getPeso())
       : 0;
-    $tooltipPrecio = generarTooltip("Bs. $precioBS<br>$precioPesos pesos", false);
+    $tooltipPrecio = generarTooltip(sprintf('Bs. %s<br>%d pesos', $precioBS, $precioPesos), false);
     $tooltipRegistrarProducto = generarTooltip('Registrar Producto');
     echo <<<HTML
       <section class="w3-row w3-padding-large w3-bottombar w3-round-large">
@@ -169,7 +169,7 @@
             <button onclick="modal(this)" data-target="#registrarProducto" title="Registrar Producto" class="w3-green w3-button w3-circle">
               <b class="w3-large">+</b>
             </button>
-            $tooltipRegistrarProducto
+            {$tooltipRegistrarProducto}
           </div>
           <div class="w3-dropdown-hover">
             <button class="w3-button w3-blue w3-hover-blue w3-hover-text-black">
@@ -177,12 +177,12 @@
             </button>
             <div id="listaProductos" class="w3-dropdown-content w3-bar-block w3-card w3-light-grey">
               <input onkeyup="filter(this, 'listaProductos')" class="w3-input w3-padding" placeholder="Buscar...">
-              $botonesProductos
+              {$botonesProductos}
             </div>
           </div>
         </div>
         <div class="w3-col s12 m7">
-          <form id="datosProducto" class="w3-small w3-card w3-white w3-padding-large w3-margin-top $mostrarLista w3-animate-opacity">
+          <form id="datosProducto" class="w3-small w3-card w3-white w3-padding-large w3-margin-top {$mostrarLista} w3-animate-opacity">
             <section class="w3-row">
               <div class="w3-input w3-col s4 w3-blue">Producto:</div>
               <div class="w3-col s8">
@@ -198,7 +198,7 @@
             <section class="w3-row">
               <div class="w3-input w3-col s4 w3-blue">Existencia:</div>
               <div class="w3-col s8">
-                $stock
+                {$stock}
                 <input type="hidden" disabled value="{$producto['stock']}">
               </div>
             </section>
@@ -206,7 +206,7 @@
               <div class="w3-input w3-col s4 w3-blue">Precio (<i class="icon-dollar"></i>):</div>
               <div class="w3-col s8 w3-dropdown-hover">
                 <input name="precio" onchange="actualizarPrecio(this)" onkeyup="actualizarPrecio(this)" class="w3-input w3-padding" value="{$producto['precio']}">
-                $tooltipPrecio
+                {$tooltipPrecio}
               </div>
             </section>
             <section class="w3-row">
@@ -225,9 +225,9 @@
             </section>
             <div class="w3-center">
               <input type="hidden" id="productoID" name="productoID" value="{$producto['id']}">
-              <input type="hidden" name="iva" value="$iva">
-              <input type="hidden" name="dolar" value="$dolar">
-              <input type="hidden" name="peso" value="$peso">
+              <input type="hidden" name="iva" value="{$iva}">
+              <input type="hidden" name="dolar" value="{$dolar}">
+              <input type="hidden" name="peso" value="{$peso}">
               <button class="w3-margin-top w3-medium w3-button w3-blue w3-round-xlarge w3-hide w3-animate-zoom">
                 <span class="icon-plus"></span>
                 Añadir Producto
@@ -253,11 +253,11 @@
     foreach ($carrito as $producto):
       $precioBS = round($producto['precio'] * getDolar(), 2);
       $precioPesos = (int) ($producto['precio'] * getPeso());
-      $tooltipPrecio = generarTooltip("Bs. $precioBS<br>$precioPesos pesos", false);
+      $tooltipPrecio = generarTooltip(sprintf('Bs. %s<br>%d pesos', $precioBS, $precioPesos), false);
       
       $precioBS = round((float) $producto['precio_total'] * getDolar(), 2);
       $precioPesos = (int) ((float) $producto['precio_total'] * getPeso());
-      $tooltipTotal = generarTooltip("Bs. $precioBS<br>$precioPesos pesos", false);
+      $tooltipTotal = generarTooltip(sprintf('Bs. %s<br>%d pesos', $precioBS, $precioPesos), false);
       $totalCarrito += (float) $producto['precio_total'];
       $filasProductos .= <<<HTML
         <tr class="w3-white">
@@ -270,7 +270,7 @@
             <button class="w3-button w3-transparent w3-hover-none">
               {$producto['precio']}
             </button>
-            $tooltipPrecio
+            {$tooltipPrecio}
           </td>
           <td>
             <button class="w3-button w3-transparent w3-hover-none">
@@ -281,7 +281,7 @@
             <button class="w3-button w3-transparent w3-hover-none">
               {$producto['precio_total']}
             </button>
-            $tooltipTotal
+            {$tooltipTotal}
           </td>
           <td>
             <a role="eliminarProducto" productoid="{$producto['producto_id']}" class="w3-button w3-red w3-round-large">
@@ -295,7 +295,7 @@
     if ($carrito):
       $precioBS = round($totalCarrito * getDolar(), 2);
       $precioPesos = (int) ($totalCarrito * getPeso());
-      $tooltipTotalCarrito = generarTooltip("Bs. $precioBS<br>$precioPesos pesos", false);
+      $tooltipTotalCarrito = generarTooltip(sprintf('Bs. %s<br>%d pesos', $precioBS, $precioPesos), false);
       echo <<<HTML
         <section class="w3-section w3-responsive">
           <form id="carritoCompra">
@@ -309,12 +309,12 @@
                 <th>Total (<i class="icon-dollar"></i>)</th>
                 <th></th>
               </tr>
-              $filasProductos
+              {$filasProductos}
               <tr class="w3-dark-grey">
                 <td></td>
                 <td></td>
                 <td>TOTAL:</td>
-                <td class="w3-dropdown-hover">$totalCarrito $tooltipTotalCarrito</td>
+                <td class="w3-dropdown-hover">{$totalCarrito} {$tooltipTotalCarrito}</td>
                 <td></td>
               </tr>
             </table>
@@ -350,8 +350,8 @@
         </h1>
         <section class="w3-display-container">
           <i class="w3-spin icon-spinner w3-display-middle w3-jumbo loader"></i>
-          $inputRIF
-          $inputNombre
+          {$inputRIF}
+          {$inputNombre}
         </section>
         <section class="w3-panel">
           <button class="w3-button w3-round-xlarge w3-blue w3-ripple w3-block">
@@ -384,11 +384,11 @@
         </h2>
         <section class="w3-display-container">
           <i class="w3-spin icon-spinner w3-display-middle w3-jumbo loader"></i>
-          $inputCodigo
-          $inputNombre
-          $inputPrecio
-          $inputExcento
-          $inputStock
+          {$inputCodigo}
+          {$inputNombre}
+          {$inputPrecio}
+          {$inputExcento}
+          {$inputStock}
         </section>
         <section class="w3-panel">
           <button class="w3-button w3-round-xlarge w3-blue w3-ripple w3-block">
@@ -401,10 +401,10 @@
     echo '<br><br><br><br><br><br><br><br><br><br>';
     
     $productosEnCarrito = count($carrito);
-    echo "<span class='w3-hide' id='cantidadProductosEnCarrito'>$productosEnCarrito</span>";
+    echo sprintf("<span class='w3-hide' id='cantidadProductosEnCarrito'>%s</span>", $productosEnCarrito);
     echo '</div>';
   else:
     include __DIR__ . '/../templates/head.php';
-    $script = "<script src='{$BASE_URL}assets/js/restringido.js'></script>";
+    $script = sprintf("<script src='%sassets/js/restringido.js'></script>", $BASE_URL);
     include __DIR__ . '/../templates/footer.php';
   endif;

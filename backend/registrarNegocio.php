@@ -15,7 +15,7 @@ if ($_POST !== []):
     $respuesta['error'] = 'Por favor rellene los campos';
   }
 
-  $negocioEncontrado = getRegistro("SELECT rif FROM negocios WHERE rif='$rif'");
+  $negocioEncontrado = getRegistro(sprintf("SELECT rif FROM negocios WHERE rif='%s'", $rif));
   if ($negocioEncontrado) {
     $respuesta['error'] = 'Ya existe un negocio con este RIF';
   }
@@ -29,7 +29,7 @@ if ($_POST !== []):
     $tipo   = (string) $logo['type'];
     $peso   = (int) $logo['size'];
     $rutaOrigen  = (string) $logo['tmp_name'];
-    $rutaDestino = "../assets/images/negocios/$imagen";
+    $rutaDestino = '../assets/images/negocios/' . $imagen;
 
     if ($tipo !== 'image/jpeg' && $tipo !== 'image/jpg' && $tipo !== 'image/png') {
       $respuesta['error'] = "Sólo se permite imagenes JPG y PNG";
@@ -45,11 +45,12 @@ if ($_POST !== []):
     exit(json_encode($respuesta, JSON_INVALID_UTF8_IGNORE));
   }
 
-  $sql = "INSERT INTO negocios VALUES(null, '$nombre', '$rif', '$telefono', '$direccion', '$imagen', 1)";
+  $sql = sprintf("INSERT INTO negocios VALUES(null, '%s', '%s', '%s', '%s', '%s', 1)", $nombre, $rif, $telefono, $direccion, $imagen);
   $resultado = setRegistro($sql);
   if (!$resultado) {
     $respuesta['error'] = $conexion->error;
   }
+
   $respuesta['ok'] = 'Negocio registrado exitósamente.';
   exit(json_encode($respuesta, JSON_INVALID_UTF8_IGNORE));
 endif;

@@ -23,10 +23,11 @@ if ($_POST !== []):
     $respuesta['error'] = 'El RIF y el nombre de empresa son requeridos.';
   }
 
-  $proveedorEncontrado = consulta("SELECT rif FROM proveedores WHERE rif='$rif'");
+  $proveedorEncontrado = consulta(sprintf("SELECT rif FROM proveedores WHERE rif='%s'", $rif));
   if ($proveedorEncontrado) {
     $respuesta['error'] = 'Ya existe un proveedor con ese RIF.';
   }
+
   /*=====  End of VALIDACIONES  ======*/
 
   if ($respuesta['error']) {
@@ -36,8 +37,8 @@ if ($_POST !== []):
   $sql = <<<SQL
       INSERT INTO proveedores(cedula, nombre, rif, nombreEmpresa,
         telefono, direccion, usuario_id, negocio_id
-      ) VALUES($cedula, '$nombrePersona', '$rif', '$nombreEmpresa', '$telefono',
-        '$direccion', {$_SESSION['userID']}, {$_SESSION['negocioID']}
+      ) VALUES({$cedula}, '{$nombrePersona}', '{$rif}', '{$nombreEmpresa}', '{$telefono}',
+        '{$direccion}', {$_SESSION['userID']}, {$_SESSION['negocioID']}
       )
     SQL;
 

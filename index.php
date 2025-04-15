@@ -23,6 +23,7 @@ function verificarCopiaDeSeguridad() {
     $script .= '<script src="assets/js/restaurarBD.js"></script>';
   }
 }
+
 /*=====  End of LÓGICA INICIAL  ======*/
 
 /*----------  Si no hay negocios, solicita registro  ----------*/

@@ -17,7 +17,7 @@ if (!empty($_POST['verificarUsuario'])):
     exit(json_encode($respuesta, JSON_INVALID_UTF8_IGNORE));
   }
 
-  $sql = "SELECT usuario FROM usuarios WHERE BINARY(usuario)=BINARY('$usuario')";
+  $sql = sprintf("SELECT usuario FROM usuarios WHERE BINARY(usuario)=BINARY('%s')", $usuario);
   $filaUsuario = getRegistro($sql);
 
   if (!$filaUsuario) {
@@ -38,16 +38,17 @@ if (!empty($_POST['login'])):
   if ($idNegocio === 0) {
     $respuesta['error'] = 'Por favor seleccione un negocio';
   }
+
   if (!$usuario || !$clave) {
     $respuesta['error'] = 'Por favor introduzca un usuario y una contraseña';
   }
 
   $sql = <<<SQL
-			SELECT * FROM usuarios WHERE BINARY(usuario)=BINARY('$usuario')
+			SELECT * FROM usuarios WHERE BINARY(usuario)=BINARY('{$usuario}')
 		SQL;
   $filaUsuario = getRegistro($sql);
 
-  $sql = "SELECT id, logo, nombre FROM negocios WHERE id=$idNegocio";
+  $sql = 'SELECT id, logo, nombre FROM negocios WHERE id=' . $idNegocio;
   $negocioSeleccionado = getRegistro($sql);
 
   if (!$filaUsuario) {
@@ -59,7 +60,7 @@ if (!empty($_POST['login'])):
   }
 
   if ($filaUsuario['cargo'] === 'v'):
-    $sql = "INSERT INTO log(usuario_id, negocio_id) VALUES({$filaUsuario['id']}, {$negocioSeleccionado['id']})";
+    $sql = sprintf('INSERT INTO log(usuario_id, negocio_id) VALUES(%s, %s)', $filaUsuario['id'], $negocioSeleccionado['id']);
     $resultado = setRegistro($sql);
 
     if (!$resultado) {
@@ -71,6 +72,7 @@ if (!empty($_POST['login'])):
     session_destroy();
     exit(json_encode($respuesta, JSON_INVALID_UTF8_IGNORE));
   endif;
+
   /*----------  FIN DE VALIDACIONES  ----------*/
 
   $_SESSION = [
@@ -81,13 +83,13 @@ if (!empty($_POST['login'])):
     'userCedula' => $filaUsuario['cedula'],
     'cargo'      => $filaUsuario['cargo'],
     'userFoto'   => $filaUsuario['foto']
-      ? "assets/images/perfil/{$filaUsuario['foto']}"
+      ? 'assets/images/perfil/' . $filaUsuario['foto']
       : 'assets/images/avatar3.png',
     'userTlf'    => $filaUsuario['telefono'] ?: 'No especificado',
     'negocio'    => $negocioSeleccionado['nombre'],
     'negocioID'  => $negocioSeleccionado['id'],
     'negocioLogo'      => $negocioSeleccionado['logo']
-      ? "assets/images/negocios/{$negocioSeleccionado['logo']}"
+      ? 'assets/images/negocios/' . $negocioSeleccionado['logo']
       : 'assets/images/logoNegocio.jpg'
   ];
   exit(json_encode($respuesta, JSON_INVALID_UTF8_IGNORE));

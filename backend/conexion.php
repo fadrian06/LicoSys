@@ -24,7 +24,7 @@ $conexion = @new mysqli(
 );
 
 if ($conexion->connect_errno !== 0) {
-  exit("Error, no se pudo conectar a MySQL: <b>$conexion->error</b>");
+  exit(sprintf('Error, no se pudo conectar a MySQL: <b>%s</b>', $conexion->error));
 }
 
 $conexion->set_charset('utf8');
