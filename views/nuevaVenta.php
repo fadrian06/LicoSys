@@ -280,7 +280,7 @@
     --$i;
   endforeach;
   
-  if ($carrito):
+  if ($carrito !== null && $carrito !== []):
     $precioBS = round($totalCarrito * getDolar(), 2);
     $precioPesos = (int) ($totalCarrito * getPeso());
     $tooltipTotalCarrito = generarTooltip(sprintf('Bs. %s<br>%d pesos', $precioBS, $precioPesos), false);

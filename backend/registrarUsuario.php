@@ -15,7 +15,7 @@ if ($_POST !== []):
   $imagen = '';
 
   /*----------  VALIDACIONES  ----------*/
-  if (!$cedula || !$nombre || !$usuario || !$clave || !$confirmar) {
+  if ($cedula === 0 || ($nombre === '' || $nombre === '0') || ($usuario === '' || $usuario === '0') || ($clave === '' || $clave === '0') || ($confirmar === '' || $confirmar === '0')) {
     $respuesta['error'] = 'Por favor rellene los campos';
   }
 
@@ -28,7 +28,7 @@ if ($_POST !== []):
 			WHERE cedula={$cedula} OR usuario='{$usuario}'
 		SQL;
   $usuarioEncontrado = getRegistro($sql);
-  if ($usuarioEncontrado) {
+  if ($usuarioEncontrado !== null && $usuarioEncontrado !== []) {
     $respuesta['error'] = 'Ya existe un usuario con esos datos.';
   }
 
@@ -70,7 +70,7 @@ if ($_POST !== []):
 		SQL;
   setRegistro($sql);
 
-  if (!$resultado) {
+  if ($resultado === null || $resultado === 0) {
     $respuesta['error'] = $conexion->error;
   }
 

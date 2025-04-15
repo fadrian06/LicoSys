@@ -20,7 +20,7 @@ if ($_POST !== []):
       res1='{$res1}', res2='{$res2}', res3='{$res3}' WHERE cargo='a'
     ";
   $resultado = setRegistro($sql);
-  if (!$resultado) {
+  if ($resultado === null || $resultado === 0) {
     $respuesta['error'] = $conexion->error;
   }
 

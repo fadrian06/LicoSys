@@ -20,7 +20,7 @@ if (!empty($_POST['verificarUsuario'])):
   $sql = sprintf("SELECT usuario FROM usuarios WHERE BINARY(usuario)=BINARY('%s')", $usuario);
   $filaUsuario = getRegistro($sql);
 
-  if (!$filaUsuario) {
+  if ($filaUsuario === null || $filaUsuario === []) {
     $respuesta['error'] = 'Usuario no existe, (verifique mayúsculas y minúsculas)';
   }
 
@@ -39,7 +39,7 @@ if (!empty($_POST['login'])):
     $respuesta['error'] = 'Por favor seleccione un negocio';
   }
 
-  if (!$usuario || !$clave) {
+  if ($usuario === '' || $usuario === '0' || ($clave === '' || $clave === '0')) {
     $respuesta['error'] = 'Por favor introduzca un usuario y una contraseña';
   }
 
@@ -51,7 +51,7 @@ if (!empty($_POST['login'])):
   $sql = 'SELECT id, logo, nombre FROM negocios WHERE id=' . $idNegocio;
   $negocioSeleccionado = getRegistro($sql);
 
-  if (!$filaUsuario) {
+  if ($filaUsuario === null || $filaUsuario === []) {
     $respuesta['error'] = 'Usuario no existe, (verifique mayúsculas y minúsculas)';
   } elseif (!password_verify($clave, strval($filaUsuario['clave']))) {
     $respuesta['error'] = 'Contraseña incorrecta';
@@ -63,7 +63,7 @@ if (!empty($_POST['login'])):
     $sql = sprintf('INSERT INTO log(usuario_id, negocio_id) VALUES(%s, %s)', $filaUsuario['id'], $negocioSeleccionado['id']);
     $resultado = setRegistro($sql);
 
-    if (!$resultado) {
+    if ($resultado === null || $resultado === 0) {
       $respuesta['error'] = $conexion->error;
     }
   endif;

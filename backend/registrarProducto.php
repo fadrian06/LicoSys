@@ -12,14 +12,14 @@ if ($_POST !== []):
   $stock = (int) $_POST['stock'];
 
   /*----------  VALIDACIONES  ----------*/
-  if (!$codigo || !$producto || !$precio) {
+  if ($codigo === '' || $codigo === '0' || ($producto === '' || $producto === '0') || !$precio) {
     $respuesta['error'] = 'El código, nombre, precio y excento son requeridos.';
   } elseif ($excento < 0 || $excento > 1) {
     $respuesta['error'] = 'Excento sólo puede ser SI o NO.';
   }
 
   $productoEncontrado = getRegistro(sprintf("SELECT codigo FROM inventario WHERE codigo='%s'", $codigo));
-  if ($productoEncontrado) {
+  if ($productoEncontrado !== null && $productoEncontrado !== []) {
     $respuesta['error'] = 'Ya existe un producto con ese código.';
   }
 
@@ -34,7 +34,7 @@ if ($_POST !== []):
 
   $resultado = setRegistro($sql);
 
-  if (!$resultado) {
+  if ($resultado === null || $resultado === 0) {
     $respuesta['error'] = $conexion->error;
   }
 

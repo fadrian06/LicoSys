@@ -42,5 +42,11 @@
     "trim_trailing_white_space_on_save": "not_on_caret",
     "ensure_newline_at_eof_on_save": true,
     "SublimeLinter.linters.phpstan.disable": false,
+    "SublimeLinter.linters.php.disable": false,
+    "SublimeLinter.linters.rector.disable": false,
+    "SublimeLinter.linters.phpcs.disable": true,
+    "SublimeLinter.linters.phpmd.disable": true,
+    "SublimeLinter.linters.phpcsfixer.disable": true,
+    "SublimeLinter.linters.ecs.disable": true,
   },
 }

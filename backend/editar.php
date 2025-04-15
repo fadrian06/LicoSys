@@ -22,7 +22,7 @@ if (!empty($_POST['editar'])):
 
   $registro = getRegistro(sprintf('SELECT * FROM %s WHERE %s=%d', $copiaTabla, $campo, $valor));
 
-  if (!$registro) {
+  if ($registro === null || $registro === []) {
     $respuesta['error'] = $conexion->error;
   }
 
@@ -347,7 +347,7 @@ if (!empty($_POST['id'])):
   $sql = sprintf('UPDATE %s SET %s WHERE id=%d', $copiaTabla, $camposActualizados, $id);
   $resultado = setRegistro($sql);
 
-  if (!$resultado) {
+  if ($resultado === null || $resultado === 0) {
     $respuesta['error'] = $conexion->error;
   }
 

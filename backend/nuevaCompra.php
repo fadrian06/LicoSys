@@ -72,7 +72,7 @@ if (!empty($_POST['addProduct'])):
   $productoEnCarrito = getRegistro($sql);
 
   // Si el producto existe en el carrito.
-  if ($productoEnCarrito):
+  if ($productoEnCarrito !== null && $productoEnCarrito !== []):
     // Aumentamos las unidades en el carrito y
     // recalculamos el total sin IVA.
     $productoEnCarrito['unidades'] += $cantidad;
@@ -83,7 +83,7 @@ if (!empty($_POST['addProduct'])):
         precio_total={$productoEnCarrito['precio_total']} WHERE producto_id={$productoID}
       SQL;
     $resultado = setRegistro($sql);
-    if (!$resultado) {
+    if ($resultado === null || $resultado === 0) {
       $respuesta['error'] = $conexion->error;
     }
 
@@ -99,7 +99,7 @@ if (!empty($_POST['addProduct'])):
         precio={$producto['precio']} WHERE id={$productoID}
       SQL;
     $resultado = setRegistro($sql);
-    if (!$resultado) {
+    if ($resultado === null || $resultado === 0) {
       $respuesta['error'] = $conexion->error;
     }
 
@@ -116,7 +116,7 @@ if (!empty($_POST['addProduct'])):
     SQL;
   $resultado = setRegistro($sql);
 
-  if (!$resultado) {
+  if ($resultado === null || $resultado === 0) {
     $respuesta['error'] = $conexion->error;
   }
 
@@ -132,7 +132,7 @@ if (!empty($_POST['addProduct'])):
       precio={$producto['precio']} WHERE id={$productoID}
     SQL;
   $resultado = setRegistro($sql);
-  if (!$resultado) {
+  if ($resultado === null || $resultado === 0) {
     $respuesta['error'] = $conexion->error;
   }
 
@@ -158,13 +158,13 @@ if (!empty($_POST['eliminar'])):
       precio={$productoEnCarrito['precio_base']} WHERE id={$id}
     SQL;
   $resultado = setRegistro($sql);
-  if (!$resultado) {
+  if ($resultado === null || $resultado === 0) {
     $respuesta['error'] = $conexion->error;
   }
 
   /*----------  ELIMINAMOS EL PRODUCTO DEL CARRITO  ----------*/
   $resultado = setRegistro('DELETE FROM carrito_compra WHERE producto_id=' . $id);
-  if (!$resultado) {
+  if ($resultado === null || $resultado === 0) {
     $respuesta['error'] = $conexion->error;
   }
 
@@ -186,13 +186,13 @@ if (!empty($_POST['anular'])):
         precio={$producto['precio_base']} WHERE id={$producto['producto_id']}
       SQL;
     $resultado = setRegistro($sql);
-    if (!$resultado) {
+    if ($resultado === null || $resultado === 0) {
       $respuesta['error'] .= $conexion->error;
     }
   endforeach;
 
   $resultado = setRegistro('TRUNCATE TABLE carrito_compra');
-  if (!$resultado) {
+  if ($resultado === null || $resultado === 0) {
     $respuesta['error'] .= $conexion->error;
   }
 
@@ -224,13 +224,13 @@ if (!empty($_POST['generar'])):
       SQL;
 
     $resultado = setRegistro($sql);
-    if (!$resultado) {
+    if ($resultado === null || $resultado === 0) {
       $respuesta['error'] .= $conexion->error;
     }
   endforeach;
 
   $resultado = setRegistro('TRUNCATE TABLE carrito_compra');
-  if (!$resultado) {
+  if ($resultado === null || $resultado === 0) {
     $respuesta['error'] .= $conexion->error;
   }
 

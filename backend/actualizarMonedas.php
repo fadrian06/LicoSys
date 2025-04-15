@@ -12,7 +12,7 @@ if ($_POST !== []):
   $nuevoPeso = (int) $_POST['pesos'];
 
   /*----------  VALIDACIONES  ----------*/
-  if (!$nuevoIVA || !$nuevoDolar || !$nuevoPeso) {
+  if (!$nuevoIVA || !$nuevoDolar || $nuevoPeso === 0) {
     $respuesta['error'] = 'Por favor rellene los campos.';
   }
 
@@ -24,7 +24,7 @@ if ($_POST !== []):
   $sqlDolar = sprintf("INSERT INTO dolar(valor) VALUES('%s')", $nuevoDolar);
   $sqlPeso = sprintf("INSERT INTO peso(valor) VALUES('%d')", $nuevoPeso);
 
-  if (!setRegistro($sqlIVA) || !setRegistro($sqlDolar) || !setRegistro($sqlPeso)) {
+  if (in_array(setRegistro($sqlIVA), [null, 0], true) || in_array(setRegistro($sqlDolar), [null, 0], true) || in_array(setRegistro($sqlPeso), [null, 0], true)) {
     $respuesta['error'] = json_encode($conexion->error_list, JSON_INVALID_UTF8_IGNORE);
   }
 

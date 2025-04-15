@@ -121,7 +121,7 @@
     $mostrarDesactivados = '';
     $botonesDesactivados = '';
     $panelesDesactivados = '';
-    if ($desactivados):
+    if ($desactivados !== null && $desactivados !== []):
       foreach ($desactivados as $desactivado):
         $botonesDesactivados .= <<<HTML
           <li role="botonPanel" onclick="mostrarPanel(this, '#panelNegocio{$desactivado['id']}')" class="w3-button w3-block w3-rightbar w3-red">
@@ -238,7 +238,7 @@
     =            PANEL PRINCIPAL            =
     =======================================*/
     echo $paneles;
-    if ($desactivados) {
+    if ($desactivados !== null && $desactivados !== []) {
       echo $panelesDesactivados;
     }
     

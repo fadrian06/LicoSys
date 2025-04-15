@@ -8,12 +8,12 @@ if ($_POST !== []):
   $cedula = (int) $_POST['cedula'];
   $nombre = escapar(capitalize($_POST['nombre']));
 
-  if (!$cedula || !$nombre) {
+  if ($cedula === 0 || ($nombre === '' || $nombre === '0')) {
     $respuesta['error'] = 'Lá cédula y el nombre son requeridos.';
   }
 
   $clienteEncontrado = getRegistro('SELECT cedula FROM clientes WHERE cedula=' . $cedula);
-  if ($clienteEncontrado) {
+  if ($clienteEncontrado !== null && $clienteEncontrado !== []) {
     $respuesta['error'] = 'Ya existe un cliente con ésta cédula.';
   }
 
@@ -24,7 +24,7 @@ if ($_POST !== []):
   $sql = sprintf("INSERT INTO clientes(cedula, nombre, usuario_id) VALUES(%d, '%s', %s)", $cedula, $nombre, $_SESSION['userID']);
   $resultado = setRegistro($sql);
 
-  if (!$resultado) {
+  if ($resultado === null || $resultado === 0) {
     $respuesta['error'] = $conexion->error;
   }
 

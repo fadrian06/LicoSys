@@ -36,7 +36,7 @@
 
     tabla('Registro de Sesiones', $encabezados, $datos, 'No hay registros de sesiones.');
 
-    if ($datos['filas']) {
+    if ($datos['filas'] !== null && $datos['filas'] !== []) {
       echo '<footer id="botones">' . BOTONES['VACIAR_LOG'] . '</footer>';
     }
 

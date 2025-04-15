@@ -26,7 +26,7 @@
 
     $datos = getRegistro($sql);
 
-    if (!$datos) {
+    if ($datos === null || $datos === []) {
       $respuesta['error'] = $conexion->error;
     }
 

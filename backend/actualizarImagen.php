@@ -42,7 +42,7 @@ if (!empty($_FILES['foto']['name'])):
   $sql = sprintf("UPDATE usuarios SET foto='%s' WHERE id=%s", $imagen, $_SESSION['userID']);
   $resultado = setRegistro($sql);
 
-  if (!$resultado) {
+  if ($resultado === null || $resultado === 0) {
     $respuesta['error'] = $conexion->error;
   }
 
@@ -88,7 +88,7 @@ if (!empty($_FILES['logo']['name'])):
   $sql = sprintf("UPDATE negocios SET logo='%s' WHERE id=%d", $imagen, $id);
   $resultado = setRegistro($sql);
 
-  if (!$resultado) {
+  if ($resultado === null || $resultado === 0) {
     $respuesta['error'] = $conexion->error;
   }
 

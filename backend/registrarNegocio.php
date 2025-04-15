@@ -11,12 +11,12 @@ if ($_POST !== []):
   $logo      = (array) $_FILES['logo'];
   $imagen = '';
   /*----------  VALIDACIONES  ----------*/
-  if (!$nombre || !$rif) {
+  if ($nombre === '' || $nombre === '0' || ($rif === '' || $rif === '0')) {
     $respuesta['error'] = 'Por favor rellene los campos';
   }
 
   $negocioEncontrado = getRegistro(sprintf("SELECT rif FROM negocios WHERE rif='%s'", $rif));
-  if ($negocioEncontrado) {
+  if ($negocioEncontrado !== null && $negocioEncontrado !== []) {
     $respuesta['error'] = 'Ya existe un negocio con este RIF';
   }
 
@@ -47,7 +47,7 @@ if ($_POST !== []):
 
   $sql = sprintf("INSERT INTO negocios VALUES(null, '%s', '%s', '%s', '%s', '%s', 1)", $nombre, $rif, $telefono, $direccion, $imagen);
   $resultado = setRegistro($sql);
-  if (!$resultado) {
+  if ($resultado === null || $resultado === 0) {
     $respuesta['error'] = $conexion->error;
   }
 

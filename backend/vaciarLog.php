@@ -15,7 +15,7 @@ if (!empty($_POST['vaciar'])):
 
   $resultado = setRegistro('TRUNCATE TABLE log');
 
-  if (!$resultado) {
+  if ($resultado === null || $resultado === 0) {
     $respuesta['error'] = $conexion->error;
   }
 

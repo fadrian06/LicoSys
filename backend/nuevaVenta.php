@@ -81,7 +81,7 @@ if (!empty($_POST['addProduct'])):
   $productoEnCarrito = getRegistro($sql);
 
   // Si el producto existe en el carrito.
-  if ($productoEnCarrito):
+  if ($productoEnCarrito !== null && $productoEnCarrito !== []):
     $cantidad += $productoEnCarrito['unidades'];
     $total = $productoEnCarrito['precio_base'] * $cantidad;
     if ($excento !== 0) {
@@ -93,7 +93,7 @@ if (!empty($_POST['addProduct'])):
 				precio_total={$total}, total_iva={$totalIVA} WHERE producto_id={$productoID}
 			SQL;
     $resultado = setRegistro($sql);
-    if (!$resultado) {
+    if ($resultado === null || $resultado === 0) {
       $respuesta['error'] = $conexion->error;
     }
 
@@ -101,7 +101,7 @@ if (!empty($_POST['addProduct'])):
     $stock = $productoEnCarrito['antiguo_stock'] - $cantidad;
     $sql = sprintf('UPDATE inventario SET stock=%s WHERE id=%d', $stock, $productoID);
     $resultado = setRegistro($sql);
-    if (!$resultado) {
+    if ($resultado === null || $resultado === 0) {
       $respuesta['error'] = $conexion->error;
     }
 
@@ -117,7 +117,7 @@ if (!empty($_POST['addProduct'])):
 		SQL;
   $resultado = setRegistro($sql);
 
-  if (!$resultado) {
+  if ($resultado === null || $resultado === 0) {
     $respuesta['error'] = $conexion->error;
   }
 
@@ -125,7 +125,7 @@ if (!empty($_POST['addProduct'])):
   $stock -= $cantidad;
   $sql = sprintf('UPDATE inventario SET stock=%d WHERE id=%d', $stock, $productoID);
   $resultado = setRegistro($sql);
-  if (!$resultado) {
+  if ($resultado === null || $resultado === 0) {
     $respuesta['error'] = $conexion->error;
   }
 
@@ -141,12 +141,12 @@ if (!empty($_POST['eliminar'])):
   $sql = 'SELECT antiguo_stock FROM carrito_venta WHERE producto_id=' . $id;
   $antiguoStock = (int) getRegistro($sql)['antiguo_stock'];
   $resultado = setRegistro('DELETE FROM carrito_venta WHERE producto_id=' . $id);
-  if (!$resultado) {
+  if ($resultado === null || $resultado === 0) {
     $respuesta['error'] = $conexion->error;
   }
 
   $resultado = setRegistro(sprintf('UPDATE inventario SET stock=%d WHERE id=%d', $antiguoStock, $id));
-  if (!$resultado) {
+  if ($resultado === null || $resultado === 0) {
     $respuesta['error'] = $conexion->error;
   }
 
@@ -167,13 +167,13 @@ if (!empty($_POST['anular'])):
 				WHERE id={$producto['producto_id']}
 			SQL;
     $resultado = setRegistro($sql);
-    if (!$resultado) {
+    if ($resultado === null || $resultado === 0) {
       $respuesta['error'] .= $conexion->error;
     }
   endforeach;
 
   $resultado = setRegistro("TRUNCATE TABLE carrito_venta");
-  if (!$resultado) {
+  if ($resultado === null || $resultado === 0) {
     $respuesta['error'] .= $conexion->error;
   }
 
@@ -206,13 +206,13 @@ if (!empty($_POST['generar'])):
 			SQL;
 
     $resultado = setRegistro($sql);
-    if (!$resultado) {
+    if ($resultado === null || $resultado === 0) {
       $respuesta['error'] .= $conexion->error;
     }
   endforeach;
 
   $resultado = setRegistro('TRUNCATE TABLE carrito_venta');
-  if (!$resultado) {
+  if ($resultado === null || $resultado === 0) {
     $respuesta['error'] .= $conexion->error;
   }
 

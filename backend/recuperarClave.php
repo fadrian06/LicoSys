@@ -9,7 +9,7 @@ if (!empty($_POST['consultar'])):
   $usuario = escapar($_POST['usuario']);
 
   /*----------  VALIDACIONES  ----------*/
-  if (!$cedula || !$usuario) {
+  if ($cedula === 0 || ($usuario === '' || $usuario === '0')) {
     $respuesta['error'] = 'Por favor introduzca su cédula y usuario.';
   }
 
@@ -23,7 +23,7 @@ if (!empty($_POST['consultar'])):
 		SQL;
   $filaUsuario = getRegistro($sql);
 
-  if (!$filaUsuario) {
+  if ($filaUsuario === null || $filaUsuario === []) {
     $respuesta['error'] = 'Cédula o usuario incorrecto, <strong>(verifique mayúsculas y minúsculas)</strong>';
   } elseif (!$filaUsuario['activo']) {
     $respuesta['error'] = 'Este usuario se encuentra desactivado.';
@@ -74,7 +74,7 @@ if (!empty($_POST['cambiarClave'])):
   $confirmar = escapar($_POST['confirmar']);
 
   /*----------  VALIDACIONES  ----------*/
-  if (!$clave || !$confirmar) {
+  if ($clave === '' || $clave === '0' || ($confirmar === '' || $confirmar === '0')) {
     $respuesta['error'] = 'Por favor ingrese una contraseña.';
   } elseif ($clave !== $confirmar) {
     $respuesta['error'] = 'Ambas contraseñas deben ser iguales.';
@@ -89,7 +89,7 @@ if (!empty($_POST['cambiarClave'])):
   $sql = sprintf("UPDATE usuarios SET clave='%s' WHERE id=%d", $clave, $id);
   $resultado = setRegistro($sql);
 
-  if (!$resultado) {
+  if ($resultado === null || $resultado === 0) {
     $respuesta['error'] = $conexion->error;
   }
 

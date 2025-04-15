@@ -15,16 +15,16 @@ if ($_POST !== []):
   /*====================================
     =            VALIDACIONES            =
     ====================================*/
-  if (!$cedula || !$nombrePersona) {
+  if ($cedula === 0 || ($nombrePersona === '' || $nombrePersona === '0')) {
     $respuesta['error'] = 'Los datos de persona de contacto son requeridos.';
   }
 
-  if (!$rif || !$nombreEmpresa) {
+  if ($rif === '' || $rif === '0' || ($nombreEmpresa === '' || $nombreEmpresa === '0')) {
     $respuesta['error'] = 'El RIF y el nombre de empresa son requeridos.';
   }
 
   $proveedorEncontrado = consulta(sprintf("SELECT rif FROM proveedores WHERE rif='%s'", $rif));
-  if ($proveedorEncontrado) {
+  if ($proveedorEncontrado !== null && $proveedorEncontrado !== 0) {
     $respuesta['error'] = 'Ya existe un proveedor con ese RIF.';
   }
 
@@ -44,7 +44,7 @@ if ($_POST !== []):
 
   $resultado = setRegistro($sql);
 
-  if (!$resultado) {
+  if ($resultado === null || $resultado === 0) {
     $respuesta['error'] = $conexion->error;
   }
 

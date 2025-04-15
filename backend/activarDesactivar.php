@@ -40,7 +40,7 @@ if ($_POST !== []):
   }
 
   $resultado = setRegistro($sql);
-  if (!$resultado) {
+  if ($resultado === null || $resultado === 0) {
     $respuesta['error'] = $conexion->error;
   }
 
