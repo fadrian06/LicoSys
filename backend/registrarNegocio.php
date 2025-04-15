@@ -30,7 +30,7 @@ if (!empty($_POST)):
 
     if ($tipo !== 'image/jpeg' && $tipo !== 'image/jpg' && $tipo !== 'image/png')
       $respuesta['error'] = "Sólo se permite imagenes JPG y PNG";
-    elseif ($peso > (1 * 1000 * 1024 * 2)) /*1b * 1000 = 1kb * 1024 = 1mb * 2 = :D*/
+    elseif ($peso > (1000 * 1024 * 2)) /*1b * 1000 = 1kb * 1024 = 1mb * 2 = :D*/
       $respuesta['error'] = 'La imagen no puede ser mayor a 2MB';
     else move_uploaded_file($rutaOrigen, $rutaDestino);
   endif;

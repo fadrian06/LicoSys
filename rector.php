@@ -9,6 +9,10 @@ return RectorConfig::configure()
     __DIR__ . '/backend',
     __DIR__ . '/templates',
     __DIR__ . '/views',
+    __DIR__ . '/dashboard.php',
+    __DIR__ . '/index.php',
+    __DIR__ . '/rector.php',
+    __DIR__ . '/salir.php',
   ])
   ->withPhpSets(php82: true)
   ->withIndent(' ', 2)
@@ -19,4 +23,8 @@ return RectorConfig::configure()
   ->withDowngradeSets(php82: true)
   ->withEditorUrl('subl://open?url=file://%file&line=%line')
   ->withFluentCallNewLine()
-  ->withImportNames(removeUnusedImports: true);
+  ->withImportNames(removeUnusedImports: true)
+  ->withParallel()
+  ->withPreparedSets(
+    deadCode: true,
+  );

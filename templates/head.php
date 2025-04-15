@@ -5,7 +5,7 @@
 =================================================*/
 $script = '';
 $url = explode('/', strval($_SERVER['SCRIPT_NAME']));
-$archivoActual = (string) $url[count($url) - 1];
+$archivoActual = $url[count($url) - 1];
 
 /** @var bool Indica si el usuario intenta acceder a una vista mediante la URL */
 $seEncuentraEnCarpetaViews = $url[count($url) - 2] === 'views' ? true : false;

@@ -481,17 +481,13 @@ function getPeso() {
   return $peso && $peso['valor'] ? (int) $peso['valor'] : 'No establecido';
 }
 
-/**
- * Cambia cada inicial a mayúscula
- * @param string $texto
- */
+/** Cambia cada inicial a mayúscula */
 function capitalize(string $texto): string {
   return mb_convert_case($texto, MB_CASE_TITLE, 'UTF-8');
 }
 
 /**
  * Escapar caracteres indeseados
- * @param  string $texto
  * @return string El `texto` con caracteres especiales escapados como `'' ""`
  * y etiquetas.
  */
@@ -563,8 +559,7 @@ function fecha(): string {
 =            FORMATEAR UNA CANTIDAD MONETARIA            =
 ========================================================*/
 function formatMoney($cantidad) {
-  $cantidad = number_format($cantidad, 0, ",", ".");
-  return $cantidad;
+  return number_format($cantidad, 0, ",", ".");
 }
 
 /**
@@ -576,9 +571,8 @@ function formatMoney($cantidad) {
 function getAPI(string $url, string $urlJSON): array {
   $data = @file_get_contents($url) ?: @file_get_contents($urlJSON);
   @file_put_contents($urlJSON, $data);
-  $data = json_decode($data, true, 512, JSON_INVALID_UTF8_IGNORE);
 
-  return $data;
+  return json_decode($data, true, 512, JSON_INVALID_UTF8_IGNORE);
 }
 
 /**

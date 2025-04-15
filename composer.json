@@ -13,8 +13,8 @@
   "scripts": {
     "pre-install-cmd": ["composer check-platform-reqs", "cp -n .env.dist .env"],
     "ci": [
-      "phpstan --no-progress --no-ansi",
-      "rector --dry-run --no-progress-bar --no-ansi"
+      "rector --dry-run --no-progress-bar --no-ansi",
+      "phpstan --no-progress --no-ansi"
     ],
     "format": ["rector --no-progress-bar --no-ansi"]
   },
