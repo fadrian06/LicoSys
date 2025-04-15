@@ -25,12 +25,15 @@ if ($_SESSION['cargo'] === 'a'):
         FROM ventas v INNER JOIN inventario i ON v.producto_id=i.id
         WHERE v.negocio_id={$negocioID} ORDER BY i.producto DESC
       SQL;
+
     $ventas = getRegistros($sql);
     $ventas = filtrarFecha($rol, $ventas);
 
     $ventasCombinadas = [];
+
     foreach ($ventas as $venta):
       $id = $venta['producto_id'];
+
       if (!array_key_exists($id, $ventasCombinadas)):
         $ventasCombinadas[$id] = $venta;
       else:

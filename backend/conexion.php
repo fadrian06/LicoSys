@@ -11,7 +11,7 @@ require __DIR__ . '/../vendor/autoload.php';
 /**
  * Respuesta del servidor al cliente.
  *
- * @var array{ok: string, error: string, datos: array}
+ * @var array{ok: string, error: string, datos: mixed[]}
  */
 $respuesta = [
   'ok'    => '',

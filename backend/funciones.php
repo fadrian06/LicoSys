@@ -5,19 +5,19 @@ declare(strict_types=1);
 /**
  * Genera una tabla con los datos que le proporcionen.
  * @param string $titulo El título de la tabla.
- * @param array $encabezados Debe tener la siguiente estructura: <br><br>
+ * @param array{escritorio: string[], movil: string[]} $encabezados Debe tener la siguiente estructura: <br><br>
  * [<br>
  * &nbsp;'escritorio' => [...Campos a mostrar en escritorio y tablet],<br>
  * &nbsp;'movil' => [...Campos a mostrar en móvil]<br>
  * ]
- * @param array $datos Debe tener la siguiente estructura: <br><br>
+ * @param array{camposEscritorio: string[], camposMovil: string[], filas: string[][]} $datos Debe tener la siguiente estructura: <br><br>
  * [<br>
  * &nbsp;'camposEscritorio' => [...Campos de la tabla],<br>
  * &nbsp;'camposMovil' => [...Campos de la tabla],<br>
  * &nbsp;'filas' => [...Filas que debe mostrar la tabla]<br>
  * ]
  * @param string $sinRegistros Texto a mostrar cuando no existan filas.
- * @param array|bool $desactivar FALSE si no quieres la funcionalidad de desactivar un registro,
+ * @param false|array{tabla: string, campo: string, enlace: string, filas: string[][]} $desactivar FALSE si no quieres la funcionalidad de desactivar un registro,
  * si es un array debe tener la siguiente estructura: <br><br>
  * [<br>
  * &nbsp;'tabla' => 'Tabla a la cual pertenecen los registros',<br>
@@ -25,7 +25,7 @@ declare(strict_types=1);
  * &nbsp;'enlace' => 'El HREF del enlace a clickear al activar o desactivar',<br>
  * &nbsp;'filas' => [...Filas de registros desactivados]<br>
  * ]
- * @param array|bool $actualizar FALSE si no quieres la funcionalidad de editar un registro,
+ * @param false|array{tabla: string, campo: string, enlace: string, IDform: string} $actualizar FALSE si no quieres la funcionalidad de editar un registro,
  * si es un array debe tener la siguiente estructura: <br><br>
  * [<br>
  * &nbsp;'tabla' => 'Tabla a la cual pertenecen los registros',<br>
@@ -33,10 +33,18 @@ declare(strict_types=1);
  * &nbsp;'enlace' => 'El HREF del enlace a clickear tras actualizar.',<br>
  * &nbsp;'IDform' => 'El ID del formulario para editar registros (incluido el #).',<br>
  * ]
- * @param array|bool $factura FALSE si no quieres la funcionalidad de VER FACTURA (Sólo para ventas y compras)
+ * @param bool $factura FALSE si no quieres la funcionalidad de VER FACTURA (Sólo para ventas y compras)
  * @return true La tabla se ha impreso con éxito.
  */
-function tabla(string $titulo, array $encabezados, array $datos, string $sinRegistros = '', $desactivar = false, $actualizar = false, $factura = false): bool {
+function tabla(
+  string $titulo,
+  array $encabezados,
+  array $datos,
+  string $sinRegistros = '',
+  false|array $desactivar = false,
+  false|array $actualizar = false,
+  bool $factura = false
+): bool {
   $filasEscritorio = '';
   $filasMovil = '';
   $filasDesactivadosEscritorio = '';
@@ -260,7 +268,7 @@ function tabla(string $titulo, array $encabezados, array $datos, string $sinRegi
           </li>
         HTML;
 
-        $verMas .= <<<HTML
+      $verMas .= <<<HTML
           <li class="w3-block">
             <div class=w3-container>
               <button onclick="activar('{$desactivar['tabla']}', '{$desactivar['campo']}', '{$fila[$desactivar['campo']]}', '{$desactivar['enlace']}')" class="w3-block w3-button w3-round-xlarge w3-green w3-hover-black">
@@ -355,7 +363,7 @@ function tabla(string $titulo, array $encabezados, array $datos, string $sinRegi
 }
 
 /** Muestra variables en formato más legible */
-function depurar($dato, string $nombre = ''): void {
+function depurar(mixed $dato, string $nombre = ''): void {
   echo '<pre class="w3-orange w3-padding-large">';
   echo $nombre !== '' && $nombre !== '0' ? $nombre . ': ' : '';
   if (is_array($dato)) {
@@ -582,7 +590,7 @@ function fecha(): string {
 /*========================================================
 =            FORMATEAR UNA CANTIDAD MONETARIA            =
 ========================================================*/
-function formatMoney($cantidad): string {
+function formatMoney(float $cantidad): string {
   return number_format($cantidad, 0, ",", ".");
 }
 
@@ -590,7 +598,7 @@ function formatMoney($cantidad): string {
  * Obtiene, respalda y retorna la información de una API
  * @param  string $url La URL de la API
  * @param  string $urlJSON La ruta relativa al archivo JSON local.
- * @return array Un array asociativo con la respuesta de la API.
+ * @return mixed[] Un array asociativo con la respuesta de la API.
  */
 function getAPI(string $url, string $urlJSON): array {
   $data = @file_get_contents($url) ?: @file_get_contents($urlJSON);
@@ -601,9 +609,9 @@ function getAPI(string $url, string $urlJSON): array {
 
 /**
  * Elimina los duplicados de una lista de datos.
- * @param  array  $arrays El array de arrays a procesar.
+ * @param  mixed[]  $arrays El array de arrays a procesar.
  * @param string $clave La clave del arreglo necesaria para detectar duplicados.
- * @return array Un nuevo arreglo sin elementos duplicados.
+ * @return mixed[] Un nuevo arreglo sin elementos duplicados.
  */
 function eliminarDuplicados(array $arrays, string $clave): array {
   $sinDuplicados = [];
@@ -620,7 +628,15 @@ function eliminarDuplicados(array $arrays, string $clave): array {
 /**
  * Calcula y retorna la diferencia entre una fecha especificada y la actual.
  * @param  string $fecha La fecha con la cual calcular la diferencia.
- * @return array        Un arreglo con la información sobre la diferencia de fechas.
+ * @return array{
+ *   año: int,
+ *   mes: int,
+ *   semana: int,
+ *   dia: int,
+ *   hora: int,
+ *   minutos: int,
+ *   segundos: int,
+ * } Un arreglo con la información sobre la diferencia de fechas.
  */
 function obtenerDiferenciaFecha(string $fecha): array {
   date_default_timezone_set('America/Caracas');
@@ -718,10 +734,10 @@ function formatearFecha(string $fecha): string {
 
 /**
  * Filtra elementos en un arreglo con el filtro especificado.
- * @param  string $filtro 'diario', 'semanal', 'quincenal', 'mensual'
- * @param  array  $datos  Un arreglo de arreglos que tiene una clave 'fecha'<br>
+ * @param  'diario'|'semanal'|'quincenal'|'mensual' $filtro
+ * @param  array{fecha: string}[]  $datos  Un arreglo de arreglos que tiene una clave 'fecha'<br>
  * con el formato 'Y-m-d H:i:s'
- * @return array El arreglo filtrado.
+ * @return mixed[][] El arreglo filtrado.
  */
 function filtrarFecha(string $filtro, array $datos): array {
   $filtrado = [];
