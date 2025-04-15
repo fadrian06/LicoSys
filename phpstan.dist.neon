@@ -12,3 +12,5 @@ parameters:
     - dashboard.php
     - rector.php
     - salir.php
+  excludePaths:
+    - vendor

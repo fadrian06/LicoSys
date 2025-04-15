@@ -7,10 +7,6 @@
   ],
   "build_systems": [
     {
-      "name": "Build Babel",
-      "shell_cmd": "npm run babel",
-    },
-    {
       "name": "Build Stylus",
       "shell_cmd": "npm run stylus",
     },

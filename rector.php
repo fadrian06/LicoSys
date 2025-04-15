@@ -10,6 +10,7 @@ return RectorConfig::configure()
     __DIR__ . '/templates',
     __DIR__ . '/views',
   ])
+  ->withSkipPath(__DIR__ . '/vendor')
   ->withPhpSets(php82: true)
   ->withIndent(' ', 2)
   ->withCache(

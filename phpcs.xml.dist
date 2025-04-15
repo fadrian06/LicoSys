@@ -12,6 +12,7 @@
   <file>index.php</file>
   <file>rector.php</file>
   <file>salir.php</file>
+  <exclude-pattern>vendor</exclude-pattern>
 
   <rule ref="PSR1" />
 
