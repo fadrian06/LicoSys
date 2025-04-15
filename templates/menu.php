@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-if (isset($mostrarMenu)): ?>
+if (isset($mostrarMenu)) : ?>
   <!--====================================
   =            BARRA SUPERIOR            =
   =====================================-->
@@ -32,7 +32,11 @@ if (isset($mostrarMenu)): ?>
       if ($_SESSION['cargo'] === 'a') {
         echo <<<HTML
             <div class="w3-half w3-medium w3-dropdown-hover w3-black">
-              <a href="views/nuevaCompra.php" role="navegacion" title="Nueva Compra" class="w3-large w3-button w3-hide-small">
+              <a
+                href="views/nuevaCompra.php"
+                role="navegacion"
+                title="Nueva Compra"
+                class="w3-large w3-button w3-hide-small">
                 <i class="icon-handshake-o"></i>
                 <b id="productosEnCarritoCompra">{$productosEnCarritoCompra}</b>
               </a>
@@ -44,8 +48,12 @@ if (isset($mostrarMenu)): ?>
     </div>
     <div class="w3-medium w3-dropdown-hover w3-black">
       <a href="dashboard.php" role="navegacion" title="Panel de Administración" class="w3-medium w3-button">
-        <img src="<?= $BASE_URL . $_SESSION['negocioLogo'] ?>" class="w3-image w3-circle" style="height: 25px; width:25px">
-        &nbsp;<b id="menuNombreNegocio"><?= $_SESSION['negocio'] ?></b>
+        <img
+          src="<?= $BASE_URL . $_SESSION['negocioLogo'] ?>"
+          class="w3-image w3-circle"
+          style="height: 25px; width:25px" />
+        &nbsp;
+        <b id="menuNombreNegocio"><?= $_SESSION['negocio'] ?></b>
       </a>
       <?= generarTooltip('Panel de Administración') ?>
     </div>
@@ -56,7 +64,10 @@ if (isset($mostrarMenu)): ?>
   <aside id="menu" class="w3-sidebar w3-collapse w3-white w3-animate-left w3-hide">
     <section class="w3-padding-top-24 w3-black w3-container w3-row w3-border-bottom w3-margin-bottom">
       <a href="views/miPerfil.php" role="navegacion" title="Mi Perfil" class="w3-block w3-col s3">
-        <img id="fotoPerfil" src="<?= $BASE_URL . $_SESSION['userFoto'] ?>" class="w3-image w3-circle w3-margin-right w3-padding-small">
+        <img
+          id="fotoPerfil"
+          src="<?= $BASE_URL . $_SESSION['userFoto'] ?>"
+          class="w3-image w3-circle w3-margin-right w3-padding-small" />
       </a>
       <div class="w3-col s9 w3-center">
         <div>
@@ -65,9 +76,14 @@ if (isset($mostrarMenu)): ?>
         </div>
         <hr style="margin: 5px">
         <?php
-        if (is_float(getDolar()) && is_int(getPeso())):
+        if (is_float(getDolar()) && is_int(getPeso())) :
           echo <<<HTML
-              <button onclick="modal(this)" data-target="#conversionMonetaria" title="Calculadora Monetaria" class="w3-button icon-calculator"></button>
+              <button
+                onclick="modal(this)"
+                data-target="#conversionMonetaria"
+                title="Calculadora Monetaria"
+                class="w3-button icon-calculator">
+              </button>
             HTML;
 
           $titulo = <<<HTML
@@ -90,7 +106,10 @@ if (isset($mostrarMenu)): ?>
                 </section>
                 <ul class="w3-half w3-ul w3-padding-large w3-small w3-margin-top w3-left-align">
                   <li>Introduce un número en alguno de los campos para realizar la conversión.</li>
-                  <li>Adicionalmente, puedes introducir una operación básica (suma, resta, multiplicación o división)</li>
+                  <li>
+                    Adicionalmente, puedes introducir una operación básica
+                    (suma, resta, multiplicación o división)
+                  </li>
                   <li>Pulsa fuera de un campo para que se realice la operación introducida.</li>
                   <li>Si el resultado se evalúa como negativo, será convertido a un número positivo.</li>
                 </ul>
@@ -109,7 +128,11 @@ if (isset($mostrarMenu)): ?>
     </section>
     <p class="w3-container">Panel de Administración</p>
     <nav class="w3-bar-block">
-      <a href="dashboard.php" role="navegacion" title="Panel de Administración" class="w3-bar-item w3-button w3-padding w3-blue">
+      <a
+        href="dashboard.php"
+        role="navegacion"
+        title="Panel de Administración"
+        class="w3-bar-item w3-button w3-padding w3-blue">
         <i class="icon-home"></i> Inicio
       </a>
       <a href="views/nuevaVenta.php" role="navegacion" title="Registrar Venta" class="w3-bar-item w3-button w3-padding">
@@ -121,20 +144,28 @@ if (isset($mostrarMenu)): ?>
       <a href="views/clientes.php" role="navegacion" title="Ver Clientes" class="w3-bar-item w3-button w3-padding">
         <i class="icon-id-card"></i> Clientes
       </a>
-      <a href="views/proveedores.php" role="navegacion" title="Ver Proveedores" class="w3-bar-item w3-button w3-padding">
+      <a
+        href="views/proveedores.php"
+        role="navegacion"
+        title="Ver Proveedores"
+        class="w3-bar-item w3-button w3-padding">
         <i class="icon-address-book"></i> Proveedores
       </a>
       <a href="views/ventas.php" role="navegacion" title="Gestionar Ventas" class="w3-bar-item w3-button w3-padding">
         <i class="icon-list-alt"></i> Ventas
       </a>
-      <?php if ($_SESSION['cargo'] === 'a'): ?>
+      <?php if ($_SESSION['cargo'] === 'a') : ?>
         <details class="w3-bar-block w3-light-gray">
           <summary class="w3-hover-grey w3-padding">
             <i class="icon-handshake-o"></i> Compras
             <i class="icon-chevron-right w3-right"></i>
           </summary>
           <div>
-            <a href="views/compras.php" role="navegacion" title="Gestionar Compras" class="w3-bar-item w3-button w3-padding">
+            <a
+              href="views/compras.php"
+              role="navegacion"
+              title="Gestionar Compras"
+              class="w3-bar-item w3-button w3-padding">
               <i class="icon-handshake-o"></i> Ver Compras
             </a>
             <a href="views/nuevaCompra.php" role="navegacion" title="Registrar Compra" class="w3-bar-item w3-button">
@@ -156,10 +187,18 @@ if (isset($mostrarMenu)): ?>
             </a>
           </div>
         </details>
-        <a href="views/negocios.php" role="navegacion" title="Gestionar Negocios" class="w3-bar-item w3-button w3-padding">
+        <a
+          href="views/negocios.php"
+          role="navegacion"
+          title="Gestionar Negocios"
+          class="w3-bar-item w3-button w3-padding">
           <i class='icon-building'></i> Negocios
         </a>
-        <a href="views/finanzas.php" role="navegacion" title="Gestionar Finanzas" class="w3-bar-item w3-button w3-padding">
+        <a
+          href="views/finanzas.php"
+          role="navegacion"
+          title="Gestionar Finanzas"
+          class="w3-bar-item w3-button w3-padding">
           <i class="icon-bar-chart"></i> Finanzas
         </a>
       <?php endif ?>

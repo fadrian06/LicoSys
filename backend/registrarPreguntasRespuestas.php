@@ -3,7 +3,8 @@
 declare(strict_types=1);
 
 session_start();
-if ($_POST !== []):
+
+if ($_POST !== []) :
   require __DIR__ . '/conexion.php';
   require __DIR__ . '/funciones.php';
 
@@ -21,7 +22,9 @@ if ($_POST !== []):
   $sql = "UPDATE usuarios SET pre1='{$pre1}', pre2='{$pre2}', pre3='{$pre3}',
       res1='{$res1}', res2='{$res2}', res3='{$res3}' WHERE cargo='a'
     ";
+
   $resultado = setRegistro($sql);
+
   if ($resultado === null || $resultado === 0) {
     $respuesta['error'] = $conexion->error;
   }

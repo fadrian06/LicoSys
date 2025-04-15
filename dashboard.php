@@ -43,27 +43,27 @@ $data = /*getAPI(
 $dolarBCV = round($data['sources']['BCV']['quote'], 2);
 
 $sql = <<<SQL
-		SELECT fecha, foto, nombre, usuario FROM log
-		INNER JOIN usuarios ON usuario_id=id
-		WHERE negocio_id={$_SESSION['negocioID']}
-		GROUP BY usuario_id ORDER BY fecha DESC LIMIT 3
-	SQL;
+    SELECT fecha, foto, nombre, usuario FROM log
+    INNER JOIN usuarios ON usuario_id=id
+    WHERE negocio_id={$_SESSION['negocioID']}
+    GROUP BY usuario_id ORDER BY fecha DESC LIMIT 3
+  SQL;
 $recientes = getRegistros($sql) ?? [];
 $sql = <<<SQL
-		SELECT id FROM ventas WHERE negocio_id={$_SESSION['negocioID']}
-	SQL;
+    SELECT id FROM ventas WHERE negocio_id={$_SESSION['negocioID']}
+  SQL;
 $cantidadVentas = count(getRegistros($sql) ?? []);
 
 /*----------  PRODUCTOS MÁS VENDIDOS  ----------*/
 $sql = <<<SQL
-		SELECT v.fecha, v.producto_id, i.producto, v.unidades FROM ventas v
-		INNER JOIN inventario i ON v.producto_id=i.id
-		WHERE v.negocio_id={$_SESSION['negocioID']}
-	SQL;
+    SELECT v.fecha, v.producto_id, i.producto, v.unidades FROM ventas v
+    INNER JOIN inventario i ON v.producto_id=i.id
+    WHERE v.negocio_id={$_SESSION['negocioID']}
+  SQL;
 $ventas = getRegistros($sql) ?? [];
 $ventas = filtrarFecha('semanal', $ventas);
 $ventasCombinadas = [];
-foreach ($ventas as $venta):
+foreach ($ventas as $venta) :
   $id = $venta['producto_id'];
 
   if (count($ventasCombinadas) > 2) {
@@ -77,10 +77,10 @@ foreach ($ventas as $venta):
   }
 endforeach;
 
-if ($ventasCombinadas && $_SESSION['cargo'] === 'a'):
+if ($ventasCombinadas && $_SESSION['cargo'] === 'a') :
   $nombresProductos = [];
   $cantidadProductos = [];
-  foreach ($ventasCombinadas as $ventaCombinada):
+  foreach ($ventasCombinadas as $ventaCombinada) :
     $nombresProductos[] = $ventaCombinada['producto'];
     $cantidadProductos[] = $ventaCombinada['unidades'];
   endforeach;
@@ -90,36 +90,36 @@ if ($ventasCombinadas && $_SESSION['cargo'] === 'a'):
   $nombresProductos = json_encode($nombresProductos, JSON_INVALID_UTF8_IGNORE);
   $cantidadProductos = json_encode($cantidadProductos, JSON_INVALID_UTF8_IGNORE);
   $script .= <<<HTML
-			<script>
-				const xValues = {$nombresProductos}
-				const yValues = {$cantidadProductos}
-				const barColors = ['red', 'green', 'yellow', 'black', 'blue']
+      <script>
+        const xValues = {$nombresProductos}
+        const yValues = {$cantidadProductos}
+        const barColors = ['red', 'green', 'yellow', 'black', 'blue']
 
-				new Chart('productosMasVendidos', {
-					type: 'bar',
-					data: {
-						labels: xValues,
-						datasets: [{
-							backgroundColor: barColors,
-							data: yValues
-						}]
-					},
-					options: {
-						legend: {display: false},
-						scales: {
-							y: {
-								beginAtZero: true
-							}
-						}
-					}
-				})
-			</script>
-		HTML;
+        new Chart('productosMasVendidos', {
+          type: 'bar',
+          data: {
+            labels: xValues,
+            datasets: [{
+              backgroundColor: barColors,
+              data: yValues
+            }]
+          },
+          options: {
+            legend: {display: false},
+            scales: {
+              y: {
+                beginAtZero: true
+              }
+            }
+          }
+        })
+      </script>
+    HTML;
 endif;
 
 $sql = <<<SQL
-		SELECT id FROM inventario WHERE negocio_id={$_SESSION['negocioID']}
-	SQL;
+    SELECT id FROM inventario WHERE negocio_id={$_SESSION['negocioID']}
+  SQL;
 $cantidadProductos = consulta($sql);
 ?>
 
@@ -129,10 +129,10 @@ $cantidadProductos = consulta($sql);
     <i class="icon-dashboard"></i> Administración
   </h1>
   <!--=============================
-	=            WIDGETS            =
-	==============================-->
+  =            WIDGETS            =
+  ==============================-->
   <section class="w3-row-padding w3-margin-bottom">
-    <?php if ($_SESSION['cargo'] === 'a'): ?>
+    <?php if ($_SESSION['cargo'] === 'a') : ?>
       <div class="w3-col s6 m3 w3-dropdown-hover w3-transparent">
         <a href="views/ventas.php" role="navegacion" class="w3-hover-opacity">
           <div class="w3-container w3-red w3-padding-16">
@@ -168,7 +168,10 @@ $cantidadProductos = consulta($sql);
       <?= generarTooltip('Ver Inventario') ?>
     </div>
     <div class="w3-col <?= $_SESSION['cargo'] === 'a' ? 's6 m3' : 's6' ?> w3-dropdown-hover w3-transparent">
-      <a href="<?= $_SESSION['cargo'] === 'a' ? 'views/usuarios.php' : 'views/clientes.php' ?>" role="navegacion" class="w3-hover-opacity">
+      <a
+        href="<?= $_SESSION['cargo'] === 'a' ? 'views/usuarios.php' : 'views/clientes.php' ?>"
+        role="navegacion"
+        class="w3-hover-opacity">
         <div class="w3-container w3-orange w3-text-white w3-padding-16">
           <i class="icon-users w3-xxxlarge w3-left"></i>
           <span class="w3-right w3-xlarge">
@@ -184,8 +187,8 @@ $cantidadProductos = consulta($sql);
     </div>
   </section>
   <!--=============================
-	=            MONEDAS            =
-	==============================-->
+  =            MONEDAS            =
+  ==============================-->
   <div class="w3-row">
     <?php include __DIR__ . '/templates/monedas.php' ?>
     <section class="w3-half w3-container w3-padding-24 w3-animate-opacity">
@@ -206,58 +209,87 @@ $cantidadProductos = consulta($sql);
       </table>
     </section>
   </div>
-  <?php if ($_SESSION['cargo'] === 'a' && $recientes): ?>
+  <?php if ($_SESSION['cargo'] === 'a' && $recientes) : ?>
     <section class="w3-row w3-container w3-border-bottom w3-padding-24">
       <!--========================================
-			=            USUARIOS RECIENTES            =
-			=========================================-->
+      =            USUARIOS RECIENTES            =
+      =========================================-->
       <ul class="w3-col s12 m5 w3-ul w3-card-4 w3-white">
         <div class="w3-dropdown-hover w3-transparent w3-block">
-          <a href="views/log.php" role="navegacion" class="w3-button w3-block w3-border-bottom w3-light-gray w3-text-indigo w3-xlarge">
+          <a
+            href="views/log.php"
+            role="navegacion"
+            class="w3-button w3-block w3-border-bottom w3-light-gray w3-text-indigo w3-xlarge">
             Usuarios recientes
           </a>
           <?= generarTooltip('Ver Registro de Sesiones') ?>
         </div>
-        <?php foreach ($recientes as $reciente): ?>
+        <?php foreach ($recientes as $reciente) : ?>
           <li class="w3-padding-16">
-            <img src="<?= empty($reciente['foto']) ? "images/avatar2.png" : 'assets/images/perfil/' . $reciente['foto'] ?>" class="w3-circle w3-margin-right" style="width: 50px">
+            <img
+              src="<?= empty($reciente['foto']) ? "images/avatar2.png" : 'assets/images/perfil/' . $reciente['foto'] ?>"
+              class="w3-circle w3-margin-right"
+              style="width: 50px" />
             <span class="w3-large"><?= $reciente['nombre'] ?></span>
           </li>
         <?php endforeach ?>
       </ul>
       <div class="w3-col s0 m1">&nbsp;</div>
       <!--============================================
-			=            PRODUCTOS MÁS VENDIDOS            =
-			=============================================-->
+      =            PRODUCTOS MÁS VENDIDOS            =
+      =============================================-->
       <?php
       $tooltipProductosMasVendidos = generarTooltip('Ver Finanzas');
       if ($ventasCombinadas !== []) {
         echo <<<HTML
-						<div class="w3-col s12 m6 w3-ul w3-card-4 w3-white">
-							<div class="w3-dropdown-hover w3-transparent w3-block">
-								<a href="views/finanzas.php" role="navegacion" class="w3-button w3-block w3-border-bottom w3-light-gray w3-text-indigo w3-xlarge">
-									Productos más Vendidos
-								</a>
-								{$tooltipProductosMasVendidos}
-							</div>
-							<canvas id="productosMasVendidos"></canvas>
-						</div>
-					HTML;
+            <div class="w3-col s12 m6 w3-ul w3-card-4 w3-white">
+              <div class="w3-dropdown-hover w3-transparent w3-block">
+                <a
+                  href="views/finanzas.php"
+                  role="navegacion"
+                  class="w3-button w3-block w3-border-bottom w3-light-gray w3-text-indigo w3-xlarge">
+                  Productos más Vendidos
+                </a>
+                {$tooltipProductosMasVendidos}
+              </div>
+              <canvas id="productosMasVendidos"></canvas>
+            </div>
+          HTML;
       }
       ?>
     </section>
   <?php endif ?>
   <!--===================================
-	=            PIE DE PÁGINA            =
-	====================================-->
+  =            PIE DE PÁGINA            =
+  ====================================-->
   <footer class="w3-dark-grey w3-container" style="margin: 0 -16px">
     <div class="w3-row">
       <div class="w3-container w3-third">
         <h2 class="w3-xlarge oswald w3-bottombar w3-border-orange">Sistema</h2>
-        <button onclick="modal(this)" data-target="#acercaDe" class="w3-block w3-left-align w3-button w3-transparent">Acerca De</button>
-        <button onclick="modal(this)" data-target="#registroCambios" class="w3-block w3-left-align w3-button w3-transparent">Registro de cambios</button>
-        <button onclick="modal(this)" data-target="#soporte" class="w3-block w3-left-align w3-button w3-transparent">Soporte Técnico</button>
-        <button onclick="modal(this)" data-target="#manual" class="w3-hide w3-block w3-left-align w3-button w3-transparent">Manual de Usuario</button>
+        <button
+          onclick="modal(this)"
+          data-target="#acercaDe"
+          class="w3-block w3-left-align w3-button w3-transparent">
+          Acerca De
+        </button>
+        <button
+          onclick="modal(this)"
+          data-target="#registroCambios"
+          class="w3-block w3-left-align w3-button w3-transparent">
+          Registro de cambios
+        </button>
+        <button
+          onclick="modal(this)"
+          data-target="#soporte"
+          class="w3-block w3-left-align w3-button w3-transparent">
+          Soporte Técnico
+        </button>
+        <button
+          onclick="modal(this)"
+          data-target="#manual"
+          class="w3-hide w3-block w3-left-align w3-button w3-transparent">
+          Manual de Usuario
+        </button>
       </div>
     </div>
     <p class="w3-center w3-large">

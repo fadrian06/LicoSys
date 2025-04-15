@@ -10,11 +10,11 @@ require __DIR__ . '/funciones.php';
 /*=================================================
 =            Actualizar foto de perfil            =
 =================================================*/
-if (!empty($_FILES['foto']['name'])):
+if (!empty($_FILES['foto']['name'])) :
   $foto = empty($_FILES['foto']) ? ['error' => 4] : (array) $_FILES['foto'];
   $imagen = '';
 
-  if ($foto['error'] !== 4):
+  if ($foto['error'] !== 4) :
     $sql    = 'SELECT foto FROM usuarios WHERE id=' . $_SESSION['userID'];
     $imagen = (string) (getRegistro($sql) ?? [])['foto'];
     if ($imagen === '' || $imagen === '0') {
@@ -57,12 +57,12 @@ endif;
 /*==================================================
 =            Actualizar logo de negocio            =
 ==================================================*/
-if (!empty($_FILES['logo']['name'])):
+if (!empty($_FILES['logo']['name'])) :
   $id = (int) $_POST['id'];
   $foto = empty($_FILES['logo']) ? ['error' => 4] : (array) $_FILES['logo'];
   $imagen = '';
 
-  if ($foto['error'] !== 4):
+  if ($foto['error'] !== 4) :
     $sql    = 'SELECT logo FROM negocios WHERE id=' . $id;
     $imagen = (string) (getRegistro($sql) ?? [])['logo'];
     if ($imagen === '' || $imagen === '0') {

@@ -10,7 +10,7 @@ function verificarCopiaDeSeguridad(string &$script): void {
 
 /**
  * Genera un resúmen de gastos/ingresos filtrado.
- * @param  'diario'|'semanal'|'quincenal'|'mensual' $rol       El filtro a aplicar: 'diario', 'semanal', 'quincenal', 'mensual'
+ * @param 'diario'|'semanal'|'quincenal'|'mensual' $rol
  * @param  int    $negocioID El ID del negocio que posee los registros.
  * @param mixed[] $respuesta
  * @return void            Devuelve al cliente la respuesta a su petición.
@@ -27,12 +27,12 @@ function generarResumen(string $rol, int $negocioID, array &$respuesta): void {
 
   $ventasCombinadas = [];
 
-  foreach ($ventas as $venta):
+  foreach ($ventas as $venta) :
     $id = $venta['producto_id'];
 
-    if (!array_key_exists($id, $ventasCombinadas)):
+    if (!array_key_exists($id, $ventasCombinadas)) :
       $ventasCombinadas[$id] = $venta;
-    else:
+    else :
       $ventasCombinadas[$id]['unidades'] += $venta['unidades'];
       $ventasCombinadas[$id]['total'] += $venta['total'];
     endif;
@@ -42,7 +42,7 @@ function generarResumen(string $rol, int $negocioID, array &$respuesta): void {
   $totalIngresos = 0;
   $ganancia = 0;
   $filasProductos = '';
-  foreach ($ventasCombinadas as $ventaCombinada):
+  foreach ($ventasCombinadas as $ventaCombinada) :
     $sql = <<<SQL
         SELECT producto_id, unidades, total, fecha FROM compras
         WHERE producto_id={$ventaCombinada['producto_id']} AND negocio_id={$negocioID}
@@ -50,11 +50,11 @@ function generarResumen(string $rol, int $negocioID, array &$respuesta): void {
     $compras = getRegistros($sql) ?? [];
     $compras = filtrarFecha($rol, $compras);
     $comprasCombinadas = [];
-    foreach ($compras as $compra):
+    foreach ($compras as $compra) :
       $id = $compra['producto_id'];
-      if (!array_key_exists($id, $comprasCombinadas)):
+      if (!array_key_exists($id, $comprasCombinadas)) :
         $comprasCombinadas[$id] = $compra;
-      else:
+      else :
         $comprasCombinadas[$id]['unidades'] += $compra['unidades'];
         $comprasCombinadas[$id]['total'] += $compra['total'];
       endif;
@@ -110,29 +110,24 @@ function generarResumen(string $rol, int $negocioID, array &$respuesta): void {
  * &nbsp;'escritorio' => [...Campos a mostrar en escritorio y tablet],<br>
  * &nbsp;'movil' => [...Campos a mostrar en móvil]<br>
  * ]
- * @param array{camposEscritorio: string[], camposMovil: string[], filas: string[][]} $datos Debe tener la siguiente estructura: <br><br>
- * [<br>
- * &nbsp;'camposEscritorio' => [...Campos de la tabla],<br>
- * &nbsp;'camposMovil' => [...Campos de la tabla],<br>
- * &nbsp;'filas' => [...Filas que debe mostrar la tabla]<br>
- * ]
+ * @param array{
+ *   camposEscritorio: string[],
+ *   camposMovil: string[],
+ *   filas: string[][]
+ * } $datos
  * @param string $sinRegistros Texto a mostrar cuando no existan filas.
- * @param false|array{tabla: string, campo: string, enlace: string, filas: string[][]} $desactivar FALSE si no quieres la funcionalidad de desactivar un registro,
- * si es un array debe tener la siguiente estructura: <br><br>
- * [<br>
- * &nbsp;'tabla' => 'Tabla a la cual pertenecen los registros',<br>
- * &nbsp;'campo' => 'El campo que identifica cada registro',<br>
- * &nbsp;'enlace' => 'El HREF del enlace a clickear al activar o desactivar',<br>
- * &nbsp;'filas' => [...Filas de registros desactivados]<br>
- * ]
- * @param false|array{tabla: string, campo: string, enlace: string, IDform: string} $actualizar FALSE si no quieres la funcionalidad de editar un registro,
- * si es un array debe tener la siguiente estructura: <br><br>
- * [<br>
- * &nbsp;'tabla' => 'Tabla a la cual pertenecen los registros',<br>
- * &nbsp;'campo' => 'El campo que identifica cada registro',<br>
- * &nbsp;'enlace' => 'El HREF del enlace a clickear tras actualizar.',<br>
- * &nbsp;'IDform' => 'El ID del formulario para editar registros (incluido el #).',<br>
- * ]
+ * @param false|array{
+ *   tabla: string,
+ *   campo: string,
+ *   enlace: string,
+ *   filas: string[][]
+ * } $desactivar
+ * @param false|array{
+ *   tabla: string,
+ *   campo: string,
+ *   enlace: string,
+ *   IDform: string
+ * } $actualizar
  * @param bool $factura FALSE si no quieres la funcionalidad de VER FACTURA (Sólo para ventas y compras)
  * @return true La tabla se ha impreso con éxito.
  */
@@ -205,19 +200,29 @@ function tabla(
   // Rellenamos las filas.
   foreach ($datos['filas'] as $fila) :
     $campos = '';
-    foreach ($datos['camposEscritorio'] as $campo)
+    foreach ($datos['camposEscritorio'] as $campo) {
       $campos .= <<<HTML
         <td>
-          <span class="w3-button w3-block w3-left-align w3-transparent w3-hover-none" style="padding-left: 0; padding-right: 0">
+          <span
+            class="w3-button w3-block w3-left-align w3-transparent w3-hover-none"
+            style="padding-left: 0; padding-right: 0">
             $fila[$campo]
           </span>
         </td>
       HTML;
+    }
 
     if ($desactivar) {
       $campos .= <<<HTML
         <td>
-          <button onclick="desactivar('{$desactivar['tabla']}', '{$desactivar['campo']}', {$fila[$desactivar['campo']]}, '{$desactivar['enlace']}')" class="w3-button w3-round-xlarge w3-red w3-hover-black">
+          <button
+            onclick="desactivar(
+              '{$desactivar['tabla']}',
+              '{$desactivar['campo']}',
+              {$fila[$desactivar['campo']]},
+              '{$desactivar['enlace']}')
+            "
+            class="w3-button w3-round-xlarge w3-red w3-hover-black">
             Desactivar
           </button>
         </td>
@@ -227,7 +232,16 @@ function tabla(
     if ($actualizar && $_SESSION['cargo'] === 'a') {
       $campos .= <<<HTML
         <td>
-          <button onclick="editar(this, '{$actualizar['tabla']}', '{$actualizar['campo']}', {$fila[$actualizar['campo']]}, '{$actualizar['enlace']}')" data-target="{$actualizar['IDform']}" class="w3-button w3-round-xlarge w3-blue w3-hover-black">
+          <button
+            onclick="editar(
+              this,
+              '{$actualizar['tabla']}',
+              '{$actualizar['campo']}',
+              {$fila[$actualizar['campo']]},
+              '{$actualizar['enlace']}')
+            "
+            data-target="{$actualizar['IDform']}"
+            class="w3-button w3-round-xlarge w3-blue w3-hover-black">
             Editar
           </button>
         </td>
@@ -237,7 +251,10 @@ function tabla(
     if ($factura) {
       $campos .= <<<HTML
         <td>
-          <button onclick="verFacturaVenta(this, '{$fila['id']}')" data-target="#modalFactura" class="w3-button w3-round-xlarge w3-blue w3-hover-black">
+          <button
+            onclick="verFacturaVenta(this, '{$fila['id']}')"
+            data-target="#modalFactura"
+            class="w3-button w3-round-xlarge w3-blue w3-hover-black">
             Ver factura
           </button>
         </td>
@@ -250,13 +267,14 @@ function tabla(
 
     $campos = '';
     $verMas = '';
-    foreach ($datos['camposMovil'] as $campo)
+    foreach ($datos['camposMovil'] as $campo) {
       $campos .= <<<HTML
         <div class="w3-col s5 w3-left-align">$fila[$campo]</div>
       HTML;
+    }
 
     $cantidadDatosVerMas = count($datos['camposEscritorio']);
-    for ($i = 0; $i < $cantidadDatosVerMas; ++$i)
+    for ($i = 0; $i < $cantidadDatosVerMas; ++$i) {
       $verMas .= <<<HTML
         <li class="w3-block w3-row-padding w3-border-bottom w3-border-black">
           <div class="w3-col s4">
@@ -269,12 +287,20 @@ function tabla(
           </div>
         </li>
       HTML;
+    }
 
     if ($desactivar) {
       $verMas .= <<<HTML
         <li class="w3-block">
           <div class=w3-container>
-            <button onclick="desactivar('{$desactivar['tabla']}', '{$desactivar['campo']}', {$fila[$desactivar['campo']]}, '{$desactivar['enlace']}')" class="w3-block w3-button w3-round-xlarge w3-red w3-hover-black">
+            <button
+              onclick="desactivar(
+                '{$desactivar['tabla']}',
+                '{$desactivar['campo']}',
+                {$fila[$desactivar['campo']]},
+                '{$desactivar['enlace']}')
+              "
+              class="w3-block w3-button w3-round-xlarge w3-red w3-hover-black">
               Desactivar
             </button>
           </div>
@@ -286,7 +312,16 @@ function tabla(
       $verMas .= <<<HTML
         <li class="w3-block">
           <div class=w3-container>
-            <button onclick="editar(this, '{$actualizar['tabla']}', '{$actualizar['campo']}', {$fila[$actualizar['campo']]}, '{$actualizar['enlace']}')" data-target="{$actualizar['IDform']}" class="w3-block w3-button w3-round-xlarge w3-blue w3-hover-black">
+            <button
+              onclick="editar(
+                this,
+                '{$actualizar['tabla']}',
+                '{$actualizar['campo']}',
+                {$fila[$actualizar['campo']]},
+                '{$actualizar['enlace']}')
+              "
+              data-target="{$actualizar['IDform']}"
+              class="w3-block w3-button w3-round-xlarge w3-blue w3-hover-black">
               Editar
             </button>
           </div>
@@ -298,7 +333,10 @@ function tabla(
       $verMas .= <<<HTML
         <li class="w3-block">
           <div class=w3-container>
-            <button onclick="verFacturaVenta(this, '{$fila['id']}')" data-target="#modalFactura" class="w3-block w3-button w3-round-xlarge w3-blue w3-hover-black">
+            <button
+              onclick="verFacturaVenta(this, '{$fila['id']}')"
+              data-target="#modalFactura"
+              class="w3-block w3-button w3-round-xlarge w3-blue w3-hover-black">
               Ver factura
             </button>
           </div>
@@ -327,18 +365,28 @@ function tabla(
   if ($desactivar) :
     foreach ($desactivar['filas'] as $fila) :
       $campos = '';
-      foreach ($datos['camposEscritorio'] as $campo)
+      foreach ($datos['camposEscritorio'] as $campo) {
         $campos .= <<<HTML
           <td>
-            <span class="w3-button w3-left-align w3-transparent w3-hover-none" style="padding-left: 0; padding-right: 0">
+            <span
+              class="w3-button w3-left-align w3-transparent w3-hover-none"
+              style="padding-left: 0; padding-right: 0">
               $fila[$campo]
             </span>
           </td>
         HTML;
+      }
 
       $campos .= <<<HTML
           <td>
-            <button onclick="activar('{$desactivar['tabla']}', '{$desactivar['campo']}', '{$fila[$desactivar['campo']]}', '{$desactivar['enlace']}')" class="w3-button w3-round-xlarge w3-green w3-hover-black">
+            <button
+              onclick="activar(
+                '{$desactivar['tabla']}',
+                '{$desactivar['campo']}',
+                '{$fila[$desactivar['campo']]}',
+                '{$desactivar['enlace']}')
+              "
+              class="w3-button w3-round-xlarge w3-green w3-hover-black">
               Activar
             </button>
           </td>
@@ -350,13 +398,14 @@ function tabla(
 
       $campos = '';
       $verMas = '';
-      foreach ($datos['camposMovil'] as $campo)
+      foreach ($datos['camposMovil'] as $campo) {
         $campos .= <<<HTML
           <div class="w3-col s5 w3-left-align">$fila[$campo]</div>
         HTML;
+      }
 
       $cantidadDatosVerMas = count($datos['camposEscritorio']);
-      for ($i = 0; $i < $cantidadDatosVerMas; ++$i)
+      for ($i = 0; $i < $cantidadDatosVerMas; ++$i) {
         $verMas .= <<<HTML
           <li class="w3-block w3-row-padding w3-border-bottom w3-border-black">
             <div class="w3-col s4">
@@ -367,11 +416,19 @@ function tabla(
             </div>
           </li>
         HTML;
+      }
 
       $verMas .= <<<HTML
           <li class="w3-block">
             <div class=w3-container>
-              <button onclick="activar('{$desactivar['tabla']}', '{$desactivar['campo']}', '{$fila[$desactivar['campo']]}', '{$desactivar['enlace']}')" class="w3-block w3-button w3-round-xlarge w3-green w3-hover-black">
+              <button
+                onclick="activar(
+                  '{$desactivar['tabla']}',
+                  '{$desactivar['campo']}',
+                  '{$fila[$desactivar['campo']]}',
+                  '{$desactivar['enlace']}')
+                "
+                class="w3-block w3-button w3-round-xlarge w3-green w3-hover-black">
                 Activar
               </button>
             </div>
@@ -548,7 +605,7 @@ function setRegistro(string $sql): ?int {
 function consulta(string $sql): ?int {
   global $conexion;
   $resultado = $conexion->query($sql);
-  return $resultado ? $resultado->num_rows : NULL;
+  return $resultado ? $resultado->num_rows : null;
 }
 
 // Debe ser llamado dentro de una etiqueta <script></script>
@@ -719,8 +776,9 @@ function eliminarDuplicados(array $arrays, string $clave): array {
     return $sinDuplicados;
   }
 
-  foreach ($arrays as $array)
+  foreach ($arrays as $array) {
     $sinDuplicados[$array[$clave]] = $array;
+  }
 
   return $sinDuplicados;
 }
@@ -788,37 +846,29 @@ function formatearFecha(string $fecha): string {
   $diferencia = obtenerDiferenciaFecha($fecha);
 
   if ($diferencia['mes'] > 0) :
-
     if ($diferencia['mes'] === 1) {
       $formateada .= '1 mes ';
     } else {
       $formateada .= $diferencia['mes'] . ' meses ';
     }
-
   elseif ($diferencia['semana'] > 0) :
-
     if ($diferencia['semana'] === 1) {
       $formateada .= '1 semana ';
     } else {
       $formateada .= $diferencia['semana'] . ' semanas ';
     }
-
   elseif ($diferencia['dia'] > 0) :
-
     if ($diferencia['dia'] === 1) {
       $formateada .= '1 día ';
     } else {
       $formateada .= $diferencia['dia'] . ' días ';
     }
-
   elseif ($diferencia['hora'] > 0) :
-
     if ($diferencia['hora'] === 1) {
       $formateada .= '1 hora ';
     } else {
       $formateada .= $diferencia['hora'] . ' horas ';
     }
-
   elseif ($diferencia['minutos'] > 0) :
     if ($diferencia['minutos'] === 1) {
       $formateada .= '1 minuto ';
@@ -842,7 +892,7 @@ function formatearFecha(string $fecha): string {
 function filtrarFecha(string $filtro, array $datos): array {
   $filtrado = [];
 
-  switch ($filtro):
+  switch ($filtro) {
     case 'diario':
       foreach ($datos as $dato) :
         $diferencia = obtenerDiferenciaFecha($dato['fecha']);
@@ -885,7 +935,7 @@ function filtrarFecha(string $filtro, array $datos): array {
       endforeach;
 
       break;
-  endswitch;
+  };
 
   return $filtrado;
 }

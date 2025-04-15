@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 session_start();
+
 if (!isset($_SESSION['activa'])) {
   header('location: ../salir.php');
 }
@@ -12,9 +13,9 @@ require __DIR__ . '/../backend/conexion.php';
 require __DIR__ . '/../backend/funciones.php';
 
 /*=========================================
-  =            CONSULTAR FACTURA            =
-  =========================================*/
-if (!empty($_GET['ventaID'])):
+=            CONSULTAR FACTURA            =
+=========================================*/
+if (!empty($_GET['ventaID'])) :
   $ventaID = (int) escapar($_GET['ventaID']);
 
   $sql = <<<SQL
@@ -73,18 +74,20 @@ $datos = [
   'filas' => getRegistros($sql) ?? []
 ];
 
-foreach ($encabezados['escritorio'] as &$encabezado)
+foreach ($encabezados['escritorio'] as &$encabezado) {
   $encabezado = sprintf('<small>%s</small>', $encabezado);
+}
 
 unset($encabezado);
 
-foreach ($datos['filas'] as &$venta):
+foreach ($datos['filas'] as &$venta) :
   $venta['fecha'] = formatearFecha($venta['fecha']);
 
-  foreach ($venta as $clave => $valor)
+  foreach ($venta as $clave => $valor) {
     $venta[$clave] = $valor === 'No Especificado'
       ? ''
       : sprintf('<small>%s</small>', $valor);
+  }
 endforeach;
 
 unset($venta);

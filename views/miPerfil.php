@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 session_start();
+
 if (!isset($_SESSION['activa'])) {
   header('location: ../salir.php');
 }
@@ -26,7 +27,10 @@ echo '<div id="moduloPerfil" class="w3-row w3-padding-top-24">';
 echo <<<HTML
     <div class="w3-col s3 m2 w3-padding-top-64 w3-ul w3-center">
       <ul class="w3-ul w3-card w3-white w3-tiny w3-center">
-        <li role="botonPanel" onclick="mostrarPanel(this, '#panelSobreMi')" class="w3-button w3-block w3-rightbar w3-blue">
+        <li
+          role="botonPanel"
+          onclick="mostrarPanel(this, '#panelSobreMi')"
+          class="w3-button w3-block w3-rightbar w3-blue">
           <i class="icon-user w3-large"></i>
           <div>SOBRE MI</div>
         </li>
@@ -48,7 +52,7 @@ $usuario['foto'] = $usuario['foto']
   : 'assets/images/avatar3.png';
 $hayPreguntasRegistradas = 'w3-blue';
 $textoBotonHayPreguntasRegistradas = 'Cambiar';
-if (!$usuario['pre1'] || !$usuario['pre2'] || !$usuario['pre3']):
+if (!$usuario['pre1'] || !$usuario['pre2'] || !$usuario['pre3']) :
   $hayPreguntasRegistradas = 'w3-red';
   $textoBotonHayPreguntasRegistradas = 'Crear';
 endif;
@@ -59,7 +63,10 @@ $usuario['pre3'] = $usuario['pre3'] ?: 'No definida';
 
 echo <<<HTML
     <!------------  SOBRE MI  ------------>
-    <div id="panelSobreMi" role="panel" class="w3-col s9 m6 w3-margin-top w3-container w3-card w3-white w3-show w3-animate-opacity">
+    <div
+      id="panelSobreMi"
+      role="panel"
+      class="w3-col s9 m6 w3-margin-top w3-container w3-card w3-white w3-show w3-animate-opacity">
       <h2 class="w3-large w3-padding w3-border-bottom">
         <span class="w3-text-blue">Sobre </span>
         mí
@@ -92,14 +99,20 @@ echo <<<HTML
         </li>
       </ul>
       <div class="w3-center w3-padding-large">
-        <button onclick="editar(this, 'usuarios:informacion', 'cedula', {$usuario['cedula']}, 'views/miPerfil.php')" data-target="#editarUsuario" class="w3-show-inline-block w3-button w3-blue w3-round-large">
+        <button
+          onclick="editar(this, 'usuarios:informacion', 'cedula', {$usuario['cedula']}, 'views/miPerfil.php')"
+          data-target="#editarUsuario"
+          class="w3-show-inline-block w3-button w3-blue w3-round-large">
           Actualizar Datos
         </button>
       </div>
     </div>
 
     <!------------  SEGURIDAD  ------------>
-    <div id="panelSeguridad" role="panel" class="w3-col s9 m6 w3-margin-top w3-container w3-card w3-white w3-hide w3-animate-opacity">
+    <div
+      id="panelSeguridad"
+      role="panel"
+      class="w3-col s9 m6 w3-margin-top w3-container w3-card w3-white w3-hide w3-animate-opacity">
       <h2 class="w3-large w3-padding w3-border-bottom w3-text-blue">Seguridad</h2>
       <div class="w3-row">
         <ul class="w3-ul w3-small w3-half w3-bottombar">
@@ -108,7 +121,10 @@ echo <<<HTML
           </h3>
           <li><b>********</b></li>
           <div class="w3-center w3-padding-large">
-            <button onclick="editar(this, 'usuarios:clave', 'cedula', {$usuario['cedula']}, 'views/miPerfil.php')" data-target="#cambiarClave" class="w3-show-inline-block w3-button w3-blue w3-round-large">
+            <button
+              onclick="editar(this, 'usuarios:clave', 'cedula', {$usuario['cedula']}, 'views/miPerfil.php')"
+              data-target="#cambiarClave"
+              class="w3-show-inline-block w3-button w3-blue w3-round-large">
               Cambiar
             </button>
           </div>
@@ -130,7 +146,16 @@ echo <<<HTML
             <b class="w3-margin-top w3-block">********</b>
           </li>
           <div class="w3-center w3-padding-large">
-            <button onclick="editar(this, 'usuarios:preguntasRespuestas', 'cedula', {$usuario['cedula']}, 'views/miPerfil.php')" data-target="#editarPreguntasRespuestas" class="w3-show-inline-block w3-button w3-blue w3-round-large">
+            <button
+              onclick="editar(
+                this,
+                'usuarios:preguntasRespuestas',
+                'cedula',
+                {$usuario['cedula']},
+                'views/miPerfil.php'
+              )"
+              data-target="#editarPreguntasRespuestas"
+              class="w3-show-inline-block w3-button w3-blue w3-round-large">
               {$textoBotonHayPreguntasRegistradas}
             </button>
           </div>
@@ -164,24 +189,36 @@ echo <<<HTML
   HTML;
 
 /*==============================================
-  =            ACTUALIZAR INFORMACIÓN            =
-  ==============================================*/
+=            ACTUALIZAR INFORMACIÓN            =
+==============================================*/
 echo <<<HTML
-    <form id="editarUsuario" autocomplete="off" class="modal w3-white w3-card w3-round-large animate__animated animate__fadeInUp animate__faster w3-hide"></form>
+    <form
+      id="editarUsuario"
+      autocomplete="off"
+      class="modal w3-white w3-card w3-round-large animate__animated animate__fadeInUp animate__faster w3-hide">
+    </form>
   HTML;
 
 /*========================================
-  =            ACTUALIZAR CLAVE            =
-  ========================================*/
+=            ACTUALIZAR CLAVE            =
+========================================*/
 echo <<<HTML
-    <form id="cambiarClave" autocomplete="off" class="modal w3-white w3-card w3-round-large animate__animated animate__fadeInUp animate__faster w3-hide"></form>
+    <form
+      id="cambiarClave"
+      autocomplete="off"
+      class="modal w3-white w3-card w3-round-large animate__animated animate__fadeInUp animate__faster w3-hide">
+    </form>
   HTML;
 
 /*=========================================================
-  =            ACTUALIZAR PREGUNTAS Y RESPUESTAS            =
-  =========================================================*/
+=            ACTUALIZAR PREGUNTAS Y RESPUESTAS            =
+=========================================================*/
 echo <<<HTML
-    <form id="editarPreguntasRespuestas" autocomplete="off" class="modal w3-white w3-card w3-round-large animate__animated animate__fadeInUp animate__faster w3-hide"></form>
+    <form
+      id="editarPreguntasRespuestas"
+      autocomplete="off"
+      class="modal w3-white w3-card w3-round-large animate__animated animate__fadeInUp animate__faster w3-hide">
+    </form>
   HTML;
 
 echo '</div>';

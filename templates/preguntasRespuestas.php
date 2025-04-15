@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-if (isset($_SESSION['showQuestions'])):
+if (isset($_SESSION['showQuestions'])) :
   $inputRES1 = generarINPUT('res1', $_SESSION['pre1'] . '?', '', '');
   $inputRES2 = generarINPUT('res2', $_SESSION['pre2'] . '?', '', '');
   $inputRES3 = generarINPUT('res3', $_SESSION['pre3'] . '?', '', '');
@@ -13,7 +13,13 @@ if (isset($_SESSION['showQuestions'])):
   $id = getRegistro($sql)['id'] ?? throw new Error('Error al recuperar el ID');
   $inputID = generarINPUT('ID', '', '', $id);
   echo <<<HTML
-      <form id="preguntasRespuestas" autocomplete="off" class="modal w3-white w3-card w3-round-large animate__animated animate__fadeInUp animate__faster w3-show">
+      <form
+        id="preguntasRespuestas"
+        autocomplete="off"
+        class="
+          modal w3-white w3-card w3-round-large animate__animated
+          animate__fadeInUp animate__faster w3-show
+        ">
         <div class="w3-right-align">
           <span class="icon-close w3-button w3-transparent w3-hover-red"></span>
         </div>

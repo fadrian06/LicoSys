@@ -3,11 +3,12 @@
 declare(strict_types=1);
 
 session_start();
+
 if (!isset($_SESSION['activa'])) {
   header('location: ../salir.php');
 }
 
-if ($_SESSION['cargo'] === 'a'):
+if ($_SESSION['cargo'] === 'a') :
   require __DIR__ . '/../backend/componentes.php';
   require __DIR__ . '/../backend/conexion.php';
   require __DIR__ . '/../backend/funciones.php';
@@ -21,12 +22,15 @@ if ($_SESSION['cargo'] === 'a'):
   /*----------  ACTIVADOS  ----------*/
   $botones = '';
   $paneles = '';
-  foreach ($negocios as $negocio):
+  foreach ($negocios as $negocio) :
     $activo = $negocio['id'] === $_SESSION['negocioID']
       ? 'w3-blue'
       : '';
     $botones .= <<<HTML
-        <li role="botonPanel" onclick="mostrarPanel(this, '#panelNegocio{$negocio['id']}')" class="w3-button w3-block w3-rightbar {$activo}">
+        <li
+          role="botonPanel"
+          onclick="mostrarPanel(this, '#panelNegocio{$negocio['id']}')"
+          class="w3-button w3-block w3-rightbar {$activo}">
           <i class="icon-building w3-large"></i>
           <div>{$negocio['nombre']}</div>
         </li>
@@ -83,10 +87,15 @@ if ($_SESSION['cargo'] === 'a'):
                 </li>
               </ul>
               <div class="w3-center w3-padding-large">
-                <button onclick="editar(this, 'negocios', 'id', {$negocio['id']}, 'views/negocios.php')" data-target="#editarNegocio" class="w3-show-inline-block w3-button w3-blue w3-round-large">
+                <button
+                  onclick="editar(this, 'negocios', 'id', {$negocio['id']}, 'views/negocios.php')"
+                  data-target="#editarNegocio"
+                  class="w3-show-inline-block w3-button w3-blue w3-round-large">
                   Actualizar Datos
                 </button>
-                <button onclick="desactivar('negocios', 'id', {$negocio['id']}, 'views/negocios.php')" class="{$permitirDesactivar} w3-button w3-red w3-round-large">
+                <button
+                  onclick="desactivar('negocios', 'id', {$negocio['id']}, 'views/negocios.php')"
+                  class="{$permitirDesactivar} w3-button w3-red w3-round-large">
                   Desactivar
                 </button>
               </div>
@@ -100,7 +109,12 @@ if ($_SESSION['cargo'] === 'a'):
                   <label for="logo{$negocio['id']}" class="w3-display-container w3-hover-opacity w3-circle">
                     <i class="icon-camera w3-xxxlarge w3-display-middle w3-display-hover"></i>
                     <input type="hidden" name="id" value="{$negocio['id']}" class="w3-hide">
-                    <input type="file" id="logo{$negocio['id']}" accept="image/jpeg,image/png" name="logo" class="w3-hide">
+                    <input
+                      type="file"
+                      id="logo{$negocio['id']}"
+                      accept="image/jpeg,image/png"
+                      name="logo"
+                      class="w3-hide" />
                     <img class="image-result w3-image" src="{$negocio['logo']}" style="width: 150px">
                   </label>
                   <div class="w3-center">
@@ -124,10 +138,13 @@ if ($_SESSION['cargo'] === 'a'):
   $mostrarDesactivados = '';
   $botonesDesactivados = '';
   $panelesDesactivados = '';
-  if ($desactivados !== null && $desactivados !== []):
-    foreach ($desactivados as $desactivado):
+  if ($desactivados !== null && $desactivados !== []) :
+    foreach ($desactivados as $desactivado) :
       $botonesDesactivados .= <<<HTML
-          <li role="botonPanel" onclick="mostrarPanel(this, '#panelNegocio{$desactivado['id']}')" class="w3-button w3-block w3-rightbar w3-red">
+          <li
+            role="botonPanel"
+            onclick="mostrarPanel(this, '#panelNegocio{$desactivado['id']}')"
+            class="w3-button w3-block w3-rightbar w3-red">
             <i class="icon-building w3-large"></i>
             <div>{$desactivado['nombre']}</div>
           </li>
@@ -171,10 +188,15 @@ if ($_SESSION['cargo'] === 'a'):
                   </li>
                 </ul>
                 <div class="w3-center w3-padding-large">
-                  <button onclick="editar(this, 'negocios', 'id', {$desactivado['id']}, 'views/negocios.php')" data-target="#editarNegocio" class="w3-show-inline-block w3-button w3-blue w3-round-large">
+                  <button
+                    onclick="editar(this, 'negocios', 'id', {$desactivado['id']}, 'views/negocios.php')"
+                    data-target="#editarNegocio"
+                    class="w3-show-inline-block w3-button w3-blue w3-round-large">
                     Actualizar Datos
                   </button>
-                  <button onclick="activar('negocios', 'id', {$desactivado['id']}, 'views/negocios.php')" class="w3-button w3-green w3-round-large">
+                  <button
+                    onclick="activar('negocios', 'id', {$desactivado['id']}, 'views/negocios.php')"
+                    class="w3-button w3-green w3-round-large">
                     Activar
                   </button>
                 </div>
@@ -188,7 +210,12 @@ if ($_SESSION['cargo'] === 'a'):
                     <label for="logo{$desactivado['id']}" class="w3-display-container w3-hover-opacity w3-circle">
                       <i class="icon-camera w3-xxxlarge w3-display-middle w3-display-hover"></i>
                       <input type="hidden" name="id" value="{$desactivado['id']}" class="w3-hide">
-                      <input type="file" id="logo{$desactivado['id']}" accept="image/jpeg,image/png" name="logo" class="w3-hide">
+                      <input
+                        type="file"
+                        id="logo{$desactivado['id']}"
+                        accept="image/jpeg,image/png"
+                        name="logo"
+                        class="w3-hide" />
                       <img class="image-result w3-image" src="{$desactivado['logo']}" style="width: 150px">
                     </label>
                     <div class="w3-center">
@@ -260,7 +287,13 @@ if ($_SESSION['cargo'] === 'a'):
   $label = '<b>Dirección:</b> <sup class="w3-text-blue">(opcional)</sup>';
   $inputDireccion = generarINPUT('DIRECCION', $label, 'Dirección del negocio');
   echo <<<HTML
-      <form id="registrarNegocio" autocomplete="off" class="w3-row modal w3-white w3-card w3-round-large animate__animated animate__fadeInUp animate__faster w3-hide">
+      <form
+        id="registrarNegocio"
+        autocomplete="off"
+        class="
+          w3-row modal w3-white w3-card w3-round-large animate__animated
+          animate__fadeInUp animate__faster w3-hide
+        ">
         <div class="w3-right-align">
           <span class="icon-close w3-button w3-transparent w3-hover-red"></span>
         </div>
@@ -302,7 +335,11 @@ if ($_SESSION['cargo'] === 'a'):
     =            EDITAR NEGOCIO            =
     ======================================*/
   echo <<<HTML
-      <form id="editarNegocio" autocomplete="off" class="modal w3-white w3-card w3-round-large animate__animated animate__fadeInUp animate__faster w3-hide"></form>
+      <form
+        id="editarNegocio"
+        autocomplete="off"
+        class="modal w3-white w3-card w3-round-large animate__animated animate__fadeInUp animate__faster w3-hide">
+      </form>
     HTML;
 
   /*==========================================
@@ -319,7 +356,7 @@ if ($_SESSION['cargo'] === 'a'):
   BOTONES['RESTAURAR'],
   '</footer>';
   echo '</div>';
-else:
+else :
   include __DIR__ . '/../templates/head.php';
   $script .= sprintf("<script src='%sassets/js/restringido.js'></script>", $BASE_URL);
   include __DIR__ . '/../templates/footer.php';

@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 session_start();
+
 if (!isset($_SESSION['activa'])) {
   header('location: ../salir.php');
 }
@@ -15,8 +16,8 @@ echo LOADER;
 echo '<div id="moduloProveedores">';
 
 /*=============================
-  =            TABLA            =
-  =============================*/
+=            TABLA            =
+=============================*/
 $sql = <<<SQL
     SELECT p.id, p.nombre, p.rif, p.nombreEmpresa, p.telefono,
     p.direccion FROM proveedores p INNER JOIN usuarios u
@@ -41,16 +42,19 @@ $editar = [
   'IDform' => '#editarProveedor'
 ];
 
-foreach ($encabezados['escritorio'] as &$encabezado)
+foreach ($encabezados['escritorio'] as &$encabezado) {
   $encabezado = sprintf('<small>%s</small>', $encabezado);
+}
 
 unset($encabezado);
 
-foreach ($datos['filas'] as &$proveedor)
-  foreach ($proveedor as $clave => $valor)
+foreach ($datos['filas'] as &$proveedor) {
+  foreach ($proveedor as $clave => $valor) {
     if ($clave !== 'id') {
       $proveedor[$clave] = sprintf('<small>%s</small>', $valor);
     }
+  }
+}
 
 unset($proveedor);
 
@@ -64,8 +68,8 @@ tabla(
 );
 
 /*===========================================
-  =            REGISTRAR PROVEEDOR            =
-  ===========================================*/
+=            REGISTRAR PROVEEDOR            =
+===========================================*/
 $label = '<b>Cédula: </b><sup class="w3-text-red">(requerido)</sup>';
 $inputCedula = generarINPUT('CEDULA', $label, 'Cédula de persona');
 
@@ -85,7 +89,10 @@ $label = '<b>Dirección: </b><sup class="w3-text-blue">(opcional)</sup>';
 $inputDireccion = generarINPUT('DIRECCION', $label, 'Direccion del proveedor');
 
 echo <<<HTML
-    <form id="registrarProveedor" autocomplete="off" class="modal w3-white w3-card w3-round-large animate__animated animate__fadeInUp animate__faster w3-hide">
+    <form
+      id="registrarProveedor"
+      autocomplete="off"
+      class="modal w3-white w3-card w3-round-large animate__animated animate__fadeInUp animate__faster w3-hide">
       <div class="w3-right-align">
         <span class="icon-close w3-button w3-transparent w3-hover-red"></span>
       </div>
@@ -116,14 +123,18 @@ echo <<<HTML
   HTML;
 
 /*========================================
-  =            EDITAR PROVEEDOR            =
-  ========================================*/
+=            EDITAR PROVEEDOR            =
+========================================*/
 echo <<<HTML
-    <form id="editarProveedor" autocomplete="off" class="modal w3-white w3-card w3-round-large animate__animated animate__fadeInUp animate__faster w3-hide"></form>
+    <form
+      id="editarProveedor"
+      autocomplete="off"
+      class="modal w3-white w3-card w3-round-large animate__animated animate__fadeInUp animate__faster w3-hide">
+    </form>
   HTML;
 
 /*=======================================
-  =            BOTÓN REGISTRAR            =
-  =======================================*/
+=            BOTÓN REGISTRAR            =
+=======================================*/
 echo '<footer id="botones">' . BOTONES['REGISTRAR_PROVEEDOR'] . '</footer>';
 echo '</div>';

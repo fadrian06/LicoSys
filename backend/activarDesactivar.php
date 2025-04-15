@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-if ($_POST !== []):
+if ($_POST !== []) :
   require __DIR__ . '/conexion.php';
   require __DIR__ . '/funciones.php';
 
@@ -15,16 +15,16 @@ if ($_POST !== []):
   /** @var string 'activar' | 'desactivar' */
   $accion = escapar($_POST['accion']);
 
-  switch ($tabla):
+  switch ($tabla) {
     case 'usuarios':
       $respuesta['ok'] = 'Usuario ';
       break;
     case 'negocios':
       $respuesta['ok'] = 'Negocio ';
       break;
-  endswitch;
+  };
 
-  switch ($accion):
+  switch ($accion) {
     case 'activar':
       $sql = sprintf('UPDATE %s SET activo=1 WHERE %s=%s', $tabla, $campo, $valor);
       $respuesta['ok'] .= 'activado exitósamente.';
@@ -35,7 +35,7 @@ if ($_POST !== []):
       break;
     default:
       $respuesta['error'] = "Por favor envie una opción ('activar' o 'desactivar')";
-  endswitch;
+  };
 
   if ($respuesta['error']) {
     exit(json_encode($respuesta, JSON_INVALID_UTF8_IGNORE));

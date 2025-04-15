@@ -7,7 +7,7 @@ session_start();
 require __DIR__ . '/conexion.php';
 require __DIR__ . '/funciones.php';
 
-if (!empty($_POST['verificarUsuario'])):
+if (!empty($_POST['verificarUsuario'])) :
   $usuario = escapar($_POST['usuario']);
 
   /*----------  VALIDACIONES  ----------*/
@@ -27,11 +27,9 @@ if (!empty($_POST['verificarUsuario'])):
   }
 
   exit(json_encode($respuesta, JSON_INVALID_UTF8_IGNORE));
-
 endif;
 
-if (!empty($_POST['login'])):
-
+if (!empty($_POST['login'])) :
   $usuario = escapar($_POST['usuario']);
   $clave = escapar($_POST['clave']);
   $idNegocio = (int) $_POST['negocio'];
@@ -46,8 +44,8 @@ if (!empty($_POST['login'])):
   }
 
   $sql = <<<SQL
-			SELECT * FROM usuarios WHERE BINARY(usuario)=BINARY('{$usuario}')
-		SQL;
+      SELECT * FROM usuarios WHERE BINARY(usuario)=BINARY('{$usuario}')
+    SQL;
   $filaUsuario = getRegistro($sql) ?? [];
 
   $sql = 'SELECT id, logo, nombre FROM negocios WHERE id=' . $idNegocio;
@@ -61,8 +59,13 @@ if (!empty($_POST['login'])):
     $respuesta['error'] = 'Este usuario se encuentra desactivado';
   }
 
-  if ($filaUsuario['cargo'] === 'v'):
-    $sql = sprintf('INSERT INTO log(usuario_id, negocio_id) VALUES(%s, %s)', $filaUsuario['id'], $negocioSeleccionado['id']);
+  if ($filaUsuario['cargo'] === 'v') :
+    $sql = sprintf(
+      'INSERT INTO log(usuario_id, negocio_id) VALUES(%s, %s)',
+      $filaUsuario['id'],
+      $negocioSeleccionado['id']
+    );
+
     $resultado = setRegistro($sql);
 
     if ($resultado === null || $resultado === 0) {
@@ -70,7 +73,7 @@ if (!empty($_POST['login'])):
     }
   endif;
 
-  if ($respuesta['error']):
+  if ($respuesta['error']) :
     session_destroy();
     exit(json_encode($respuesta, JSON_INVALID_UTF8_IGNORE));
   endif;
@@ -95,5 +98,4 @@ if (!empty($_POST['login'])):
       : 'assets/images/logoNegocio.jpg'
   ];
   exit(json_encode($respuesta, JSON_INVALID_UTF8_IGNORE));
-
 endif;

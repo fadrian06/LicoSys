@@ -8,7 +8,7 @@ if (!isset($_SESSION['activa'])) {
   header('location: ../salir.php');
 }
 
-if ($_SESSION['cargo'] === 'a'):
+if ($_SESSION['cargo'] === 'a') :
   require __DIR__ . '/../backend/componentes.php';
   require __DIR__ . '/../backend/conexion.php';
   require __DIR__ . '/../backend/funciones.php';
@@ -38,16 +38,18 @@ if ($_SESSION['cargo'] === 'a'):
     'filas' => getRegistros($sql) ?? [],
   ];
 
-  foreach ($encabezados['escritorio'] as &$encabezado)
+  foreach ($encabezados['escritorio'] as &$encabezado) {
     $encabezado = sprintf('<small>%s</small>', $encabezado);
+  }
 
   unset($encabezado);
 
-  foreach ($datos['filas'] as &$compra):
+  foreach ($datos['filas'] as &$compra) :
     $compra['fecha'] = formatearFecha($compra['fecha']);
 
-    foreach ($compra as $clave => $valor)
+    foreach ($compra as $clave => $valor) {
       $compra[$clave] = sprintf('<small>%s</small>', $valor);
+    }
   endforeach;
 
   unset($compra);
@@ -107,7 +109,11 @@ if ($_SESSION['cargo'] === 'a'):
           </tr>
         </table>
         <div class="w3-container w3-center w3-padding-top-24 w3-large">
-          <div class="w3-right">Monto total: <span class="icon-dollar w3-text-green w3-xlarge"></span><b class="w3-xlarge">67.86</b></div>
+          <div class="w3-right">
+            Monto total:&nbsp;
+            <span class="icon-dollar w3-text-green w3-xlarge"></span>
+            <b class="w3-xlarge">67.86</b>
+          </div>
         </div>
         <div class="w3-row w3-padding-top-48">
           <table class="w3-col s8 w3-container w3-left-align">
@@ -131,7 +137,7 @@ if ($_SESSION['cargo'] === 'a'):
 
   echo '<footer id="botones">' . BOTONES['NUEVA_COMPRA'] . '</footer>';
   echo '</div>';
-else:
+else :
   include __DIR__ . '/../templates/head.php';
   $script .= sprintf("<script src='%sassets/js/restringido.js'></script>", $BASE_URL);
   include __DIR__ . '/../templates/footer.php';

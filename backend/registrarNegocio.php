@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-if ($_POST !== []):
+if ($_POST !== []) :
   require __DIR__ . '/conexion.php';
   require __DIR__ . '/funciones.php';
 
@@ -26,7 +26,7 @@ if ($_POST !== []):
     exit(json_encode($respuesta, JSON_INVALID_UTF8_IGNORE));
   }
 
-  if ($logo['error'] !== 4):
+  if ($logo['error'] !== 4) :
     $imagen = (string) $logo['name'];
     $tipo   = (string) $logo['type'];
     $peso   = (int) $logo['size'];
@@ -47,12 +47,22 @@ if ($_POST !== []):
     exit(json_encode($respuesta, JSON_INVALID_UTF8_IGNORE));
   }
 
-  $sql = sprintf("INSERT INTO negocios VALUES(null, '%s', '%s', '%s', '%s', '%s', 1)", $nombre, $rif, $telefono, $direccion, $imagen);
+  $sql = sprintf(
+    "INSERT INTO negocios VALUES(null, '%s', '%s', '%s', '%s', '%s', 1)",
+    $nombre,
+    $rif,
+    $telefono,
+    $direccion,
+    $imagen
+  );
+
   $resultado = setRegistro($sql);
+
   if ($resultado === null || $resultado === 0) {
     $respuesta['error'] = $conexion->error;
   }
 
   $respuesta['ok'] = 'Negocio registrado exitósamente.';
+
   exit(json_encode($respuesta, JSON_INVALID_UTF8_IGNORE));
 endif;

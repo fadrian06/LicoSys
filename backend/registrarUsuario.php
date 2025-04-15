@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-if ($_POST !== []):
+if ($_POST !== []) :
   require __DIR__ . '/conexion.php';
   require __DIR__ . '/funciones.php';
 
@@ -17,7 +17,13 @@ if ($_POST !== []):
   $imagen = '';
 
   /*----------  VALIDACIONES  ----------*/
-  if ($cedula === 0 || ($nombre === '' || $nombre === '0') || ($usuario === '' || $usuario === '0') || ($clave === '' || $clave === '0') || ($confirmar === '' || $confirmar === '0')) {
+  if (
+    $cedula === 0
+    || ($nombre === '' || $nombre === '0')
+    || ($usuario === '' || $usuario === '0')
+    || ($clave === '' || $clave === '0')
+    || ($confirmar === '' || $confirmar === '0')
+  ) {
     $respuesta['error'] = 'Por favor rellene los campos';
   }
 
@@ -26,10 +32,12 @@ if ($_POST !== []):
   }
 
   $sql = <<<SQL
-			SELECT cedula, usuario FROM usuarios
-			WHERE cedula={$cedula} OR usuario='{$usuario}'
-		SQL;
+      SELECT cedula, usuario FROM usuarios
+      WHERE cedula={$cedula} OR usuario='{$usuario}'
+    SQL;
+
   $usuarioEncontrado = getRegistro($sql);
+
   if ($usuarioEncontrado !== null && $usuarioEncontrado !== []) {
     $respuesta['error'] = 'Ya existe un usuario con esos datos.';
   }
@@ -38,7 +46,7 @@ if ($_POST !== []):
     exit(json_encode($respuesta, JSON_INVALID_UTF8_IGNORE));
   }
 
-  if ($foto['error'] !== 4):
+  if ($foto['error'] !== 4) :
     $imagen = (string) $foto['name'];
     $tipo   = (string) $foto['type'];
     $peso   = (int) $foto['size'];
@@ -59,17 +67,19 @@ if ($_POST !== []):
   }
 
   $clave = encriptar($clave);
+
   $sql = <<<SQL
-			INSERT INTO usuarios(cedula, nombre, usuario, clave, cargo, telefono, foto, activo)
-			VALUES({$cedula}, '{$nombre}', '{$usuario}', '{$clave}', '{$cargo}', '{$telefono}', '{$imagen}', 1)
-		SQL;
+      INSERT INTO usuarios(cedula, nombre, usuario, clave, cargo, telefono, foto, activo)
+      VALUES({$cedula}, '{$nombre}', '{$usuario}', '{$clave}', '{$cargo}', '{$telefono}', '{$imagen}', 1)
+    SQL;
+
   $resultado = setRegistro($sql);
 
   // REGISTRAR CLIENTE POR DEFECTO
   $sql = <<<SQL
-			INSERT INTO clientes(id, cedula, nombre, usuario_id)
-			VALUES(3, 40000000, 'No Especificado', $conexion->insert_id)
-		SQL;
+      INSERT INTO clientes(id, cedula, nombre, usuario_id)
+      VALUES(3, 40000000, 'No Especificado', $conexion->insert_id)
+    SQL;
   setRegistro($sql);
 
   if ($resultado === null || $resultado === 0) {

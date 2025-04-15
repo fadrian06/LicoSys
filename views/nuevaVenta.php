@@ -33,7 +33,7 @@ if (!empty($_SESSION['clienteID'])) {
 }
 
 $botonesClientes = '';
-foreach ($clientes as $cliente):
+foreach ($clientes as $cliente) :
   $display = $cliente['id'] == 3
     ? 'w3-hide'
     : '';
@@ -53,7 +53,11 @@ echo <<<HTML
       <h2 class="w3-xlarge">Datos del <b>Cliente</b></h2>
       <div class="w3-third w3-margin-top">
         <div class="w3-dropdown-hover w3-transparent">
-          <button onclick="modal(this)" data-target="#registrarCliente" title="Registrar Cliente" class="w3-green w3-button w3-circle">
+          <button
+            onclick="modal(this)"
+            data-target="#registrarCliente"
+            title="Registrar Cliente"
+            class="w3-green w3-button w3-circle">
             <b class="w3-large">+</b>
           </button>
           {$tooltipRegistrarCliente}
@@ -63,7 +67,11 @@ echo <<<HTML
             Seleccionar Cliente
           </button>
           <div id="listaClientes" class="w3-dropdown-content w3-bar-block w3-card w3-light-grey">
-            <input type="number" onkeyup="filter(this, 'listaClientes')" class="w3-input w3-padding" placeholder="Buscar...">
+            <input
+              type="number"
+              onkeyup="filter(this, 'listaClientes')"
+              class="w3-input w3-padding"
+              placeholder="Buscar...">
             {$botonesClientes}
           </div>
         </div>
@@ -74,7 +82,9 @@ echo <<<HTML
         </div>
       </div>
       <div class="w3-twothird">
-        <ul id="datosCliente" class="w3-ul w3-small w3-card w3-white w3-padding-large w3-margin-top {$mostrarLista} w3-animate-opacity">
+        <ul
+          id="datosCliente"
+          class="w3-ul w3-small w3-card w3-white w3-padding-large w3-margin-top {$mostrarLista} w3-animate-opacity">
           <li>
             <span class="w3-tag w3-blue w3-left">Cédula:</span>
             <b class="w3-right">v-{$cliente['cedula']}</b>
@@ -128,12 +138,13 @@ if (!empty($_SESSION['productoID'])) {
 }
 
 $botonesProductos = '';
-foreach ($productos as $producto)
+foreach ($productos as $producto) {
   $botonesProductos .= <<<HTML
       <button producto-id="{$producto['id']}" class="w3-bar-item w3-button">
         {$producto['producto']}
       </button>
     HTML;
+}
 
 $mostrarLista = isset($_SESSION['productoID'])
   ? ''
@@ -162,7 +173,11 @@ echo <<<HTML
     <section class="w3-row w3-padding-large w3-bottombar w3-round-large">
       <div class="w3-col s12 m5 w3-margin-top">
         <div class="w3-dropdown-hover w3-transparent">
-          <button onclick="modal(this)" data-target="#registrarProducto" title="Registrar Producto" class="w3-green w3-button w3-circle">
+          <button
+            onclick="modal(this)"
+            data-target="#registrarProducto"
+            title="Registrar Producto"
+            class="w3-green w3-button w3-circle">
             <b class="w3-large">+</b>
           </button>
           {$tooltipRegistrarProducto}
@@ -178,7 +193,9 @@ echo <<<HTML
         </div>
       </div>
       <div class="w3-col s12 m7">
-        <form id="datosProducto" class="w3-small w3-card w3-white w3-padding-large w3-margin-top {$mostrarLista} w3-animate-opacity">
+        <form
+          id="datosProducto"
+          class="w3-small w3-card w3-white w3-padding-large w3-margin-top {$mostrarLista} w3-animate-opacity">
           <section class="w3-row">
             <div class="w3-input w3-col s4 w3-blue">Producto:</div>
             <div class="w3-col s8">
@@ -201,14 +218,29 @@ echo <<<HTML
           <section class="w3-row">
             <div class="w3-input w3-col s4 w3-blue">Precio (<i class="icon-dollar"></i>):</div>
             <div class="w3-col s8 w3-dropdown-hover w3-transparent">
-              <input type="number" step="0.01" name="precio" class="w3-input w3-padding w3-light-grey w3-text-black" disabled value="{$producto['precio']}">
+              <input
+                type="number"
+                step="0.01"
+                name="precio"
+                class="w3-input w3-padding w3-light-grey w3-text-black"
+                disabled
+                value="{$producto['precio']}" />
               {$tooltipPrecio}
             </div>
           </section>
           <section class="w3-row">
             <div class="w3-input w3-col s4 w3-blue">Cantidad:</div>
             <div class="w3-col s8">
-              <input type="number" id="cantidad" name="cantidad" onchange="actualizarTotal(this, {$producto['excento']}, '#total')" onkeyup="actualizarTotal(this, {$producto['excento']}, '#total')" placeholder="Introduce la cantidad" required min="0" max="{$producto['stock']}" class="w3-input w3-padding">
+              <input
+                type="number"
+                id="cantidad"
+                name="cantidad"
+                onchange="actualizarTotal(this, {$producto['excento']}, '#total')"
+                onkeyup="actualizarTotal(this, {$producto['excento']}, '#total')"
+                placeholder="Introduce la cantidad"
+                required
+                min="0"
+                max="{$producto['stock']}" class="w3-input w3-padding" />
             </div>
           </section>
           <section class="w3-row">
@@ -243,7 +275,7 @@ $filasProductos = '';
 $i = 997;
 $totalCarrito = 0;
 
-foreach ($carrito as $producto):
+foreach ($carrito as $producto) :
   $sql = 'SELECT producto FROM inventario WHERE id=' . $producto['producto_id'];
   $producto['producto'] = getRegistro($sql)['producto'] ?? throw new Error('Error al obtener el producto');
   $calculoIVA = $producto['total_iva'] - $producto['precio_total'];
@@ -293,14 +325,22 @@ foreach ($carrito as $producto):
   --$i;
 endforeach;
 
-if ($carrito !== []):
+if ($carrito !== []) :
   $precioBS = round($totalCarrito * floatval(getDolar()), 2);
   $precioPesos = (int) ($totalCarrito * floatval(getPeso()));
   $tooltipTotalCarrito = generarTooltip(sprintf('Bs. %s<br>%d pesos', $precioBS, $precioPesos), false);
   echo <<<HTML
       <section class="w3-section w3-responsive">
         <form id="carritoVenta">
-          <span class="w3-left icon-cart-arrow-down w3-padding w3-dark-grey w3-xxlarge" style="border-top-left-radius: 16px; border-top-right-radius: 16px; margin-bottom: -1px; margin-left: 1px"></span>
+          <span
+            class="w3-left icon-cart-arrow-down w3-padding w3-dark-grey w3-xxlarge"
+            style="
+              border-top-left-radius: 16px;
+              border-top-right-radius: 16px;
+              margin-bottom: -1px;
+              margin-left: 1px
+            ">
+          </span>
           <div class="w3-clear"></div>
           <table class="w3-table-all w3-centered w3-hoverable">
             <tr class="w3-dark-grey w3-small">
@@ -344,7 +384,10 @@ $label = '<b>Nombre: </b><sup class="w3-text-red">(requerido)</sup>';
 $inputNombre = generarINPUT('NOMBRE', $label, 'Nombre del cliente');
 
 echo <<<HTML
-    <form id="registrarCliente" autocomplete="off" class="modal w3-white w3-card w3-round-large animate__animated animate__fadeInUp animate__faster w3-hide">
+    <form
+      id="registrarCliente"
+      autocomplete="off"
+      class="modal w3-white w3-card w3-round-large animate__animated animate__fadeInUp animate__faster w3-hide">
       <div class="w3-right-align">
         <span class="icon-close w3-button w3-transparent w3-hover-red"></span>
       </div>
@@ -378,7 +421,10 @@ $inputExcento = generarINPUT('EXCENTO', $label, '¿Excento de IVA?');
 $label = '<b>Existencia: </b><sup class="w3-text-blue">(opcional)</sup>';
 $inputStock = generarINPUT('STOCK', $label, 'Cantidad disponible');
 echo <<<HTML
-    <form id="registrarProducto" autocomplete="off" class="modal w3-white w3-card w3-round-large animate__animated animate__fadeInUp animate__faster w3-hide">
+    <form
+      id="registrarProducto"
+      autocomplete="off"
+      class="modal w3-white w3-card w3-round-large animate__animated animate__fadeInUp animate__faster w3-hide">
       <div class="w3-right-align">
         <span class="icon-close w3-button w3-transparent w3-hover-red"></span>
       </div>

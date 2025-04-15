@@ -10,15 +10,17 @@ require __DIR__ . '/funciones.php';
 /*====================================================
   =            ENVIAR FORMULARIO DE EDICIÓN            =
   ====================================================*/
-if (!empty($_POST['editar'])):
+if (!empty($_POST['editar'])) :
   $tabla      = escapar($_POST['tabla']);
   $campo      = escapar($_POST['campo']);
   $valor      = (int) $_POST['valor'];
 
   $copiaTabla = $tabla;
-  if ($copiaTabla === 'usuarios:informacion'
-  || $copiaTabla === 'usuarios:clave'
-  || $copiaTabla === 'usuarios:preguntasRespuestas') {
+  if (
+    $copiaTabla === 'usuarios:informacion'
+    || $copiaTabla === 'usuarios:clave'
+    || $copiaTabla === 'usuarios:preguntasRespuestas'
+  ) {
     $copiaTabla = 'usuarios';
   }
 
@@ -33,7 +35,7 @@ if (!empty($_POST['editar'])):
   }
 
   $inputID = generarINPUT('ID', '', '', $registro['id']);
-  switch ($tabla):
+  switch ($tabla) {
     case 'clientes':
       $label = '<b>Nombre: </b><sup class="w3-text-red">(requerido)</sup>';
       $inputNombre = generarINPUT('NOMBRE', $label, '', $registro['nombre']);
@@ -276,7 +278,7 @@ if (!empty($_POST['editar'])):
             </button>
           </section>
         HTML;
-  endswitch;
+  };
 
   exit(json_encode($respuesta, JSON_INVALID_UTF8_IGNORE));
 endif;
@@ -284,7 +286,7 @@ endif;
 /*======================================================
   =            ACTUALIZAR LOS DATOS RECIBIDOS            =
   ======================================================*/
-if (!empty($_POST['id'])):
+if (!empty($_POST['id'])) :
   /** @var int ID del registro a actualizar */
   $id = (int) $_POST['id'];
   /** @var string Tabla de la cual proviene el registro, incluye variantes */
@@ -292,9 +294,11 @@ if (!empty($_POST['id'])):
   /** @var string Copia de la tabla que será escapada para la sentencia SQL */
   $copiaTabla = $tabla;
 
-  if ($copiaTabla === 'usuarios:informacion'
-  || $copiaTabla === 'usuarios:clave'
-  || $copiaTabla === 'usuarios:preguntasRespuestas') {
+  if (
+    $copiaTabla === 'usuarios:informacion'
+    || $copiaTabla === 'usuarios:clave'
+    || $copiaTabla === 'usuarios:preguntasRespuestas'
+  ) {
     $copiaTabla = 'usuarios';
   }
 
@@ -306,7 +310,7 @@ if (!empty($_POST['id'])):
   $camposActualizados = '';
 
   /*----------  Itera sobre cada clave en POST  ----------*/
-  foreach ($_POST as $clave => $valor):
+  foreach ($_POST as $clave => $valor) :
     if ($copiaTabla === 'proveedores' && $clave === 'nombreNegocio') {
       $clave = 'nombreEmpresa';
     }
@@ -319,7 +323,7 @@ if (!empty($_POST['id'])):
       $valor = encriptar($valor);
     }
 
-    if ($clave === 'confirmar'):
+    if ($clave === 'confirmar') :
       if ($_POST['clave'] !== $_POST['confirmar']) {
         $respuesta['error'] = 'Ambas claves deben ser iguales.';
       }
@@ -357,7 +361,7 @@ if (!empty($_POST['id'])):
     exit(json_encode($respuesta, JSON_INVALID_UTF8_IGNORE));
   }
 
-  switch ($copiaTabla):
+  switch ($copiaTabla) {
     case 'clientes':
       $respuesta['ok'] = 'Cliente actualizado exitósamente.';
       break;
@@ -371,7 +375,7 @@ if (!empty($_POST['id'])):
     case 'inventario':
       $respuesta['ok'] = 'Producto actualizado exitósamente.';
       break;
-  endswitch;
+  };
 
   exit(json_encode($respuesta, JSON_INVALID_UTF8_IGNORE));
 endif;

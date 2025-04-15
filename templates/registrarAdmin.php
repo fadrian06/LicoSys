@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-if (!empty($mostrarRegistro)):
+if (!empty($mostrarRegistro)) :
   $label = '<b>Cédula:</b> <sup class="w3-text-red">(requerido)</sup>';
   $inputCedula = generarINPUT('CEDULA', $label, 'Introduce tu cédula');
 
@@ -21,7 +21,10 @@ if (!empty($mostrarRegistro)):
   $label = '<b>Teléfono:</b> <sup class="w3-text-blue">(opcional)</sup>';
   $inputTelefono = generarINPUT('TELEFONO', $label, 'Introduce un número de teléfono');
   echo <<<HTML
-      <form id="registrarAdmin" autocomplete="off" class="w3-row modal w3-white w3-card w3-round-large w3-animate-zoom">
+      <form
+        id="registrarAdmin"
+        autocomplete="off"
+        class="w3-row modal w3-white w3-card w3-round-large w3-animate-zoom">
         <h1 class="w3-center w3-xlarge oswald w3-margin-bottom">
           Cree su cuenta de Administrador
         </h1>

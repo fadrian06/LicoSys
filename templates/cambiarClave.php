@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-if (isset($_SESSION['changePassword'])):
+if (isset($_SESSION['changePassword'])) :
   $inputClave = generarINPUT('CLAVE', 'Nueva Contraseña:');
   $inputConfirmar = generarINPUT('CONFIRMAR', 'Confirmar Contraseña:');
   $sql = <<<SQL
@@ -12,7 +12,13 @@ if (isset($_SESSION['changePassword'])):
   $id = getRegistro($sql)['id'] ?? throw new Error('No se encontró el ID del usuario');
   $inputID = generarINPUT('ID', '', '', $id);
   echo <<<HTML
-      <form id="cambiarClave" autocomplete="off" class="modal w3-white w3-card w3-round-large animate__animated animate__fadeInUp animate__faster w3-show">
+      <form
+        id="cambiarClave"
+        autocomplete="off"
+        class="
+          modal w3-white w3-card w3-round-large animate__animated
+          animate__fadeInUp animate__faster w3-show
+        ">
         <div class="w3-right-align">
           <span class="icon-close w3-button w3-transparent w3-hover-red"></span>
         </div>

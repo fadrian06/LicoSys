@@ -16,8 +16,8 @@ echo LOADER;
 echo '<div id="moduloInventario">';
 
 /*=============================
-  =            TABLA            =
-  =============================*/
+=            TABLA            =
+=============================*/
 $sql = <<<SQL
     SELECT i.id, codigo, producto, stock, precio, usuario FROM inventario i
     INNER JOIN usuarios u ON i.usuario_id=u.id
@@ -42,15 +42,16 @@ $editar = [
   'IDform' => '#editarProducto'
 ];
 
-foreach ($datos['filas'] as &$producto):
+foreach ($datos['filas'] as &$producto) :
   $producto['stock'] = $producto['stock'] ?: <<<HTML
       <strong class="w3-text-red">Agotado</strong>
     HTML;
 
-  foreach ($producto as $clave => $valor)
+  foreach ($producto as $clave => $valor) {
     if ($clave !== 'id') {
       $producto[$clave] = sprintf('<small>%s</small>', $producto[$clave]);
     }
+  }
 endforeach;
 
 unset($producto);
@@ -78,7 +79,10 @@ $inputExcento = generarINPUT('EXCENTO', $label, '¿Excento de IVA?');
 $label = '<b>Existencia: </b><sup class="w3-text-blue">(opcional)</sup>';
 $inputStock = generarINPUT('STOCK', $label, 'Cantidad disponible');
 echo <<<HTML
-    <form id="registrarProducto" autocomplete="off" class="modal w3-white w3-card w3-round-large animate__animated animate__fadeInUp animate__faster w3-hide">
+    <form
+      id="registrarProducto"
+      autocomplete="off"
+      class="modal w3-white w3-card w3-round-large animate__animated animate__fadeInUp animate__faster w3-hide">
       <div class="w3-right-align">
         <span class="icon-close w3-button w3-transparent w3-hover-red"></span>
       </div>
@@ -105,7 +109,10 @@ echo <<<HTML
   =            REGISTRAR COMBO            =
   =======================================*/
 echo <<<HTML
-    <form id="registrarCombo" autocomplete="off" class="modal w3-white w3-card w3-round-large animate__animated animate__fadeInUp animate__faster w3-hide">
+    <form
+      id="registrarCombo"
+      autocomplete="off"
+      class="modal w3-white w3-card w3-round-large animate__animated animate__fadeInUp animate__faster w3-hide">
       <div class="w3-right-align">
         <span class="icon-close w3-button w3-transparent w3-hover-red"></span>
       </div>
@@ -127,7 +134,11 @@ echo <<<HTML
   =            EDITAR PRODUCTO            =
   =======================================*/
 echo <<<HTML
-    <form id="editarProducto" autocomplete="off" class="modal w3-white w3-card w3-round-large animate__animated animate__fadeInUp animate__faster w3-hide"></form>
+    <form
+      id="editarProducto"
+      autocomplete="off"
+      class="modal w3-white w3-card w3-round-large animate__animated animate__fadeInUp animate__faster w3-hide">
+    </form>
   HTML;
 
 /*==========================================

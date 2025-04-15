@@ -2,11 +2,14 @@
 
 declare(strict_types=1);
 
-if (isset($mostrarLogin)):
+if (isset($mostrarLogin)) :
   $inputCedula = generarINPUT('CEDULA', 'Cédula:', 'Introduce tu cédula');
   $inputUsuario = generarINPUT('USUARIO', 'Usuario:', '@usuario');
   echo <<<HTML
-      <form id="consultar" autocomplete="off" class="modal w3-white w3-card w3-round-large animate__animated animate__fadeInUp animate__faster w3-hide">
+      <form
+        id="consultar"
+        autocomplete="off"
+        class="modal w3-white w3-card w3-round-large animate__animated animate__fadeInUp animate__faster w3-hide">
         <div class="w3-right-align">
           <span class="icon-close w3-button w3-transparent w3-hover-red"></span>
         </div>

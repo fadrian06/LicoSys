@@ -8,7 +8,7 @@ if (!isset($_SESSION['activa'])) {
   header('location: ../salir.php');
 }
 
-if ($_SESSION['cargo'] === 'a'):
+if ($_SESSION['cargo'] === 'a') :
   require __DIR__ . '/../backend/componentes.php';
   require __DIR__ . '/../backend/conexion.php';
   require __DIR__ . '/../backend/funciones.php';
@@ -18,9 +18,9 @@ if ($_SESSION['cargo'] === 'a'):
   /*=======================================
     =            RESUMEN VARIABLE           =
     =======================================*/
-  if (!empty($_GET['rol'])):
+  if (!empty($_GET['rol'])) :
     $negocioID = (int) escapar($_GET['negocioID']);
-    switch ($_GET['rol']):
+    switch ($_GET['rol']) :
       case 'diario':
         generarResumen('diario', $negocioID, $respuesta);
         break;
@@ -46,13 +46,16 @@ if ($_SESSION['cargo'] === 'a'):
 
   $botones = '';
   $paneles = '';
-  foreach ($negocios as $negocio):
+  foreach ($negocios as $negocio) :
     /*----------  BOTONES NEGOCIOS  ----------*/
     $negocioActivo = $negocio['id'] === $_SESSION['negocioID']
       ? 'w3-blue'
       : 'w3-white';
     $botones .= <<<HTML
-        <li role="botonPanel" data-target="#panelNegocio{$negocio['id']}" class="w3-card w3-col s6 m4 w3-button w3-border-left w3-border-right {$negocioActivo}">
+        <li
+          role="botonPanel"
+          data-target="#panelNegocio{$negocio['id']}"
+          class="w3-card w3-col s6 m4 w3-button w3-border-left w3-border-right {$negocioActivo}">
           <i class="icon-building w3-xlarge"></i>
           <div>{$negocio['nombre']}</div>
         </li>
@@ -69,11 +72,11 @@ if ($_SESSION['cargo'] === 'a'):
     $ventas = filtrarFecha('diario', $ventas);
 
     $ventasCombinadas = [];
-    foreach ($ventas as $venta):
+    foreach ($ventas as $venta) :
       $id = $venta['producto_id'];
-      if (!array_key_exists($id, $ventasCombinadas)):
+      if (!array_key_exists($id, $ventasCombinadas)) :
         $ventasCombinadas[$id] = $venta;
-      else:
+      else :
         $ventasCombinadas[$id]['unidades'] += $venta['unidades'];
         $ventasCombinadas[$id]['total'] += $venta['total'];
       endif;
@@ -83,7 +86,7 @@ if ($_SESSION['cargo'] === 'a'):
     $totalIngresos = 0;
     $ganancia = 0;
     $filasProductos = '';
-    foreach ($ventasCombinadas as $ventaCombinada):
+    foreach ($ventasCombinadas as $ventaCombinada) :
       $sql = <<<SQL
           SELECT producto_id, unidades, total, fecha FROM compras
           WHERE producto_id={$ventaCombinada['producto_id']} AND negocio_id={$negocio['id']}
@@ -91,11 +94,11 @@ if ($_SESSION['cargo'] === 'a'):
       $compras = getRegistros($sql) ?? [];
       $compras = filtrarFecha('diario', $compras);
       $comprasCombinadas = [];
-      foreach ($compras as $compra):
+      foreach ($compras as $compra) :
         $id = $compra['producto_id'];
-        if (!array_key_exists($id, $comprasCombinadas)):
+        if (!array_key_exists($id, $comprasCombinadas)) :
           $comprasCombinadas[$id] = $compra;
-        else:
+        else :
           $comprasCombinadas[$id]['unidades'] += $compra['unidades'];
           $comprasCombinadas[$id]['total'] += $compra['total'];
         endif;
@@ -141,23 +144,48 @@ if ($_SESSION['cargo'] === 'a'):
       ? 'w3-show-inline-block'
       : 'w3-hide';
     $paneles .= <<<HTML
-        <div id="panelNegocio{$negocio['id']}" role="panel" class="w3-panel w3-card w3-white {$panelActivo}" style="width: 100%">
+        <div
+          id="panelNegocio{$negocio['id']}"
+          role="panel"
+          class="w3-panel w3-card w3-white {$panelActivo}"
+          style="width: 100%">
           <form class="w3-center">
             <div class="w3-padding w3-row w3-left-align">
               <div class="w3-col s6 m3">
-                <input type="radio" name="periodo" id="diario{$negocio['id']}" negocio-id="{$negocio['id']}" checked class="w3-radio">
+                <input
+                  type="radio"
+                  name="periodo"
+                  id="diario{$negocio['id']}"
+                  negocio-id="{$negocio['id']}"
+                  checked
+                  class="w3-radio" />
                 <label for="diario{$negocio['id']}">Diario</label>
               </div>
               <div class="w3-col s6 m3">
-                <input type="radio" name="periodo" id="semanal{$negocio['id']}" negocio-id="{$negocio['id']}" class="w3-radio">
+                <input
+                  type="radio"
+                  name="periodo"
+                  id="semanal{$negocio['id']}"
+                  negocio-id="{$negocio['id']}"
+                  class="w3-radio">
                 <label for="semanal{$negocio['id']}">Semanal</label>
               </div>
               <div class="w3-col s6 m3">
-                <input type="radio" name="periodo" id="quincenal{$negocio['id']}" negocio-id="{$negocio['id']}" class="w3-radio">
+                <input
+                  type="radio"
+                  name="periodo"
+                  id="quincenal{$negocio['id']}"
+                  negocio-id="{$negocio['id']}"
+                  class="w3-radio">
                 <label for="quincenal{$negocio['id']}">Quincenal</label>
               </div>
               <div class="w3-col s6 m3">
-                <input type="radio" name="periodo" id="mensual{$negocio['id']}" negocio-id="{$negocio['id']}" class="w3-radio">
+                <input
+                  type="radio"
+                  name="periodo"
+                  id="mensual{$negocio['id']}"
+                  negocio-id="{$negocio['id']}"
+                  class="w3-radio">
                 <label for="mensual{$negocio['id']}">Mensual</label>
               </div>
             </div>
@@ -206,7 +234,7 @@ if ($_SESSION['cargo'] === 'a'):
     HTML;
 
   echo '</div>';
-else:
+else :
   include __DIR__ . '/../templates/head.php';
   $script .= sprintf("<script src='%sassets/js/restringido.js'></script>", $BASE_URL);
   include __DIR__ . '/../templates/footer.php';

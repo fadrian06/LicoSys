@@ -61,7 +61,10 @@ $label = '<b>Nombre: </b><sup class="w3-text-red">(requerido)</sup>';
 $inputNombre = generarINPUT('NOMBRE', $label, 'Nombre del cliente');
 
 echo <<<HTML
-    <form id="registrarCliente" autocomplete="off" class="modal w3-white w3-card w3-round-large animate__animated animate__fadeInUp animate__faster w3-hide">
+    <form
+      id="registrarCliente"
+      autocomplete="off"
+      class="modal w3-white w3-card w3-round-large animate__animated animate__fadeInUp animate__faster w3-hide">
       <div class="w3-right-align">
         <span class="icon-close w3-button w3-transparent w3-hover-red"></span>
       </div>
@@ -82,14 +85,18 @@ echo <<<HTML
   HTML;
 
 /*======================================
-  =            EDITAR CLIENTE            =
-  ======================================*/
+=            EDITAR CLIENTE            =
+======================================*/
 echo <<<HTML
-    <form id="editarCliente" autocomplete="off" class="modal w3-white w3-card w3-round-large animate__animated animate__fadeInUp animate__faster w3-hide"></form>
+    <form
+      id="editarCliente"
+      autocomplete="off"
+      class="modal w3-white w3-card w3-round-large animate__animated animate__fadeInUp animate__faster w3-hide">
+    </form>
   HTML;
 
 /*=======================================
-  =            BOTÓN REGISTRAR            =
-  =======================================*/
+=            BOTÓN REGISTRAR            =
+=======================================*/
 echo '<footer id="botones">' . BOTONES['REGISTRAR_CLIENTE'] . '</footer>';
 echo '</div>';

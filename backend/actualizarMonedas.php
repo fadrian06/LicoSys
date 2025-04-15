@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-if ($_POST !== []):
+if ($_POST !== []) :
   require __DIR__ . '/conexion.php';
   require __DIR__ . '/funciones.php';
 
@@ -26,7 +26,19 @@ if ($_POST !== []):
   $sqlDolar = sprintf("INSERT INTO dolar(valor) VALUES('%s')", $nuevoDolar);
   $sqlPeso = sprintf("INSERT INTO peso(valor) VALUES('%d')", $nuevoPeso);
 
-  if (in_array(setRegistro($sqlIVA), [null, 0], true) || in_array(setRegistro($sqlDolar), [null, 0], true) || in_array(setRegistro($sqlPeso), [null, 0], true)) {
+  if (
+    in_array(
+      setRegistro($sqlIVA),
+      [null, 0],
+      true
+    )
+    || in_array(
+      setRegistro($sqlDolar),
+      [null, 0],
+      true
+    )
+    || in_array(setRegistro($sqlPeso), [null, 0], true)
+  ) {
     $respuesta['error'] = json_encode($conexion->error_list, JSON_INVALID_UTF8_IGNORE);
   }
 

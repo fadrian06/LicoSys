@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-if (isset($mostrarManual)):
+if (isset($mostrarManual)) :
   /*=========================================
-    =            MANUAL DE USUARIO            =
-    =========================================*/
+  =            MANUAL DE USUARIO            =
+  =========================================*/
   $titulo = <<<HTML
       <span class="w3-padding">Manual de Usuario</span>
     HTML;

@@ -6,7 +6,7 @@ session_start();
 require __DIR__ . '/conexion.php';
 require __DIR__ . '/funciones.php';
 
-if (!empty($_POST['consultar'])):
+if (!empty($_POST['consultar'])) :
   $cedula = (int) $_POST['cedula'];
   $usuario = escapar($_POST['usuario']);
 
@@ -20,9 +20,9 @@ if (!empty($_POST['consultar'])):
   }
 
   $sql = <<<SQL
-			SELECT id, pre1, pre2, pre3, res1, activo
-			FROM usuarios WHERE cedula={$cedula} AND BINARY(usuario)=BINARY('{$usuario}')
-		SQL;
+      SELECT id, pre1, pre2, pre3, res1, activo
+      FROM usuarios WHERE cedula={$cedula} AND BINARY(usuario)=BINARY('{$usuario}')
+    SQL;
   $filaUsuario = getRegistro($sql);
 
   if ($filaUsuario === null || $filaUsuario === []) {
@@ -41,7 +41,7 @@ if (!empty($_POST['consultar'])):
     ];
   }
 
-  if ($respuesta['error']):
+  if ($respuesta['error']) :
     session_destroy();
     $_SESSION['userID'] = $filaUsuario['id'] ?? null;
   endif;
@@ -49,7 +49,7 @@ if (!empty($_POST['consultar'])):
   exit(json_encode($respuesta, JSON_INVALID_UTF8_IGNORE));
 endif;
 
-if (!empty($_POST['verificarRespuestas'])):
+if (!empty($_POST['verificarRespuestas'])) :
   $id = (int) $_POST['id'];
   $res1 = escapar($_POST['res1']);
   $res2 = escapar($_POST['res2']);
@@ -74,7 +74,7 @@ if (!empty($_POST['verificarRespuestas'])):
   exit(json_encode($respuesta, JSON_INVALID_UTF8_IGNORE));
 endif;
 
-if (!empty($_POST['cambiarClave'])):
+if (!empty($_POST['cambiarClave'])) :
   $id = (int) $_POST['id'];
   $clave     = escapar($_POST['clave']);
   $confirmar = escapar($_POST['confirmar']);
@@ -86,7 +86,7 @@ if (!empty($_POST['cambiarClave'])):
     $respuesta['error'] = 'Ambas contraseñas deben ser iguales.';
   }
 
-  if ($respuesta['error']):
+  if ($respuesta['error']) :
     unset($_SESSION['changePassword']);
     exit(json_encode($respuesta, JSON_INVALID_UTF8_IGNORE));
   endif;

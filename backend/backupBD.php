@@ -6,7 +6,7 @@ session_start();
 require __DIR__ . '/conexion.php';
 require __DIR__ . '/funciones.php';
 
-if (!empty($_POST['respaldar'])):
+if (!empty($_POST['respaldar'])) :
   if ($_SESSION['cargo'] !== 'a') {
     $respuesta['error'] = 'No tienes los permisos necesarios';
   }
@@ -19,22 +19,24 @@ if (!empty($_POST['respaldar'])):
     $resultado = $conexion->query('SHOW TABLES');
 
     // OBTENGO LAS TABLAS en un array indexado
-    while ($fila = $resultado->fetch_row()) $tablas[] = $fila[0];
+    while ($fila = $resultado->fetch_row()) {
+      $tablas[] = $fila[0];
+    }
 
     $texto = "SET foreign_key_checks=0;\n\n";
 
     // ITERA SOBRE CADA TABLA
-    foreach ($tablas as $tabla):
+    foreach ($tablas as $tabla) :
       $resultado = $conexion->query('SELECT * FROM ' . $tabla);
       $columnas = $resultado->field_count;
       $texto .= "TRUNCATE TABLE {$tabla};\n";
 
       // ITERAR SOBRE LOS CAMPOS
-      for ($i = 0; $i < $columnas; ++$i):
-        while ($fila = $resultado->fetch_assoc()):
+      for ($i = 0; $i < $columnas; ++$i) :
+        while ($fila = $resultado->fetch_assoc()) :
           $texto .= sprintf('INSERT INTO %s VALUES(', $tabla);
           $j = 0;
-          foreach ($fila as $campo => $dato):
+          foreach ($fila as $campo => $dato) :
             if (
               $campo === 'id' ||
               $campo === 'activo' ||
@@ -83,7 +85,7 @@ if (!empty($_POST['respaldar'])):
   }
 endif;
 
-if (!empty($_POST['restaurar'])):
+if (!empty($_POST['restaurar'])) :
   $archivo   = __DIR__ . '/../database/backup.sql';
   $manejador = fopen($archivo, "r") ?: throw new Error('No se pudo abrir el archivo');
   $sql       = fread($manejador, filesize($archivo) ?: throw new Error('No se pudo leer el archivo'));

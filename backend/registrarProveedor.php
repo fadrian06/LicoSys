@@ -3,7 +3,8 @@
 declare(strict_types=1);
 
 session_start();
-if ($_POST !== []):
+
+if ($_POST !== []) :
   require __DIR__ . '/conexion.php';
   require __DIR__ . '/funciones.php';
 
@@ -15,8 +16,8 @@ if ($_POST !== []):
   $direccion = escapar(capitalize($_POST['direccion']));
 
   /*====================================
-    =            VALIDACIONES            =
-    ====================================*/
+  =            VALIDACIONES            =
+  ====================================*/
   if ($cedula === 0 || ($nombrePersona === '' || $nombrePersona === '0')) {
     $respuesta['error'] = 'Los datos de persona de contacto son requeridos.';
   }
@@ -51,5 +52,6 @@ if ($_POST !== []):
   }
 
   $respuesta['ok'] = 'Proveedor registrado exitósamente.';
+
   exit(json_encode($respuesta, JSON_INVALID_UTF8_IGNORE));
 endif;

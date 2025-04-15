@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-if ($_POST !== []):
+if ($_POST !== []) :
   session_start();
   require_once __DIR__ . '/conexion.php';
   require_once __DIR__ . '/funciones.php';
@@ -30,9 +30,13 @@ if ($_POST !== []):
   }
 
   $sql = <<<SQL
-			INSERT INTO inventario(codigo, producto, stock, excento, precio, negocio_id, usuario_id)
-			VALUES('{$codigo}', '{$producto}', {$stock}, {$excento}, {$precio}, {$_SESSION['negocioID']}, {$_SESSION['userID']})
-		SQL;
+      INSERT INTO inventario(
+        codigo, producto, stock, excento, precio, negocio_id, usuario_id
+      ) VALUES(
+        '{$codigo}', '{$producto}', {$stock}, {$excento}, {$precio},
+        {$_SESSION['negocioID']}, {$_SESSION['userID']}
+      )
+    SQL;
 
   $resultado = setRegistro($sql);
 
@@ -41,5 +45,6 @@ if ($_POST !== []):
   }
 
   $respuesta['ok'] = 'Producto registrado exitósamente.';
+
   exit(json_encode($respuesta, JSON_INVALID_UTF8_IGNORE));
 endif;

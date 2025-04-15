@@ -14,7 +14,7 @@ if (!isset($_SESSION['activa'])) {
 /*==========================================================
 =            RETORNAR INFORMACIÓN DE UN CLIENTE            =
 ==========================================================*/
-if (!empty($_GET['clienteID'])):
+if (!empty($_GET['clienteID'])) :
   $id = (int) escapar($_GET['clienteID']);
   $respuesta['datos'] = getRegistro('SELECT * FROM clientes WHERE id=' . $id);
   $_SESSION['clienteID'] = $id;
@@ -24,7 +24,7 @@ endif;
 /*===========================================================
 =            RETORNAR INFORMACIÓN DE UN PRODUCTO            =
 ===========================================================*/
-if (!empty($_GET['productoID'])):
+if (!empty($_GET['productoID'])) :
   $id = (int) escapar($_GET['productoID']);
   $respuesta['datos'] = getRegistro('SELECT * FROM inventario WHERE id=' . $id);
   $respuesta['datos']['iva'] = getIVA();
@@ -37,7 +37,7 @@ endif;
 /*===================================================
 =            AÑADIR PRODUCTOS AL CARRITO            =
 ===================================================*/
-if (!empty($_POST['addProduct'])):
+if (!empty($_POST['addProduct'])) :
   $productoID = (int) escapar($_POST['productoID']);
   $cantidad = (int) escapar($_POST['cantidad']);
   $clienteID = empty($_SESSION['clienteID'])
@@ -78,12 +78,12 @@ if (!empty($_POST['addProduct'])):
   }
 
   $sql = <<<SQL
-			SELECT * FROM carrito_venta WHERE producto_id={$productoID}
-		SQL;
+      SELECT * FROM carrito_venta WHERE producto_id={$productoID}
+    SQL;
   $productoEnCarrito = getRegistro($sql);
 
   // Si el producto existe en el carrito.
-  if ($productoEnCarrito !== null && $productoEnCarrito !== []):
+  if ($productoEnCarrito !== null && $productoEnCarrito !== []) :
     $cantidad += $productoEnCarrito['unidades'];
     $total = $productoEnCarrito['precio_base'] * $cantidad;
     if ($excento !== 0) {
@@ -91,9 +91,9 @@ if (!empty($_POST['addProduct'])):
     }
 
     $sql = <<<SQL
-				UPDATE carrito_venta SET unidades={$cantidad},
-				precio_total={$total}, total_iva={$totalIVA} WHERE producto_id={$productoID}
-			SQL;
+        UPDATE carrito_venta SET unidades={$cantidad},
+        precio_total={$total}, total_iva={$totalIVA} WHERE producto_id={$productoID}
+      SQL;
     $resultado = setRegistro($sql);
     if ($resultado === null || $resultado === 0) {
       $respuesta['error'] = $conexion->error;
@@ -113,10 +113,10 @@ if (!empty($_POST['addProduct'])):
 
   // Si el producto no existe en el carrito.
   $sql = <<<SQL
-			INSERT INTO carrito_venta(producto_id, antiguo_stock, precio_base,
-				unidades, precio_total, total_iva
-			) VALUES({$productoID}, {$stock}, {$precio}, {$cantidad}, {$total}, {$totalIVA})
-		SQL;
+      INSERT INTO carrito_venta(producto_id, antiguo_stock, precio_base,
+        unidades, precio_total, total_iva
+      ) VALUES({$productoID}, {$stock}, {$precio}, {$cantidad}, {$total}, {$totalIVA})
+    SQL;
   $resultado = setRegistro($sql);
 
   if ($resultado === null || $resultado === 0) {
@@ -138,7 +138,7 @@ endif;
 /*=====================================================
 =            ELIMINAR PRODUCTO DEL CARRITO            =
 =====================================================*/
-if (!empty($_POST['eliminar'])):
+if (!empty($_POST['eliminar'])) :
   $id = (int) escapar($_POST['productoID']);
   $sql = 'SELECT antiguo_stock FROM carrito_venta WHERE producto_id=' . $id;
   $antiguoStock = (int) (getRegistro($sql) ?? [])['antiguo_stock'];
@@ -159,15 +159,15 @@ endif;
 /*====================================
 =            ANULAR VENTA            =
 ====================================*/
-if (!empty($_POST['anular'])):
+if (!empty($_POST['anular'])) :
   $productos = getRegistros('SELECT producto_id, antiguo_stock FROM carrito_venta') ?? [];
 
   /*----------  RESTAURA EL STOCK DE CADA PRODUCTO  ----------*/
-  foreach ($productos as $producto):
+  foreach ($productos as $producto) :
     $sql = <<<SQL
-				UPDATE inventario SET stock={$producto['antiguo_stock']}
-				WHERE id={$producto['producto_id']}
-			SQL;
+        UPDATE inventario SET stock={$producto['antiguo_stock']}
+        WHERE id={$producto['producto_id']}
+      SQL;
     $resultado = setRegistro($sql);
     if ($resultado === null || $resultado === 0) {
       $respuesta['error'] .= $conexion->error;
@@ -188,14 +188,14 @@ endif;
 /*=====================================
 =            GENERAR VENTA            =
 =====================================*/
-if (!empty($_POST['generar'])):
+if (!empty($_POST['generar'])) :
   $productos = getRegistros('SELECT * FROM carrito_venta') ?? [];
   $iva = getIVA();
 
   unset($_SESSION['productoID']);
 
   /*----------  INSERTAMOS LAS VENTAS  ----------*/
-  foreach ($productos as $producto):
+  foreach ($productos as $producto) :
     $unidades = (int) $producto['unidades'];
     $total = $producto['total_iva'] > 0
       ? $producto['total_iva']
@@ -203,9 +203,13 @@ if (!empty($_POST['generar'])):
     $producto = getRegistro('SELECT * FROM inventario WHERE id=' . $producto['producto_id']) ?? [];
 
     $sql = <<<SQL
-				INSERT INTO ventas(cliente_id, producto_id, unidades, total, iva, usuario_id, negocio_id)
-				VALUES({$_SESSION['clienteID']}, {$producto['id']}, {$unidades}, {$total}, {$iva}, {$_SESSION['userID']}, {$_SESSION['negocioID']})
-			SQL;
+        INSERT INTO ventas(
+          cliente_id, producto_id, unidades, total, iva, usuario_id, negocio_id
+        ) VALUES(
+          {$_SESSION['clienteID']}, {$producto['id']}, {$unidades}, {$total},
+          {$iva}, {$_SESSION['userID']}, {$_SESSION['negocioID']}
+        )
+      SQL;
 
     $resultado = setRegistro($sql);
     if ($resultado === null || $resultado === 0) {

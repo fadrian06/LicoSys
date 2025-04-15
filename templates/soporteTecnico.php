@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-if (isset($mostrarSoporteTecnico)):
+if (isset($mostrarSoporteTecnico)) :
   /*=======================================
     =            SOPORTE TÉCNICO            =
     =======================================*/

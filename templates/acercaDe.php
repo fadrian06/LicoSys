@@ -3,9 +3,9 @@
 declare(strict_types=1);
 
 /*=================================
-  =            ACERCA DE            =
-  =================================*/
-if (!empty($negocios) && !empty($admin)):
+=            ACERCA DE            =
+=================================*/
+if (!empty($negocios) && !empty($admin)) :
   $titulo = 'Acerca de <small>LicoSys</small>';
   $contenido = <<<HTML
       <div class="w3-row">

@@ -8,7 +8,7 @@ if (!isset($_SESSION['activa'])) {
   header('location: ../salir.php');
 }
 
-if ($_SESSION['cargo'] === 'a'):
+if ($_SESSION['cargo'] === 'a') :
   require __DIR__ . '/../backend/componentes.php';
   require __DIR__ . '/../backend/conexion.php';
   require __DIR__ . '/../backend/funciones.php';
@@ -33,8 +33,9 @@ if ($_SESSION['cargo'] === 'a'):
     'filas' => getRegistros($sql) ?? [],
   ];
 
-  foreach ($datos['filas'] as &$log)
+  foreach ($datos['filas'] as &$log) {
     $log['fecha'] = formatearFecha($log['fecha']);
+  }
 
   unset($log);
 
@@ -50,7 +51,7 @@ if ($_SESSION['cargo'] === 'a'):
   }
 
   echo '</div>';
-else:
+else :
   include __DIR__ . '/../templates/head.php';
   $script .= sprintf("<script src='%sassets/js/restringido.js'></script>", $BASE_URL);
   include __DIR__ . '/../templates/footer.php';

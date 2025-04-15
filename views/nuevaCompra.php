@@ -8,7 +8,7 @@ if (!isset($_SESSION['activa'])) {
   header('location: ../salir.php');
 }
 
-if ($_SESSION['cargo'] === 'a'):
+if ($_SESSION['cargo'] === 'a') :
   require __DIR__ . '/../backend/componentes.php';
   require __DIR__ . '/../backend/conexion.php';
   require __DIR__ . '/../backend/funciones.php';
@@ -17,8 +17,8 @@ if ($_SESSION['cargo'] === 'a'):
   echo '<div id="moduloNuevaCompra">';
 
   /*=============================================
-    =            SELECCIONAR PROVEEDOR            =
-    =============================================*/
+  =            SELECCIONAR PROVEEDOR            =
+  =============================================*/
   $proveedores = getRegistros('SELECT * FROM proveedores ORDER BY rif') ?? [];
 
   $proveedor = [
@@ -32,12 +32,13 @@ if ($_SESSION['cargo'] === 'a'):
   }
 
   $botonesProveedores = '';
-  foreach ($proveedores as $proveedor)
+  foreach ($proveedores as $proveedor) {
     $botonesProveedores .= <<<HTML
         <button proveedor-id="{$proveedor['id']}" title="{$proveedor['nombre']}" class="w3-bar-item w3-button">
           <span>{$proveedor['rif']}</span>
         </button>
       HTML;
+  }
 
   $mostrarLista = isset($_SESSION['proveedorID'])
     ? ''
@@ -47,7 +48,11 @@ if ($_SESSION['cargo'] === 'a'):
       <section class="w3-row w3-padding-large w3-bottombar w3-round-large">
         <h2 class="w3-xlarge">Datos del <b>Proveedor</b></h2>
         <div class="w3-col m5 w3-margin-top">
-          <button onclick="modal(this)" data-target="#registrarProveedor" title="Registrar Proveedor" class="w3-green w3-button w3-circle">
+          <button
+            onclick="modal(this)"
+            data-target="#registrarProveedor"
+            title="Registrar Proveedor"
+            class="w3-green w3-button w3-circle">
             <b class="w3-large">+</b>
           </button>
           <div class="w3-dropdown-hover">
@@ -55,13 +60,19 @@ if ($_SESSION['cargo'] === 'a'):
               Seleccionar Proveedor
             </button>
             <div id="listaProveedores" class="w3-dropdown-content w3-bar-block w3-card w3-light-grey">
-              <input type="number" onkeyup="filter(this, 'listaProveedores')" class="w3-input w3-padding" placeholder="Buscar...">
+              <input
+                type="number"
+                onkeyup="filter(this, 'listaProveedores')"
+                class="w3-input w3-padding"
+                placeholder="Buscar..." />
               {$botonesProveedores}
             </div>
           </div>
         </div>
         <div class="w3-col m7">
-          <ul id="datosProveedor" class="w3-ul w3-small w3-card w3-white w3-padding-large w3-margin-top {$mostrarLista} w3-animate-opacity">
+          <ul
+            id="datosProveedor"
+            class="w3-ul w3-small w3-card w3-white w3-padding-large w3-margin-top {$mostrarLista} w3-animate-opacity">
             <div class="w3-bottombar">
               <p><b>Persona de contacto</b></p>
               <li>
@@ -138,12 +149,13 @@ if ($_SESSION['cargo'] === 'a'):
 
   $botonesProductos = '';
 
-  foreach ($productos as $producto)
+  foreach ($productos as $producto) {
     $botonesProductos .= <<<HTML
         <button producto-id="{$producto['id']}" class="w3-bar-item w3-button">
           {$producto['producto']}
         </button>
       HTML;
+  }
 
   $mostrarLista = isset($_SESSION['productoID'])
     ? ''
@@ -172,7 +184,10 @@ if ($_SESSION['cargo'] === 'a'):
       <section class="w3-row w3-padding-large w3-bottombar w3-round-large">
         <div class="w3-col s12 m5 w3-margin-top">
           <div class="w3-dropdown-hover w3-transparent">
-            <button onclick="modal(this)" data-target="#registrarProducto" title="Registrar Producto" class="w3-green w3-button w3-circle">
+            <button
+              onclick="modal(this)"
+              data-target="#registrarProducto"
+              title="Registrar Producto" class="w3-green w3-button w3-circle">
               <b class="w3-large">+</b>
             </button>
             {$tooltipRegistrarProducto}
@@ -188,7 +203,9 @@ if ($_SESSION['cargo'] === 'a'):
           </div>
         </div>
         <div class="w3-col s12 m7">
-          <form id="datosProducto" class="w3-small w3-card w3-white w3-padding-large w3-margin-top {$mostrarLista} w3-animate-opacity">
+          <form
+            id="datosProducto"
+            class="w3-small w3-card w3-white w3-padding-large w3-margin-top {$mostrarLista} w3-animate-opacity">
             <section class="w3-row">
               <div class="w3-input w3-col s4 w3-blue">Producto:</div>
               <div class="w3-col s8">
@@ -211,14 +228,28 @@ if ($_SESSION['cargo'] === 'a'):
             <section class="w3-row">
               <div class="w3-input w3-col s4 w3-blue">Precio (<i class="icon-dollar"></i>):</div>
               <div class="w3-col s8 w3-dropdown-hover">
-                <input name="precio" onchange="actualizarPrecio(this)" onkeyup="actualizarPrecio(this)" class="w3-input w3-padding" value="{$producto['precio']}">
+                <input
+                  name="precio"
+                  onchange="actualizarPrecio(this)"
+                  onkeyup="actualizarPrecio(this)"
+                  class="w3-input w3-padding"
+                  value="{$producto['precio']}">
                 {$tooltipPrecio}
               </div>
             </section>
             <section class="w3-row">
               <div class="w3-input w3-col s4 w3-blue">Cantidad:</div>
               <div class="w3-col s8">
-                <input type="number" id="cantidad" name="cantidad" onchange="actualizarTotal(this, 0, '#total')" onkeyup="actualizarTotal(this, 0, '#total')" placeholder="Introduce la cantidad" required min="0" class="w3-input w3-padding">
+                <input
+                  type="number"
+                  id="cantidad"
+                  name="cantidad"
+                  onchange="actualizarTotal(this, 0, '#total')"
+                  onkeyup="actualizarTotal(this, 0, '#total')"
+                  placeholder="Introduce la cantidad"
+                  required
+                  min="0"
+                  class="w3-input w3-padding" />
               </div>
             </section>
             <section class="w3-row">
@@ -246,8 +277,8 @@ if ($_SESSION['cargo'] === 'a'):
 
 
   /*=========================================
-    =            CARRITO DE COMPRA            =
-    =========================================*/
+  =            CARRITO DE COMPRA            =
+  =========================================*/
   $sql = <<<SQL
       SELECT c.producto_id, i.producto, i.precio, c.unidades, c.precio_total
       FROM carrito_compra c INNER JOIN inventario i ON c.producto_id=i.id
@@ -258,7 +289,7 @@ if ($_SESSION['cargo'] === 'a'):
   $filasProductos = '';
   $totalCarrito = 0;
 
-  foreach ($carrito as $producto):
+  foreach ($carrito as $producto) :
     $precioBS = round($producto['precio'] * getDolar(), 2);
     $precioPesos = (int) ($producto['precio'] * getPeso());
     $tooltipPrecio = generarTooltip(sprintf('Bs. %s<br>%d pesos', $precioBS, $precioPesos), false);
@@ -300,14 +331,22 @@ if ($_SESSION['cargo'] === 'a'):
       HTML;
   endforeach;
 
-  if ($carrito !== []):
+  if ($carrito !== []) :
     $precioBS = round($totalCarrito * floatval(getDolar()), 2);
     $precioPesos = (int) ($totalCarrito * floatval(getPeso()));
     $tooltipTotalCarrito = generarTooltip(sprintf('Bs. %s<br>%d pesos', $precioBS, $precioPesos), false);
     echo <<<HTML
         <section class="w3-section w3-responsive">
           <form id="carritoCompra">
-            <span class="w3-left icon-cart-arrow-down w3-padding w3-dark-grey w3-xxlarge" style="border-top-left-radius: 16px; border-top-right-radius: 16px; margin-bottom: -1px; margin-left: 1px"></span>
+            <span
+              class="w3-left icon-cart-arrow-down w3-padding w3-dark-grey w3-xxlarge"
+              style="
+                border-top-left-radius: 16px;
+                border-top-right-radius: 16px;
+                margin-bottom: -1px;
+                margin-left: 1px
+              ">
+            </span>
             <div class="w3-clear"></div>
             <table class="w3-table-all w3-centered w3-hoverable">
               <tr class="w3-dark-grey w3-small">
@@ -349,7 +388,10 @@ if ($_SESSION['cargo'] === 'a'):
   $inputNombre = generarINPUT('NOMBRE_NEGOCIO', $label, 'Nombre del proveedor');
 
   echo <<<HTML
-      <form id="registrarProveedor" autocomplete="off" class="modal w3-white w3-card w3-round-large animate__animated animate__fadeInUp animate__faster w3-hide">
+      <form
+        id="registrarProveedor"
+        autocomplete="off"
+        class="modal w3-white w3-card w3-round-large animate__animated animate__fadeInUp animate__faster w3-hide">
         <div class="w3-right-align">
           <span class="icon-close w3-button w3-transparent w3-hover-red"></span>
         </div>
@@ -383,7 +425,10 @@ if ($_SESSION['cargo'] === 'a'):
   $label = '<b>Existencia: </b><sup class="w3-text-blue">(opcional)</sup>';
   $inputStock = generarINPUT('STOCK', $label, 'Cantidad disponible');
   echo <<<HTML
-      <form id="registrarProducto" autocomplete="off" class="modal w3-white w3-card w3-round-large animate__animated animate__fadeInUp animate__faster w3-hide">
+      <form
+        id="registrarProducto"
+        autocomplete="off"
+        class="modal w3-white w3-card w3-round-large animate__animated animate__fadeInUp animate__faster w3-hide">
         <div class="w3-right-align">
           <span class="icon-close w3-button w3-transparent w3-hover-red"></span>
         </div>
@@ -411,7 +456,7 @@ if ($_SESSION['cargo'] === 'a'):
   $productosEnCarrito = count($carrito);
   echo sprintf("<span class='w3-hide' id='cantidadProductosEnCarrito'>%s</span>", $productosEnCarrito);
   echo '</div>';
-else:
+else :
   include __DIR__ . '/../templates/head.php';
   $script = sprintf("<script src='%sassets/js/restringido.js'></script>", $BASE_URL);
   include __DIR__ . '/../templates/footer.php';

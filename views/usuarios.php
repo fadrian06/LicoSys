@@ -3,11 +3,12 @@
 declare(strict_types=1);
 
 session_start();
+
 if (!isset($_SESSION['activa'])) {
   header('location: ../salir.php');
 }
 
-if ($_SESSION['cargo'] === 'a'):
+if ($_SESSION['cargo'] === 'a') :
   require __DIR__ . '/../backend/componentes.php';
   require __DIR__ . '/../backend/conexion.php';
   require __DIR__ . '/../backend/funciones.php';
@@ -64,7 +65,10 @@ if ($_SESSION['cargo'] === 'a'):
   $label = '<b>Teléfono: </b><sup class="w3-text-blue">(opcional)</sup>';
   $inputTelefono = generarINPUT('TELEFONO', $label, 'Introduce un teléfono');
   echo <<<HTML
-      <form id="registrarUsuario" autocomplete="off" class="modal w3-white w3-card w3-round-large animate__animated animate__fadeInUp animate__faster w3-hide">
+      <form
+        id="registrarUsuario"
+        autocomplete="off"
+        class="modal w3-white w3-card w3-round-large animate__animated animate__fadeInUp animate__faster w3-hide">
         <div class="w3-right-align">
           <span class="icon-close w3-button w3-transparent w3-hover-red"></span>
         </div>
@@ -90,7 +94,7 @@ if ($_SESSION['cargo'] === 'a'):
 
   echo '<footer id="botones">' . BOTONES['REGISTRAR_USUARIO'] . '</footer>';
   echo '</div>';
-else:
+else :
   include __DIR__ . '/../templates/head.php';
   $script = sprintf("<script src='%sassets/js/restringido.js'></script>", $BASE_URL);
   include __DIR__ . '/../templates/footer.php';
