@@ -4,8 +4,56 @@
     "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
     "This file is @generated automatically"
   ],
-  "content-hash": "dfcd7ca16e181b052501d937c6e2be36",
+  "content-hash": "8a8ff0dea7ba7c46bf0cbba59bc69b46",
   "packages": [
+    {
+      "name": "flightphp/container",
+      "version": "v1.3.0",
+      "source": {
+        "type": "git",
+        "url": "https://github.com/flightphp/container.git",
+        "reference": "ebaf18426b289217b49c0a0067668a9f2082edd5"
+      },
+      "dist": {
+        "type": "zip",
+        "url": "https://api.github.com/repos/flightphp/container/zipball/ebaf18426b289217b49c0a0067668a9f2082edd5",
+        "reference": "ebaf18426b289217b49c0a0067668a9f2082edd5",
+        "shasum": ""
+      },
+      "require": {
+        "php": ">=7.4",
+        "psr/container": "^2.0"
+      },
+      "require-dev": {
+        "phpstan/extension-installer": "^1.4",
+        "phpstan/phpstan": "^2.1",
+        "phpstan/phpstan-phpunit": "^2.0",
+        "phpunit/phpunit": "^9.6",
+        "rector/rector": "^2.0"
+      },
+      "type": "library",
+      "autoload": {
+        "psr-4": {
+          "flight\\": "src"
+        }
+      },
+      "notification-url": "https://packagist.org/downloads/",
+      "license": [
+        "MIT"
+      ],
+      "authors": [
+        {
+          "name": "fadrian06",
+          "email": "franyeradriansanchez@gmail.com"
+        }
+      ],
+      "description": "FlightPHP Dependency Injection Container",
+      "support": {
+        "issues": "https://github.com/flightphp/container/issues",
+        "source": "https://github.com/flightphp/container/tree/v1.3.0"
+      },
+      "time": "2025-04-07T03:30:45+00:00"
+    },
     {
       "name": "leafs/anchor",
       "version": "v1.6.2",
@@ -133,6 +181,59 @@
         }
       ],
       "time": "2025-03-08T17:04:14+00:00"
+    },
+    {
+      "name": "psr/container",
+      "version": "2.0.2",
+      "source": {
+        "type": "git",
+        "url": "https://github.com/php-fig/container.git",
+        "reference": "c71ecc56dfe541dbd90c5360474fbc405f8d5963"
+      },
+      "dist": {
+        "type": "zip",
+        "url": "https://api.github.com/repos/php-fig/container/zipball/c71ecc56dfe541dbd90c5360474fbc405f8d5963",
+        "reference": "c71ecc56dfe541dbd90c5360474fbc405f8d5963",
+        "shasum": ""
+      },
+      "require": {
+        "php": ">=7.4.0"
+      },
+      "type": "library",
+      "extra": {
+        "branch-alias": {
+          "dev-master": "2.0.x-dev"
+        }
+      },
+      "autoload": {
+        "psr-4": {
+          "Psr\\Container\\": "src/"
+        }
+      },
+      "notification-url": "https://packagist.org/downloads/",
+      "license": [
+        "MIT"
+      ],
+      "authors": [
+        {
+          "name": "PHP-FIG",
+          "homepage": "https://www.php-fig.org/"
+        }
+      ],
+      "description": "Common Container Interface (PHP FIG PSR-11)",
+      "homepage": "https://github.com/php-fig/container",
+      "keywords": [
+        "PSR-11",
+        "container",
+        "container-interface",
+        "container-interop",
+        "psr"
+      ],
+      "support": {
+        "issues": "https://github.com/php-fig/container/issues",
+        "source": "https://github.com/php-fig/container/tree/2.0.2"
+      },
+      "time": "2021-11-05T16:47:00+00:00"
     },
     {
       "name": "symfony/dotenv",
@@ -606,59 +707,6 @@
         }
       ],
       "time": "2025-03-24T13:45:00+00:00"
-    },
-    {
-      "name": "psr/container",
-      "version": "2.0.2",
-      "source": {
-        "type": "git",
-        "url": "https://github.com/php-fig/container.git",
-        "reference": "c71ecc56dfe541dbd90c5360474fbc405f8d5963"
-      },
-      "dist": {
-        "type": "zip",
-        "url": "https://api.github.com/repos/php-fig/container/zipball/c71ecc56dfe541dbd90c5360474fbc405f8d5963",
-        "reference": "c71ecc56dfe541dbd90c5360474fbc405f8d5963",
-        "shasum": ""
-      },
-      "require": {
-        "php": ">=7.4.0"
-      },
-      "type": "library",
-      "extra": {
-        "branch-alias": {
-          "dev-master": "2.0.x-dev"
-        }
-      },
-      "autoload": {
-        "psr-4": {
-          "Psr\\Container\\": "src/"
-        }
-      },
-      "notification-url": "https://packagist.org/downloads/",
-      "license": [
-        "MIT"
-      ],
-      "authors": [
-        {
-          "name": "PHP-FIG",
-          "homepage": "https://www.php-fig.org/"
-        }
-      ],
-      "description": "Common Container Interface (PHP FIG PSR-11)",
-      "homepage": "https://github.com/php-fig/container",
-      "keywords": [
-        "PSR-11",
-        "container",
-        "container-interface",
-        "container-interop",
-        "psr"
-      ],
-      "support": {
-        "issues": "https://github.com/php-fig/container/issues",
-        "source": "https://github.com/php-fig/container/tree/2.0.2"
-      },
-      "time": "2021-11-05T16:47:00+00:00"
     },
     {
       "name": "psr/log",

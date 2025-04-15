@@ -6,18 +6,14 @@ use Symfony\Component\Dotenv\Dotenv;
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
-(new Dotenv)->load(__DIR__ . '/../.env');
+(new Dotenv)->load(__DIR__ . '/../.env.dist', __DIR__ . '/../.env');
 
 /**
  * Respuesta del servidor al cliente.
  *
  * @var array{ok: string, error: string, datos: mixed[]}
  */
-$respuesta = [
-  'ok'    => '',
-  'error' => '',
-  'datos' => []
-];
+$respuesta = ['ok' => '', 'error' => '', 'datos' => []];
 
 $conexion = @new mysqli(
   $_ENV['DB_HOST'],

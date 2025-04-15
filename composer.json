@@ -11,7 +11,8 @@
     "symfony/dotenv": "^7.2",
     "php": "^8.2",
     "ext-mysqli": "*",
-    "leafs/session": "^4.0"
+    "leafs/session": "^4.0",
+    "flightphp/container": "^1.3"
   },
   "scripts": {
     "pre-install-cmd": ["composer check-platform-reqs", "cp -n .env.dist .env"],
