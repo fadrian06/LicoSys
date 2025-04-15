@@ -12,7 +12,7 @@
     "stylus": "stylus src/index.styl -o assets/css/bundle.css -w -m -r --include-css",
     "babel": "babel src/modules -d assets/js -w",
     "build": "rm -rf assets/js assets/css & babel src/modules -d assets/js --minified & stylus src/index.styl -o assets/css/bundle.css -c -r --include-css",
-    "ci": "biome ci ./",
+    "ci": "biome ci --colors=off ./",
     "format": "biome format ./"
   }
 }

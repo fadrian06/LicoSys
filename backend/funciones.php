@@ -35,58 +35,58 @@
  * @return true La tabla se ha impreso con éxito.
  */
 function tabla(string $titulo, array $encabezados, array $datos, string $sinRegistros = '', $desactivar = false, $actualizar = false, $factura = false): bool {
-	$filasEscritorio = '';
-	$filasMovil = '';
-	$filasDesactivadosEscritorio = '';
-	$filasDesactivadosMovil = '';
-	$encabezadosEscritorio = '';
-	$encabezadosDesactivadosEscritorio = '';
-	$encabezadosMovil = '';
-	$encabezadosDesactivadosMovil = '';
+  $filasEscritorio = '';
+  $filasMovil = '';
+  $filasDesactivadosEscritorio = '';
+  $filasDesactivadosMovil = '';
+  $encabezadosEscritorio = '';
+  $encabezadosDesactivadosEscritorio = '';
+  $encabezadosMovil = '';
+  $encabezadosDesactivadosMovil = '';
 
-	// Plantilla a mostrar CUANDO NO EXISTAN REGISTROS ACTIVOS NI INACTIVOS
-	if (!$datos['filas'] and empty($desactivar['filas'])) :
-		echo <<<HTML
+  // Plantilla a mostrar CUANDO NO EXISTAN REGISTROS ACTIVOS NI INACTIVOS
+  if (!$datos['filas'] and empty($desactivar['filas'])) :
+    echo <<<HTML
 			<h2 class="w3-display-middle w3-container w3-center w3-opacity">
 				$sinRegistros
 			</h2>
 		HTML;
-		return true;
-	endif;
+    return true;
+  endif;
 
-	// Rellenamos los encabezados activos en escritorio.
-	foreach ($encabezados['escritorio'] as $encabezado) :
-		$encabezadosEscritorio .= <<<HTML
+  // Rellenamos los encabezados activos en escritorio.
+  foreach ($encabezados['escritorio'] as $encabezado) :
+    $encabezadosEscritorio .= <<<HTML
 			<th class="w3-indigo">$encabezado</th>
 		HTML;
-		$encabezadosDesactivadosEscritorio .= <<<HTML
+    $encabezadosDesactivadosEscritorio .= <<<HTML
 			<th class="w3-red">$encabezado</th>
 		HTML;
-	endforeach;
-	if ($desactivar) $encabezadosEscritorio .= '<th></th>';
-	if ($actualizar) $encabezadosEscritorio .= '<th></th>';
-	if ($factura) $encabezadosEscritorio .= '<th></th>';
+  endforeach;
+  if ($desactivar) $encabezadosEscritorio .= '<th></th>';
+  if ($actualizar) $encabezadosEscritorio .= '<th></th>';
+  if ($factura) $encabezadosEscritorio .= '<th></th>';
 
-	// Rellenamos lo encabezados en móvil.
-	foreach ($encabezados['movil'] as $encabezado) :
-		$encabezadosMovil .= <<<HTML
+  // Rellenamos lo encabezados en móvil.
+  foreach ($encabezados['movil'] as $encabezado) :
+    $encabezadosMovil .= <<<HTML
 			<div class="w3-padding w3-col s5 w3-indigo">
 				<b>$encabezado</b>
 			</div>
 		HTML;
-		$encabezadosDesactivadosMovil .= <<<HTML
+    $encabezadosDesactivadosMovil .= <<<HTML
 			<div class="w3-padding w3-col s5 w3-red">
 				<b>$encabezado</b>
 			</div>
 		HTML;
-	endforeach;
-	$encabezadosDesactivadosEscritorio .= '<th class="w3-red"></th>';
+  endforeach;
+  $encabezadosDesactivadosEscritorio .= '<th class="w3-red"></th>';
 
-	// Rellenamos las filas.
-	foreach ($datos['filas'] as $fila) :
-		$campos = '';
-		foreach ($datos['camposEscritorio'] as $campo)
-			$campos .= <<<HTML
+  // Rellenamos las filas.
+  foreach ($datos['filas'] as $fila) :
+    $campos = '';
+    foreach ($datos['camposEscritorio'] as $campo)
+      $campos .= <<<HTML
 				<td>
 					<span class="w3-button w3-block w3-left-align w3-transparent w3-hover-none" style="padding-left: 0; padding-right: 0">
 						$fila[$campo]
@@ -94,8 +94,8 @@ function tabla(string $titulo, array $encabezados, array $datos, string $sinRegi
 				</td>
 			HTML;
 
-		if ($desactivar)
-			$campos .= <<<HTML
+    if ($desactivar)
+      $campos .= <<<HTML
 				<td>
 					<button onclick="desactivar('{$desactivar['tabla']}', '{$desactivar['campo']}', {$fila[$desactivar['campo']]}, '{$desactivar['enlace']}')" class="w3-button w3-round-xlarge w3-red w3-hover-black">
 						Desactivar
@@ -103,8 +103,8 @@ function tabla(string $titulo, array $encabezados, array $datos, string $sinRegi
 				</td>
 			HTML;
 
-		if ($actualizar && $_SESSION['cargo'] === 'a')
-			$campos .= <<<HTML
+    if ($actualizar && $_SESSION['cargo'] === 'a')
+      $campos .= <<<HTML
 				<td>
 					<button onclick="editar(this, '{$actualizar['tabla']}', '{$actualizar['campo']}', {$fila[$actualizar['campo']]}, '{$actualizar['enlace']}')" data-target="{$actualizar['IDform']}" class="w3-button w3-round-xlarge w3-blue w3-hover-black">
 						Editar
@@ -112,8 +112,8 @@ function tabla(string $titulo, array $encabezados, array $datos, string $sinRegi
 				</td>
 			HTML;
 
-		if ($factura)
-			$campos .= <<<HTML
+    if ($factura)
+      $campos .= <<<HTML
 				<td>
 					<button onclick="verFacturaVenta(this, '{$fila['id']}')" data-target="#modalFactura" class="w3-button w3-round-xlarge w3-blue w3-hover-black">
 						Ver factura
@@ -121,20 +121,20 @@ function tabla(string $titulo, array $encabezados, array $datos, string $sinRegi
 				</td>
 			HTML;
 
-		$filasEscritorio .= <<<HTML
+    $filasEscritorio .= <<<HTML
 			<tr>$campos</tr>
 		HTML;
 
-		$campos = '';
-		$verMas = '';
-		foreach ($datos['camposMovil'] as $campo)
-			$campos .= <<<HTML
+    $campos = '';
+    $verMas = '';
+    foreach ($datos['camposMovil'] as $campo)
+      $campos .= <<<HTML
 				<div class="w3-col s5 w3-left-align">$fila[$campo]</div>
 			HTML;
 
-		$cantidadDatosVerMas = count($datos['camposEscritorio']);
-		for ($i = 0; $i < $cantidadDatosVerMas; ++$i)
-			$verMas .= <<<HTML
+    $cantidadDatosVerMas = count($datos['camposEscritorio']);
+    for ($i = 0; $i < $cantidadDatosVerMas; ++$i)
+      $verMas .= <<<HTML
 				<li class="w3-block w3-row-padding w3-border-bottom w3-border-black">
 					<div class="w3-col s4">
 						<b class="w3-tag">{$encabezados['escritorio'][$i]}:</b>
@@ -147,8 +147,8 @@ function tabla(string $titulo, array $encabezados, array $datos, string $sinRegi
 				</li>
 			HTML;
 
-		if ($desactivar)
-			$verMas .= <<<HTML
+    if ($desactivar)
+      $verMas .= <<<HTML
 				<li class="w3-block">
 					<div class=w3-container>
 						<button onclick="desactivar('{$desactivar['tabla']}', '{$desactivar['campo']}', {$fila[$desactivar['campo']]}, '{$desactivar['enlace']}')" class="w3-block w3-button w3-round-xlarge w3-red w3-hover-black">
@@ -158,8 +158,8 @@ function tabla(string $titulo, array $encabezados, array $datos, string $sinRegi
 				</li>
 			HTML;
 
-		if ($actualizar && $_SESSION['cargo'] === 'a')
-			$verMas .= <<<HTML
+    if ($actualizar && $_SESSION['cargo'] === 'a')
+      $verMas .= <<<HTML
 				<li class="w3-block">
 					<div class=w3-container>
 						<button onclick="editar(this, '{$actualizar['tabla']}', '{$actualizar['campo']}', {$fila[$actualizar['campo']]}, '{$actualizar['enlace']}')" data-target="{$actualizar['IDform']}" class="w3-block w3-button w3-round-xlarge w3-blue w3-hover-black">
@@ -169,8 +169,8 @@ function tabla(string $titulo, array $encabezados, array $datos, string $sinRegi
 				</li>
 			HTML;
 
-		if ($factura)
-			$verMas .= <<<HTML
+    if ($factura)
+      $verMas .= <<<HTML
 				<li class="w3-block">
 					<div class=w3-container>
 						<button onclick="verFacturaVenta(this, '{$fila['id']}')" data-target="#modalFactura" class="w3-block w3-button w3-round-xlarge w3-blue w3-hover-black">
@@ -180,7 +180,7 @@ function tabla(string $titulo, array $encabezados, array $datos, string $sinRegi
 				</li>
 			HTML;
 
-		$filasMovil .= <<<HTML
+    $filasMovil .= <<<HTML
 			<div role="accordion">
 				<button class="w3-block w3-button w3-row w3-center">
 					$campos
@@ -195,14 +195,14 @@ function tabla(string $titulo, array $encabezados, array $datos, string $sinRegi
 				</div>
 			</div>
 		HTML;
-	endforeach;
+  endforeach;
 
-	// Rellenamos las filas de desactivados en escritorio.
-	if ($desactivar) :
-		foreach ($desactivar['filas'] as $fila) :
-			$campos = '';
-			foreach ($datos['camposEscritorio'] as $campo)
-				$campos .= <<<HTML
+  // Rellenamos las filas de desactivados en escritorio.
+  if ($desactivar) :
+    foreach ($desactivar['filas'] as $fila) :
+      $campos = '';
+      foreach ($datos['camposEscritorio'] as $campo)
+        $campos .= <<<HTML
 					<td>
 						<span class="w3-button w3-left-align w3-transparent w3-hover-none" style="padding-left: 0; padding-right: 0">
 							$fila[$campo]
@@ -210,8 +210,8 @@ function tabla(string $titulo, array $encabezados, array $datos, string $sinRegi
 					</td>
 				HTML;
 
-			if ($desactivar)
-				$campos .= <<<HTML
+      if ($desactivar)
+        $campos .= <<<HTML
 					<td>
 						<button onclick="activar('{$desactivar['tabla']}', '{$desactivar['campo']}', '{$fila[$desactivar['campo']]}', '{$desactivar['enlace']}')" class="w3-button w3-round-xlarge w3-green w3-hover-black">
 							Activar
@@ -219,20 +219,20 @@ function tabla(string $titulo, array $encabezados, array $datos, string $sinRegi
 					</td>
 				HTML;
 
-			$filasDesactivadosEscritorio .= <<<HTML
+      $filasDesactivadosEscritorio .= <<<HTML
 				<tr class="w3-left-align">$campos</tr>
 			HTML;
 
-			$campos = '';
-			$verMas = '';
-			foreach ($datos['camposMovil'] as $campo)
-				$campos .= <<<HTML
+      $campos = '';
+      $verMas = '';
+      foreach ($datos['camposMovil'] as $campo)
+        $campos .= <<<HTML
 					<div class="w3-col s5 w3-left-align">$fila[$campo]</div>
 				HTML;
 
-			$cantidadDatosVerMas = count($datos['camposEscritorio']);
-			for ($i = 0; $i < $cantidadDatosVerMas; ++$i)
-				$verMas .= <<<HTML
+      $cantidadDatosVerMas = count($datos['camposEscritorio']);
+      for ($i = 0; $i < $cantidadDatosVerMas; ++$i)
+        $verMas .= <<<HTML
 					<li class="w3-block w3-row-padding w3-border-bottom w3-border-black">
 						<div class="w3-col s4">
 							<b class="w3-tag">{$encabezados['escritorio'][$i]}:</b>
@@ -243,8 +243,8 @@ function tabla(string $titulo, array $encabezados, array $datos, string $sinRegi
 					</li>
 				HTML;
 
-			if ($desactivar)
-				$verMas .= <<<HTML
+      if ($desactivar)
+        $verMas .= <<<HTML
 					<li class="w3-block">
 						<div class=w3-container>
 							<button onclick="activar('{$desactivar['tabla']}', '{$desactivar['campo']}', '{$fila[$desactivar['campo']]}', '{$desactivar['enlace']}')" class="w3-block w3-button w3-round-xlarge w3-green w3-hover-black">
@@ -254,7 +254,7 @@ function tabla(string $titulo, array $encabezados, array $datos, string $sinRegi
 					</li>
 				HTML;
 
-			$filasDesactivadosMovil .= <<<HTML
+      $filasDesactivadosMovil .= <<<HTML
 				<div role="accordion">
 					<button class="w3-block w3-button w3-row w3-center">
 						$campos
@@ -269,14 +269,14 @@ function tabla(string $titulo, array $encabezados, array $datos, string $sinRegi
 					</div>
 				</div>
 			HTML;
-		endforeach;
-	endif;
+    endforeach;
+  endif;
 
-	/*==================================================
+  /*==================================================
 	=            ESTRUCTURA TABLA ACTIVADOS            =
 	==================================================*/
-	if ($datos['filas'])
-		echo <<<HTML
+  if ($datos['filas'])
+    echo <<<HTML
 			<h2 class='w3-center w3-bottombar w3-border-blue w3-round-medium'>$titulo</h2>
 			<div class="w3-animate-opacity w3-margin-top w3-margin-bottom w3-card-4 w3-responsive">
 				<table class="w3-table-all w3-hoverable w3-hide-small">
@@ -297,12 +297,12 @@ function tabla(string $titulo, array $encabezados, array $datos, string $sinRegi
 			</div>
 		HTML;
 
-	/*=====================================================
+  /*=====================================================
 	=            ESTRUCTURA TABLA DESACTIVADOS            =
 	=====================================================*/
-	if ($desactivar['filas']) :
-		$cantidadDesactivados = count($desactivar['filas']);
-		echo <<<HTML
+  if ($desactivar['filas']) :
+    $cantidadDesactivados = count($desactivar['filas']);
+    echo <<<HTML
 			<br>
 			<details class="w3-margin-top">
 				<summary class="w3-xlarge w3-padding">
@@ -332,19 +332,19 @@ function tabla(string $titulo, array $encabezados, array $datos, string $sinRegi
 			</details>
 			<br><br><br><br><br><br><br><br><br><br>
 		HTML;
-	endif;
-	return true;
+  endif;
+  return true;
 }
 
 /** Muestra variables en formato más legible */
 function depurar($dato, string $nombre = '') {
-	echo '<pre class="w3-orange w3-padding-large">';
-	echo $nombre ? "$nombre: " : '';
-	if (is_array($dato)) print_r($dato);
-	elseif (is_object($dato)) print_r($dato);
-	elseif (is_bool($dato)) echo $dato ? 'true' : 'false';
-	else var_dump(htmlspecialchars($dato));
-	echo '</pre>';
+  echo '<pre class="w3-orange w3-padding-large">';
+  echo $nombre ? "$nombre: " : '';
+  if (is_array($dato)) print_r($dato);
+  elseif (is_object($dato)) print_r($dato);
+  elseif (is_bool($dato)) echo $dato ? 'true' : 'false';
+  else var_dump(htmlspecialchars(strval($dato)));
+  echo '</pre>';
 }
 
 /**
@@ -356,15 +356,15 @@ function depurar($dato, string $nombre = '') {
  * dependiendo si encuentra coincidencias.
  */
 function getRegistros(string $sql): ?array {
-	global $conexion;
+  global $conexion;
 
-	try {
-		$resultado = $conexion->query($sql);
+  try {
+    $resultado = $conexion->query($sql);
 
-		return $resultado ? $resultado->fetch_all(MYSQLI_BOTH) : null;
-	} catch (mysqli_sql_exception) {
-		return null;
-	}
+    return $resultado ? $resultado->fetch_all(MYSQLI_BOTH) : null;
+  } catch (mysqli_sql_exception) {
+    return null;
+  }
 }
 
 /**
@@ -375,15 +375,15 @@ function getRegistros(string $sql): ?array {
  * @return array<string, mixed> Un array asociativo con los datos o [].
  */
 function getRegistro(string $sql): ?array {
-	global $conexion;
+  global $conexion;
 
-	try {
-		$resultado = $conexion->query($sql);
+  try {
+    $resultado = $conexion->query($sql);
 
-		return $resultado ? $resultado->fetch_assoc() : null;
-	} catch (mysqli_sql_exception) {
-		return null;
-	}
+    return $resultado ? $resultado->fetch_assoc() : null;
+  } catch (mysqli_sql_exception) {
+    return null;
+  }
 }
 
 /**
@@ -395,16 +395,16 @@ function getRegistro(string $sql): ?array {
  * para ver el error utilice `$conexion->error`.
  */
 function setRegistro(string $sql): ?int {
-	global $conexion;
+  global $conexion;
 
-	try {
-		$conexion->query($sql);
-		$afectadas = $conexion->affected_rows;
+  try {
+    $conexion->query($sql);
+    $afectadas = $conexion->affected_rows;
 
-		return $afectadas !== -1 ? $afectadas : null;
-	} catch (mysqli_sql_exception) {
-		return null;
-	}
+    return $afectadas !== -1 ? $afectadas : null;
+  } catch (mysqli_sql_exception) {
+    return null;
+  }
 }
 
 /**
@@ -414,15 +414,15 @@ function setRegistro(string $sql): ?int {
  *  <i>(ver error con `$conexion->error`)</i>
  */
 function consulta(string $sql): ?int {
-	global $conexion;
-	$resultado = $conexion->query($sql);
-	return $resultado ? $resultado->num_rows : NULL;
+  global $conexion;
+  $resultado = $conexion->query($sql);
+  return $resultado ? $resultado->num_rows : NULL;
 }
 
 // Debe ser llamado dentro de una etiqueta <script></script>
 function getSQLError(): string {
-	global $conexion;
-	return "
+  global $conexion;
+  return "
 		console.log(\"" . mysqli_error($conexion) . "\");
 		alerta('Ha ocurrido un error, por favor intente nuevamente')
 	";
@@ -432,8 +432,8 @@ function getSQLError(): string {
 =            OBTENER LA FECHA Y HORA ACTUAL            =
 ======================================================*/
 function getHora() {
-	date_default_timezone_set("America/Caracas");
-	return date("d-m-Y, h:i a");
+  date_default_timezone_set("America/Caracas");
+  return date("d-m-Y, h:i a");
 }
 
 /**
@@ -441,8 +441,8 @@ function getHora() {
  * @return string Cadena que representa la última versión registrada.
  */
 function getUltimaVersion(): string {
-	$version = getRegistro('SELECT nombre FROM versiones ORDER BY id DESC LIMIT 1');
-	return $version['nombre'];
+  $version = getRegistro('SELECT nombre FROM versiones ORDER BY id DESC LIMIT 1');
+  return $version['nombre'];
 }
 
 /**
@@ -450,8 +450,8 @@ function getUltimaVersion(): string {
  * @return int|null Retorna el ID o NULL si no existen negocios.
  */
 function getUltimoNegocio(): ?int {
-	$id = getRegistro('SELECT * FROM negocios ORDER BY id DESC LIMIT 1');
-	return (int) $id['id'] ?? null;
+  $id = getRegistro('SELECT * FROM negocios ORDER BY id DESC LIMIT 1');
+  return (int) $id['id'] ?? null;
 }
 
 /**
@@ -459,8 +459,8 @@ function getUltimoNegocio(): ?int {
  * @return float|string El valor del IVA en formato `0.nn`.
  */
 function getIVA() {
-	$iva = getRegistro('SELECT * FROM iva ORDER BY fecha DESC LIMIT 1');
-	return $iva && $iva['valor'] ? (float) $iva['valor'] : 'No establecido';
+  $iva = getRegistro('SELECT * FROM iva ORDER BY fecha DESC LIMIT 1');
+  return $iva && $iva['valor'] ? (float) $iva['valor'] : 'No establecido';
 }
 
 /**
@@ -468,8 +468,8 @@ function getIVA() {
  * @return float|string La tasa del dolar.
  */
 function getDolar() {
-	$dolar = getRegistro('SELECT * FROM dolar ORDER BY fecha DESC LIMIT 1');
-	return $dolar && $dolar['valor'] ? (float) $dolar['valor'] : 'No establecido';
+  $dolar = getRegistro('SELECT * FROM dolar ORDER BY fecha DESC LIMIT 1');
+  return $dolar && $dolar['valor'] ? (float) $dolar['valor'] : 'No establecido';
 }
 
 /**
@@ -477,8 +477,8 @@ function getDolar() {
  * @return int|string La tasa de cambio Dolar/Peso
  */
 function getPeso() {
-	$peso = getRegistro('SELECT * FROM peso ORDER BY fecha DESC LIMIT 1');
-	return $peso && $peso['valor'] ? (int) $peso['valor'] : 'No establecido';
+  $peso = getRegistro('SELECT * FROM peso ORDER BY fecha DESC LIMIT 1');
+  return $peso && $peso['valor'] ? (int) $peso['valor'] : 'No establecido';
 }
 
 /**
@@ -486,7 +486,7 @@ function getPeso() {
  * @param string $texto
  */
 function capitalize(string $texto): string {
-	return mb_convert_case($texto, MB_CASE_TITLE, 'UTF-8');
+  return mb_convert_case($texto, MB_CASE_TITLE, 'UTF-8');
 }
 
 /**
@@ -496,11 +496,11 @@ function capitalize(string $texto): string {
  * y etiquetas.
  */
 function escapar(string $texto): string {
-	global $conexion;
-	$texto = $conexion->real_escape_string($texto);
-	// $texto = quotemeta($texto);
-	$texto = strip_tags($texto);
-	return $texto;
+  global $conexion;
+  $texto = $conexion->real_escape_string($texto);
+  // $texto = quotemeta($texto);
+  $texto = strip_tags(strval($texto));
+  return $texto;
 }
 
 /**
@@ -511,15 +511,15 @@ function escapar(string $texto): string {
  * @return ?ínt El número de registros. Retorna NULL si la tabla no existe.
  */
 function contarRegistros(string $tabla): ?int {
-	global $conexion;
+  global $conexion;
 
-	try {
-		$resultado = $conexion->query("SELECT COUNT(*) FROM $tabla");
+  try {
+    $resultado = $conexion->query("SELECT COUNT(*) FROM $tabla");
 
-		return $resultado ? (int) $resultado->fetch_row()[0] : null;
-	} catch (mysqli_sql_exception) {
-		return null;
-	}
+    return $resultado ? (int) $resultado->fetch_row()[0] : null;
+  } catch (mysqli_sql_exception) {
+    return null;
+  }
 }
 
 /**
@@ -528,7 +528,7 @@ function contarRegistros(string $tabla): ?int {
  * @return string        El texto encriptado.
  */
 function encriptar(string $texto): string {
-	return password_hash($texto, PASSWORD_DEFAULT);
+  return password_hash($texto, PASSWORD_DEFAULT);
 }
 
 /**
@@ -536,25 +536,35 @@ function encriptar(string $texto): string {
  * @return string La fecha y hora formateada.
  */
 function fecha(): string {
-	date_default_timezone_set('America/Caracas');
-	$dias = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
-	$meses = [
-		1 => 'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio',
-		'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'
-	];
-	$diaSemana = (int) date('w');
-	$diaActual = (int) date('d');
-	$mesActual = (int) date('m');
-	$añoActual = (int) date('Y');
-	return "$dias[$diaSemana], $diaActual de $meses[$mesActual] del $añoActual";
+  date_default_timezone_set('America/Caracas');
+  $dias = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
+  $meses = [
+    1 => 'Enero',
+    'Febrero',
+    'Marzo',
+    'Abril',
+    'Mayo',
+    'Junio',
+    'Julio',
+    'Agosto',
+    'Septiembre',
+    'Octubre',
+    'Noviembre',
+    'Diciembre'
+  ];
+  $diaSemana = (int) date('w');
+  $diaActual = (int) date('d');
+  $mesActual = (int) date('m');
+  $añoActual = (int) date('Y');
+  return "$dias[$diaSemana], $diaActual de $meses[$mesActual] del $añoActual";
 }
 
 /*========================================================
 =            FORMATEAR UNA CANTIDAD MONETARIA            =
 ========================================================*/
 function formatMoney($cantidad) {
-	$cantidad = number_format($cantidad, 0, ",", ".");
-	return $cantidad;
+  $cantidad = number_format($cantidad, 0, ",", ".");
+  return $cantidad;
 }
 
 /**
@@ -564,11 +574,11 @@ function formatMoney($cantidad) {
  * @return array Un array asociativo con la respuesta de la API.
  */
 function getAPI(string $url, string $urlJSON): array {
-	$data = @file_get_contents($url) ?: @file_get_contents($urlJSON);
-	@file_put_contents($urlJSON, $data);
-	$data = json_decode($data, true, 512, JSON_INVALID_UTF8_IGNORE);
+  $data = @file_get_contents($url) ?: @file_get_contents($urlJSON);
+  @file_put_contents($urlJSON, $data);
+  $data = json_decode($data, true, 512, JSON_INVALID_UTF8_IGNORE);
 
-	return $data;
+  return $data;
 }
 
 /**
@@ -578,13 +588,13 @@ function getAPI(string $url, string $urlJSON): array {
  * @return array Un nuevo arreglo sin elementos duplicados.
  */
 function eliminarDuplicados(array $arrays, string $clave): array {
-	$sinDuplicados = [];
-	if (!$arrays) return $sinDuplicados;
+  $sinDuplicados = [];
+  if (!$arrays) return $sinDuplicados;
 
-	foreach ($arrays as $array)
-		$sinDuplicados[$array[$clave]] = $array;
+  foreach ($arrays as $array)
+    $sinDuplicados[$array[$clave]] = $array;
 
-	return $sinDuplicados;
+  return $sinDuplicados;
 }
 
 /**
@@ -593,42 +603,42 @@ function eliminarDuplicados(array $arrays, string $clave): array {
  * @return array        Un arreglo con la información sobre la diferencia de fechas.
  */
 function obtenerDiferenciaFecha(string $fecha): array {
-	date_default_timezone_set('America/Caracas');
+  date_default_timezone_set('America/Caracas');
 
-	$objetoFecha = DateTime::createFromFormat('Y-m-d H:i:s', $fecha);
-	$actual = time();
-	$fecha  = $objetoFecha->getTimestamp();
-	$diferencia  = $actual - $fecha;
+  $objetoFecha = DateTime::createFromFormat('Y-m-d H:i:s', $fecha);
+  $actual = time();
+  $fecha  = $objetoFecha->getTimestamp();
+  $diferencia  = $actual - $fecha;
 
-	$datetime = [
-		'año'      => 0,
-		'mes'      => 0,
-		'semana'   => 0,
-		'dia'      => 0,
-		'hora'     => 0,
-		'minutos'  => 0,
-		'segundos' => $diferencia
-	];
+  $datetime = [
+    'año'      => 0,
+    'mes'      => 0,
+    'semana'   => 0,
+    'dia'      => 0,
+    'hora'     => 0,
+    'minutos'  => 0,
+    'segundos' => $diferencia
+  ];
 
-	$datetime['minutos'] = (int) ($datetime['segundos'] / 60);
-	$datetime['segundos'] %= 60;
+  $datetime['minutos'] = (int) ($datetime['segundos'] / 60);
+  $datetime['segundos'] %= 60;
 
-	$datetime['hora'] = (int) ($datetime['minutos'] / 60);
-	$datetime['minutos'] %= 60;
+  $datetime['hora'] = (int) ($datetime['minutos'] / 60);
+  $datetime['minutos'] %= 60;
 
-	$datetime['dia'] = (int) ($datetime['hora'] / 24);
-	$datetime['hora'] %= 24;
+  $datetime['dia'] = (int) ($datetime['hora'] / 24);
+  $datetime['hora'] %= 24;
 
-	$datetime['semana'] = (int) ($datetime['dia'] / 7);
-	$datetime['dia'] %= 7;
+  $datetime['semana'] = (int) ($datetime['dia'] / 7);
+  $datetime['dia'] %= 7;
 
-	$datetime['mes'] = (int) ($datetime['semana'] / 4);
-	$datetime['semana'] %= 4;
+  $datetime['mes'] = (int) ($datetime['semana'] / 4);
+  $datetime['semana'] %= 4;
 
-	$datetime['año'] = (int) ($datetime['mes'] / 12);
-	$datetime['mes'] %= 12;
+  $datetime['año'] = (int) ($datetime['mes'] / 12);
+  $datetime['mes'] %= 12;
 
-	return $datetime;
+  return $datetime;
 }
 
 /**
@@ -638,42 +648,42 @@ function obtenerDiferenciaFecha(string $fecha): array {
  * @return string La fecha formateada.
  */
 function formatearFecha(string $fecha): string {
-	$formateada = 'Hace ';
-	$diferencia = obtenerDiferenciaFecha($fecha);
+  $formateada = 'Hace ';
+  $diferencia = obtenerDiferenciaFecha($fecha);
 
-	if ($diferencia['mes'] > 0) :
+  if ($diferencia['mes'] > 0) :
 
-		if ($diferencia['mes'] === 1)
-			$formateada .= '1 mes ';
-		else $formateada .= "{$diferencia['mes']} meses ";
+    if ($diferencia['mes'] === 1)
+      $formateada .= '1 mes ';
+    else $formateada .= "{$diferencia['mes']} meses ";
 
-	elseif ($diferencia['semana'] > 0) :
+  elseif ($diferencia['semana'] > 0) :
 
-		if ($diferencia['semana'] === 1)
-			$formateada .= '1 semana ';
-		else $formateada .= "{$diferencia['semana']} semanas ";
+    if ($diferencia['semana'] === 1)
+      $formateada .= '1 semana ';
+    else $formateada .= "{$diferencia['semana']} semanas ";
 
-	elseif ($diferencia['dia'] > 0) :
+  elseif ($diferencia['dia'] > 0) :
 
-		if ($diferencia['dia'] === 1)
-			$formateada .= '1 día ';
-		else $formateada .= "{$diferencia['dia']} días ";
+    if ($diferencia['dia'] === 1)
+      $formateada .= '1 día ';
+    else $formateada .= "{$diferencia['dia']} días ";
 
-	elseif ($diferencia['hora'] > 0) :
+  elseif ($diferencia['hora'] > 0) :
 
-		if ($diferencia['hora'] === 1)
-			$formateada .= '1 hora ';
-		else $formateada .= "{$diferencia['hora']} horas ";
+    if ($diferencia['hora'] === 1)
+      $formateada .= '1 hora ';
+    else $formateada .= "{$diferencia['hora']} horas ";
 
-	elseif ($diferencia['minutos'] > 0) :
-		if ($diferencia['minutos'] === 1)
-			$formateada .= '1 minuto ';
-		else $formateada .= "{$diferencia['minutos']} minutos ";
-	else :
-		$formateada .= 'unos instantes';
-	endif;
+  elseif ($diferencia['minutos'] > 0) :
+    if ($diferencia['minutos'] === 1)
+      $formateada .= '1 minuto ';
+    else $formateada .= "{$diferencia['minutos']} minutos ";
+  else :
+    $formateada .= 'unos instantes';
+  endif;
 
-	return $formateada;
+  return $formateada;
 }
 
 /**
@@ -684,54 +694,54 @@ function formatearFecha(string $fecha): string {
  * @return array El arreglo filtrado.
  */
 function filtrarFecha(string $filtro, array $datos): array {
-	$filtrado = [];
+  $filtrado = [];
 
-	switch ($filtro):
-		case 'diario':
-			foreach ($datos as $dato) :
-				$diferencia = obtenerDiferenciaFecha($dato['fecha']);
-				// Si no han transcurrido ni un año, ni un mes, ni una semana ni un día
-				if (
-					!$diferencia['año']
-					and !$diferencia['mes']
-					and !$diferencia['semana']
-					and !$diferencia['dia']
-				) $filtrado[] = $dato;
-			endforeach;
-			break;
-		case 'semanal':
-			foreach ($datos as $dato) :
-				$diferencia = obtenerDiferenciaFecha($dato['fecha']);
-				// Si no han transcurrido ni un año, ni un mes, ni una semana
-				if (
-					!$diferencia['año']
-					and !$diferencia['mes']
-					and !$diferencia['semana']
-				) $filtrado[] = $dato;
-			endforeach;
-			break;
-		case 'quincenal':
-			foreach ($datos as $dato) :
-				$diferencia = obtenerDiferenciaFecha($dato['fecha']);
-				// Si no han transcurrido ni un año, ni un mes y han transcurrido menos
-				// de dos semanas
-				if (
-					!$diferencia['año']
-					and !$diferencia['mes']
-					and ($diferencia['semana'] < 2)
-				) $filtrado[] = $dato;
-			endforeach;
-			break;
-		case 'mensual':
-			foreach ($datos as $dato) :
-				$diferencia = obtenerDiferenciaFecha($dato['fecha']);
+  switch ($filtro):
+    case 'diario':
+      foreach ($datos as $dato) :
+        $diferencia = obtenerDiferenciaFecha($dato['fecha']);
+        // Si no han transcurrido ni un año, ni un mes, ni una semana ni un día
+        if (
+          !$diferencia['año']
+          and !$diferencia['mes']
+          and !$diferencia['semana']
+          and !$diferencia['dia']
+        ) $filtrado[] = $dato;
+      endforeach;
+      break;
+    case 'semanal':
+      foreach ($datos as $dato) :
+        $diferencia = obtenerDiferenciaFecha($dato['fecha']);
+        // Si no han transcurrido ni un año, ni un mes, ni una semana
+        if (
+          !$diferencia['año']
+          and !$diferencia['mes']
+          and !$diferencia['semana']
+        ) $filtrado[] = $dato;
+      endforeach;
+      break;
+    case 'quincenal':
+      foreach ($datos as $dato) :
+        $diferencia = obtenerDiferenciaFecha($dato['fecha']);
+        // Si no han transcurrido ni un año, ni un mes y han transcurrido menos
+        // de dos semanas
+        if (
+          !$diferencia['año']
+          and !$diferencia['mes']
+          and ($diferencia['semana'] < 2)
+        ) $filtrado[] = $dato;
+      endforeach;
+      break;
+    case 'mensual':
+      foreach ($datos as $dato) :
+        $diferencia = obtenerDiferenciaFecha($dato['fecha']);
 
-				// Si no han transcurrido ni un año ni un mes
-				if (!$diferencia['año'] and !$diferencia['mes'])
-					$filtrado[] = $dato;
-			endforeach;
-			break;
-	endswitch;
+        // Si no han transcurrido ni un año ni un mes
+        if (!$diferencia['año'] and !$diferencia['mes'])
+          $filtrado[] = $dato;
+      endforeach;
+      break;
+  endswitch;
 
-	return $filtrado;
+  return $filtrado;
 }
