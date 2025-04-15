@@ -84,4 +84,4 @@ echo <<<HTML
   =            BOTÓN REGISTRAR            =
   =======================================*/
 echo '<footer id="botones">' . BOTONES['REGISTRAR_CLIENTE'] . '</footer>';
-echo '</div>'
+echo '</div>';
