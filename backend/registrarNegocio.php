@@ -1,8 +1,8 @@
 <?php
 
-if (!empty($_POST)):
-  require 'conexion.php';
-  require 'funciones.php';
+if ($_POST !== []):
+  require __DIR__ . '/conexion.php';
+  require __DIR__ . '/funciones.php';
 
   $nombre    = escapar(capitalize($_POST['nombreNegocio']));
   $rif       = escapar(strtoupper(strval($_POST['rif'])));
@@ -11,15 +11,18 @@ if (!empty($_POST)):
   $logo      = (array) $_FILES['logo'];
   $imagen = '';
   /*----------  VALIDACIONES  ----------*/
-  if (!$nombre or !$rif)
+  if (!$nombre || !$rif) {
     $respuesta['error'] = 'Por favor rellene los campos';
+  }
 
   $negocioEncontrado = getRegistro("SELECT rif FROM negocios WHERE rif='$rif'");
-  if ($negocioEncontrado)
+  if ($negocioEncontrado) {
     $respuesta['error'] = 'Ya existe un negocio con este RIF';
+  }
 
-  if ($respuesta['error'])
+  if ($respuesta['error']) {
     exit(json_encode($respuesta, JSON_INVALID_UTF8_IGNORE));
+  }
 
   if ($logo['error'] !== 4):
     $imagen = (string) $logo['name'];
@@ -28,20 +31,25 @@ if (!empty($_POST)):
     $rutaOrigen  = (string) $logo['tmp_name'];
     $rutaDestino = "../assets/images/negocios/$imagen";
 
-    if ($tipo !== 'image/jpeg' && $tipo !== 'image/jpg' && $tipo !== 'image/png')
+    if ($tipo !== 'image/jpeg' && $tipo !== 'image/jpg' && $tipo !== 'image/png') {
       $respuesta['error'] = "Sólo se permite imagenes JPG y PNG";
-    elseif ($peso > (1000 * 1024 * 2)) /*1b * 1000 = 1kb * 1024 = 1mb * 2 = :D*/
+    } elseif ($peso > (1000 * 1024 * 2)) {
+      /*1b * 1000 = 1kb * 1024 = 1mb * 2 = :D*/
       $respuesta['error'] = 'La imagen no puede ser mayor a 2MB';
-    else move_uploaded_file($rutaOrigen, $rutaDestino);
+    } else {
+      move_uploaded_file($rutaOrigen, $rutaDestino);
+    }
   endif;
 
-  if ($respuesta['error'])
+  if ($respuesta['error']) {
     exit(json_encode($respuesta, JSON_INVALID_UTF8_IGNORE));
+  }
 
   $sql = "INSERT INTO negocios VALUES(null, '$nombre', '$rif', '$telefono', '$direccion', '$imagen', 1)";
   $resultado = setRegistro($sql);
-  if (!$resultado)
+  if (!$resultado) {
     $respuesta['error'] = $conexion->error;
+  }
   $respuesta['ok'] = 'Negocio registrado exitósamente.';
   exit(json_encode($respuesta, JSON_INVALID_UTF8_IGNORE));
 endif;

@@ -8,7 +8,7 @@ $url = explode('/', strval($_SERVER['SCRIPT_NAME']));
 $archivoActual = $url[count($url) - 1];
 
 /** @var bool Indica si el usuario intenta acceder a una vista mediante la URL */
-$seEncuentraEnCarpetaViews = $url[count($url) - 2] === 'views' ? true : false;
+$seEncuentraEnCarpetaViews = $url[count($url) - 2] === 'views';
 /** @var string Hace referencia a la carpeta raiz del proyecto */
 $BASE_URL = $seEncuentraEnCarpetaViews ? '../' : '';
 
@@ -28,12 +28,11 @@ if ($archivoActual !== 'index.php') :
 			SELECT pre1, pre2, pre3 FROM usuarios WHERE id={$_SESSION['userID']}
 		SQL;
   $usuario = getRegistro($sql);
-  if (
-    $usuario['pre1'] === 'No especificada' || !$usuario['pre1']
-    || $usuario['pre2'] === 'No especificada' || !$usuario['pre2']
-    || $usuario['pre3'] === 'No especificada' || !$usuario['pre3']
-  ) $script .= <<<HTML
-			<script>
+  if ($usuario['pre1'] === 'No especificada' || !$usuario['pre1']
+  || $usuario['pre2'] === 'No especificada' || !$usuario['pre2']
+  || $usuario['pre3'] === 'No especificada' || !$usuario['pre3']) {
+    $script .= <<<HTML
+  			<script>
 				let textoNoTienesPreguntasNiRespuestas = `
 					<strong class="w3-text-red">
 						No tienes preguntas y respuestas registradas.
@@ -53,6 +52,7 @@ if ($archivoActual !== 'index.php') :
 				})
 			</script>
 		HTML;
+  }
 
   /*----------  Inventario agotado  ----------*/
   $sql = "SELECT id, producto, stock FROM inventario";
@@ -61,7 +61,7 @@ if ($archivoActual !== 'index.php') :
   $i = 1;
   foreach ($productos as $producto) :
     $tiempo = 1000 * 60; /*60 segundos*/
-    if (!$producto['stock'])
+    if (!$producto['stock']) {
       $script .= <<<HTML
 					<script>
 						setTimeout(() => alerta('{$producto['producto']} está AGOTADO').show(),3000)
@@ -73,7 +73,7 @@ if ($archivoActual !== 'index.php') :
 						setTimeout(() => clearInterval(intervalo{$i}), $tiempo * 10 /*10 minutos*/)
 					</script>
 				HTML;
-    elseif ($producto['stock'] <= 5)
+    } elseif ($producto['stock'] <= 5) {
       $script .= <<<HTML
 					<script>
 						setTimeout(() => advertencia('{$producto['producto']} CASI AGOTADO').show(), 3000)
@@ -85,6 +85,7 @@ if ($archivoActual !== 'index.php') :
 						setTimeout(() => clearInterval(intervalo{$i}), $tiempo * 10 /*5 minutos*/)
 					</script>
 				HTML;
+    }
     ++$i;
   endforeach;
 endif;
@@ -140,7 +141,7 @@ $productosEnCarritoCompra = contarRegistros('carrito_compra');
 
   if ($archivoActual !== 'index.php') :
     $mostrarMenu = true;
-    include 'templates/menu.php';
+    include __DIR__ . '/templates/menu.php';
   endif;
 
-  include 'templates/acercaDe.php';
+  include __DIR__ . '/templates/acercaDe.php';

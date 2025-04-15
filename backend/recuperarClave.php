@@ -1,19 +1,21 @@
 <?php
 
 session_start();
-require 'conexion.php';
-require 'funciones.php';
+require __DIR__ . '/conexion.php';
+require __DIR__ . '/funciones.php';
 
 if (!empty($_POST['consultar'])):
   $cedula = (int) $_POST['cedula'];
   $usuario = escapar($_POST['usuario']);
 
   /*----------  VALIDACIONES  ----------*/
-  if (!$cedula or !$usuario)
+  if (!$cedula || !$usuario) {
     $respuesta['error'] = 'Por favor introduzca su cédula y usuario.';
+  }
 
-  if ($respuesta['error'])
+  if ($respuesta['error']) {
     exit(json_encode($respuesta, JSON_INVALID_UTF8_IGNORE));
+  }
 
   $sql = <<<SQL
 			SELECT id, pre1, pre2, pre3, res1, activo
@@ -21,19 +23,21 @@ if (!empty($_POST['consultar'])):
 		SQL;
   $filaUsuario = getRegistro($sql);
 
-  if (!$filaUsuario)
+  if (!$filaUsuario) {
     $respuesta['error'] = 'Cédula o usuario incorrecto, <strong>(verifique mayúsculas y minúsculas)</strong>';
-  elseif (!$filaUsuario['activo'])
+  } elseif (!$filaUsuario['activo']) {
     $respuesta['error'] = 'Este usuario se encuentra desactivado.';
-  elseif (!$filaUsuario['res1'])
+  } elseif (!$filaUsuario['res1']) {
     $respuesta['error'] = 'Este usuario no tiene <strong>Preguntas y Respuestas</strong> registradas.';
-  else $_SESSION = [
-    'userID' => $filaUsuario['id'],
-    'pre1'   => $filaUsuario['pre1'],
-    'pre2'   => $filaUsuario['pre2'],
-    'pre3'   => $filaUsuario['pre3'],
-    'showQuestions' => true
-  ];
+  } else {
+    $_SESSION = [
+      'userID' => $filaUsuario['id'],
+      'pre1'   => $filaUsuario['pre1'],
+      'pre2'   => $filaUsuario['pre2'],
+      'pre3'   => $filaUsuario['pre3'],
+      'showQuestions' => true
+    ];
+  }
 
   if ($respuesta['error']):
     session_destroy();
@@ -51,15 +55,14 @@ if (!empty($_POST['verificarRespuestas'])):
   $sql = "SELECT id, usuario, res1, res2, res3 FROM usuarios WHERE id=$id";
   $filaUsuario = getRegistro($sql);
 
-  if (
-    !password_verify($res1, strval($filaUsuario['res1']))
-    or !password_verify($res2, strval($filaUsuario['res2']))
-    or !password_verify($res3, strval($filaUsuario['res3']))
-  ) $respuesta['error'] = 'Respuestas incorrectas.';
+  if (!password_verify($res1, strval($filaUsuario['res1'])) || !password_verify($res2, strval($filaUsuario['res2'])) || !password_verify($res3, strval($filaUsuario['res3']))) {
+    $respuesta['error'] = 'Respuestas incorrectas.';
+  }
 
   unset($_SESSION['showQuestions']);
-  if (!$respuesta['error'])
+  if (!$respuesta['error']) {
     $_SESSION['changePassword'] = true;
+  }
 
   exit(json_encode($respuesta, JSON_INVALID_UTF8_IGNORE));
 endif;
@@ -70,10 +73,11 @@ if (!empty($_POST['cambiarClave'])):
   $confirmar = escapar($_POST['confirmar']);
 
   /*----------  VALIDACIONES  ----------*/
-  if (!$clave or !$confirmar)
+  if (!$clave || !$confirmar) {
     $respuesta['error'] = 'Por favor ingrese una contraseña.';
-  elseif ($clave !== $confirmar)
+  } elseif ($clave !== $confirmar) {
     $respuesta['error'] = 'Ambas contraseñas deben ser iguales.';
+  }
 
   if ($respuesta['error']):
     unset($_SESSION['changePassword']);
@@ -84,11 +88,14 @@ if (!empty($_POST['cambiarClave'])):
   $sql = "UPDATE usuarios SET clave='$clave' WHERE id=$id";
   $resultado = setRegistro($sql);
 
-  if (!$resultado) $respuesta['error'] = $conexion->error;
+  if (!$resultado) {
+    $respuesta['error'] = $conexion->error;
+  }
 
   session_destroy();
   exit(json_encode($respuesta, JSON_INVALID_UTF8_IGNORE));
 endif;
 
-if (!empty($_POST['cerrar']))
+if (!empty($_POST['cerrar'])) {
   exit(session_destroy() ? 'Sesión destruida correctamente' : 'Ha ocurrido un error');
+}

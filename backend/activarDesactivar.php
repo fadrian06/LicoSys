@@ -1,8 +1,8 @@
 <?php
 
-if (!empty($_POST)):
-  require 'conexion.php';
-  require 'funciones.php';
+if ($_POST !== []):
+  require __DIR__ . '/conexion.php';
+  require __DIR__ . '/funciones.php';
 
   /** @var string La tabla a la que pertenece el registro. */
   $tabla = escapar($_POST['tabla']);
@@ -35,11 +35,14 @@ if (!empty($_POST)):
       $respuesta['error'] = "Por favor envie una opción ('activar' o 'desactivar')";
   endswitch;
 
-  if ($respuesta['error'])
+  if ($respuesta['error']) {
     exit(json_encode($respuesta, JSON_INVALID_UTF8_IGNORE));
+  }
 
   $resultado = setRegistro($sql);
-  if (!$resultado) $respuesta['error'] = $conexion->error;
+  if (!$resultado) {
+    $respuesta['error'] = $conexion->error;
+  }
 
   exit(json_encode($respuesta, JSON_INVALID_UTF8_IGNORE));
 endif;

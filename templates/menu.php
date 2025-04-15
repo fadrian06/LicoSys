@@ -25,8 +25,8 @@
 			</div>
 			<?php
 				$tooltipCarritoCompras = generarTooltip('Carrito de Compras');
-				if ($_SESSION['cargo'] === 'a')
-					echo <<<HTML
+				if ($_SESSION['cargo'] === 'a') {
+                  echo <<<HTML
 						<div class="w3-half w3-medium w3-dropdown-hover w3-black">
 							<a href="views/nuevaCompra.php" role="navegacion" title="Nueva Compra" class="w3-large w3-button w3-hide-small">
 								<i class="icon-handshake-o"></i>
@@ -35,6 +35,7 @@
 							$tooltipCarritoCompras
 						</div>
 					HTML;
+                }
 			?>
 		</div>
 		<div class="w3-medium w3-dropdown-hover w3-black">
@@ -60,7 +61,7 @@
 				</div>
 				<hr style="margin: 5px">
 				<?php
-					if (is_float(getDolar()) and is_int(getPeso())):
+					if (is_float(getDolar()) && is_int(getPeso())):
 						echo <<<HTML
 							<button onclick="modal(this)" data-target="#conversionMonetaria" title="Calculadora Monetaria" class="w3-button icon-calculator"></button>
 						HTML;

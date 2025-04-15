@@ -1,9 +1,9 @@
 <?php
 
 session_start();
-if (!empty($_POST)):
-  require 'conexion.php';
-  require 'funciones.php';
+if ($_POST !== []):
+  require __DIR__ . '/conexion.php';
+  require __DIR__ . '/funciones.php';
 
   $pre1 = escapar(capitalize($_POST['pre1']));
   $pre2 = escapar(capitalize($_POST['pre2']));
@@ -20,7 +20,9 @@ if (!empty($_POST)):
       res1='$res1', res2='$res2', res3='$res3' WHERE cargo='a'
     ";
   $resultado = setRegistro($sql);
-  if (!$resultado) $respuesta['error'] = $conexion->error;
+  if (!$resultado) {
+    $respuesta['error'] = $conexion->error;
+  }
 
   exit(json_encode($respuesta, JSON_INVALID_UTF8_IGNORE));
 endif;

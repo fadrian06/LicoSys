@@ -1,11 +1,13 @@
 <?php
   session_start();
-  if (!isset($_SESSION['activa'])) header('location: ../salir.php');
+  if (!isset($_SESSION['activa'])) {
+    header('location: ../salir.php');
+  }
   
   if ($_SESSION['cargo'] === 'a'):
-    require '../backend/componentes.php';
-    require '../backend/conexion.php';
-    require '../backend/funciones.php';
+    require __DIR__ . '/../backend/componentes.php';
+    require __DIR__ . '/../backend/conexion.php';
+    require __DIR__ . '/../backend/funciones.php';
     
     echo LOADER;
     echo '<div id="moduloNegocios" class="w3-row" style="max-height: 71vh; overflow: auto">';
@@ -235,7 +237,9 @@
     =            PANEL PRINCIPAL            =
     =======================================*/
     echo $paneles;
-    if ($desactivados) echo $panelesDesactivados;
+    if ($desactivados) {
+      echo $panelesDesactivados;
+    }
     
     /*=========================================
     =            REGISTRAR NEGOCIO            =
@@ -312,7 +316,7 @@
     '</footer>';
     echo '</div>';
   else:
-    include '../templates/head.php';
+    include __DIR__ . '/../templates/head.php';
     $script .= "<script src='{$BASE_URL}assets/js/restringido.js'></script>";
-    include '../templates/footer.php';
+    include __DIR__ . '/../templates/footer.php';
   endif;

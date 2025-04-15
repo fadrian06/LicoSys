@@ -1,6 +1,6 @@
 <?php
 
-if (!empty($_POST)):
+if ($_POST !== []):
   session_start();
   require_once __DIR__ . '/conexion.php';
   require_once __DIR__ . '/funciones.php';
@@ -12,17 +12,20 @@ if (!empty($_POST)):
   $stock = (int) $_POST['stock'];
 
   /*----------  VALIDACIONES  ----------*/
-  if (!$codigo or !$producto or !$precio)
+  if (!$codigo || !$producto || !$precio) {
     $respuesta['error'] = 'El código, nombre, precio y excento son requeridos.';
-  elseif ($excento < 0 or $excento > 1)
+  } elseif ($excento < 0 || $excento > 1) {
     $respuesta['error'] = 'Excento sólo puede ser SI o NO.';
+  }
 
   $productoEncontrado = getRegistro("SELECT codigo FROM inventario WHERE codigo='$codigo'");
-  if ($productoEncontrado)
+  if ($productoEncontrado) {
     $respuesta['error'] = 'Ya existe un producto con ese código.';
+  }
 
-  if ($respuesta['error'])
+  if ($respuesta['error']) {
     exit(json_encode($respuesta, JSON_INVALID_UTF8_IGNORE));
+  }
 
   $sql = <<<SQL
 			INSERT INTO inventario(codigo, producto, stock, excento, precio, negocio_id, usuario_id)
@@ -31,7 +34,9 @@ if (!empty($_POST)):
 
   $resultado = setRegistro($sql);
 
-  if (!$resultado) $respuesta['error'] = $conexion->error;
+  if (!$resultado) {
+    $respuesta['error'] = $conexion->error;
+  }
 
   $respuesta['ok'] = 'Producto registrado exitósamente.';
   exit(json_encode($respuesta, JSON_INVALID_UTF8_IGNORE));

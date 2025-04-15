@@ -1,10 +1,12 @@
 <?php
   session_start();
-  if (!isset($_SESSION['activa'])) header('location: ../salir.php');
+  if (!isset($_SESSION['activa'])) {
+    header('location: ../salir.php');
+  }
   
-  require '../backend/componentes.php';
-  require '../backend/conexion.php';
-  require '../backend/funciones.php';
+  require __DIR__ . '/../backend/componentes.php';
+  require __DIR__ . '/../backend/conexion.php';
+  require __DIR__ . '/../backend/funciones.php';
   
   $usuario = getRegistro("SELECT * FROM usuarios WHERE id={$_SESSION['userID']}");
   
@@ -39,7 +41,7 @@
     : 'assets/images/avatar3.png';
   $hayPreguntasRegistradas = 'w3-blue';
   $textoBotonHayPreguntasRegistradas = 'Cambiar';
-  if (!$usuario['pre1'] or !$usuario['pre2'] or !$usuario['pre3']):
+  if (!$usuario['pre1'] || !$usuario['pre2'] || !$usuario['pre3']):
     $hayPreguntasRegistradas = 'w3-red';
     $textoBotonHayPreguntasRegistradas = 'Crear';
   endif;

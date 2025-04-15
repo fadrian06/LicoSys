@@ -1,12 +1,14 @@
 <?php
   session_start();
   
-  if (!isset($_SESSION['activa'])) header('location: ../salir.php');
+  if (!isset($_SESSION['activa'])) {
+    header('location: ../salir.php');
+  }
   
   if ($_SESSION['cargo'] === 'a'):
-    require '../backend/componentes.php';
-    require '../backend/conexion.php';
-    require '../backend/funciones.php';
+    require __DIR__ . '/../backend/componentes.php';
+    require __DIR__ . '/../backend/conexion.php';
+    require __DIR__ . '/../backend/funciones.php';
     
     echo LOADER;
     echo '<div id="moduloNuevaCompra">';
@@ -21,8 +23,9 @@
       'nombre' => 'No especificado',
     ];
     
-    if (!empty($_SESSION['proveedorID']))
+    if (!empty($_SESSION['proveedorID'])) {
       $proveedor = getRegistro("SELECT * FROM proveedores WHERE id={$_SESSION['proveedorID']}");
+    }
     
     $botonesProveedores = '';
     foreach ($proveedores as $proveedor)
@@ -107,7 +110,7 @@
           <span class="w3-text-blue">{$_SESSION['userName']}</span>
         </div>
     HTML;
-    include '../templates/monedas.php';
+    include __DIR__ . '/../templates/monedas.php';
     echo <<<HTML
       </section>
     HTML; 
@@ -124,8 +127,9 @@
       'precio' => 0,
       'excento' => ''
     ];
-    if (!empty($_SESSION['productoID']))
+    if (!empty($_SESSION['productoID'])) {
       $producto = getRegistro("SELECT * FROM inventario WHERE id={$_SESSION['productoID']}");
+    }
     
     $botonesProductos = '';
     foreach ($productos as $producto)
@@ -400,7 +404,7 @@
     echo "<span class='w3-hide' id='cantidadProductosEnCarrito'>$productosEnCarrito</span>";
     echo '</div>';
   else:
-    include '../templates/head.php';
+    include __DIR__ . '/../templates/head.php';
     $script = "<script src='{$BASE_URL}assets/js/restringido.js'></script>";
-    include '../templates/footer.php';
+    include __DIR__ . '/../templates/footer.php';
   endif;

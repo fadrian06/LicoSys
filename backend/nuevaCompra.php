@@ -2,10 +2,12 @@
 
 session_start();
 
-require 'conexion.php';
-require 'funciones.php';
+require __DIR__ . '/conexion.php';
+require __DIR__ . '/funciones.php';
 
-if (!isset($_SESSION['activa'])) header('location: ../salir.php');
+if (!isset($_SESSION['activa'])) {
+  header('location: ../salir.php');
+}
 
 /*============================================================
   =            RETORNAR INFORMACIÓN DE UN PROVEEDOR            =
@@ -37,9 +39,9 @@ if (!empty($_POST['addProduct'])):
   $productoID = (int) escapar($_POST['productoID']);
   $cantidad = (int) escapar($_POST['cantidad']);
   $precio = (float) $_POST['precio'];
-  $proveedorID = !empty($_SESSION['proveedorID'])
-    ? $_SESSION['proveedorID']
-    : false;
+  $proveedorID = empty($_SESSION['proveedorID'])
+    ? false
+    : $_SESSION['proveedorID'];
   $producto = getRegistro("SELECT * FROM inventario WHERE id=$productoID");
   unset($_SESSION['productoID']);
 
@@ -52,11 +54,16 @@ if (!empty($_POST['addProduct'])):
   ];
 
   /*----------  VALIDACIONES  ----------*/
-  if (!$proveedorID) $respuesta['error'] = 'Por favor seleccione un proveedor.';
-  if (!$productoID) $respuesta['error'] = 'Por favor seleccione un producto.';
+  if (!$proveedorID) {
+    $respuesta['error'] = 'Por favor seleccione un proveedor.';
+  }
+  if ($productoID === 0) {
+    $respuesta['error'] = 'Por favor seleccione un producto.';
+  }
 
-  if ($respuesta['error'])
+  if ($respuesta['error']) {
     exit(json_encode($respuesta, JSON_INVALID_UTF8_IGNORE));
+  }
 
   $sql = <<<SQL
       SELECT * FROM carrito_compra WHERE producto_id=$productoID
@@ -75,7 +82,9 @@ if (!empty($_POST['addProduct'])):
         precio_total={$productoEnCarrito['precio_total']} WHERE producto_id=$productoID
       SQL;
     $resultado = setRegistro($sql);
-    if (!$resultado) $respuesta['error'] = $conexion->error;
+    if (!$resultado) {
+      $respuesta['error'] = $conexion->error;
+    }
 
     // Aumentamos aún más el stock del producto.
     // y comprobamos si el precio aumenta o se conserva.
@@ -89,7 +98,9 @@ if (!empty($_POST['addProduct'])):
         precio={$producto['precio']} WHERE id=$productoID
       SQL;
     $resultado = setRegistro($sql);
-    if (!$resultado) $respuesta['error'] = $conexion->error;
+    if (!$resultado) {
+      $respuesta['error'] = $conexion->error;
+    }
 
     $respuesta['ok'] = 'Producto añadido al carrito.';
     exit(json_encode($respuesta, JSON_INVALID_UTF8_IGNORE));
@@ -104,7 +115,9 @@ if (!empty($_POST['addProduct'])):
     SQL;
   $resultado = setRegistro($sql);
 
-  if (!$resultado) $respuesta['error'] = $conexion->error;
+  if (!$resultado) {
+    $respuesta['error'] = $conexion->error;
+  }
 
   // Aumentamos el stock del producto seleccionado
   // y comprobamos si el precio aumenta o se conserva.
@@ -118,7 +131,9 @@ if (!empty($_POST['addProduct'])):
       precio={$producto['precio']} WHERE id=$productoID
     SQL;
   $resultado = setRegistro($sql);
-  if (!$resultado) $respuesta['error'] = $conexion->error;
+  if (!$resultado) {
+    $respuesta['error'] = $conexion->error;
+  }
 
   $respuesta['ok'] = 'Producto añadido al carrito.';
   exit(json_encode($respuesta, JSON_INVALID_UTF8_IGNORE));
@@ -142,11 +157,15 @@ if (!empty($_POST['eliminar'])):
       precio={$productoEnCarrito['precio_base']} WHERE id=$id
     SQL;
   $resultado = setRegistro($sql);
-  if (!$resultado) $respuesta['error'] = $conexion->error;
+  if (!$resultado) {
+    $respuesta['error'] = $conexion->error;
+  }
 
   /*----------  ELIMINAMOS EL PRODUCTO DEL CARRITO  ----------*/
   $resultado = setRegistro("DELETE FROM carrito_compra WHERE producto_id=$id");
-  if (!$resultado) $respuesta['error'] = $conexion->error;
+  if (!$resultado) {
+    $respuesta['error'] = $conexion->error;
+  }
 
   $respuesta['ok'] = 'Producto eliminado del carrito.';
   exit(json_encode($respuesta, JSON_INVALID_UTF8_IGNORE));
@@ -166,11 +185,15 @@ if (!empty($_POST['anular'])):
         precio={$producto['precio_base']} WHERE id={$producto['producto_id']}
       SQL;
     $resultado = setRegistro($sql);
-    if (!$resultado) $respuesta['error'] .= $conexion->error;
+    if (!$resultado) {
+      $respuesta['error'] .= $conexion->error;
+    }
   endforeach;
 
   $resultado = setRegistro('TRUNCATE TABLE carrito_compra');
-  if (!$resultado) $respuesta['error'] .= $conexion->error;
+  if (!$resultado) {
+    $respuesta['error'] .= $conexion->error;
+  }
   unset($_SESSION['productoID']);
   $respuesta['ok'] = 'Compra anulada exitósamente.';
 
@@ -199,11 +222,15 @@ if (!empty($_POST['generar'])):
       SQL;
 
     $resultado = setRegistro($sql);
-    if (!$resultado) $respuesta['error'] .= $conexion->error;
+    if (!$resultado) {
+      $respuesta['error'] .= $conexion->error;
+    }
   endforeach;
 
   $resultado = setRegistro('TRUNCATE TABLE carrito_compra');
-  if (!$resultado) $respuesta['error'] .= $conexion->error;
+  if (!$resultado) {
+    $respuesta['error'] .= $conexion->error;
+  }
 
   $respuesta['ok'] = 'Compra generada exitósamente.';
   unset($_SESSION['proveedorID']);

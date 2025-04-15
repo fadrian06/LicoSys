@@ -1,15 +1,17 @@
 <?php
 
 session_start();
-require 'conexion.php';
-require 'funciones.php';
+require __DIR__ . '/conexion.php';
+require __DIR__ . '/funciones.php';
 
 if (!empty($_POST['respaldar'])):
-  if ($_SESSION['cargo'] !== 'a')
+  if ($_SESSION['cargo'] !== 'a') {
     $respuesta['error'] = 'No tienes los permisos necesarios';
+  }
 
-  if ($respuesta['error'])
+  if ($respuesta['error']) {
     exit(json_encode($respuesta, JSON_INVALID_UTF8_IGNORE));
+  }
 
   try {
     $resultado = $conexion->query('SHOW TABLES');
@@ -31,30 +33,31 @@ if (!empty($_POST['respaldar'])):
           $texto .= "INSERT INTO $tabla VALUES(";
           $j = 0;
           foreach ($fila as $campo => $dato):
-            if (
-              $campo === 'id' ||
-              $campo === 'activo' ||
-              $campo === 'cedula' ||
-              $campo === 'usuario_id' ||
-              $campo === 'negocio_id' ||
-              $campo === 'stock' ||
-              $campo === 'excento' ||
-              $campo === 'precio' ||
-              $campo === 'producto_id' ||
-              $campo === 'unidades' ||
-              $campo === 'total' ||
-              $campo === 'proveedor_id' ||
-              $campo === 'cliente_id' ||
-              $campo === 'iva' ||
-              $campo === 'antiguo_stock' ||
-              $campo === 'precio_base' ||
-              $campo === 'precio_total' ||
-              $campo === 'total_iva'
-            )
+            if ($campo === 'id' ||
+            $campo === 'activo' ||
+            $campo === 'cedula' ||
+            $campo === 'usuario_id' ||
+            $campo === 'negocio_id' ||
+            $campo === 'stock' ||
+            $campo === 'excento' ||
+            $campo === 'precio' ||
+            $campo === 'producto_id' ||
+            $campo === 'unidades' ||
+            $campo === 'total' ||
+            $campo === 'proveedor_id' ||
+            $campo === 'cliente_id' ||
+            $campo === 'iva' ||
+            $campo === 'antiguo_stock' ||
+            $campo === 'precio_base' ||
+            $campo === 'precio_total' ||
+            $campo === 'total_iva') {
               $texto .= "$dato";
-            else
+            } else {
               $texto .= "'$dato'";
-            if ($j !== ($columnas - 1)) $texto .= ", ";
+            }
+            if ($j !== ($columnas - 1)) {
+              $texto .= ", ";
+            }
             $j++;
           endforeach;
           $texto .= ");\n\n";
@@ -77,8 +80,11 @@ if (!empty($_POST['restaurar'])):
   $manejador = fopen($archivo, "r");
   $sql       = fread($manejador, filesize($archivo));
   $resultado = $conexion->multi_query($sql);
-  if (!$resultado) $respuesta['error'] = $conexion->error;
-  else session_destroy();
+  if (!$resultado) {
+    $respuesta['error'] = $conexion->error;
+  } else {
+    session_destroy();
+  }
   $respuesta['ok'] = 'Copia de Seguridad restaurada exitósamente.';
   exit(json_encode($respuesta, JSON_INVALID_UTF8_IGNORE));
 endif;

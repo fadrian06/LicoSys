@@ -1,10 +1,12 @@
 <?php
   session_start();
-  if (!isset($_SESSION['activa'])) header('location: ../salir.php');
+  if (!isset($_SESSION['activa'])) {
+    header('location: ../salir.php');
+  }
   
-  require '../backend/componentes.php';
-  require '../backend/conexion.php';
-  require '../backend/funciones.php';
+  require __DIR__ . '/../backend/componentes.php';
+  require __DIR__ . '/../backend/conexion.php';
+  require __DIR__ . '/../backend/funciones.php';
   
   echo LOADER;
   echo '<div id="moduloClientes">';

@@ -1,9 +1,9 @@
 <?php
 
 session_start();
-require 'componentes.php';
-require 'conexion.php';
-require 'funciones.php';
+require __DIR__ . '/componentes.php';
+require __DIR__ . '/conexion.php';
+require __DIR__ . '/funciones.php';
 
 /*====================================================
   =            ENVIAR FORMULARIO DE EDICIÓN            =
@@ -14,17 +14,20 @@ if (!empty($_POST['editar'])):
   $valor      = (int) $_POST['valor'];
 
   $copiaTabla = $tabla;
-  if (
-    $copiaTabla === 'usuarios:informacion'
-    || $copiaTabla === 'usuarios:clave'
-    || $copiaTabla === 'usuarios:preguntasRespuestas'
-  ) $copiaTabla = 'usuarios';
+  if ($copiaTabla === 'usuarios:informacion'
+  || $copiaTabla === 'usuarios:clave'
+  || $copiaTabla === 'usuarios:preguntasRespuestas') {
+    $copiaTabla = 'usuarios';
+  }
 
   $registro = getRegistro("SELECT * FROM $copiaTabla WHERE $campo=$valor");
 
-  if (!$registro) $respuesta['error'] = $conexion->error;
-  if ($respuesta['error'])
+  if (!$registro) {
+    $respuesta['error'] = $conexion->error;
+  }
+  if ($respuesta['error']) {
     exit(json_encode($respuesta, JSON_INVALID_UTF8_IGNORE));
+  }
 
   $inputID = generarINPUT('ID', '', '', "{$registro['id']}");
   switch ($tabla):
@@ -286,11 +289,11 @@ if (!empty($_POST['id'])):
   /** @var string Copia de la tabla que será escapada para la sentencia SQL */
   $copiaTabla = $tabla;
 
-  if (
-    $copiaTabla === 'usuarios:informacion'
-    || $copiaTabla === 'usuarios:clave'
-    || $copiaTabla === 'usuarios:preguntasRespuestas'
-  ) $copiaTabla = 'usuarios';
+  if ($copiaTabla === 'usuarios:informacion'
+  || $copiaTabla === 'usuarios:clave'
+  || $copiaTabla === 'usuarios:preguntasRespuestas') {
+    $copiaTabla = 'usuarios';
+  }
 
   /*----------  Quita el ID y la tabla del array POST  ----------*/
   unset($_POST['id']);
@@ -301,32 +304,38 @@ if (!empty($_POST['id'])):
 
   /*----------  Itera sobre cada clave en POST  ----------*/
   foreach ($_POST as $clave => $valor):
-    if ($copiaTabla === 'proveedores' && $clave === 'nombreNegocio')
+    if ($copiaTabla === 'proveedores' && $clave === 'nombreNegocio') {
       $clave = 'nombreEmpresa';
+    }
 
-    if ($copiaTabla !== 'proveedores' && $clave === 'nombreNegocio')
+    if ($copiaTabla !== 'proveedores' && $clave === 'nombreNegocio') {
       $clave = 'nombre';
+    }
 
-    if ($clave === 'clave' || $clave === 'res1' || $clave === 'res2' || $clave === 'res3')
+    if ($clave === 'clave' || $clave === 'res1' || $clave === 'res2' || $clave === 'res3') {
       $valor = encriptar($valor);
+    }
 
     if ($clave === 'confirmar'):
-      if ($_POST['clave'] !== $_POST['confirmar'])
+      if ($_POST['clave'] !== $_POST['confirmar']) {
         $respuesta['error'] = 'Ambas claves deben ser iguales.';
+      }
       continue;
     endif;
 
-    if ($copiaTabla === 'negocios' && $clave === 'telefono') $clave = 'tlf';
-    if ($copiaTabla === 'inventario' && $clave === 'nombre') $clave = 'producto';
+    if ($copiaTabla === 'negocios' && $clave === 'telefono') {
+      $clave = 'tlf';
+    }
+    if ($copiaTabla === 'inventario' && $clave === 'nombre') {
+      $clave = 'producto';
+    }
 
     /*----------  ENTRECOMILLAMOS LOS CAMPOS NO NUMÉRICOS  ----------*/
-    if (
-      $clave === 'id'
-      or $clave === 'cedula'
-      or $clave === 'stock'
-      or $clave === 'precio'
-    ) $camposActualizados .= "$clave=$valor,";
-    else $camposActualizados .= "$clave='$valor',";
+    if ($clave === 'id' || $clave === 'cedula' || $clave === 'stock' || $clave === 'precio') {
+      $camposActualizados .= "$clave=$valor,";
+    } else {
+      $camposActualizados .= "$clave='$valor',";
+    }
   endforeach;
   // Quitamos la última ,
   $camposActualizados[strlen($camposActualizados) - 1] = ' ';
@@ -334,9 +343,12 @@ if (!empty($_POST['id'])):
   $sql = "UPDATE $copiaTabla SET $camposActualizados WHERE id=$id";
   $resultado = setRegistro($sql);
 
-  if (!$resultado) $respuesta['error'] = $conexion->error;
-  if ($respuesta['error'])
+  if (!$resultado) {
+    $respuesta['error'] = $conexion->error;
+  }
+  if ($respuesta['error']) {
     exit(json_encode($respuesta, JSON_INVALID_UTF8_IGNORE));
+  }
 
   switch ($copiaTabla):
     case 'clientes':

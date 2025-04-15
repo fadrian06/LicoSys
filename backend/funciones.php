@@ -45,7 +45,7 @@ function tabla(string $titulo, array $encabezados, array $datos, string $sinRegi
   $encabezadosDesactivadosMovil = '';
 
   // Plantilla a mostrar CUANDO NO EXISTAN REGISTROS ACTIVOS NI INACTIVOS
-  if (!$datos['filas'] and empty($desactivar['filas'])) :
+  if (!$datos['filas'] && empty($desactivar['filas'])) :
     echo <<<HTML
       <h2 class="w3-display-middle w3-container w3-center w3-opacity">
         $sinRegistros
@@ -63,9 +63,15 @@ function tabla(string $titulo, array $encabezados, array $datos, string $sinRegi
       <th class="w3-red">$encabezado</th>
     HTML;
   endforeach;
-  if ($desactivar) $encabezadosEscritorio .= '<th></th>';
-  if ($actualizar) $encabezadosEscritorio .= '<th></th>';
-  if ($factura) $encabezadosEscritorio .= '<th></th>';
+  if ($desactivar) {
+    $encabezadosEscritorio .= '<th></th>';
+  }
+  if ($actualizar) {
+    $encabezadosEscritorio .= '<th></th>';
+  }
+  if ($factura) {
+    $encabezadosEscritorio .= '<th></th>';
+  }
 
   // Rellenamos lo encabezados en móvil.
   foreach ($encabezados['movil'] as $encabezado) :
@@ -94,7 +100,7 @@ function tabla(string $titulo, array $encabezados, array $datos, string $sinRegi
         </td>
       HTML;
 
-    if ($desactivar)
+    if ($desactivar) {
       $campos .= <<<HTML
         <td>
           <button onclick="desactivar('{$desactivar['tabla']}', '{$desactivar['campo']}', {$fila[$desactivar['campo']]}, '{$desactivar['enlace']}')" class="w3-button w3-round-xlarge w3-red w3-hover-black">
@@ -102,8 +108,9 @@ function tabla(string $titulo, array $encabezados, array $datos, string $sinRegi
           </button>
         </td>
       HTML;
+    }
 
-    if ($actualizar && $_SESSION['cargo'] === 'a')
+    if ($actualizar && $_SESSION['cargo'] === 'a') {
       $campos .= <<<HTML
         <td>
           <button onclick="editar(this, '{$actualizar['tabla']}', '{$actualizar['campo']}', {$fila[$actualizar['campo']]}, '{$actualizar['enlace']}')" data-target="{$actualizar['IDform']}" class="w3-button w3-round-xlarge w3-blue w3-hover-black">
@@ -111,8 +118,9 @@ function tabla(string $titulo, array $encabezados, array $datos, string $sinRegi
           </button>
         </td>
       HTML;
+    }
 
-    if ($factura)
+    if ($factura) {
       $campos .= <<<HTML
         <td>
           <button onclick="verFacturaVenta(this, '{$fila['id']}')" data-target="#modalFactura" class="w3-button w3-round-xlarge w3-blue w3-hover-black">
@@ -120,6 +128,7 @@ function tabla(string $titulo, array $encabezados, array $datos, string $sinRegi
           </button>
         </td>
       HTML;
+    }
 
     $filasEscritorio .= <<<HTML
       <tr>$campos</tr>
@@ -147,7 +156,7 @@ function tabla(string $titulo, array $encabezados, array $datos, string $sinRegi
         </li>
       HTML;
 
-    if ($desactivar)
+    if ($desactivar) {
       $verMas .= <<<HTML
         <li class="w3-block">
           <div class=w3-container>
@@ -157,8 +166,9 @@ function tabla(string $titulo, array $encabezados, array $datos, string $sinRegi
           </div>
         </li>
       HTML;
+    }
 
-    if ($actualizar && $_SESSION['cargo'] === 'a')
+    if ($actualizar && $_SESSION['cargo'] === 'a') {
       $verMas .= <<<HTML
         <li class="w3-block">
           <div class=w3-container>
@@ -168,8 +178,9 @@ function tabla(string $titulo, array $encabezados, array $datos, string $sinRegi
           </div>
         </li>
       HTML;
+    }
 
-    if ($factura)
+    if ($factura) {
       $verMas .= <<<HTML
         <li class="w3-block">
           <div class=w3-container>
@@ -179,6 +190,7 @@ function tabla(string $titulo, array $encabezados, array $datos, string $sinRegi
           </div>
         </li>
       HTML;
+    }
 
     $filasMovil .= <<<HTML
       <div role="accordion">
@@ -210,7 +222,7 @@ function tabla(string $titulo, array $encabezados, array $datos, string $sinRegi
           </td>
         HTML;
 
-      if ($desactivar)
+      if ($desactivar) {
         $campos .= <<<HTML
           <td>
             <button onclick="activar('{$desactivar['tabla']}', '{$desactivar['campo']}', '{$fila[$desactivar['campo']]}', '{$desactivar['enlace']}')" class="w3-button w3-round-xlarge w3-green w3-hover-black">
@@ -218,6 +230,7 @@ function tabla(string $titulo, array $encabezados, array $datos, string $sinRegi
             </button>
           </td>
         HTML;
+      }
 
       $filasDesactivadosEscritorio .= <<<HTML
         <tr class="w3-left-align">$campos</tr>
@@ -243,7 +256,7 @@ function tabla(string $titulo, array $encabezados, array $datos, string $sinRegi
           </li>
         HTML;
 
-      if ($desactivar)
+      if ($desactivar) {
         $verMas .= <<<HTML
           <li class="w3-block">
             <div class=w3-container>
@@ -253,6 +266,7 @@ function tabla(string $titulo, array $encabezados, array $datos, string $sinRegi
             </div>
           </li>
         HTML;
+      }
 
       $filasDesactivadosMovil .= <<<HTML
         <div role="accordion">
@@ -275,7 +289,7 @@ function tabla(string $titulo, array $encabezados, array $datos, string $sinRegi
   /*==================================================
   =            ESTRUCTURA TABLA ACTIVADOS            =
   ==================================================*/
-  if ($datos['filas'])
+  if ($datos['filas']) {
     echo <<<HTML
       <h2 class='w3-center w3-bottombar w3-border-blue w3-round-medium'>$titulo</h2>
       <div class="w3-animate-opacity w3-margin-top w3-margin-bottom w3-card-4 w3-responsive">
@@ -296,6 +310,7 @@ function tabla(string $titulo, array $encabezados, array $datos, string $sinRegi
         </div>
       </div>
     HTML;
+  }
 
   /*=====================================================
   =            ESTRUCTURA TABLA DESACTIVADOS            =
@@ -339,11 +354,16 @@ function tabla(string $titulo, array $encabezados, array $datos, string $sinRegi
 /** Muestra variables en formato más legible */
 function depurar($dato, string $nombre = '') {
   echo '<pre class="w3-orange w3-padding-large">';
-  echo $nombre ? "$nombre: " : '';
-  if (is_array($dato)) print_r($dato);
-  elseif (is_object($dato)) print_r($dato);
-  elseif (is_bool($dato)) echo $dato ? 'true' : 'false';
-  else var_dump(htmlspecialchars(strval($dato)));
+  echo $nombre !== '' && $nombre !== '0' ? "$nombre: " : '';
+  if (is_array($dato)) {
+    print_r($dato);
+  } elseif (is_object($dato)) {
+    print_r($dato);
+  } elseif (is_bool($dato)) {
+    echo $dato ? 'true' : 'false';
+  } else {
+    var_dump(htmlspecialchars(strval($dato)));
+  }
   echo '</pre>';
 }
 
@@ -583,7 +603,9 @@ function getAPI(string $url, string $urlJSON): array {
  */
 function eliminarDuplicados(array $arrays, string $clave): array {
   $sinDuplicados = [];
-  if (!$arrays) return $sinDuplicados;
+  if ($arrays === []) {
+    return $sinDuplicados;
+  }
 
   foreach ($arrays as $array)
     $sinDuplicados[$array[$clave]] = $array;
@@ -647,32 +669,42 @@ function formatearFecha(string $fecha): string {
 
   if ($diferencia['mes'] > 0) :
 
-    if ($diferencia['mes'] === 1)
+    if ($diferencia['mes'] === 1) {
       $formateada .= '1 mes ';
-    else $formateada .= "{$diferencia['mes']} meses ";
+    } else {
+      $formateada .= "{$diferencia['mes']} meses ";
+    }
 
   elseif ($diferencia['semana'] > 0) :
 
-    if ($diferencia['semana'] === 1)
+    if ($diferencia['semana'] === 1) {
       $formateada .= '1 semana ';
-    else $formateada .= "{$diferencia['semana']} semanas ";
+    } else {
+      $formateada .= "{$diferencia['semana']} semanas ";
+    }
 
   elseif ($diferencia['dia'] > 0) :
 
-    if ($diferencia['dia'] === 1)
+    if ($diferencia['dia'] === 1) {
       $formateada .= '1 día ';
-    else $formateada .= "{$diferencia['dia']} días ";
+    } else {
+      $formateada .= "{$diferencia['dia']} días ";
+    }
 
   elseif ($diferencia['hora'] > 0) :
 
-    if ($diferencia['hora'] === 1)
+    if ($diferencia['hora'] === 1) {
       $formateada .= '1 hora ';
-    else $formateada .= "{$diferencia['hora']} horas ";
+    } else {
+      $formateada .= "{$diferencia['hora']} horas ";
+    }
 
   elseif ($diferencia['minutos'] > 0) :
-    if ($diferencia['minutos'] === 1)
+    if ($diferencia['minutos'] === 1) {
       $formateada .= '1 minuto ';
-    else $formateada .= "{$diferencia['minutos']} minutos ";
+    } else {
+      $formateada .= "{$diferencia['minutos']} minutos ";
+    }
   else :
     $formateada .= 'unos instantes';
   endif;
@@ -695,23 +727,18 @@ function filtrarFecha(string $filtro, array $datos): array {
       foreach ($datos as $dato) :
         $diferencia = obtenerDiferenciaFecha($dato['fecha']);
         // Si no han transcurrido ni un año, ni un mes, ni una semana ni un día
-        if (
-          !$diferencia['año']
-          and !$diferencia['mes']
-          and !$diferencia['semana']
-          and !$diferencia['dia']
-        ) $filtrado[] = $dato;
+        if (!$diferencia['año'] && !$diferencia['mes'] && !$diferencia['semana'] && !$diferencia['dia']) {
+          $filtrado[] = $dato;
+        }
       endforeach;
       break;
     case 'semanal':
       foreach ($datos as $dato) :
         $diferencia = obtenerDiferenciaFecha($dato['fecha']);
         // Si no han transcurrido ni un año, ni un mes, ni una semana
-        if (
-          !$diferencia['año']
-          and !$diferencia['mes']
-          and !$diferencia['semana']
-        ) $filtrado[] = $dato;
+        if (!$diferencia['año'] && !$diferencia['mes'] && !$diferencia['semana']) {
+          $filtrado[] = $dato;
+        }
       endforeach;
       break;
     case 'quincenal':
@@ -719,11 +746,9 @@ function filtrarFecha(string $filtro, array $datos): array {
         $diferencia = obtenerDiferenciaFecha($dato['fecha']);
         // Si no han transcurrido ni un año, ni un mes y han transcurrido menos
         // de dos semanas
-        if (
-          !$diferencia['año']
-          and !$diferencia['mes']
-          and ($diferencia['semana'] < 2)
-        ) $filtrado[] = $dato;
+        if (!$diferencia['año'] && !$diferencia['mes'] && $diferencia['semana'] < 2) {
+          $filtrado[] = $dato;
+        }
       endforeach;
       break;
     case 'mensual':
@@ -731,8 +756,9 @@ function filtrarFecha(string $filtro, array $datos): array {
         $diferencia = obtenerDiferenciaFecha($dato['fecha']);
 
         // Si no han transcurrido ni un año ni un mes
-        if (!$diferencia['año'] and !$diferencia['mes'])
+        if (!$diferencia['año'] && !$diferencia['mes']) {
           $filtrado[] = $dato;
+        }
       endforeach;
       break;
   endswitch;

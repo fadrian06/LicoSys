@@ -2,7 +2,7 @@
 	/*=================================
 	=            ACERCA DE            =
 	=================================*/
-	if (!empty($negocios) and !empty($admin)):
+	if (!empty($negocios) && !empty($admin)):
 		$titulo = 'Acerca de <small>LicoSys</small>';
 		$contenido = <<<HTML
 			<div class="w3-row">

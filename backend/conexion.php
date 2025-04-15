@@ -23,15 +23,17 @@ $conexion = @new mysqli(
   $_ENV['DB_PASSWORD']
 );
 
-if ($conexion->connect_errno)
+if ($conexion->connect_errno !== 0) {
   exit("Error, no se pudo conectar a MySQL: <b>$conexion->error</b>");
+}
 
 $conexion->set_charset('utf8');
 
 /*----------  Si no existe la base de datos, comienza la instalación  ----------*/
 try {
-  if (!$conexion->select_db($_ENV['DB_DATABASE']))
+  if (!$conexion->select_db($_ENV['DB_DATABASE'])) {
     throw new mysqli_sql_exception;
+  }
 } catch (mysqli_sql_exception) {
   $mostrarLoader = '<script src="assets/js/loader.js"></script>';
 }

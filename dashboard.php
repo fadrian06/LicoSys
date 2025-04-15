@@ -1,8 +1,10 @@
 <?php
 	session_start();
-	if (!isset($_SESSION['activa'])) header('location: index.php');
+	if (!isset($_SESSION['activa'])) {
+      header('location: index.php');
+    }
 	
-	include 'templates/head.php';
+	include __DIR__ . '/templates/head.php';
 	
 	$versiones = getRegistros('SELECT * FROM versiones ORDER BY id DESC');
 
@@ -46,11 +48,15 @@
 	foreach ($ventas as $venta):
 		$id = $venta['producto_id'];
 		
-		if (count($ventasCombinadas) > 2) break;
+		if (count($ventasCombinadas) > 2) {
+          break;
+        }
 		
-		if (!array_key_exists($id, $ventasCombinadas))
-			$ventasCombinadas[$id] = $venta;
-		else $ventasCombinadas[$id]['unidades'] += $venta['unidades'];
+		if (!array_key_exists($id, $ventasCombinadas)) {
+          $ventasCombinadas[$id] = $venta;
+        } else {
+          $ventasCombinadas[$id]['unidades'] += $venta['unidades'];
+        }
 	endforeach;
 		
 	if ($ventasCombinadas && $_SESSION['cargo'] === 'a'):
@@ -163,7 +169,7 @@
 	=            MONEDAS            =
 	==============================-->
 	<div class="w3-row">
-		<?php include 'templates/monedas.php' ?>
+		<?php include __DIR__ . '/templates/monedas.php' ?>
 		<section class="w3-half w3-container w3-padding-24 w3-animate-opacity">
 			<h2 class="w3-large w3-text-green">DOLAR TODAY</h2>
 			<table class="w3-table w3-bordered w3-border w3-hoverable w3-pale-green">
@@ -196,7 +202,7 @@
 				</div>
 				<?php foreach($recientes as $usuario): ?>
 					<li class="w3-padding-16">
-						<img src="<?=!empty($usuario['foto']) ? "assets/images/perfil/{$usuario['foto']}" : "images/avatar2.png"?>" class="w3-circle w3-margin-right" style="width: 50px">
+						<img src="<?=empty($usuario['foto']) ? "images/avatar2.png" : "assets/images/perfil/{$usuario['foto']}"?>" class="w3-circle w3-margin-right" style="width: 50px">
 						<span class="w3-large"><?=$usuario['nombre']?></span>
 					</li>
 				<?php endforeach ?>
@@ -207,8 +213,8 @@
 			=============================================-->
 			<?php
 				$tooltipProductosMasVendidos = generarTooltip('Ver Finanzas');
-				if ($ventasCombinadas)
-					echo <<<HTML
+				if ($ventasCombinadas !== []) {
+                  echo <<<HTML
 						<div class="w3-col s12 m6 w3-ul w3-card-4 w3-white">
 							<div class="w3-dropdown-hover w3-transparent w3-block">
 								<a href="views/finanzas.php" role="navegacion" class="w3-button w3-block w3-border-bottom w3-light-gray w3-text-indigo w3-xlarge">
@@ -219,6 +225,7 @@
 							<canvas id="productosMasVendidos"></canvas>
 						</div>
 					HTML;
+                }
 			?>
 		</section>
 	<?php endif ?>
@@ -249,11 +256,11 @@
 		$mostrarSoporteTecnico = true;
 		$mostrarManual = true;
 		
-		include 'templates/registroCambios.php';
-		include 'templates/soporteTecnico.php';
-		include 'templates/manual.php';
+		include __DIR__ . '/templates/registroCambios.php';
+		include __DIR__ . '/templates/soporteTecnico.php';
+		include __DIR__ . '/templates/manual.php';
 	?>
 	<footer id="botones"><?=BOTONES['NUEVA_VENTA']?></footer>
 </main>
 
-<?php include 'templates/footer.php';
+<?php include __DIR__ . '/templates/footer.php';

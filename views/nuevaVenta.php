@@ -1,11 +1,13 @@
 <?php
   session_start();
   
-  if (!isset($_SESSION['activa'])) header('location: ../salir.php');
+  if (!isset($_SESSION['activa'])) {
+    header('location: ../salir.php');
+  }
   
-  require '../backend/componentes.php';
-  require '../backend/conexion.php';
-  require '../backend/funciones.php';
+  require __DIR__ . '/../backend/componentes.php';
+  require __DIR__ . '/../backend/conexion.php';
+  require __DIR__ . '/../backend/funciones.php';
   
   echo LOADER;
   echo '<div id="moduloNuevaVenta">';
@@ -19,8 +21,9 @@
     'cedula' => '',
     'nombre' => 'No especificado'
   ];
-  if (!empty($_SESSION['clienteID']))
+  if (!empty($_SESSION['clienteID'])) {
     $cliente = getRegistro("SELECT * FROM clientes WHERE id={$_SESSION['clienteID']}");
+  }
   
   $botonesClientes = '';
   foreach ($clientes as $cliente):
@@ -91,7 +94,7 @@
         <span class="w3-text-blue">{$_SESSION['userName']}</span>
       </div>
   HTML;
-  include '../templates/monedas.php';
+  include __DIR__ . '/../templates/monedas.php';
   echo <<<HTML
     </section>
   HTML;
@@ -108,8 +111,9 @@
     'precio' => 0,
     'excento' => ''
   ];
-  if (!empty($_SESSION['productoID']))
+  if (!empty($_SESSION['productoID'])) {
     $producto = getRegistro("SELECT * FROM inventario WHERE id={$_SESSION['productoID']}");
+  }
   
   $botonesProductos = '';
   foreach ($productos as $producto)

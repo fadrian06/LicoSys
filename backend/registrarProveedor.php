@@ -1,9 +1,9 @@
 <?php
 
 session_start();
-if (!empty($_POST)):
-  require 'conexion.php';
-  require 'funciones.php';
+if ($_POST !== []):
+  require __DIR__ . '/conexion.php';
+  require __DIR__ . '/funciones.php';
 
   $cedula = (int) $_POST['cedula'];
   $nombrePersona = escapar($_POST['nombre']);
@@ -15,19 +15,23 @@ if (!empty($_POST)):
   /*====================================
     =            VALIDACIONES            =
     ====================================*/
-  if (!$cedula or !$nombrePersona)
+  if (!$cedula || !$nombrePersona) {
     $respuesta['error'] = 'Los datos de persona de contacto son requeridos.';
+  }
 
-  if (!$rif or !$nombreEmpresa)
+  if (!$rif || !$nombreEmpresa) {
     $respuesta['error'] = 'El RIF y el nombre de empresa son requeridos.';
+  }
 
   $proveedorEncontrado = consulta("SELECT rif FROM proveedores WHERE rif='$rif'");
-  if ($proveedorEncontrado)
+  if ($proveedorEncontrado) {
     $respuesta['error'] = 'Ya existe un proveedor con ese RIF.';
+  }
   /*=====  End of VALIDACIONES  ======*/
 
-  if ($respuesta['error'])
+  if ($respuesta['error']) {
     exit(json_encode($respuesta, JSON_INVALID_UTF8_IGNORE));
+  }
 
   $sql = <<<SQL
       INSERT INTO proveedores(cedula, nombre, rif, nombreEmpresa,
@@ -39,7 +43,9 @@ if (!empty($_POST)):
 
   $resultado = setRegistro($sql);
 
-  if (!$resultado) $respuesta['error'] = $conexion->error;
+  if (!$resultado) {
+    $respuesta['error'] = $conexion->error;
+  }
 
   $respuesta['ok'] = 'Proveedor registrado exitósamente.';
   exit(json_encode($respuesta, JSON_INVALID_UTF8_IGNORE));

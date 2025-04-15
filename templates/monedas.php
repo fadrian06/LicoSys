@@ -18,7 +18,7 @@
 		</table>
 		<?php if($_SESSION['cargo'] === 'a'):
 			$textoBoton =
-				(is_string(getDolar()) or is_string(getPeso()) or is_string(getIVA()))
+				(is_string(getDolar()) || is_string(getPeso()) || is_string(getIVA()))
 					? 'Establecer'
 					: 'Actualizar';
 			echo <<<HTML

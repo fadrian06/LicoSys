@@ -2,23 +2,27 @@
 
 session_start();
 
-require 'conexion.php';
-require 'funciones.php';
+require __DIR__ . '/conexion.php';
+require __DIR__ . '/funciones.php';
 
 if (!empty($_POST['verificarUsuario'])):
   $usuario = escapar($_POST['usuario']);
 
   /*----------  VALIDACIONES  ----------*/
-  if (!$usuario) $respuesta['error'] = 'El usuario no puede estar vacío';
+  if ($usuario === '' || $usuario === '0') {
+    $respuesta['error'] = 'El usuario no puede estar vacío';
+  }
 
-  if ($respuesta['error'])
+  if ($respuesta['error']) {
     exit(json_encode($respuesta, JSON_INVALID_UTF8_IGNORE));
+  }
 
   $sql = "SELECT usuario FROM usuarios WHERE BINARY(usuario)=BINARY('$usuario')";
   $filaUsuario = getRegistro($sql);
 
-  if (!$filaUsuario)
+  if (!$filaUsuario) {
     $respuesta['error'] = 'Usuario no existe, (verifique mayúsculas y minúsculas)';
+  }
 
   exit(json_encode($respuesta, JSON_INVALID_UTF8_IGNORE));
 
@@ -31,9 +35,12 @@ if (!empty($_POST['login'])):
   $idNegocio = (int) $_POST['negocio'];
 
   /*----------  VALIDACIONES  ----------*/
-  if (!$idNegocio) $respuesta['error'] = 'Por favor seleccione un negocio';
-  if (!$usuario or !$clave)
+  if ($idNegocio === 0) {
+    $respuesta['error'] = 'Por favor seleccione un negocio';
+  }
+  if (!$usuario || !$clave) {
     $respuesta['error'] = 'Por favor introduzca un usuario y una contraseña';
+  }
 
   $sql = <<<SQL
 			SELECT * FROM usuarios WHERE BINARY(usuario)=BINARY('$usuario')
@@ -43,18 +50,21 @@ if (!empty($_POST['login'])):
   $sql = "SELECT id, logo, nombre FROM negocios WHERE id=$idNegocio";
   $negocioSeleccionado = getRegistro($sql);
 
-  if (!$filaUsuario)
+  if (!$filaUsuario) {
     $respuesta['error'] = 'Usuario no existe, (verifique mayúsculas y minúsculas)';
-  elseif (!password_verify($clave, strval($filaUsuario['clave'])))
+  } elseif (!password_verify($clave, strval($filaUsuario['clave']))) {
     $respuesta['error'] = 'Contraseña incorrecta';
-  elseif (!$filaUsuario['activo'])
+  } elseif (!$filaUsuario['activo']) {
     $respuesta['error'] = 'Este usuario se encuentra desactivado';
+  }
 
   if ($filaUsuario['cargo'] === 'v'):
     $sql = "INSERT INTO log(usuario_id, negocio_id) VALUES({$filaUsuario['id']}, {$negocioSeleccionado['id']})";
     $resultado = setRegistro($sql);
 
-    if (!$resultado) $respuesta['error'] = $conexion->error;
+    if (!$resultado) {
+      $respuesta['error'] = $conexion->error;
+    }
   endif;
 
   if ($respuesta['error']):

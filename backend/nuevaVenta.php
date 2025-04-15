@@ -2,10 +2,12 @@
 
 session_start();
 
-require 'conexion.php';
-require 'funciones.php';
+require __DIR__ . '/conexion.php';
+require __DIR__ . '/funciones.php';
 
-if (!isset($_SESSION['activa'])) header('location: ../salir.php');
+if (!isset($_SESSION['activa'])) {
+  header('location: ../salir.php');
+}
 
 /*==========================================================
 	=            RETORNAR INFORMACIÓN DE UN CLIENTE            =
@@ -36,9 +38,9 @@ endif;
 if (!empty($_POST['addProduct'])):
   $productoID = (int) escapar($_POST['productoID']);
   $cantidad = (int) escapar($_POST['cantidad']);
-  $clienteID = !empty($_SESSION['clienteID'])
-    ? $_SESSION['clienteID']
-    : false;
+  $clienteID = empty($_SESSION['clienteID'])
+    ? false
+    : $_SESSION['clienteID'];
   $iva = getIVA();
   $producto = getRegistro("SELECT * FROM inventario WHERE id=$productoID");
   unset($_SESSION['productoID']);
@@ -52,16 +54,24 @@ if (!empty($_POST['addProduct'])):
   $total = $precio * $cantidad;
   $totalIVA = 0;
 
-  if ($excento) $totalIVA = $total + ($total * $iva);
+  if ($excento !== 0) {
+    $totalIVA = $total + ($total * $iva);
+  }
 
   /*----------  VALIDACIONES  ----------*/
-  if (!$clienteID) $respuesta['error'] = 'Por favor seleccione un cliente.';
-  if (!$productoID) $respuesta['error'] = 'Por favor seleccione un producto.';
-  if ($cantidad > $stock)
+  if (!$clienteID) {
+    $respuesta['error'] = 'Por favor seleccione un cliente.';
+  }
+  if ($productoID === 0) {
+    $respuesta['error'] = 'Por favor seleccione un producto.';
+  }
+  if ($cantidad > $stock) {
     $respuesta['error'] = 'La cantidad es mayor a la existencia del producto.';
+  }
 
-  if ($respuesta['error'])
+  if ($respuesta['error']) {
     exit(json_encode($respuesta, JSON_INVALID_UTF8_IGNORE));
+  }
 
   $sql = <<<SQL
 			SELECT * FROM carrito_venta WHERE producto_id=$productoID
@@ -72,19 +82,25 @@ if (!empty($_POST['addProduct'])):
   if ($productoEnCarrito):
     $cantidad += $productoEnCarrito['unidades'];
     $total = $productoEnCarrito['precio_base'] * $cantidad;
-    if ($excento) $totalIVA = ($total * $iva) + $total;
+    if ($excento !== 0) {
+      $totalIVA = ($total * $iva) + $total;
+    }
     $sql = <<<SQL
 				UPDATE carrito_venta SET unidades=$cantidad,
 				precio_total=$total, total_iva=$totalIVA WHERE producto_id=$productoID
 			SQL;
     $resultado = setRegistro($sql);
-    if (!$resultado) $respuesta['error'] = $conexion->error;
+    if (!$resultado) {
+      $respuesta['error'] = $conexion->error;
+    }
 
     // Reducimos aún más el stock del producto.
     $stock = $productoEnCarrito['antiguo_stock'] - $cantidad;
     $sql = "UPDATE inventario SET stock=$stock WHERE id=$productoID";
     $resultado = setRegistro($sql);
-    if (!$resultado) $respuesta['error'] = $conexion->error;
+    if (!$resultado) {
+      $respuesta['error'] = $conexion->error;
+    }
 
     $respuesta['ok'] = 'Producto añadido al carrito.';
     exit(json_encode($respuesta, JSON_INVALID_UTF8_IGNORE));
@@ -98,13 +114,17 @@ if (!empty($_POST['addProduct'])):
 		SQL;
   $resultado = setRegistro($sql);
 
-  if (!$resultado) $respuesta['error'] = $conexion->error;
+  if (!$resultado) {
+    $respuesta['error'] = $conexion->error;
+  }
 
   // Reducimos el stock del producto seleccionado.
   $stock -= $cantidad;
   $sql = "UPDATE inventario SET stock=$stock WHERE id=$productoID";
   $resultado = setRegistro($sql);
-  if (!$resultado) $respuesta['error'] = $conexion->error;
+  if (!$resultado) {
+    $respuesta['error'] = $conexion->error;
+  }
 
   $respuesta['ok'] = 'Producto añadido al carrito.';
   exit(json_encode($respuesta, JSON_INVALID_UTF8_IGNORE));
@@ -118,10 +138,14 @@ if (!empty($_POST['eliminar'])):
   $sql = "SELECT antiguo_stock FROM carrito_venta WHERE producto_id=$id";
   $antiguoStock = (int) getRegistro($sql)['antiguo_stock'];
   $resultado = setRegistro("DELETE FROM carrito_venta WHERE producto_id=$id");
-  if (!$resultado) $respuesta['error'] = $conexion->error;
+  if (!$resultado) {
+    $respuesta['error'] = $conexion->error;
+  }
 
   $resultado = setRegistro("UPDATE inventario SET stock=$antiguoStock WHERE id=$id");
-  if (!$resultado) $respuesta['error'] = $conexion->error;
+  if (!$resultado) {
+    $respuesta['error'] = $conexion->error;
+  }
 
   $respuesta['ok'] = 'Producto eliminado del carrito.';
   exit(json_encode($respuesta, JSON_INVALID_UTF8_IGNORE));
@@ -140,11 +164,15 @@ if (!empty($_POST['anular'])):
 				WHERE id={$producto['producto_id']}
 			SQL;
     $resultado = setRegistro($sql);
-    if (!$resultado) $respuesta['error'] .= $conexion->error;
+    if (!$resultado) {
+      $respuesta['error'] .= $conexion->error;
+    }
   endforeach;
 
   $resultado = setRegistro("TRUNCATE TABLE carrito_venta");
-  if (!$resultado) $respuesta['error'] .= $conexion->error;
+  if (!$resultado) {
+    $respuesta['error'] .= $conexion->error;
+  }
   unset($_SESSION['productoID']);
   $respuesta['ok'] = 'Venta anulada exitósamente.';
 
@@ -174,11 +202,15 @@ if (!empty($_POST['generar'])):
 			SQL;
 
     $resultado = setRegistro($sql);
-    if (!$resultado) $respuesta['error'] .= $conexion->error;
+    if (!$resultado) {
+      $respuesta['error'] .= $conexion->error;
+    }
   endforeach;
 
   $resultado = setRegistro('TRUNCATE TABLE carrito_venta');
-  if (!$resultado) $respuesta['error'] .= $conexion->error;
+  if (!$resultado) {
+    $respuesta['error'] .= $conexion->error;
+  }
 
   $respuesta['ok'] = 'Venta generada exitósamente.';
   exit(json_encode($respuesta, JSON_INVALID_UTF8_IGNORE));

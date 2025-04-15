@@ -1,8 +1,8 @@
 <?php
 
-if (!empty($_POST)):
-  require 'conexion.php';
-  require 'funciones.php';
+if ($_POST !== []):
+  require __DIR__ . '/conexion.php';
+  require __DIR__ . '/funciones.php';
 
   $cedula    = (int) $_POST['cedula'];
   $nombre    = escapar(capitalize($_POST['nombre']));
@@ -11,26 +11,30 @@ if (!empty($_POST)):
   $confirmar = escapar($_POST['confirmar']);
   $telefono  = escapar($_POST['telefono']);
   $cargo     = (string) $_POST['cargo'];
-  $foto      = !empty($_FILES['foto']) ? (array) $_FILES['foto'] : ['error' => 4];
+  $foto      = empty($_FILES['foto']) ? ['error' => 4] : (array) $_FILES['foto'];
   $imagen = '';
 
   /*----------  VALIDACIONES  ----------*/
-  if (!$cedula or !$nombre or !$usuario or !$clave or !$confirmar)
+  if (!$cedula || !$nombre || !$usuario || !$clave || !$confirmar) {
     $respuesta['error'] = 'Por favor rellene los campos';
+  }
 
-  if ($clave !== $confirmar)
+  if ($clave !== $confirmar) {
     $respuesta['error'] = 'Ambas contraseñas deben ser iguales.';
+  }
 
   $sql = <<<SQL
 			SELECT cedula, usuario FROM usuarios
 			WHERE cedula=$cedula OR usuario='$usuario'
 		SQL;
   $usuarioEncontrado = getRegistro($sql);
-  if ($usuarioEncontrado)
+  if ($usuarioEncontrado) {
     $respuesta['error'] = 'Ya existe un usuario con esos datos.';
+  }
 
-  if ($respuesta['error'])
+  if ($respuesta['error']) {
     exit(json_encode($respuesta, JSON_INVALID_UTF8_IGNORE));
+  }
 
   if ($foto['error'] !== 4):
     $imagen = (string) $foto['name'];
@@ -39,15 +43,18 @@ if (!empty($_POST)):
     $rutaOrigen = (string) $foto['tmp_name'];
     $rutaDestino = "../assets/images/perfil/$imagen";
 
-    if ($tipo !== 'image/jpeg' && $tipo !== 'image/jpg' && $tipo !== 'image/png')
+    if ($tipo !== 'image/jpeg' && $tipo !== 'image/jpg' && $tipo !== 'image/png') {
       $respuesta['error'] = 'Sólo se permite imagenes JPG y PNG';
-    elseif ($peso > (1024 * 2048) /*2MB*/)
+    } elseif ($peso > (1024 * 2048)) {
       $respuesta['error'] = 'La imagen no puede ser mayor a 2MB';
-    else move_uploaded_file($rutaOrigen, $rutaDestino);
+    } else {
+      move_uploaded_file($rutaOrigen, $rutaDestino);
+    }
   endif;
 
-  if ($respuesta['error'])
+  if ($respuesta['error']) {
     exit(json_encode($respuesta, JSON_INVALID_UTF8_IGNORE));
+  }
 
   $clave = encriptar($clave);
   $sql = <<<SQL
@@ -63,8 +70,9 @@ if (!empty($_POST)):
 		SQL;
   setRegistro($sql);
 
-  if (!$resultado)
+  if (!$resultado) {
     $respuesta['error'] = $conexion->error;
+  }
 
   $respuesta['ok'] = $cargo === 'a'
     ? 'Administrador registrado exitósamente.'

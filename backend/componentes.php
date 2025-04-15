@@ -419,12 +419,13 @@ function generarModal(string $tipo, string $id, string $titulo, string $contenid
   $mostrar = $mostrar ? 'w3-show' : 'w3-hide';
 
   echo "<$tipo id='$id' class='modal w3-white w3-card w3-round-large animate__animated animate__fadeInUp animate__faster $mostrar'>";
-  if ($cerrar)
+  if ($cerrar) {
     echo <<<HTML
           <div class="w3-right-align">
             <span class="icon-close w3-button w3-transparent w3-hover-red"></span>
           </div>
         HTML;
+  }
   echo <<<HTML
         <h2 class="w3-center w3-xxlarge oswald w3-margin-bottom">$titulo</h2>
         $contenido
