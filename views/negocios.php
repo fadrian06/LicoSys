@@ -122,20 +122,20 @@
     $botonesDesactivados = '';
     $panelesDesactivados = '';
     if ($desactivados):
-      foreach ($desactivados as $negocio):
+      foreach ($desactivados as $desactivado):
         $botonesDesactivados .= <<<HTML
-          <li role="botonPanel" onclick="mostrarPanel(this, '#panelNegocio{$negocio['id']}')" class="w3-button w3-block w3-rightbar w3-red">
+          <li role="botonPanel" onclick="mostrarPanel(this, '#panelNegocio{$desactivado['id']}')" class="w3-button w3-block w3-rightbar w3-red">
             <i class="icon-building w3-large"></i>
-            <div>{$negocio['nombre']}</div>
+            <div>{$desactivado['nombre']}</div>
           </li>
         HTML;
-        $negocio['logo'] = $negocio['logo']
-          ? 'assets/images/negocios/' . $negocio['logo']
+        $desactivado['logo'] = $desactivado['logo']
+          ? 'assets/images/negocios/' . $desactivado['logo']
           : 'assets/images/logoNegocio.jpg';
-        $negocio['tlf'] = $negocio['tlf'] ?: '<b class="w3-text-red">No establecido</b>';
-        $negocio['direccion'] = $negocio['direccion'] ?: '<b class="w3-text-red">No establecido</b>';
+        $desactivado['tlf'] = $desactivado['tlf'] ?: '<b class="w3-text-red">No establecido</b>';
+        $desactivado['direccion'] = $desactivado['direccion'] ?: '<b class="w3-text-red">No establecido</b>';
         $panelesDesactivados .= <<<HTML
-          <div id="panelNegocio{$negocio['id']}" role="panel" class="w3-rest w3-hide w3-animate-opacity">
+          <div id="panelNegocio{$desactivado['id']}" role="panel" class="w3-rest w3-hide w3-animate-opacity">
             <div class="w3-row">
               <!------------  INFORMACIÓN  ------------>
               <div class="w3-twothird m6 w3-margin-top w3-container w3-white w3-card">
@@ -143,35 +143,35 @@
                 <ul class="w3-ul w3-small">
                   <li>
                     <span class="w3-tag w3-blue w3-left">Identificador:</span>
-                    <b class="w3-right">{$negocio['id']}</b>
+                    <b class="w3-right">{$desactivado['id']}</b>
                     <div class="w3-clear"></div>
                   </li>
                   <li>
                     <span class="w3-tag w3-blue w3-left">Nombre:</span>
-                    <b class="w3-right">{$negocio['nombre']}</b>
+                    <b class="w3-right">{$desactivado['nombre']}</b>
                     <div class="w3-clear"></div>
                   </li>
                   <li>
                     <span class="w3-tag w3-blue w3-left">RIF:</span>
-                    <b class="w3-right">{$negocio['rif']}</b>
+                    <b class="w3-right">{$desactivado['rif']}</b>
                     <div class="w3-clear"></div>
                   </li>
                   <li>
                     <span class="w3-tag w3-blue w3-left">Teléfono:</span>
-                    <b class="w3-right">{$negocio['tlf']}</b>
+                    <b class="w3-right">{$desactivado['tlf']}</b>
                     <div class="w3-clear"></div>
                   </li>
                   <li>
                     <span class="w3-tag w3-blue w3-left">Dirección:</span>
-                    <b class="w3-right">{$negocio['direccion']}</b>
+                    <b class="w3-right">{$desactivado['direccion']}</b>
                     <div class="w3-clear"></div>
                   </li>
                 </ul>
                 <div class="w3-center w3-padding-large">
-                  <button onclick="editar(this, 'negocios', 'id', {$negocio['id']}, 'views/negocios.php')" data-target="#editarNegocio" class="w3-show-inline-block w3-button w3-blue w3-round-large">
+                  <button onclick="editar(this, 'negocios', 'id', {$desactivado['id']}, 'views/negocios.php')" data-target="#editarNegocio" class="w3-show-inline-block w3-button w3-blue w3-round-large">
                     Actualizar Datos
                   </button>
-                  <button onclick="activar('negocios', 'id', {$negocio['id']}, 'views/negocios.php')" class="w3-button w3-green w3-round-large">
+                  <button onclick="activar('negocios', 'id', {$desactivado['id']}, 'views/negocios.php')" class="w3-button w3-green w3-round-large">
                     Activar
                   </button>
                 </div>
@@ -182,11 +182,11 @@
                   <form enctype="multipart/form-data" class="w3-padding-large w3-center w3-white w3-card">
                     <h3 class="w3-large">Actualizar Logo</h3>
                     <p class="w3-small w3-text-blue">Pulsa en la imagen para actualizar</p>
-                    <label for="logo{$negocio['id']}" class="w3-display-container w3-hover-opacity w3-circle">
+                    <label for="logo{$desactivado['id']}" class="w3-display-container w3-hover-opacity w3-circle">
                       <i class="icon-camera w3-xxxlarge w3-display-middle w3-display-hover"></i>
-                      <input type="hidden" name="id" value="{$negocio['id']}" class="w3-hide">
-                      <input type="file" id="logo{$negocio['id']}" accept="image/jpeg,image/png" name="logo" class="w3-hide">
-                      <img class="image-result w3-image" src="{$negocio['logo']}" style="width: 150px">
+                      <input type="hidden" name="id" value="{$desactivado['id']}" class="w3-hide">
+                      <input type="file" id="logo{$desactivado['id']}" accept="image/jpeg,image/png" name="logo" class="w3-hide">
+                      <img class="image-result w3-image" src="{$desactivado['logo']}" style="width: 150px">
                     </label>
                     <div class="w3-center">
                       <button class="w3-button w3-blue w3-round-large w3-section w3-animate-right w3-hide">
@@ -194,8 +194,8 @@
                       </button>
                     </div>
                     <div class="w3-padding">
-                      <span class="w3-medium w3-white w3-block">{$negocio['nombre']}</span>
-                      <span class="w3-small w3-white w3-block w3-text-blue">{$negocio['rif']}</span>
+                      <span class="w3-medium w3-white w3-block">{$desactivado['nombre']}</span>
+                      <span class="w3-small w3-white w3-block w3-text-blue">{$desactivado['rif']}</span>
                     </div>
                   </form>
                 </div>

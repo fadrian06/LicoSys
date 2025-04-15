@@ -40,10 +40,10 @@
       $totalIngresos = 0;
       $ganancia = 0;
       $filasProductos = '';
-      foreach ($ventasCombinadas as $venta):
+      foreach ($ventasCombinadas as $ventaCombinada):
         $sql = <<<SQL
           SELECT producto_id, unidades, total, fecha FROM compras
-          WHERE producto_id={$venta['producto_id']} AND negocio_id={$negocioID}
+          WHERE producto_id={$ventaCombinada['producto_id']} AND negocio_id={$negocioID}
         SQL;
         $compras = getRegistros($sql);
         $compras = filtrarFecha($rol, $compras);
@@ -62,18 +62,18 @@
           ? ['total' => 0, 'unidades' => 0]
           : $comprasCombinadas[$id];
         $compra['total'] = (float) $compra['total'];
-        $venta['total'] = (float) $venta['total'];
+        $ventaCombinada['total'] = (float) $ventaCombinada['total'];
 
         $totalGastos += $compra['total'];
-        $totalIngresos += $venta['total'];
+        $totalIngresos += $ventaCombinada['total'];
 
         $filasProductos .= <<<HTML
           <tr>
             <td>{$compra['unidades']}</td>
-            <td>{$venta['unidades']}</td>
-            <td>{$venta['producto']}</td>
+            <td>{$ventaCombinada['unidades']}</td>
+            <td>{$ventaCombinada['producto']}</td>
             <td>{$compra['total']}</td>
-            <td>{$venta['total']}</td>
+            <td>{$ventaCombinada['total']}</td>
           </tr>
         HTML;
       endforeach;
@@ -168,10 +168,10 @@
       $totalIngresos = 0;
       $ganancia = 0;
       $filasProductos = '';
-      foreach ($ventasCombinadas as $venta):
+      foreach ($ventasCombinadas as $ventaCombinada):
         $sql = <<<SQL
           SELECT producto_id, unidades, total, fecha FROM compras
-          WHERE producto_id={$venta['producto_id']} AND negocio_id={$negocio['id']}
+          WHERE producto_id={$ventaCombinada['producto_id']} AND negocio_id={$negocio['id']}
         SQL;
         $compras = getRegistros($sql);
         $compras = filtrarFecha('diario', $compras);
@@ -190,18 +190,18 @@
           ? ['total' => 0, 'unidades' => 0]
           : $comprasCombinadas[$id];
         $compra['total'] = (float) $compra['total'];
-        $venta['total'] = (float) $venta['total'];
+        $ventaCombinada['total'] = (float) $ventaCombinada['total'];
 
         $totalGastos += $compra['total'];
-        $totalIngresos += $venta['total'];
+        $totalIngresos += $ventaCombinada['total'];
 
         $filasProductos .= <<<HTML
           <tr class="w3-animate-opacity">
             <td>{$compra['unidades']}</td>
-            <td>{$venta['unidades']}</td>
-            <td>{$venta['producto']}</td>
+            <td>{$ventaCombinada['unidades']}</td>
+            <td>{$ventaCombinada['producto']}</td>
             <td>{$compra['total']}</td>
-            <td>{$venta['total']}</td>
+            <td>{$ventaCombinada['total']}</td>
           </tr>
         HTML;
       endforeach;

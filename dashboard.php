@@ -62,9 +62,9 @@
 	if ($ventasCombinadas && $_SESSION['cargo'] === 'a'):
 		$nombresProductos = [];
 		$cantidadProductos = [];
-		foreach ($ventasCombinadas as $venta):
-			$nombresProductos[] = $venta['producto'];
-			$cantidadProductos[] = $venta['unidades'];
+		foreach ($ventasCombinadas as $ventaCombinada):
+			$nombresProductos[] = $ventaCombinada['producto'];
+			$cantidadProductos[] = $ventaCombinada['unidades'];
 		endforeach;
 		
 		$cantidadProductos[] = 0;
@@ -200,10 +200,10 @@
 					</a>
 					<?=generarTooltip('Ver Registro de Sesiones')?>
 				</div>
-				<?php foreach($recientes as $usuario): ?>
+				<?php foreach($recientes as $reciente): ?>
 					<li class="w3-padding-16">
-						<img src="<?=empty($usuario['foto']) ? "images/avatar2.png" : 'assets/images/perfil/' . $usuario['foto']?>" class="w3-circle w3-margin-right" style="width: 50px">
-						<span class="w3-large"><?=$usuario['nombre']?></span>
+						<img src="<?=empty($reciente['foto']) ? "images/avatar2.png" : 'assets/images/perfil/' . $reciente['foto']?>" class="w3-circle w3-margin-right" style="width: 50px">
+						<span class="w3-large"><?=$reciente['nombre']?></span>
 					</li>
 				<?php endforeach ?>
 			</ul>
