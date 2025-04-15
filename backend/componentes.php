@@ -18,7 +18,7 @@ const LOADER = '
  * - Debe incluirse en un contenedor con la `class="w3-dropdown-hover"`
  * @param  string $texto El texto del tooltip.
  * @param  bool   $center Si quieres el tooltip centrado (Por defecto)
- * @return [string]        Texto HTML para incluir.
+ * @return string        Texto HTML para incluir.
  */
 function generarTooltip(string $texto, bool $center = true): string {
   $centrado = $center ? 'w3-center' : 'w3-left-align';

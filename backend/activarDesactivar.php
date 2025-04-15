@@ -10,7 +10,7 @@ if ($_POST !== []):
   $tabla = escapar($_POST['tabla']);
   /** @var string Campo que identifica cada registro. */
   $campo = escapar($_POST['campo']);
-  /** @var string Valor único de cada registro. */
+  /** @var int Valor único de cada registro. */
   $valor = (int) escapar($_POST['valor']);
   /** @var string 'activar' | 'desactivar' */
   $accion = escapar($_POST['accion']);

@@ -532,7 +532,7 @@ function escapar(string $texto): string {
  *
  * @param string $tabla La tabla a buscar (negocios | usuarios | versiones).
  *
- * @return ?ínt El número de registros. Retorna NULL si la tabla no existe.
+ * @return ?int El número de registros. Retorna NULL si la tabla no existe.
  */
 function contarRegistros(string $tabla): ?int {
   global $conexion;
@@ -606,7 +606,7 @@ function getAPI(string $url, string $urlJSON): array {
 /**
  * Elimina los duplicados de una lista de datos.
  * @param  array  $arrays El array de arrays a procesar.
- * @param array $clave La clave del arreglo necesaria para detectar duplicados.
+ * @param string $clave La clave del arreglo necesaria para detectar duplicados.
  * @return array Un nuevo arreglo sin elementos duplicados.
  */
 function eliminarDuplicados(array $arrays, string $clave): array {
