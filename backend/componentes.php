@@ -415,7 +415,7 @@ function generarINPUT(string $nombre, string $label, string $placeholder = '', s
  * @param  bool|boolean $mostrar   Si quieres mostrar el modal cuando cargue la vista, por defecto es `false`.
  * @return void                    No retorna, imprime el modal.
  */
-function generarModal(string $tipo, string $id, string $titulo, string $contenido, bool $cerrar = true, bool $mostrar = false) {
+function generarModal(string $tipo, string $id, string $titulo, string $contenido, bool $cerrar = true, bool $mostrar = false): void {
   $mostrar = $mostrar ? 'w3-show' : 'w3-hide';
 
   echo sprintf("<%s id='%s' class='modal w3-white w3-card w3-round-large animate__animated animate__fadeInUp animate__faster %s'>", $tipo, $id, $mostrar);

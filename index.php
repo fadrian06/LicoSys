@@ -17,7 +17,7 @@ if (!empty($_SESSION['userID'])) {
 setRegistro('TRUNCATE TABLE carrito_venta');
 setRegistro('TRUNCATE TABLE carrito_compra');
 
-function verificarCopiaDeSeguridad() {
+function verificarCopiaDeSeguridad(): void {
   global $script;
   if (file_exists('backup/backup.sql')) {
     $script .= '<script src="assets/js/restaurarBD.js"></script>';

@@ -357,7 +357,7 @@ function tabla(string $titulo, array $encabezados, array $datos, string $sinRegi
 }
 
 /** Muestra variables en formato más legible */
-function depurar($dato, string $nombre = '') {
+function depurar($dato, string $nombre = ''): void {
   echo '<pre class="w3-orange w3-padding-large">';
   echo $nombre !== '' && $nombre !== '0' ? $nombre . ': ' : '';
   if (is_array($dato)) {
@@ -457,7 +457,7 @@ function getSQLError(): string {
 /*======================================================
 =            OBTENER LA FECHA Y HORA ACTUAL            =
 ======================================================*/
-function getHora() {
+function getHora(): string {
   date_default_timezone_set("America/Caracas");
   return date("d-m-Y, h:i a");
 }
@@ -484,7 +484,7 @@ function getUltimoNegocio(): ?int {
  * Obtener el más reciente IVA registrado.
  * @return float|string El valor del IVA en formato `0.nn`.
  */
-function getIVA() {
+function getIVA(): float|string {
   $iva = getRegistro('SELECT * FROM iva ORDER BY fecha DESC LIMIT 1');
   return $iva && $iva['valor'] ? (float) $iva['valor'] : 'No establecido';
 }
@@ -493,7 +493,7 @@ function getIVA() {
  * Obtener la más reciente tasa del dólar registrada.
  * @return float|string La tasa del dolar.
  */
-function getDolar() {
+function getDolar(): float|string {
   $dolar = getRegistro('SELECT * FROM dolar ORDER BY fecha DESC LIMIT 1');
   return $dolar && $dolar['valor'] ? (float) $dolar['valor'] : 'No establecido';
 }
@@ -502,7 +502,7 @@ function getDolar() {
  * Obtener la más reciente tasa de cambio Dolar/Peso registrada.
  * @return int|string La tasa de cambio Dolar/Peso
  */
-function getPeso() {
+function getPeso(): int|string {
   $peso = getRegistro('SELECT * FROM peso ORDER BY fecha DESC LIMIT 1');
   return $peso && $peso['valor'] ? (int) $peso['valor'] : 'No establecido';
 }
@@ -584,7 +584,7 @@ function fecha(): string {
 /*========================================================
 =            FORMATEAR UNA CANTIDAD MONETARIA            =
 ========================================================*/
-function formatMoney($cantidad) {
+function formatMoney($cantidad): string {
   return number_format($cantidad, 0, ",", ".");
 }
 

@@ -15,7 +15,7 @@
      * @param  int    $negocioID El ID del negocio que posee los registros.
      * @return void            Devuelve al cliente la respuesta a su petición.
      */
-    function generarResumen(string $rol, int $negocioID) {
+    function generarResumen(string $rol, int $negocioID): void {
       global $respuesta;
       $sql = <<<SQL
         SELECT v.producto_id, v.fecha, i.producto, v.unidades, v.total
