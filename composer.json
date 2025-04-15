@@ -12,11 +12,9 @@
   },
   "scripts": {
     "pre-install-cmd": ["composer check-platform-reqs", "cp -n .env.dist .env"],
-    "ci": [
-      "rector --dry-run --no-progress-bar",
-      "phpstan --no-progress"
-    ],
-    "format": ["rector --no-progress-bar"]
+    "ci": ["rector --dry-run --no-progress-bar", "phpstan --no-progress"],
+    "format": ["rector --no-progress-bar"],
+    "baseline": ["phpstan --generate-baseline"]
   },
   "config": {
     "allow-plugins": {

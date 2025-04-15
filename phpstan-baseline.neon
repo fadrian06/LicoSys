@@ -1,0 +1,337 @@
+parameters:
+	ignoreErrors:
+		-
+			message: '#^Variable \$conexion might not be defined\.$#'
+			identifier: variable.undefined
+			count: 1
+			path: backend/activarDesactivar.php
+
+		-
+			message: '#^Variable \$respuesta might not be defined\.$#'
+			identifier: variable.undefined
+			count: 2
+			path: backend/activarDesactivar.php
+
+		-
+			message: '#^Variable \$sql might not be defined\.$#'
+			identifier: variable.undefined
+			count: 1
+			path: backend/activarDesactivar.php
+
+		-
+			message: '#^Variable \$conexion might not be defined\.$#'
+			identifier: variable.undefined
+			count: 2
+			path: backend/actualizarImagen.php
+
+		-
+			message: '#^Variable \$respuesta might not be defined\.$#'
+			identifier: variable.undefined
+			count: 4
+			path: backend/actualizarImagen.php
+
+		-
+			message: '#^Variable \$conexion might not be defined\.$#'
+			identifier: variable.undefined
+			count: 1
+			path: backend/actualizarMonedas.php
+
+		-
+			message: '#^Variable \$respuesta might not be defined\.$#'
+			identifier: variable.undefined
+			count: 2
+			path: backend/actualizarMonedas.php
+
+		-
+			message: '#^Variable \$conexion might not be defined\.$#'
+			identifier: variable.undefined
+			count: 4
+			path: backend/backupBD.php
+
+		-
+			message: '#^Variable \$respuesta might not be defined\.$#'
+			identifier: variable.undefined
+			count: 2
+			path: backend/backupBD.php
+
+		-
+			message: '#^Variable \$tablas might not be defined\.$#'
+			identifier: variable.undefined
+			count: 1
+			path: backend/backupBD.php
+
+		-
+			message: '#^Variable \$conexion might not be defined\.$#'
+			identifier: variable.undefined
+			count: 2
+			path: backend/editar.php
+
+		-
+			message: '#^Variable \$respuesta might not be defined\.$#'
+			identifier: variable.undefined
+			count: 6
+			path: backend/editar.php
+
+		-
+			message: '#^Variable \$conexion might not be defined\.$#'
+			identifier: variable.undefined
+			count: 1
+			path: backend/login.php
+
+		-
+			message: '#^Variable \$respuesta might not be defined\.$#'
+			identifier: variable.undefined
+			count: 6
+			path: backend/login.php
+
+		-
+			message: '#^Variable \$conexion might not be defined\.$#'
+			identifier: variable.undefined
+			count: 10
+			path: backend/nuevaCompra.php
+
+		-
+			message: '#^Variable \$respuesta might not be defined\.$#'
+			identifier: variable.undefined
+			count: 4
+			path: backend/nuevaCompra.php
+
+		-
+			message: '#^Variable \$conexion might not be defined\.$#'
+			identifier: variable.undefined
+			count: 10
+			path: backend/nuevaVenta.php
+
+		-
+			message: '#^Variable \$respuesta might not be defined\.$#'
+			identifier: variable.undefined
+			count: 6
+			path: backend/nuevaVenta.php
+
+		-
+			message: '#^Variable \$conexion might not be defined\.$#'
+			identifier: variable.undefined
+			count: 1
+			path: backend/recuperarClave.php
+
+		-
+			message: '#^Variable \$respuesta might not be defined\.$#'
+			identifier: variable.undefined
+			count: 9
+			path: backend/recuperarClave.php
+
+		-
+			message: '#^Variable \$conexion might not be defined\.$#'
+			identifier: variable.undefined
+			count: 1
+			path: backend/registrarCliente.php
+
+		-
+			message: '#^Variable \$respuesta might not be defined\.$#'
+			identifier: variable.undefined
+			count: 2
+			path: backend/registrarCliente.php
+
+		-
+			message: '#^Variable \$conexion might not be defined\.$#'
+			identifier: variable.undefined
+			count: 1
+			path: backend/registrarNegocio.php
+
+		-
+			message: '#^Variable \$respuesta might not be defined\.$#'
+			identifier: variable.undefined
+			count: 4
+			path: backend/registrarNegocio.php
+
+		-
+			message: '#^Variable \$conexion might not be defined\.$#'
+			identifier: variable.undefined
+			count: 1
+			path: backend/registrarPreguntasRespuestas.php
+
+		-
+			message: '#^Variable \$respuesta might not be defined\.$#'
+			identifier: variable.undefined
+			count: 1
+			path: backend/registrarPreguntasRespuestas.php
+
+		-
+			message: '#^Variable \$conexion might not be defined\.$#'
+			identifier: variable.undefined
+			count: 1
+			path: backend/registrarProducto.php
+
+		-
+			message: '#^Variable \$respuesta might not be defined\.$#'
+			identifier: variable.undefined
+			count: 2
+			path: backend/registrarProducto.php
+
+		-
+			message: '#^Variable \$conexion might not be defined\.$#'
+			identifier: variable.undefined
+			count: 1
+			path: backend/registrarProveedor.php
+
+		-
+			message: '#^Variable \$respuesta might not be defined\.$#'
+			identifier: variable.undefined
+			count: 2
+			path: backend/registrarProveedor.php
+
+		-
+			message: '#^Variable \$conexion might not be defined\.$#'
+			identifier: variable.undefined
+			count: 2
+			path: backend/registrarUsuario.php
+
+		-
+			message: '#^Variable \$respuesta might not be defined\.$#'
+			identifier: variable.undefined
+			count: 4
+			path: backend/registrarUsuario.php
+
+		-
+			message: '#^Variable \$conexion might not be defined\.$#'
+			identifier: variable.undefined
+			count: 1
+			path: backend/vaciarLog.php
+
+		-
+			message: '#^Variable \$respuesta might not be defined\.$#'
+			identifier: variable.undefined
+			count: 2
+			path: backend/vaciarLog.php
+
+		-
+			message: '#^Variable \$script might not be defined\.$#'
+			identifier: variable.undefined
+			count: 1
+			path: dashboard.php
+
+		-
+			message: '#^Variable \$admin might not be defined\.$#'
+			identifier: variable.undefined
+			count: 2
+			path: index.php
+
+		-
+			message: '#^Variable \$negocios might not be defined\.$#'
+			identifier: variable.undefined
+			count: 1
+			path: index.php
+
+		-
+			message: '#^Variable \$script might not be defined\.$#'
+			identifier: variable.undefined
+			count: 4
+			path: index.php
+
+		-
+			message: '#^Variable \$script might not be defined\.$#'
+			identifier: variable.undefined
+			count: 1
+			path: templates/footer.php
+
+		-
+			message: '#^Variable \$negocios might not be defined\.$#'
+			identifier: variable.undefined
+			count: 2
+			path: templates/login.php
+
+		-
+			message: '#^Variable \$BASE_URL might not be defined\.$#'
+			identifier: variable.undefined
+			count: 2
+			path: templates/menu.php
+
+		-
+			message: '#^Variable \$productosEnCarrito might not be defined\.$#'
+			identifier: variable.undefined
+			count: 1
+			path: templates/menu.php
+
+		-
+			message: '#^Variable \$productosEnCarritoCompra might not be defined\.$#'
+			identifier: variable.undefined
+			count: 1
+			path: templates/menu.php
+
+		-
+			message: '#^Variable \$versiones might not be defined\.$#'
+			identifier: variable.undefined
+			count: 1
+			path: templates/registroCambios.php
+
+		-
+			message: '#^Variable \$BASE_URL might not be defined\.$#'
+			identifier: variable.undefined
+			count: 1
+			path: views/compras.php
+
+		-
+			message: '#^Variable \$script might not be defined\.$#'
+			identifier: variable.undefined
+			count: 1
+			path: views/compras.php
+
+		-
+			message: '#^Variable \$BASE_URL might not be defined\.$#'
+			identifier: variable.undefined
+			count: 1
+			path: views/finanzas.php
+
+		-
+			message: '#^Variable \$id might not be defined\.$#'
+			identifier: variable.undefined
+			count: 1
+			path: views/finanzas.php
+
+		-
+			message: '#^Variable \$script might not be defined\.$#'
+			identifier: variable.undefined
+			count: 1
+			path: views/finanzas.php
+
+		-
+			message: '#^Variable \$BASE_URL might not be defined\.$#'
+			identifier: variable.undefined
+			count: 1
+			path: views/log.php
+
+		-
+			message: '#^Variable \$script might not be defined\.$#'
+			identifier: variable.undefined
+			count: 1
+			path: views/log.php
+
+		-
+			message: '#^Variable \$BASE_URL might not be defined\.$#'
+			identifier: variable.undefined
+			count: 1
+			path: views/negocios.php
+
+		-
+			message: '#^Variable \$script might not be defined\.$#'
+			identifier: variable.undefined
+			count: 1
+			path: views/negocios.php
+
+		-
+			message: '#^Variable \$BASE_URL might not be defined\.$#'
+			identifier: variable.undefined
+			count: 1
+			path: views/nuevaCompra.php
+
+		-
+			message: '#^Variable \$BASE_URL might not be defined\.$#'
+			identifier: variable.undefined
+			count: 1
+			path: views/usuarios.php
+
+		-
+			message: '#^Variable \$conexion might not be defined\.$#'
+			identifier: variable.undefined
+			count: 1
+			path: views/ventas.php
