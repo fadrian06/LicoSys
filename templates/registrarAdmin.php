@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+require_once __DIR__ . '/../vendor/autoload.php';
+
 if (!empty($mostrarRegistro)) :
   $label = '<b>Cédula:</b> <sup class="w3-text-red">(requerido)</sup>';
   $inputCedula = generarINPUT('CEDULA', $label, 'Introduce tu cédula');

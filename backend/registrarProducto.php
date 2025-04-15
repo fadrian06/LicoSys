@@ -2,8 +2,10 @@
 
 declare(strict_types=1);
 
+use Leaf\Http\Session;
+
 if ($_POST !== []) :
-  session_start();
+  require_once __DIR__ . '/../vendor/autoload.php';
   require_once __DIR__ . '/conexion.php';
   require_once __DIR__ . '/funciones.php';
 
@@ -29,14 +31,17 @@ if ($_POST !== []) :
     exit(json_encode($respuesta, JSON_INVALID_UTF8_IGNORE));
   }
 
-  $sql = <<<SQL
-      INSERT INTO inventario(
-        codigo, producto, stock, excento, precio, negocio_id, usuario_id
-      ) VALUES(
-        '{$codigo}', '{$producto}', {$stock}, {$excento}, {$precio},
-        {$_SESSION['negocioID']}, {$_SESSION['userID']}
-      )
-    SQL;
+  $negocioId = Session::get('negocioID');
+  $userId = Session::get('userID');
+
+  $sql = "
+    INSERT INTO inventario(
+      codigo, producto, stock, excento, precio, negocio_id, usuario_id
+    ) VALUES(
+      '{$codigo}', '{$producto}', {$stock}, {$excento}, {$precio},
+      {$negocioId}, {$userId}
+    )
+  ";
 
   $resultado = setRegistro($sql);
 

@@ -2,12 +2,13 @@
 
 declare(strict_types=1);
 
-session_start();
+use Leaf\Http\Session;
+
+require_once __DIR__ . '/../vendor/autoload.php';
+require_once __DIR__ . '/conexion.php';
+require_once __DIR__ . '/funciones.php';
 
 if ($_POST !== []) :
-  require __DIR__ . '/conexion.php';
-  require __DIR__ . '/funciones.php';
-
   $cedula = (int) $_POST['cedula'];
   $nombrePersona = escapar($_POST['nombre']);
   $rif = escapar($_POST['rif']);
@@ -37,11 +38,14 @@ if ($_POST !== []) :
     exit(json_encode($respuesta, JSON_INVALID_UTF8_IGNORE));
   }
 
+  $userId = Session::get('userID');
+  $negocioId = Session::get('negocioID');
+
   $sql = <<<SQL
       INSERT INTO proveedores(cedula, nombre, rif, nombreEmpresa,
         telefono, direccion, usuario_id, negocio_id
       ) VALUES({$cedula}, '{$nombrePersona}', '{$rif}', '{$nombreEmpresa}', '{$telefono}',
-        '{$direccion}', {$_SESSION['userID']}, {$_SESSION['negocioID']}
+        '{$direccion}', {$userId}, {$negocioId}
       )
     SQL;
 

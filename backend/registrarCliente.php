@@ -2,11 +2,12 @@
 
 declare(strict_types=1);
 
-session_start();
+use Leaf\Http\Session;
 
 if ($_POST !== []) :
-  require __DIR__ . '/conexion.php';
-  require __DIR__ . '/funciones.php';
+  require_once __DIR__ . '/../vendor/autoload.php';
+  require_once __DIR__ . '/conexion.php';
+  require_once __DIR__ . '/funciones.php';
 
   $cedula = (int) $_POST['cedula'];
   $nombre = escapar(capitalize($_POST['nombre']));
@@ -28,7 +29,7 @@ if ($_POST !== []) :
     "INSERT INTO clientes(cedula, nombre, usuario_id) VALUES(%d, '%s', %s)",
     $cedula,
     $nombre,
-    $_SESSION['userID']
+    Session::get('userID'),
   );
 
   $resultado = setRegistro($sql);

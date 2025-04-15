@@ -2,12 +2,13 @@
 
 declare(strict_types=1);
 
-session_start();
+use Leaf\Http\Session;
 
-require __DIR__ . '/conexion.php';
-require __DIR__ . '/funciones.php';
+require_once __DIR__ . '/../vendor/autoload.php';
+require_once __DIR__ . '/conexion.php';
+require_once __DIR__ . '/funciones.php';
 
-if (!isset($_SESSION['activa'])) {
+if (!Session::has('activa')) {
   header('location: ../salir.php');
 }
 
@@ -17,7 +18,8 @@ if (!isset($_SESSION['activa'])) {
 if (!empty($_GET['clienteID'])) :
   $id = (int) escapar($_GET['clienteID']);
   $respuesta['datos'] = getRegistro('SELECT * FROM clientes WHERE id=' . $id);
-  $_SESSION['clienteID'] = $id;
+  Session::set('clienteID', $id);
+
   exit(json_encode($respuesta, JSON_INVALID_UTF8_IGNORE));
 endif;
 
@@ -30,7 +32,8 @@ if (!empty($_GET['productoID'])) :
   $respuesta['datos']['iva'] = getIVA();
   $respuesta['datos']['dolar'] = getDolar();
   $respuesta['datos']['peso'] = getPeso();
-  $_SESSION['productoID'] = $id;
+  Session::set('productoID', $id);
+
   exit(json_encode($respuesta, JSON_INVALID_UTF8_IGNORE));
 endif;
 
@@ -40,12 +43,10 @@ endif;
 if (!empty($_POST['addProduct'])) :
   $productoID = (int) escapar($_POST['productoID']);
   $cantidad = (int) escapar($_POST['cantidad']);
-  $clienteID = empty($_SESSION['clienteID'])
-    ? false
-    : $_SESSION['clienteID'];
+  $clienteID = Session::get('clienteID', false);
   $iva = getIVA();
   $producto = getRegistro('SELECT * FROM inventario WHERE id=' . $productoID) ?? [];
-  unset($_SESSION['productoID']);
+  Session::remove('productoID');
 
   /*----------  DATOS DEL PRODUCTO  ----------*/
   $codigo = strtoupper(strval($producto['codigo']));
@@ -179,7 +180,7 @@ if (!empty($_POST['anular'])) :
     $respuesta['error'] .= $conexion->error;
   }
 
-  unset($_SESSION['productoID']);
+  Session::remove('productoID');
   $respuesta['ok'] = 'Venta anulada exitósamente.';
 
   exit(json_encode($respuesta, JSON_INVALID_UTF8_IGNORE));
@@ -191,23 +192,28 @@ endif;
 if (!empty($_POST['generar'])) :
   $productos = getRegistros('SELECT * FROM carrito_venta') ?? [];
   $iva = getIVA();
-
-  unset($_SESSION['productoID']);
+  Session::remove('productoID');
 
   /*----------  INSERTAMOS LAS VENTAS  ----------*/
   foreach ($productos as $producto) :
     $unidades = (int) $producto['unidades'];
+
     $total = $producto['total_iva'] > 0
       ? $producto['total_iva']
       : $producto['precio_total'];
+
     $producto = getRegistro('SELECT * FROM inventario WHERE id=' . $producto['producto_id']) ?? [];
+
+    $clienteId = Session::get('clienteID');
+    $userId = Session::get('userID');
+    $negocioId = Session::get('negocioID');
 
     $sql = <<<SQL
         INSERT INTO ventas(
           cliente_id, producto_id, unidades, total, iva, usuario_id, negocio_id
         ) VALUES(
-          {$_SESSION['clienteID']}, {$producto['id']}, {$unidades}, {$total},
-          {$iva}, {$_SESSION['userID']}, {$_SESSION['negocioID']}
+          {$clienteId}, {$producto['id']}, {$unidades}, {$total}, {$iva},
+          {$userId}, {$negocioId}
         )
       SQL;
 

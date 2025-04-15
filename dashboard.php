@@ -2,9 +2,11 @@
 
 declare(strict_types=1);
 
-session_start();
+use Leaf\Http\Session;
 
-if (!isset($_SESSION['activa'])) {
+require_once __DIR__ . '/vendor/autoload.php';
+
+if (!Session::has('activa')) {
   header('location: index.php');
 }
 
@@ -41,16 +43,17 @@ $data = /*getAPI(
 ];
 
 $dolarBCV = round($data['sources']['BCV']['quote'], 2);
+$negocioId = Session::get('negocioID');
 
 $sql = <<<SQL
     SELECT fecha, foto, nombre, usuario FROM log
     INNER JOIN usuarios ON usuario_id=id
-    WHERE negocio_id={$_SESSION['negocioID']}
+    WHERE negocio_id={$negocioId}
     GROUP BY usuario_id ORDER BY fecha DESC LIMIT 3
   SQL;
 $recientes = getRegistros($sql) ?? [];
 $sql = <<<SQL
-    SELECT id FROM ventas WHERE negocio_id={$_SESSION['negocioID']}
+    SELECT id FROM ventas WHERE negocio_id={$negocioId}
   SQL;
 $cantidadVentas = count(getRegistros($sql) ?? []);
 
@@ -58,7 +61,7 @@ $cantidadVentas = count(getRegistros($sql) ?? []);
 $sql = <<<SQL
     SELECT v.fecha, v.producto_id, i.producto, v.unidades FROM ventas v
     INNER JOIN inventario i ON v.producto_id=i.id
-    WHERE v.negocio_id={$_SESSION['negocioID']}
+    WHERE v.negocio_id={$negocioId}
   SQL;
 $ventas = getRegistros($sql) ?? [];
 $ventas = filtrarFecha('semanal', $ventas);
@@ -77,7 +80,7 @@ foreach ($ventas as $venta) :
   }
 endforeach;
 
-if ($ventasCombinadas && $_SESSION['cargo'] === 'a') :
+if ($ventasCombinadas && Session::get('cargo') === 'a') :
   $nombresProductos = [];
   $cantidadProductos = [];
   foreach ($ventasCombinadas as $ventaCombinada) :
@@ -118,7 +121,7 @@ if ($ventasCombinadas && $_SESSION['cargo'] === 'a') :
 endif;
 
 $sql = <<<SQL
-    SELECT id FROM inventario WHERE negocio_id={$_SESSION['negocioID']}
+    SELECT id FROM inventario WHERE negocio_id={$negocioId}
   SQL;
 $cantidadProductos = consulta($sql);
 ?>
@@ -132,7 +135,7 @@ $cantidadProductos = consulta($sql);
   =            WIDGETS            =
   ==============================-->
   <section class="w3-row-padding w3-margin-bottom">
-    <?php if ($_SESSION['cargo'] === 'a') : ?>
+    <?php if (Session::get('cargo') === 'a') : ?>
       <div class="w3-col s6 m3 w3-dropdown-hover w3-transparent">
         <a href="views/ventas.php" role="navegacion" class="w3-hover-opacity">
           <div class="w3-container w3-red w3-padding-16">
@@ -156,7 +159,7 @@ $cantidadProductos = consulta($sql);
         <?= generarTooltip('Ver Compras') ?>
       </div>
     <?php endif ?>
-    <div class="w3-col <?= $_SESSION['cargo'] === 'a' ? 's6 m3' : 's6' ?> w3-dropdown-hover w3-transparent">
+    <div class="w3-col <?= Session::get('cargo') === 'a' ? 's6 m3' : 's6' ?> w3-dropdown-hover w3-transparent">
       <a href="views/inventario.php" role="navegacion" class="w3-hover-opacity">
         <div class="w3-container w3-teal w3-padding-16">
           <i class="icon-product-hunt w3-xxxlarge w3-left"></i>
@@ -167,23 +170,23 @@ $cantidadProductos = consulta($sql);
       </a>
       <?= generarTooltip('Ver Inventario') ?>
     </div>
-    <div class="w3-col <?= $_SESSION['cargo'] === 'a' ? 's6 m3' : 's6' ?> w3-dropdown-hover w3-transparent">
+    <div class="w3-col <?= Session::get('cargo') === 'a' ? 's6 m3' : 's6' ?> w3-dropdown-hover w3-transparent">
       <a
-        href="<?= $_SESSION['cargo'] === 'a' ? 'views/usuarios.php' : 'views/clientes.php' ?>"
+        href="<?= Session::get('cargo') === 'a' ? 'views/usuarios.php' : 'views/clientes.php' ?>"
         role="navegacion"
         class="w3-hover-opacity">
         <div class="w3-container w3-orange w3-text-white w3-padding-16">
           <i class="icon-users w3-xxxlarge w3-left"></i>
           <span class="w3-right w3-xlarge">
-            <?= $_SESSION['cargo'] === 'a' ? contarRegistros('usuarios') - 1 : contarRegistros('clientes') - 1 ?>
+            <?= Session::get('cargo') === 'a' ? contarRegistros('usuarios') - 1 : contarRegistros('clientes') - 1 ?>
           </span>
           <div class="w3-clear"></div>
           <span class="w3-large w3-block w3-margin-top">
-            <?= $_SESSION['cargo'] === 'a' ? 'Usuarios' : 'Clientes' ?>
+            <?= Session::get('cargo') === 'a' ? 'Usuarios' : 'Clientes' ?>
           </span>
         </div>
       </a>
-      <?= generarTooltip($_SESSION['cargo'] === 'a' ? 'Ver Usuarios' : 'Ver Clientes') ?>
+      <?= generarTooltip(Session::get('cargo') === 'a' ? 'Ver Usuarios' : 'Ver Clientes') ?>
     </div>
   </section>
   <!--=============================
@@ -209,7 +212,7 @@ $cantidadProductos = consulta($sql);
       </table>
     </section>
   </div>
-  <?php if ($_SESSION['cargo'] === 'a' && $recientes) : ?>
+  <?php if (Session::get('cargo') === 'a' && $recientes) : ?>
     <section class="w3-row w3-container w3-border-bottom w3-padding-24">
       <!--========================================
       =            USUARIOS RECIENTES            =

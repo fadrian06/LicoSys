@@ -2,30 +2,34 @@
 
 declare(strict_types=1);
 
-session_start();
+use Leaf\Http\Session;
 
-if (!isset($_SESSION['activa'])) {
+require_once __DIR__ . '/../vendor/autoload.php';
+
+if (!Session::has('activa')) {
   header('location: ../salir.php');
 }
 
-if ($_SESSION['cargo'] === 'a') :
-  require __DIR__ . '/../backend/componentes.php';
-  require __DIR__ . '/../backend/conexion.php';
-  require __DIR__ . '/../backend/funciones.php';
+if (Session::get('cargo') === 'a') :
+  require_once __DIR__ . '/../backend/componentes.php';
+  require_once __DIR__ . '/../backend/conexion.php';
+  require_once __DIR__ . '/../backend/funciones.php';
 
   echo LOADER;
   echo '<div id="moduloCompras">';
 
   /*=============================
-    =            TABLA            =
-    =============================*/
-  $sql = <<<SQL
-      SELECT c.id, c.fecha, i.producto, c.unidades, c.total, p.nombre
-      FROM compras c INNER JOIN inventario i INNER JOIN proveedores p
-      INNER JOIN usuarios u ON c.producto_id=i.id AND c.proveedor_id=p.id
-      WHERE c.negocio_id={$_SESSION['negocioID']}
-      GROUP BY c.id ORDER BY c.fecha DESC
-    SQL;
+  =            TABLA            =
+  =============================*/
+  $negocioId = Session::get('negocioID');
+
+  $sql = "
+    SELECT c.id, c.fecha, i.producto, c.unidades, c.total, p.nombre
+    FROM compras c INNER JOIN inventario i INNER JOIN proveedores p
+    INNER JOIN usuarios u ON c.producto_id=i.id AND c.proveedor_id=p.id
+    WHERE c.negocio_id={$negocioId}
+    GROUP BY c.id ORDER BY c.fecha DESC
+  ";
 
   $encabezados = [
     'escritorio' => ['Fecha', 'Producto', 'Unidades', 'Total', 'Proveedor'],

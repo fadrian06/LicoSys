@@ -2,15 +2,16 @@
 
 declare(strict_types=1);
 
-session_start();
+use Leaf\Http\Session;
 
-if (!isset($_SESSION['activa'])) {
+require_once __DIR__ . '/../vendor/autoload.php';
+require_once __DIR__ . '/../backend/componentes.php';
+require_once __DIR__ . '/../backend/conexion.php';
+require_once __DIR__ . '/../backend/funciones.php';
+
+if (!Session::has('activa')) {
   header('location: ../salir.php');
 }
-
-require __DIR__ . '/../backend/componentes.php';
-require __DIR__ . '/../backend/conexion.php';
-require __DIR__ . '/../backend/funciones.php';
 
 /*=========================================
 =            CONSULTAR FACTURA            =
@@ -54,14 +55,16 @@ echo LOADER;
 echo '<div id="moduloVentas">';
 
 /*=============================
-  =            TABLA            =
-  =============================*/
-$sql = <<<SQL
-    SELECT v.id, fecha, c.nombre, i.producto, unidades, total, usuario
-    FROM ventas v INNER JOIN clientes c INNER JOIN inventario i INNER JOIN usuarios u
-    ON v.cliente_id=c.id AND v.producto_id=i.id AND v.usuario_id=u.id
-    WHERE v.negocio_id={$_SESSION['negocioID']} ORDER BY fecha DESC
-  SQL;
+=            TABLA            =
+=============================*/
+$negocioId = Session::get('negocioID');
+
+$sql = "
+  SELECT v.id, fecha, c.nombre, i.producto, unidades, total, usuario
+  FROM ventas v INNER JOIN clientes c INNER JOIN inventario i INNER JOIN usuarios u
+  ON v.cliente_id=c.id AND v.producto_id=i.id AND v.usuario_id=u.id
+  WHERE v.negocio_id={$negocioId} ORDER BY fecha DESC
+";
 
 $encabezados = [
   'escritorio' => ['Fecha', 'Vendido a', 'Producto', 'Unidades', 'Total', 'Vendedor'],

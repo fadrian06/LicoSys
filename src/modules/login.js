@@ -1,6 +1,8 @@
 /** @typedef {import('./funciones')} */
 
-import validar from './validar';
+import { verClave } from './funciones';
+import { reloj } from "./reloj";
+import validar from "./validar";
 
 /*=====================================
 =            DECLARACIONES            =

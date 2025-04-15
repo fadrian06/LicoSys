@@ -2,14 +2,23 @@
 
 declare(strict_types=1);
 
-if (isset($_SESSION['showQuestions'])) :
-  $inputRES1 = generarINPUT('res1', $_SESSION['pre1'] . '?', '', '');
-  $inputRES2 = generarINPUT('res2', $_SESSION['pre2'] . '?', '', '');
-  $inputRES3 = generarINPUT('res3', $_SESSION['pre3'] . '?', '', '');
-  $sql = <<<SQL
-      SELECT id FROM usuarios WHERE pre1='{$_SESSION['pre1']}'
-      AND pre2='{$_SESSION['pre2']}' AND pre3='{$_SESSION['pre3']}'
-    SQL;
+use Leaf\Http\Session;
+
+require_once __DIR__ . '/../vendor/autoload.php';
+
+if (Session::has('showQuestions')) :
+  $inputRES1 = generarINPUT('res1', Session::get('pre1') . '?', '', '');
+  $inputRES2 = generarINPUT('res2', Session::get('pre2') . '?', '', '');
+  $inputRES3 = generarINPUT('res3', Session::get('pre3') . '?', '', '');
+  $pre1 = Session::get('pre1');
+  $pre2 = Session::get('pre2');
+  $pre3 = Session::get('pre3');
+
+  $sql = "
+    SELECT id FROM usuarios WHERE pre1='{$pre1}'
+    AND pre2='{$pre2}' AND pre3='{$pre3}'
+  ";
+
   $id = getRegistro($sql)['id'] ?? throw new Error('Error al recuperar el ID');
   $inputID = generarINPUT('ID', '', '', $id);
   echo <<<HTML

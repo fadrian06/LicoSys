@@ -2,13 +2,22 @@
 
 declare(strict_types=1);
 
-if (isset($_SESSION['changePassword'])) :
+use Leaf\Http\Session;
+
+require_once __DIR__ . '/../vendor/autoload.php';
+
+if (Session::has('changePassword')) :
   $inputClave = generarINPUT('CLAVE', 'Nueva Contraseña:');
   $inputConfirmar = generarINPUT('CONFIRMAR', 'Confirmar Contraseña:');
-  $sql = <<<SQL
-      SELECT id FROM usuarios WHERE pre1='{$_SESSION['pre1']}'
-      AND pre2='{$_SESSION['pre2']}' AND pre3='{$_SESSION['pre3']}'
-    SQL;
+  $pre1 = Session::get('pre1');
+  $pre2 = Session::get('pre2');
+  $pre3 = Session::get('pre3');
+
+  $sql = "
+    SELECT id FROM usuarios WHERE pre1='{$pre1}'
+    AND pre2='{$pre2}' AND pre3='{$pre3}'
+  ";
+
   $id = getRegistro($sql)['id'] ?? throw new Error('No se encontró el ID del usuario');
   $inputID = generarINPUT('ID', '', '', $id);
   echo <<<HTML

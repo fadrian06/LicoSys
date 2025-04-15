@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+require_once __DIR__ . '/../vendor/autoload.php';
+
 if (!empty($mostrarRegistro)) :
   $label = '<b>Nombre:</b> <sup class="w3-text-red">(requerido)</sup>';
   $inputNombre = generarINPUT('NOMBRE_NEGOCIO', $label, 'Nombre del negocio');

@@ -2,24 +2,25 @@
 
 declare(strict_types=1);
 
+use Leaf\Http\Session;
+
+require_once __DIR__ . '/vendor/autoload.php';
+
 /*======================================
 =            LÓGICA INICIAL            =
 ======================================*/
-session_start();
-
-if (isset($_SESSION['activa'])) {
+if (Session::has('activa')) {
   header('location: dashboard.php');
 }
 
 include __DIR__ . '/templates/head.php';
 
-if (!empty($_SESSION['userID'])) {
-  $_SESSION['userID'] = $admin['id'];
+if (!empty(Session::get('userID'))) {
+  Session::set('userID', $admin['id']);
 }
 
 setRegistro('TRUNCATE TABLE carrito_venta');
 setRegistro('TRUNCATE TABLE carrito_compra');
-
 /*=====  End of LÓGICA INICIAL  ======*/
 
 /*----------  Si no hay negocios, solicita registro  ----------*/
@@ -49,11 +50,11 @@ elseif (!isset($mostrarLoader)) :
   include __DIR__ . '/templates/login.php';
   include __DIR__ . '/templates/consultarPreguntasRespuestas.php';
 
-  if (isset($_SESSION['showQuestions'])) {
+  if (Session::has('showQuestions')) {
     include __DIR__ . '/templates/preguntasRespuestas.php';
   }
 
-  if (isset($_SESSION['changePassword'])) {
+  if (Session::has('changePassword')) {
     include __DIR__ . '/templates/cambiarClave.php';
   }
 

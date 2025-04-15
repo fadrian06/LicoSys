@@ -2,25 +2,30 @@
 
 declare(strict_types=1);
 
-session_start();
+use Leaf\Http\Session;
 
-if (!isset($_SESSION['activa'])) {
+require_once __DIR__ . '/../vendor/autoload.php';
+
+if (!Session::has('activa')) {
   header('location: ../salir.php');
 }
 
-if ($_SESSION['cargo'] === 'a') :
-  require __DIR__ . '/../backend/componentes.php';
-  require __DIR__ . '/../backend/conexion.php';
-  require __DIR__ . '/../backend/funciones.php';
+if (Session::get('cargo') === 'a') :
+  require_once __DIR__ . '/../backend/componentes.php';
+  require_once __DIR__ . '/../backend/conexion.php';
+  require_once __DIR__ . '/../backend/funciones.php';
 
   echo LOADER;
   echo '<div id="moduloLog">';
-  $sql = <<<SQL
-      SELECT fecha, nombre, usuario, telefono FROM log
-      INNER JOIN usuarios ON usuario_id=id
-      WHERE negocio_id={$_SESSION['negocioID']}
-      GROUP BY usuario_id ORDER BY fecha DESC
-    SQL;
+
+  $negocioId = Session::get('negocioID');
+
+  $sql = "
+    SELECT fecha, nombre, usuario, telefono FROM log
+    INNER JOIN usuarios ON usuario_id=id
+    WHERE negocio_id={$negocioId}
+    GROUP BY usuario_id ORDER BY fecha DESC
+  ";
 
   $encabezados = [
     'escritorio' => ['Fecha', 'Nombre', 'Usuario', 'Teléfono'],

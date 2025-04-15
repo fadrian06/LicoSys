@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+use Leaf\Http\Session;
+
 function verificarCopiaDeSeguridad(string &$script): void {
   if (file_exists('backup/backup.sql')) {
     $script .= '<script src="assets/js/restaurarBD.js"></script>';
@@ -229,7 +231,7 @@ function tabla(
       HTML;
     }
 
-    if ($actualizar && $_SESSION['cargo'] === 'a') {
+    if ($actualizar && Session::get('cargo') === 'a') {
       $campos .= <<<HTML
         <td>
           <button
@@ -308,7 +310,7 @@ function tabla(
       HTML;
     }
 
-    if ($actualizar && $_SESSION['cargo'] === 'a') {
+    if ($actualizar && Session::get('cargo') === 'a') {
       $verMas .= <<<HTML
         <li class="w3-block">
           <div class=w3-container>

@@ -2,12 +2,14 @@
 
 declare(strict_types=1);
 
-session_start();
-require __DIR__ . '/conexion.php';
-require __DIR__ . '/funciones.php';
+use Leaf\Http\Session;
+
+require_once __DIR__ . '/../vendor/autoload.php';
+require_once __DIR__ . '/conexion.php';
+require_once __DIR__ . '/funciones.php';
 
 if (!empty($_POST['respaldar'])) :
-  if ($_SESSION['cargo'] !== 'a') {
+  if (Session::get('cargo') !== 'a') {
     $respuesta['error'] = 'No tienes los permisos necesarios';
   }
 

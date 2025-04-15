@@ -2,10 +2,11 @@
 
 declare(strict_types=1);
 
-session_start();
+use Leaf\Http\Session;
 
-require __DIR__ . '/conexion.php';
-require __DIR__ . '/funciones.php';
+require_once __DIR__ . '/../vendor/autoload.php';
+require_once __DIR__ . '/conexion.php';
+require_once __DIR__ . '/funciones.php';
 
 if (!empty($_POST['verificarUsuario'])) :
   $usuario = escapar($_POST['usuario']);
@@ -79,23 +80,30 @@ if (!empty($_POST['login'])) :
   endif;
 
   /*----------  FIN DE VALIDACIONES  ----------*/
+  Session::set('activa', true);
+  Session::set('user', $filaUsuario['usuario']);
+  Session::set('userName', $filaUsuario['nombre']);
+  Session::set('userID', $filaUsuario['id']);
+  Session::set('userCedula', $filaUsuario['cedula']);
+  Session::set('cargo', $filaUsuario['cargo']);
 
-  $_SESSION = [
-    'activa'     => true,
-    'user'       => $filaUsuario['usuario'],
-    'userName'   => $filaUsuario['nombre'],
-    'userID'     => $filaUsuario['id'],
-    'userCedula' => $filaUsuario['cedula'],
-    'cargo'      => $filaUsuario['cargo'],
-    'userFoto'   => $filaUsuario['foto']
+  Session::set(
+    'userFoto',
+    $filaUsuario['foto']
       ? 'assets/images/perfil/' . $filaUsuario['foto']
-      : 'assets/images/avatar3.png',
-    'userTlf'    => $filaUsuario['telefono'] ?: 'No especificado',
-    'negocio'    => $negocioSeleccionado['nombre'],
-    'negocioID'  => $negocioSeleccionado['id'],
-    'negocioLogo'      => $negocioSeleccionado['logo']
+      : 'assets/images/avatar3.png'
+  );
+
+  Session::set('userTlf', $filaUsuario['telefono'] ?: 'No especificado');
+  Session::set('negocio', $negocioSeleccionado['nombre']);
+  Session::set('negocioID', $negocioSeleccionado['id']);
+
+  Session::set(
+    'negocioLogo',
+    $negocioSeleccionado['logo']
       ? 'assets/images/negocios/' . $negocioSeleccionado['logo']
       : 'assets/images/logoNegocio.jpg'
-  ];
+  );
+
   exit(json_encode($respuesta, JSON_INVALID_UTF8_IGNORE));
 endif;

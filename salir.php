@@ -2,7 +2,10 @@
 
 declare(strict_types=1);
 
-session_start();
-session_destroy();
+use Leaf\Http\Session;
+
+require_once __DIR__ . '/vendor/autoload.php';
+
+Session::destroy();
 
 header('location: ./');

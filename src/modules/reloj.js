@@ -2,7 +2,7 @@
  * Crea un reloj
  * @param  {HTMLDivElement} contenedor Contenedor para el reloj
  */
-const reloj = (contenedor) => {
+export const reloj = (contenedor) => {
   const fecha = new Date();
   let horas = fecha.getHours();
   let ampm;

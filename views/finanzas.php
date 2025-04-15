@@ -2,17 +2,18 @@
 
 declare(strict_types=1);
 
-session_start();
+use Leaf\Http\Session;
 
-if (!isset($_SESSION['activa'])) {
+require_once __DIR__ . '/../vendor/autoload.php';
+require_once __DIR__ . '/../backend/componentes.php';
+require_once __DIR__ . '/../backend/conexion.php';
+require_once __DIR__ . '/../backend/funciones.php';
+
+if (!Session::has('activa')) {
   header('location: ../salir.php');
 }
 
-if ($_SESSION['cargo'] === 'a') :
-  require __DIR__ . '/../backend/componentes.php';
-  require __DIR__ . '/../backend/conexion.php';
-  require __DIR__ . '/../backend/funciones.php';
-
+if (Session::get('cargo') === 'a') :
   $respuesta ??= [];
 
   /*=======================================
@@ -46,9 +47,11 @@ if ($_SESSION['cargo'] === 'a') :
 
   $botones = '';
   $paneles = '';
+  $negocioId = Session::get('negocioID');
+
   foreach ($negocios as $negocio) :
     /*----------  BOTONES NEGOCIOS  ----------*/
-    $negocioActivo = $negocio['id'] === $_SESSION['negocioID']
+    $negocioActivo = $negocio['id'] === Session::get('negocioID')
       ? 'w3-blue'
       : 'w3-white';
     $botones .= <<<HTML
@@ -140,7 +143,7 @@ if ($_SESSION['cargo'] === 'a') :
     $tooltipCompradas = generarTooltip('Unidades compradas');
     $tooltipVendidas = generarTooltip('Unidades vendidas');
 
-    $panelActivo = $negocio['id'] === $_SESSION['negocioID']
+    $panelActivo = $negocio['id'] === Session::get('negocioID')
       ? 'w3-show-inline-block'
       : 'w3-hide';
     $paneles .= <<<HTML

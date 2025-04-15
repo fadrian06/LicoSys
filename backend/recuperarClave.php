@@ -2,9 +2,11 @@
 
 declare(strict_types=1);
 
-session_start();
-require __DIR__ . '/conexion.php';
-require __DIR__ . '/funciones.php';
+use Leaf\Http\Session;
+
+require_once __DIR__ . '/../vendor/autoload.php';
+require_once __DIR__ . '/conexion.php';
+require_once __DIR__ . '/funciones.php';
 
 if (!empty($_POST['consultar'])) :
   $cedula = (int) $_POST['cedula'];
@@ -32,18 +34,16 @@ if (!empty($_POST['consultar'])) :
   } elseif (!$filaUsuario['res1']) {
     $respuesta['error'] = 'Este usuario no tiene <strong>Preguntas y Respuestas</strong> registradas.';
   } else {
-    $_SESSION = [
-      'userID' => $filaUsuario['id'],
-      'pre1'   => $filaUsuario['pre1'],
-      'pre2'   => $filaUsuario['pre2'],
-      'pre3'   => $filaUsuario['pre3'],
-      'showQuestions' => true
-    ];
+    Session::set('userID', $filaUsuario['id']);
+    Session::set('pre1', $filaUsuario['pre1']);
+    Session::set('pre2', $filaUsuario['pre2']);
+    Session::set('pre3', $filaUsuario['pre3']);
+    Session::set('showQuestions', true);
   }
 
   if ($respuesta['error']) :
-    session_destroy();
-    $_SESSION['userID'] = $filaUsuario['id'] ?? null;
+    Session::destroy();
+    Session::set('userID', $filaUsuario['id'] ?? null);
   endif;
 
   exit(json_encode($respuesta, JSON_INVALID_UTF8_IGNORE));
@@ -66,9 +66,10 @@ if (!empty($_POST['verificarRespuestas'])) :
     $respuesta['error'] = 'Respuestas incorrectas.';
   }
 
-  unset($_SESSION['showQuestions']);
+  Session::remove('showQuestions');
+
   if (!$respuesta['error']) {
-    $_SESSION['changePassword'] = true;
+    Session::set('changePassword', true);
   }
 
   exit(json_encode($respuesta, JSON_INVALID_UTF8_IGNORE));
@@ -87,7 +88,8 @@ if (!empty($_POST['cambiarClave'])) :
   }
 
   if ($respuesta['error']) :
-    unset($_SESSION['changePassword']);
+    Session::remove('changePassword');
+
     exit(json_encode($respuesta, JSON_INVALID_UTF8_IGNORE));
   endif;
 

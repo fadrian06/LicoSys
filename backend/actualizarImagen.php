@@ -2,10 +2,11 @@
 
 declare(strict_types=1);
 
-session_start();
+use Leaf\Http\Session;
 
-require __DIR__ . '/conexion.php';
-require __DIR__ . '/funciones.php';
+require_once __DIR__ . '/../vendor/autoload.php';
+require_once __DIR__ . '/conexion.php';
+require_once __DIR__ . '/funciones.php';
 
 /*=================================================
 =            Actualizar foto de perfil            =
@@ -15,8 +16,9 @@ if (!empty($_FILES['foto']['name'])) :
   $imagen = '';
 
   if ($foto['error'] !== 4) :
-    $sql    = 'SELECT foto FROM usuarios WHERE id=' . $_SESSION['userID'];
+    $sql    = 'SELECT foto FROM usuarios WHERE id=' . Session::get('userID');
     $imagen = (string) (getRegistro($sql) ?? [])['foto'];
+
     if ($imagen === '' || $imagen === '0') {
       $imagen = (string) $foto['name'];
     }
@@ -25,7 +27,6 @@ if (!empty($_FILES['foto']['name'])) :
     $peso   = (int) $foto['size'];
     $rutaOrigen = (string) $foto['tmp_name'];
     $rutaDestino = '../assets/images/perfil/' . $imagen;
-
     $respuesta['datos'] = ['nombre' => $imagen, 'ruta' => $rutaDestino];
 
     if ($tipo !== 'image/jpeg' && $tipo !== 'image/jpg' && $tipo !== 'image/png') {
@@ -41,7 +42,7 @@ if (!empty($_FILES['foto']['name'])) :
     exit(json_encode($respuesta, JSON_INVALID_UTF8_IGNORE));
   }
 
-  $sql = sprintf("UPDATE usuarios SET foto='%s' WHERE id=%s", $imagen, $_SESSION['userID']);
+  $sql = sprintf("UPDATE usuarios SET foto='%s' WHERE id=%s", $imagen, Session::get('userID'));
   $resultado = setRegistro($sql);
 
   if ($resultado === null || $resultado === 0) {
@@ -49,7 +50,7 @@ if (!empty($_FILES['foto']['name'])) :
   }
 
   $respuesta['ok'] = 'Imagen actualizada exitósamente.';
-  $_SESSION['userFoto'] = 'assets/images/perfil/' . $imagen;
+  Session::set('userFoto', 'assets/images/perfil/' . $imagen);
 
   exit(json_encode($respuesta, JSON_INVALID_UTF8_IGNORE));
 endif;
@@ -95,8 +96,9 @@ if (!empty($_FILES['logo']['name'])) :
   }
 
   $respuesta['ok'] = 'Imagen actualizada exitósamente.';
-  if ($id === $_SESSION['negocioID']) {
-    $_SESSION['negocioLogo'] = 'assets/images/negocios/' . $imagen;
+
+  if ($id === Session::get('negocioID')) {
+    Session::set('negocioLogo', 'assets/images/negocios/' . $imagen);
   }
 
   exit(json_encode($respuesta, JSON_INVALID_UTF8_IGNORE));

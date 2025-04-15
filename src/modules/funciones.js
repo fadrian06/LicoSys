@@ -1,6 +1,6 @@
 // @ts-nocheck
 
-import validar from './validar';
+import validar from "./validar";
 
 /**
  * @typedef {object} Respuesta Respuesta del servidor
@@ -245,7 +245,7 @@ const ajax = (url, data, success) => {
  * @param  {HTMLElement} ojo El ícono
  * @param {HTMLInputElement} input `<input type="password">`
  */
-const verClave = (ojo, input) => {
+export const verClave = (ojo, input) => {
   ojo.onclick = () => {
     if (input.type === "password") {
       input.type = "text";
@@ -442,7 +442,7 @@ const vaciarLog = () => {
   });
 };
 
-const cerrarSesion = () => {
+export const cerrarSesion = () => {
   return confirmar("¿Seguro que desea cerrar sesión?", "center", () => {
     w3.addClass("main", "showLoader");
     const url = location.href.split("/");

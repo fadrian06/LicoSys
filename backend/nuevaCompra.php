@@ -2,12 +2,13 @@
 
 declare(strict_types=1);
 
-session_start();
+use Leaf\Http\Session;
 
-require __DIR__ . '/conexion.php';
-require __DIR__ . '/funciones.php';
+require_once __DIR__ . '/../vendor/autoload.php';
+require_once __DIR__ . '/conexion.php';
+require_once __DIR__ . '/funciones.php';
 
-if (!isset($_SESSION['activa'])) {
+if (!Session::has('activa')) {
   header('location: ../salir.php');
 }
 
@@ -17,7 +18,8 @@ if (!isset($_SESSION['activa'])) {
 if (!empty($_GET['proveedorID'])) :
   $id = (int) escapar($_GET['proveedorID']);
   $respuesta['datos'] = getRegistro('SELECT * FROM proveedores WHERE id=' . $id);
-  $_SESSION['proveedorID'] = $id;
+  Session::set('proveedorID', $id);
+
   exit(json_encode($respuesta, JSON_INVALID_UTF8_IGNORE));
 endif;
 
@@ -30,7 +32,8 @@ if (!empty($_GET['productoID'])) :
   $respuesta['datos']['iva'] = getIVA();
   $respuesta['datos']['dolar'] = getDolar();
   $respuesta['datos']['peso'] = getPeso();
-  $_SESSION['productoID'] = $id;
+  Session::set('productoID', $id);
+
   exit(json_encode($respuesta, JSON_INVALID_UTF8_IGNORE));
 endif;
 
@@ -41,14 +44,13 @@ if (!empty($_POST['addProduct'])) :
   $productoID = (int) escapar($_POST['productoID']);
   $cantidad = (int) escapar($_POST['cantidad']);
   $precio = (float) $_POST['precio'];
-  $proveedorID = empty($_SESSION['proveedorID'])
-    ? false
-    : $_SESSION['proveedorID'];
+  $proveedorID = Session::get('proveedorID', false);
   $producto = getRegistro('SELECT * FROM inventario WHERE id=' . $productoID) ?? [];
-  unset($_SESSION['productoID']);
+  Session::remove('productoID');
 
   /*----------  DATOS DEL PRODUCTO  ----------*/
   $total = $precio * $cantidad;
+
   $respuesta['datos'] = [
     'precio' => $precio,
     'cantidad' => $cantidad,
@@ -198,7 +200,7 @@ if (!empty($_POST['anular'])) :
     $respuesta['error'] .= $conexion->error;
   }
 
-  unset($_SESSION['productoID']);
+  Session::remove('productoID');
   $respuesta['ok'] = 'Compra anulada exitósamente.';
 
   exit(json_encode($respuesta, JSON_INVALID_UTF8_IGNORE));
@@ -216,14 +218,20 @@ if (!empty($_POST['generar'])) :
 
   /*----------  INSERTAMOS LAS COMPRAS  ----------*/
   foreach ($productos as $producto) :
-    $sql = <<<SQL
-        INSERT INTO compras(producto_id, unidades, precio, total,
-          proveedor_id, usuario_id, negocio_id
-        ) VALUES({$producto['producto_id']}, {$producto['unidades']},
-          {$producto['precio']}, {$producto['precio_total']},
-          {$_SESSION['proveedorID']}, {$_SESSION['userID']}, {$_SESSION['negocioID']}
-        )
-      SQL;
+    $proveedorId = Session::get('proveedorID');
+    $userId = Session::get('userID');
+    $negocioId = Session::get('negocioID');
+
+    $sql = "
+      INSERT INTO compras(
+        producto_id, unidades, precio, total, proveedor_id, usuario_id,
+        negocio_id
+      ) VALUES(
+        {$producto['producto_id']}, {$producto['unidades']},
+        {$producto['precio']}, {$producto['precio_total']},
+        {$proveedorId}, {$userId}, {$negocioId}
+      )
+    ";
 
     $resultado = setRegistro($sql);
     if ($resultado === null || $resultado === 0) {
@@ -237,6 +245,7 @@ if (!empty($_POST['generar'])) :
   }
 
   $respuesta['ok'] = 'Compra generada exitósamente.';
-  unset($_SESSION['proveedorID']);
+  Session::remove('proveedorID');
+
   exit(json_encode($respuesta, JSON_INVALID_UTF8_IGNORE));
 endif;

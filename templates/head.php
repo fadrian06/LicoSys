@@ -2,6 +2,13 @@
 
 declare(strict_types=1);
 
+use Leaf\Http\Session;
+
+require_once __DIR__ . '/../vendor/autoload.php';
+require_once __DIR__ . '/../backend/componentes.php';
+require_once __DIR__ . '/../backend/conexion.php';
+require_once __DIR__ . '/../backend/funciones.php';
+
 /*=================================================
 =            VARIABLES PREESTABLECIDAS            =
 =================================================*/
@@ -14,29 +21,25 @@ $seEncuentraEnCarpetaViews = $url[count($url) - 2] === 'views';
 /** @var string Hace referencia a la carpeta raiz del proyecto */
 $BASE_URL = $seEncuentraEnCarpetaViews ? '../' : '';
 
-require $BASE_URL . 'backend/componentes.php';
-require $BASE_URL . 'backend/conexion.php';
-require $BASE_URL . 'backend/funciones.php';
-
 /*=================================================================
 =            LÓGICA DE TOD0 EL SISTEMA, MENOS EL LOGIN            =
 =================================================================*/
 if ($archivoActual !== 'index.php') :
   $script .= sprintf("<script src='%sassets/js/navegacion.js'></script>", $BASE_URL);
   $script .= sprintf("<script src='%sassets/js/main.js'></script>", $BASE_URL);
+  $userId = Session::get('userID');
 
   /*----------  No tienes preguntas y respuestas registradas  ----------*/
-  $sql = <<<SQL
-      SELECT pre1, pre2, pre3 FROM usuarios WHERE id={$_SESSION['userID']}
-    SQL;
+  $sql = "SELECT pre1, pre2, pre3 FROM usuarios WHERE id={$userId}";
   $usuario = getRegistro($sql) ?? [];
+
   if (
     $usuario['pre1'] === 'No especificada' || !$usuario['pre1']
     || $usuario['pre2'] === 'No especificada' || !$usuario['pre2']
     || $usuario['pre3'] === 'No especificada' || !$usuario['pre3']
   ) {
-    $script .= <<<HTML
-        <script>
+    $script .= <<<html
+      <script>
         let textoNoTienesPreguntasNiRespuestas = `
           <strong class="w3-text-red">
             No tienes preguntas y respuestas registradas.
@@ -46,6 +49,7 @@ if ($archivoActual !== 'index.php') :
 
         confirmar(textoNoTienesPreguntasNiRespuestas, 'center', () => {
           $('[href="views/miPerfil.php"]')[0].click()
+
           let intervalo = setInterval(() => {
             if ($('#moduloPerfil')[0]) {
               $('[role="botonPanel"]:last-child')[0].click()
@@ -55,40 +59,41 @@ if ($archivoActual !== 'index.php') :
           }, 500)
         })
       </script>
-    HTML;
+    html;
   }
 
   /*----------  Inventario agotado  ----------*/
-  $sql = "SELECT id, producto, stock FROM inventario";
+  $sql = 'SELECT id, producto, stock FROM inventario';
   $productos = getRegistros($sql) ?? [];
-
   $i = 1;
+
   foreach ($productos as $producto) :
     $tiempo = 1000 * 60; /*60 segundos*/
+
     if (!$producto['stock']) {
-      $script .= <<<HTML
-          <script>
-            setTimeout(() => alerta('{$producto['producto']} está AGOTADO').show(),3000)
+      $script .= <<<html
+        <script>
+          setTimeout(() => alerta('{$producto['producto']} está AGOTADO').show(), 3000)
 
-            let intervalo{$i} = setInterval(() => {
-              alerta('{$producto['producto']} está AGOTADO').show()
-            }, {$tiempo})
+          let intervalo{$i} = setInterval(() => {
+            alerta('{$producto['producto']} está AGOTADO').show()
+          }, {$tiempo})
 
-            setTimeout(() => clearInterval(intervalo{$i}), {$tiempo} * 10 /*10 minutos*/)
-          </script>
-        HTML;
+          setTimeout(() => clearInterval(intervalo{$i}), {$tiempo} * 10 /*10 minutos*/)
+        </script>
+      html;
     } elseif ($producto['stock'] <= 5) {
-      $script .= <<<HTML
-          <script>
-            setTimeout(() => advertencia('{$producto['producto']} CASI AGOTADO').show(), 3000)
+      $script .= <<<html
+        <script>
+          setTimeout(() => advertencia('{$producto['producto']} CASI AGOTADO').show(), 3000)
 
-            let intervalo{$i} = setInterval(() => {
-              advertencia('{$producto['producto']} CASI AGOTADO').show()
-            }, {$tiempo})
+          let intervalo{$i} = setInterval(() => {
+            advertencia('{$producto['producto']} CASI AGOTADO').show()
+          }, {$tiempo})
 
-            setTimeout(() => clearInterval(intervalo{$i}), {$tiempo} * 10 /*5 minutos*/)
-          </script>
-        HTML;
+          setTimeout(() => clearInterval(intervalo{$i}), {$tiempo} * 10 /*5 minutos*/)
+        </script>
+      html;
     }
     ++$i;
   endforeach;
@@ -98,16 +103,17 @@ endif;
 =            LÓGICA DE TOD0 EL SISTEMA, INCLUIDO EL LOGIN            =
 ====================================================================*/
 $negocios = getRegistros('SELECT * FROM negocios WHERE activo=1');
-$admin    = getRegistro("SELECT * FROM usuarios WHERE cargo='a'");
+$admin = getRegistro("SELECT * FROM usuarios WHERE cargo='a'");
 
-$script .= <<<HTML
-    <script>
-      document.body.classList.remove('w3-disabled')
-    </script>
-  HTML;
+$script .= <<<html
+  <script>
+    document.body.classList.remove('w3-disabled')
+  </script>
+html;
 
 $productosEnCarrito = contarRegistros('carrito_venta');
 $productosEnCarritoCompra = contarRegistros('carrito_compra');
+
 ?>
 
 <!DOCTYPE html>
@@ -136,8 +142,8 @@ $productosEnCarritoCompra = contarRegistros('carrito_compra');
 
 <body class="w3-disabled">
   <!--==================================
-    =            FONDO OSCURO            =
-    ===================================-->
+  =            FONDO OSCURO            =
+  ===================================-->
   <div role="modalOverlay" class="w3-overlay w3-animate-opacity w3-hide"></div>
   <div role="menuOverlay" class="w3-overlay w3-animate-opacity w3-hide"></div>
 

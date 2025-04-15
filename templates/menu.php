@@ -2,6 +2,10 @@
 
 declare(strict_types=1);
 
+use Leaf\Http\Session;
+
+require_once __DIR__ . '/../vendor/autoload.php';
+
 if (isset($mostrarMenu)) : ?>
   <!--====================================
   =            BARRA SUPERIOR            =
@@ -29,7 +33,7 @@ if (isset($mostrarMenu)) : ?>
       </div>
       <?php
       $tooltipCarritoCompras = generarTooltip('Carrito de Compras');
-      if ($_SESSION['cargo'] === 'a') {
+      if (Session::get('cargo') === 'a') {
         echo <<<HTML
             <div class="w3-half w3-medium w3-dropdown-hover w3-black">
               <a
@@ -49,11 +53,11 @@ if (isset($mostrarMenu)) : ?>
     <div class="w3-medium w3-dropdown-hover w3-black">
       <a href="dashboard.php" role="navegacion" title="Panel de Administración" class="w3-medium w3-button">
         <img
-          src="<?= $BASE_URL . $_SESSION['negocioLogo'] ?>"
+          src="<?= $BASE_URL . Session::get('negocioLogo') ?>"
           class="w3-image w3-circle"
           style="height: 25px; width:25px" />
         &nbsp;
-        <b id="menuNombreNegocio"><?= $_SESSION['negocio'] ?></b>
+        <b id="menuNombreNegocio"><?= Session::get('negocio') ?></b>
       </a>
       <?= generarTooltip('Panel de Administración') ?>
     </div>
@@ -66,13 +70,13 @@ if (isset($mostrarMenu)) : ?>
       <a href="views/miPerfil.php" role="navegacion" title="Mi Perfil" class="w3-block w3-col s3">
         <img
           id="fotoPerfil"
-          src="<?= $BASE_URL . $_SESSION['userFoto'] ?>"
+          src="<?= $BASE_URL . Session::get('userFoto') ?>"
           class="w3-image w3-circle w3-margin-right w3-padding-small" />
       </a>
       <div class="w3-col s9 w3-center">
         <div>
           Bienvenido,
-          &nbsp;<b id="menuNombreUsuario"><?= $_SESSION['userName'] ?></b>
+          &nbsp;<b id="menuNombreUsuario"><?= Session::get('userName') ?></b>
         </div>
         <hr style="margin: 5px">
         <?php
@@ -154,7 +158,7 @@ if (isset($mostrarMenu)) : ?>
       <a href="views/ventas.php" role="navegacion" title="Gestionar Ventas" class="w3-bar-item w3-button w3-padding">
         <i class="icon-list-alt"></i> Ventas
       </a>
-      <?php if ($_SESSION['cargo'] === 'a') : ?>
+      <?php if (Session::get('cargo') === 'a') : ?>
         <details class="w3-bar-block w3-light-gray">
           <summary class="w3-hover-grey w3-padding">
             <i class="icon-handshake-o"></i> Compras

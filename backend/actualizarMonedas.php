@@ -3,8 +3,9 @@
 declare(strict_types=1);
 
 if ($_POST !== []) :
-  require __DIR__ . '/conexion.php';
-  require __DIR__ . '/funciones.php';
+  require_once __DIR__ . '/../vendor/autoload.php';
+  require_once __DIR__ . '/conexion.php';
+  require_once __DIR__ . '/funciones.php';
 
   $nuevoIVA = $_POST['iva'] < 1
     ? (float) $_POST['iva']

@@ -2,14 +2,16 @@
 
 declare(strict_types=1);
 
-session_start();
-require __DIR__ . '/componentes.php';
-require __DIR__ . '/conexion.php';
-require __DIR__ . '/funciones.php';
+use Leaf\Http\Session;
+
+require_once __DIR__ . '/../vendor/autoload.php';
+require_once __DIR__ . '/componentes.php';
+require_once __DIR__ . '/conexion.php';
+require_once __DIR__ . '/funciones.php';
 
 /*====================================================
-  =            ENVIAR FORMULARIO DE EDICIÓN            =
-  ====================================================*/
+=            ENVIAR FORMULARIO DE EDICIÓN            =
+====================================================*/
 if (!empty($_POST['editar'])) :
   $tabla      = escapar($_POST['tabla']);
   $campo      = escapar($_POST['campo']);
@@ -175,7 +177,7 @@ if (!empty($_POST['editar'])) :
     case 'usuarios:clave':
       $inputClave = generarINPUT('CLAVE', 'Nueva Contraseña:', '********');
       $inputConfirmar = generarINPUT('CONFIRMAR', 'Confirmar Contraseña:', '********');
-      $inputID = generarINPUT('ID', '', '', $_SESSION['userID']);
+      $inputID = generarINPUT('ID', '', '', Session::get('userID'));
       $respuesta['ok'] = <<<HTML
           <div class="w3-right-align">
             <span class="icon-close w3-button w3-transparent w3-hover-red"></span>

@@ -2,13 +2,14 @@
 
 declare(strict_types=1);
 
-session_start();
+use Leaf\Http\Session;
 
 if (!empty($_POST['vaciar'])) :
-  require __DIR__ . '/conexion.php';
-  require __DIR__ . '/funciones.php';
+  require_once __DIR__ . '/../vendor/autoload.php';
+  require_once __DIR__ . '/conexion.php';
+  require_once __DIR__ . '/funciones.php';
 
-  if (empty($_SESSION['activa']) && $_SESSION['cargo'] !== 'a') {
+  if (!Session::has('activa') && Session::get('cargo') !== 'a') {
     $respuesta['error'] = 'No tienes los permisos necesarios';
   }
 
