@@ -1,15 +1,26 @@
 {
   "require-dev": {
     "symfony/var-dumper": "^7.2",
-    "rector/rector": "^2.0"
+    "rector/rector": "^2.0",
+    "phpstan/phpstan": "^2.1",
+    "phpstan/extension-installer": "^1.4"
   },
   "require": {
     "symfony/dotenv": "^7.2",
-    "php": ">=8.2",
+    "php": "^8.2",
     "ext-mysqli": "*"
   },
   "scripts": {
     "pre-install-cmd": ["composer check-platform-reqs", "cp -n .env.dist .env"],
-    "ci": ["rector --dry-run --no-progress-bar --no-ansi"]
+    "ci": [
+      "phpstan --no-progress --no-ansi",
+      "rector --dry-run --no-progress-bar --no-ansi"
+    ],
+    "format": ["rector --no-progress-bar --no-ansi"]
+  },
+  "config": {
+    "allow-plugins": {
+      "phpstan/extension-installer": true
+    }
   }
 }

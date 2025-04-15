@@ -126,10 +126,8 @@ const BOTONES = [
  */
 function generarINPUT(string $nombre, string $label, string $placeholder = '', string $value = ''): string {
   global $EXPRESIONES;
-
-  switch ($nombre):
-    case 'CLAVE':
-      return <<<HTML
+  return match ($nombre) {
+    'CLAVE' => <<<HTML
 					<fieldset class="w3-border-0">
 						<legend class="w3-large w3-padding"><b>$label</b></legend>
 						<div class="w3-row w3-center w3-border-bottom">
@@ -151,9 +149,8 @@ function generarINPUT(string $nombre, string $label, string $placeholder = '', s
 							</div>
 						</div>
 					</fieldset>
-				HTML;
-    case 'CONFIRMAR':
-      return <<<HTML
+				HTML,
+    'CONFIRMAR' => <<<HTML
 					<fieldset class="w3-border-0">
 						<legend class="w3-large w3-padding"><b>$label</b></legend>
 						<div class="w3-row w3-center w3-border-bottom">
@@ -175,9 +172,8 @@ function generarINPUT(string $nombre, string $label, string $placeholder = '', s
 							</div>
 						</div>
 					</fieldset>
-				HTML;
-    case 'USUARIO':
-      return <<<HTML
+				HTML,
+    'USUARIO' => <<<HTML
 					<fieldset class="w3-border-0">
 						<legend class="w3-large w3-padding"><b>$label</b></legend>
 						<div class="w3-row w3-center w3-border-bottom">
@@ -191,9 +187,8 @@ function generarINPUT(string $nombre, string $label, string $placeholder = '', s
 							</div>
 						</div>
 					</fieldset>
-				HTML;
-    case 'CEDULA':
-      return <<<HTML
+				HTML,
+    'CEDULA' => <<<HTML
 					<fieldset class="w3-border-0">
 						<legend class="w3-large w3-padding"><b>$label</b></legend>
 						<div class="w3-row w3-center w3-border-bottom">
@@ -205,9 +200,8 @@ function generarINPUT(string $nombre, string $label, string $placeholder = '', s
 							</div>
 						</div>
 					</fieldset>
-				HTML;
-    case 'IVA':
-      return <<<HTML
+				HTML,
+    'IVA' => <<<HTML
 					<fieldset class="w3-border-0">
 						<legend class="w3-large w3-padding"><b>$label</b></legend>
 						<div class="w3-row w3-center w3-border-bottom">
@@ -219,9 +213,8 @@ function generarINPUT(string $nombre, string $label, string $placeholder = '', s
 							</div>
 						</div>
 					</fieldset>
-				HTML;
-    case 'DOLAR':
-      return <<<HTML
+				HTML,
+    'DOLAR' => <<<HTML
 					<fieldset class="w3-border-0">
 						<legend class="w3-large w3-padding"><b>$label</b></legend>
 						<div class="w3-row w3-center w3-border-bottom">
@@ -233,9 +226,8 @@ function generarINPUT(string $nombre, string $label, string $placeholder = '', s
 							</div>
 						</div>
 					</fieldset>
-				HTML;
-    case 'BS':
-      return <<<HTML
+				HTML,
+    'BS' => <<<HTML
 					<fieldset class="w3-border-0">
 						<legend class="w3-large w3-padding"><b>$label</b></legend>
 						<div class="w3-row w3-center w3-border-bottom">
@@ -247,9 +239,8 @@ function generarINPUT(string $nombre, string $label, string $placeholder = '', s
 							</div>
 						</div>
 					</fieldset>
-				HTML;
-    case 'PESO':
-      return <<<HTML
+				HTML,
+    'PESO' => <<<HTML
 					<fieldset class="w3-border-0">
 						<legend class="w3-large w3-padding"><b>$label</b></legend>
 						<div class="w3-row w3-center w3-border-bottom">
@@ -261,11 +252,8 @@ function generarINPUT(string $nombre, string $label, string $placeholder = '', s
 							</div>
 						</div>
 					</fieldset>
-				HTML;
-    case 'res1':
-    case 'res2':
-    case 'res3':
-      return <<<HTML
+				HTML,
+    'res1', 'res2', 'res3' => <<<HTML
 					<fieldset class="w3-border-0">
 						<legend class="w3-large w3-padding"><b>$label</b></legend>
 						<div class="w3-row w3-center w3-border-bottom">
@@ -276,9 +264,8 @@ function generarINPUT(string $nombre, string $label, string $placeholder = '', s
 							</div>
 						</div>
 					</fieldset>
-				HTML;
-    case 'NOMBRE':
-      return <<<HTML
+				HTML,
+    'NOMBRE' => <<<HTML
 					<fieldset class="w3-border-0">
 						<legend class="w3-large w3-padding"><b>$label</b></legend>
 						<div class="w3-row w3-center w3-border-bottom">
@@ -290,9 +277,8 @@ function generarINPUT(string $nombre, string $label, string $placeholder = '', s
 							</div>
 						</div>
 					</fieldset>
-				HTML;
-    case 'NOMBRE_NEGOCIO':
-      return <<<HTML
+				HTML,
+    'NOMBRE_NEGOCIO' => <<<HTML
 					<fieldset class="w3-border-0">
 						<legend class="w3-large w3-padding"><b>$label</b></legend>
 						<div class="w3-row w3-center w3-border-bottom">
@@ -304,9 +290,8 @@ function generarINPUT(string $nombre, string $label, string $placeholder = '', s
 							</div>
 						</div>
 					</fieldset>
-				HTML;
-    case 'TELEFONO':
-      return <<<HTML
+				HTML,
+    'TELEFONO' => <<<HTML
 					<fieldset class="w3-border-0">
 						<legend class="w3-large w3-padding"><b>$label</b></legend>
 						<div class="w3-row w3-center w3-border-bottom">
@@ -318,9 +303,8 @@ function generarINPUT(string $nombre, string $label, string $placeholder = '', s
 							</div>
 						</div>
 					</fieldset>
-				HTML;
-    case 'RIF':
-      return <<<HTML
+				HTML,
+    'RIF' => <<<HTML
 					<fieldset class="w3-border-0">
 						<legend class="w3-large w3-padding"><b>$label</b></legend>
 						<div class="w3-row w3-center w3-border-bottom">
@@ -332,9 +316,8 @@ function generarINPUT(string $nombre, string $label, string $placeholder = '', s
 							</div>
 						</div>
 					</fieldset>
-				HTML;
-    case 'DIRECCION':
-      return <<<HTML
+				HTML,
+    'DIRECCION' => <<<HTML
 					<fieldset class="w3-border-0">
 						<legend class="w3-large w3-padding"><b>$label</b></legend>
 						<div class="w3-row w3-center w3-border-bottom">
@@ -346,11 +329,8 @@ function generarINPUT(string $nombre, string $label, string $placeholder = '', s
 							</div>
 						</div>
 					</fieldset>
-				HTML;
-    case 'pre1':
-    case 'pre2':
-    case 'pre3':
-      return <<<HTML
+				HTML,
+    'pre1', 'pre2', 'pre3' => <<<HTML
 					<fieldset class="w3-border-0">
 						<legend class="w3-large w3-padding"><b>$label</b></legend>
 						<div class="w3-row w3-center w3-border-bottom">
@@ -362,13 +342,11 @@ function generarINPUT(string $nombre, string $label, string $placeholder = '', s
 							</div>
 						</div>
 					</fieldset>
-				HTML;
-    case 'ID':
-      return <<<HTML
+				HTML,
+    'ID' => <<<HTML
 					<input type="hidden" name="id" value="$value" class="w3-hide">
-				HTML;
-    case 'CODIGO':
-      return <<<HTML
+				HTML,
+    'CODIGO' => <<<HTML
 					<fieldset class="w3-border-0">
 						<legend class="w3-large w3-padding"><b>$label</b></legend>
 						<div class="w3-row w3-center w3-border-bottom">
@@ -380,9 +358,8 @@ function generarINPUT(string $nombre, string $label, string $placeholder = '', s
 							</div>
 						</div>
 					</fieldset>
-				HTML;
-    case 'STOCK':
-      return <<<HTML
+				HTML,
+    'STOCK' => <<<HTML
 					<fieldset class="w3-border-0">
 						<legend class="w3-large w3-padding"><b>$label</b></legend>
 						<div class="w3-row w3-center w3-border-bottom">
@@ -394,9 +371,8 @@ function generarINPUT(string $nombre, string $label, string $placeholder = '', s
 							</div>
 						</div>
 					</fieldset>
-				HTML;
-    case 'PRECIO':
-      return <<<HTML
+				HTML,
+    'PRECIO' => <<<HTML
 					<fieldset class="w3-border-0">
 						<legend class="w3-large w3-padding"><b>$label</b></legend>
 						<div class="w3-row w3-center w3-border-bottom">
@@ -408,9 +384,8 @@ function generarINPUT(string $nombre, string $label, string $placeholder = '', s
 							</div>
 						</div>
 					</fieldset>
-				HTML;
-    case 'EXCENTO':
-      return <<<HTML
+				HTML,
+    'EXCENTO' => <<<HTML
 					<fieldset class="w3-border-0">
 						<legend class="w3-large w3-padding"><b>$label</b></legend>
 						<div class="w3-row w3-center w3-border-bottom">
@@ -426,10 +401,9 @@ function generarINPUT(string $nombre, string $label, string $placeholder = '', s
 							</div>
 						</div>
 					</fieldset>
-				HTML;
-  endswitch;
-
-  return '';
+				HTML,
+    default => '',
+  };
 }
 
 /**
