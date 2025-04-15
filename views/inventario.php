@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 session_start();
+
 if (!isset($_SESSION['activa'])) {
   header('location: ../salir.php');
 }
@@ -31,7 +32,7 @@ $encabezados = [
 $datos = [
   'camposEscritorio' => ['codigo', 'producto', 'stock', 'precio', 'usuario'],
   'camposMovil' => ['producto', 'precio'],
-  'filas' => getRegistros($sql)
+  'filas' => getRegistros($sql) ?? [],
 ];
 
 $editar = [
@@ -54,7 +55,14 @@ endforeach;
 
 unset($producto);
 
-tabla('Inventario', $encabezados, $datos, 'No hay productos registrados', false, $editar);
+tabla(
+  'Inventario',
+  $encabezados,
+  $datos,
+  'No hay productos registrados',
+  false,
+  $editar
+);
 
 /*==========================================
   =            REGISTRAR PRODUCTO            =

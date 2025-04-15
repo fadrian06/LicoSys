@@ -44,7 +44,7 @@ if (!empty($_POST['addProduct'])):
   $proveedorID = empty($_SESSION['proveedorID'])
     ? false
     : $_SESSION['proveedorID'];
-  $producto = getRegistro('SELECT * FROM inventario WHERE id=' . $productoID);
+  $producto = getRegistro('SELECT * FROM inventario WHERE id=' . $productoID) ?? [];
   unset($_SESSION['productoID']);
 
   /*----------  DATOS DEL PRODUCTO  ----------*/
@@ -152,7 +152,7 @@ if (!empty($_POST['eliminar'])):
       SELECT antiguo_stock, precio_base FROM carrito_compra
       WHERE producto_id={$id}
     SQL;
-  $productoEnCarrito = getRegistro($sql);
+  $productoEnCarrito = getRegistro($sql) ?? [];
 
   /*----------  RESTAURAMOS EL STOCK Y PRECIO DEL PRODUCTO  ----------*/
   $sql = <<<SQL
@@ -179,7 +179,7 @@ endif;
   =====================================*/
 if (!empty($_POST['anular'])):
   $sql = 'SELECT producto_id, antiguo_stock, precio_base FROM carrito_compra';
-  $productos = getRegistros($sql);
+  $productos = getRegistros($sql) ?? [];
 
   /*----------  RESTAURA EL STOCK Y EL PRECIO DE CADA PRODUCTO  ----------*/
   foreach ($productos as $producto):
@@ -212,7 +212,7 @@ if (!empty($_POST['generar'])):
       SELECT c.producto_id, c.unidades, i.precio, c.precio_total
       FROM carrito_compra c INNER JOIN inventario i ON c.producto_id=i.id
     SQL;
-  $productos = getRegistros($sql);
+  $productos = getRegistros($sql) ?? [];
 
   /*----------  INSERTAMOS LAS COMPRAS  ----------*/
   foreach ($productos as $producto):

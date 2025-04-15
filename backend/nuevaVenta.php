@@ -44,7 +44,7 @@ if (!empty($_POST['addProduct'])):
     ? false
     : $_SESSION['clienteID'];
   $iva = getIVA();
-  $producto = getRegistro('SELECT * FROM inventario WHERE id=' . $productoID);
+  $producto = getRegistro('SELECT * FROM inventario WHERE id=' . $productoID) ?? [];
   unset($_SESSION['productoID']);
 
   /*----------  DATOS DEL PRODUCTO  ----------*/
@@ -141,7 +141,7 @@ endif;
 if (!empty($_POST['eliminar'])):
   $id = (int) escapar($_POST['productoID']);
   $sql = 'SELECT antiguo_stock FROM carrito_venta WHERE producto_id=' . $id;
-  $antiguoStock = (int) getRegistro($sql)['antiguo_stock'];
+  $antiguoStock = (int) (getRegistro($sql) ?? [])['antiguo_stock'];
   $resultado = setRegistro('DELETE FROM carrito_venta WHERE producto_id=' . $id);
   if ($resultado === null || $resultado === 0) {
     $respuesta['error'] = $conexion->error;
@@ -160,7 +160,7 @@ endif;
 =            ANULAR VENTA            =
 ====================================*/
 if (!empty($_POST['anular'])):
-  $productos = getRegistros('SELECT producto_id, antiguo_stock FROM carrito_venta');
+  $productos = getRegistros('SELECT producto_id, antiguo_stock FROM carrito_venta') ?? [];
 
   /*----------  RESTAURA EL STOCK DE CADA PRODUCTO  ----------*/
   foreach ($productos as $producto):
@@ -189,7 +189,7 @@ endif;
 =            GENERAR VENTA            =
 =====================================*/
 if (!empty($_POST['generar'])):
-  $productos = getRegistros('SELECT * FROM carrito_venta');
+  $productos = getRegistros('SELECT * FROM carrito_venta') ?? [];
   $iva = getIVA();
 
   unset($_SESSION['productoID']);
@@ -200,7 +200,7 @@ if (!empty($_POST['generar'])):
     $total = $producto['total_iva'] > 0
       ? $producto['total_iva']
       : $producto['precio_total'];
-    $producto = getRegistro('SELECT * FROM inventario WHERE id=' . $producto['producto_id']);
+    $producto = getRegistro('SELECT * FROM inventario WHERE id=' . $producto['producto_id']) ?? [];
 
     $sql = <<<SQL
 				INSERT INTO ventas(cliente_id, producto_id, unidades, total, iva, usuario_id, negocio_id)

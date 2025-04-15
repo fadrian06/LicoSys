@@ -16,7 +16,7 @@ if (!empty($_FILES['foto']['name'])):
 
   if ($foto['error'] !== 4):
     $sql    = 'SELECT foto FROM usuarios WHERE id=' . $_SESSION['userID'];
-    $imagen = (string) getRegistro($sql)['foto'];
+    $imagen = (string) (getRegistro($sql) ?? [])['foto'];
     if ($imagen === '' || $imagen === '0') {
       $imagen = (string) $foto['name'];
     }
@@ -64,7 +64,7 @@ if (!empty($_FILES['logo']['name'])):
 
   if ($foto['error'] !== 4):
     $sql    = 'SELECT logo FROM negocios WHERE id=' . $id;
-    $imagen = (string) getRegistro($sql)['logo'];
+    $imagen = (string) (getRegistro($sql) ?? [])['logo'];
     if ($imagen === '' || $imagen === '0') {
       $imagen = (string) $foto['name'];
     }

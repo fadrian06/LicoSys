@@ -11,7 +11,11 @@ require __DIR__ . '/../backend/componentes.php';
 require __DIR__ . '/../backend/conexion.php';
 require __DIR__ . '/../backend/funciones.php';
 
-$usuario = getRegistro('SELECT * FROM usuarios WHERE id=' . $_SESSION['userID']);
+$usuario = getRegistro("
+  SELECT *
+  FROM usuarios
+  WHERE id={$_SESSION['userID']}
+");
 
 echo LOADER;
 echo '<div id="moduloPerfil" class="w3-row w3-padding-top-24">';
@@ -37,8 +41,8 @@ echo <<<HTML
 /*=======================================
   =            PANEL PRINCIPAL            =
   =======================================*/
-$cargo = $usuario['cargo'] === 'a' ? 'Administrador' : 'Vendedor';
-$usuario['telefono'] = $usuario['telefono'] ?: '<b class="w3-text-red">No especificado</b>';
+$cargo = ($usuario['cargo'] ?? '') === 'a' ? 'Administrador' : 'Vendedor';
+$usuario['telefono'] = ($usuario['telefono'] ?? '') ?: '<b class="w3-text-red">No especificado</b>';
 $usuario['foto'] = $usuario['foto']
   ? 'assets/images/perfil/' . $usuario['foto']
   : 'assets/images/avatar3.png';

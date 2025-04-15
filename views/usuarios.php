@@ -19,22 +19,32 @@ if ($_SESSION['cargo'] === 'a'):
   $usuarios = getRegistros($sql);
 
   $sql = "SELECT cedula, nombre, usuario, telefono FROM usuarios WHERE cargo='v' AND activo=0 ORDER BY cedula";
+
   $desactivados = [
     'tabla' => 'usuarios',
     'campo' => 'cedula',
     'enlace' => 'views/usuarios.php',
-    'filas' => getRegistros($sql)
+    'filas' => getRegistros($sql) ?? [],
   ];
+
   $encabezados = [
     'escritorio' => ['C.I', 'Nombre', 'Usuario', 'Teléfono'],
-    'movil' => ['C.I', 'Usuario']
+    'movil' => ['C.I', 'Usuario'],
   ];
+
   $datos = [
     'camposEscritorio' => ['cedula', 'nombre', 'usuario', 'telefono'],
     'camposMovil' => ['cedula', 'usuario'],
-    'filas' => $usuarios
+    'filas' => $usuarios ?? [],
   ];
-  tabla('Usuarios', $encabezados, $datos, 'No hay usuarios registrados.', $desactivados);
+
+  tabla(
+    'Usuarios',
+    $encabezados,
+    $datos,
+    'No hay usuarios registrados.',
+    $desactivados
+  );
 
   $label = '<b>Cédula: </b><sup class="w3-text-red">(requerido)</sup>';
   $inputCedula = generarINPUT('CEDULA', $label, 'Cédula del empleado');

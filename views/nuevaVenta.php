@@ -17,7 +17,11 @@ echo '<div id="moduloNuevaVenta">';
 /*===========================================
   =            SELECCIONAR CLIENTE            =
   ===========================================*/
-$clientes = getRegistros('SELECT id, cedula, nombre FROM clientes ORDER BY cedula');
+$clientes = getRegistros('
+  SELECT id, cedula, nombre
+  FROM clientes
+  ORDER BY cedula
+') ?? [];
 
 $cliente = [
   'id' => '',
@@ -105,7 +109,12 @@ echo <<<HTML
 /*============================================
   =            SELECCIONAR PRODUCTO            =
   ============================================*/
-$productos = getRegistros("SELECT * FROM inventario ORDER BY producto");
+$productos = getRegistros('
+  SELECT *
+  FROM inventario
+  ORDER BY producto
+') ?? [];
+
 $producto = [
   'id' => '',
   'codigo' => '',
@@ -228,14 +237,15 @@ echo <<<HTML
 /*========================================
   =            CARRITO DE VENTA            =
   ========================================*/
-$carrito = getRegistros('SELECT * FROM carrito_venta');
+$carrito = getRegistros('SELECT * FROM carrito_venta') ?? [];
 
 $filasProductos = '';
 $i = 997;
 $totalCarrito = 0;
+
 foreach ($carrito as $producto):
   $sql = 'SELECT producto FROM inventario WHERE id=' . $producto['producto_id'];
-  $producto['producto'] = getRegistro($sql)['producto'];
+  $producto['producto'] = getRegistro($sql)['producto'] ?? throw new Error('Error al obtener el producto');
   $calculoIVA = $producto['total_iva'] - $producto['precio_total'];
   $total = $producto['total_iva'] > 0
     ? sprintf("%s <sub class='w3-text-green'>+%s IVA</sub>", $producto['total_iva'], $calculoIVA)
@@ -283,7 +293,7 @@ foreach ($carrito as $producto):
   --$i;
 endforeach;
 
-if ($carrito !== null && $carrito !== []):
+if ($carrito !== []):
   $precioBS = round($totalCarrito * floatval(getDolar()), 2);
   $precioPesos = (int) ($totalCarrito * floatval(getPeso()));
   $tooltipTotalCarrito = generarTooltip(sprintf('Bs. %s<br>%d pesos', $precioBS, $precioPesos), false);

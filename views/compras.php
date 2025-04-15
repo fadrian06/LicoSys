@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 session_start();
+
 if (!isset($_SESSION['activa'])) {
   header('location: ../salir.php');
 }
@@ -34,7 +35,7 @@ if ($_SESSION['cargo'] === 'a'):
   $datos = [
     'camposEscritorio' => ['fecha', 'producto', 'unidades', 'total', 'nombre'],
     'camposMovil' => ['producto', 'total'],
-    'filas' => getRegistros($sql)
+    'filas' => getRegistros($sql) ?? [],
   ];
 
   foreach ($encabezados['escritorio'] as &$encabezado)
@@ -51,7 +52,12 @@ if ($_SESSION['cargo'] === 'a'):
 
   unset($compra);
 
-  tabla('Compras', $encabezados, $datos, 'No hay compras registradas');
+  tabla(
+    'Compras',
+    $encabezados,
+    $datos,
+    'No hay compras registradas'
+  );
 
   /*===================================
     =            VER FACTURA            =

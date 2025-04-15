@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 session_start();
+
 if (!isset($_SESSION['activa'])) {
   header('location: ../salir.php');
 }
@@ -26,7 +27,7 @@ if ($_SESSION['cargo'] === 'a'):
         WHERE v.negocio_id={$negocioID} ORDER BY i.producto DESC
       SQL;
 
-    $ventas = getRegistros($sql);
+    $ventas = getRegistros($sql) ?? [];
     $ventas = filtrarFecha($rol, $ventas);
 
     $ventasCombinadas = [];
@@ -51,7 +52,7 @@ if ($_SESSION['cargo'] === 'a'):
           SELECT producto_id, unidades, total, fecha FROM compras
           WHERE producto_id={$ventaCombinada['producto_id']} AND negocio_id={$negocioID}
         SQL;
-      $compras = getRegistros($sql);
+      $compras = getRegistros($sql) ?? [];
       $compras = filtrarFecha($rol, $compras);
       $comprasCombinadas = [];
       foreach ($compras as $compra):
@@ -130,7 +131,7 @@ if ($_SESSION['cargo'] === 'a'):
   /*=========================================
     =            VISTA POR DEFECTO            =
     =========================================*/
-  $negocios = getRegistros('SELECT * FROM negocios WHERE activo=1');
+  $negocios = getRegistros('SELECT * FROM negocios WHERE activo=1') ?? [];
 
   echo LOADER;
   echo '<div id="moduloFinanzas" class="w3-center">';
@@ -156,7 +157,7 @@ if ($_SESSION['cargo'] === 'a'):
         FROM ventas v INNER JOIN inventario i ON v.producto_id=i.id
         WHERE v.negocio_id={$negocio['id']} ORDER BY i.producto DESC
       SQL;
-    $ventas = getRegistros($sql);
+    $ventas = getRegistros($sql) ?? [];
     $ventas = filtrarFecha('diario', $ventas);
 
     $ventasCombinadas = [];
@@ -179,7 +180,7 @@ if ($_SESSION['cargo'] === 'a'):
           SELECT producto_id, unidades, total, fecha FROM compras
           WHERE producto_id={$ventaCombinada['producto_id']} AND negocio_id={$negocio['id']}
         SQL;
-      $compras = getRegistros($sql);
+      $compras = getRegistros($sql) ?? [];
       $compras = filtrarFecha('diario', $compras);
       $comprasCombinadas = [];
       foreach ($compras as $compra):

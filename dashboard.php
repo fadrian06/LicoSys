@@ -34,11 +34,11 @@ $sql = <<<SQL
 		WHERE negocio_id={$_SESSION['negocioID']}
 		GROUP BY usuario_id ORDER BY fecha DESC LIMIT 3
 	SQL;
-$recientes = getRegistros($sql);
+$recientes = getRegistros($sql) ?? [];
 $sql = <<<SQL
 		SELECT id FROM ventas WHERE negocio_id={$_SESSION['negocioID']}
 	SQL;
-$cantidadVentas = count(getRegistros($sql));
+$cantidadVentas = count(getRegistros($sql) ?? []);
 
 /*----------  PRODUCTOS MÁS VENDIDOS  ----------*/
 $sql = <<<SQL
@@ -46,7 +46,7 @@ $sql = <<<SQL
 		INNER JOIN inventario i ON v.producto_id=i.id
 		WHERE v.negocio_id={$_SESSION['negocioID']}
 	SQL;
-$ventas = getRegistros($sql);
+$ventas = getRegistros($sql) ?? [];
 $ventas = filtrarFecha('semanal', $ventas);
 $ventasCombinadas = [];
 foreach ($ventas as $venta):
@@ -267,5 +267,4 @@ $cantidadProductos = consulta($sql);
   <footer id="botones"><?= BOTONES['NUEVA_VENTA'] ?></footer>
 </main>
 
-<?php include __DIR__ . '/templates/footer.php';
 <?php include __DIR__ . '/templates/footer.php';

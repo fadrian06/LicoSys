@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 session_start();
+
 if (!isset($_SESSION['activa'])) {
   header('location: ../salir.php');
 }
@@ -31,7 +32,7 @@ $encabezados = [
 $datos = [
   'camposEscritorio' => ['cedula', 'nombre', 'usuario'],
   'camposMovil' => ['cedula', 'nombre'],
-  'filas' => getRegistros($sql)
+  'filas' => getRegistros($sql) ?? [],
 ];
 
 $editar = [
@@ -41,7 +42,14 @@ $editar = [
   'IDform' => '#editarCliente'
 ];
 
-tabla('Clientes', $encabezados, $datos, 'No hay clientes registrados.', false, $editar);
+tabla(
+  'Clientes',
+  $encabezados,
+  $datos,
+  'No hay clientes registrados.',
+  false,
+  $editar
+);
 
 /*=========================================
   =            REGISTRAR CLIENTE            =

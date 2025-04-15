@@ -404,7 +404,7 @@ function getRegistros(string $sql): ?array {
  *
  * @param string $sql Sentencia SELECT.
  *
- * @return array<string, mixed> Un array asociativo con los datos o [].
+ * @return ?array<string, mixed> Un array asociativo con los datos o [].
  */
 function getRegistro(string $sql): ?array {
   global $conexion;
@@ -473,7 +473,7 @@ function getHora(): string {
  * @return string Cadena que representa la última versión registrada.
  */
 function getUltimaVersion(): string {
-  $version = getRegistro('SELECT nombre FROM versiones ORDER BY id DESC LIMIT 1');
+  $version = getRegistro('SELECT nombre FROM versiones ORDER BY id DESC LIMIT 1') ?? [];
   return $version['nombre'];
 }
 
@@ -482,7 +482,7 @@ function getUltimaVersion(): string {
  * @return int Retorna el ID o NULL si no existen negocios.
  */
 function getUltimoNegocio(): int {
-  $id = getRegistro('SELECT * FROM negocios ORDER BY id DESC LIMIT 1');
+  $id = getRegistro('SELECT * FROM negocios ORDER BY id DESC LIMIT 1') ?? [];
   return (int) $id['id'];
 }
 

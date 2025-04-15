@@ -15,7 +15,7 @@ if ($_SESSION['cargo'] === 'a'):
   echo LOADER;
   echo '<div id="moduloNegocios" class="w3-row" style="max-height: 71vh; overflow: auto">';
 
-  $negocios = getRegistros('SELECT * FROM negocios WHERE activo=1');
+  $negocios = getRegistros('SELECT * FROM negocios WHERE activo=1') ?? [];
   $desactivados = getRegistros('SELECT * FROM negocios WHERE activo=0');
 
   /*----------  ACTIVADOS  ----------*/

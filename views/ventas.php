@@ -34,15 +34,15 @@ if (!empty($_GET['ventaID'])):
   }
 
   $respuesta['datos'] = [
-    'nombreNegocio'    => $datos['nombreNegocio'],
-    'telefonoNegocio'  => $datos['tlf'],
-    'direccionNegocio' => $datos['direccion'],
-    'nombreCliente'    => $datos['nombreCliente'],
-    'cedulaCliente'    => $datos['cedula'],
-    'cantidad' => $datos['unidades'],
-    'producto' => $datos['producto'],
-    'precio'   => $datos['precio'],
-    'total'    => $datos['total'],
+    'nombreNegocio'    => $datos['nombreNegocio'] ?? throw new Error('No se ha encontrado el negocio'),
+    'telefonoNegocio'  => $datos['tlf'] ?? throw new Error('No se ha encontrado el telefono del negocio'),
+    'direccionNegocio' => $datos['direccion'] ?? throw new Error('No se ha encontrado la direccion del negocio'),
+    'nombreCliente'    => $datos['nombreCliente'] ?? throw new Error('No se ha encontrado el cliente'),
+    'cedulaCliente'    => $datos['cedula'] ?? throw new Error('No se ha encontrado la cedula del cliente'),
+    'cantidad' => $datos['unidades'] ?? throw new Error('No se ha encontrado la cantidad'),
+    'producto' => $datos['producto'] ?? throw new Error('No se ha encontrado el producto'),
+    'precio'   => $datos['precio'] ?? throw new Error('No se ha encontrado el precio'),
+    'total'    => $datos['total'] ?? throw new Error('No se ha encontrado el total'),
     'iva'      => getIVA()
   ];
 
@@ -70,7 +70,7 @@ $encabezados = [
 $datos = [
   'camposEscritorio' => ['fecha', 'nombre', 'producto', 'unidades', 'total', 'usuario'],
   'camposMovil' => ['producto', 'total'],
-  'filas' => getRegistros($sql)
+  'filas' => getRegistros($sql) ?? []
 ];
 
 foreach ($encabezados['escritorio'] as &$encabezado)

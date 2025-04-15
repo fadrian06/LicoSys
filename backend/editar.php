@@ -22,9 +22,9 @@ if (!empty($_POST['editar'])):
     $copiaTabla = 'usuarios';
   }
 
-  $registro = getRegistro(sprintf('SELECT * FROM %s WHERE %s=%d', $copiaTabla, $campo, $valor));
+  $registro = getRegistro(sprintf('SELECT * FROM %s WHERE %s=%d', $copiaTabla, $campo, $valor)) ?? [];
 
-  if ($registro === null || $registro === []) {
+  if ($registro === []) {
     $respuesta['error'] = $conexion->error;
   }
 

@@ -29,7 +29,7 @@ if ($archivoActual !== 'index.php') :
   $sql = <<<SQL
       SELECT pre1, pre2, pre3 FROM usuarios WHERE id={$_SESSION['userID']}
     SQL;
-  $usuario = getRegistro($sql);
+  $usuario = getRegistro($sql) ?? [];
   if (
     $usuario['pre1'] === 'No especificada' || !$usuario['pre1']
     || $usuario['pre2'] === 'No especificada' || !$usuario['pre2']
@@ -60,7 +60,7 @@ if ($archivoActual !== 'index.php') :
 
   /*----------  Inventario agotado  ----------*/
   $sql = "SELECT id, producto, stock FROM inventario";
-  $productos = getRegistros($sql);
+  $productos = getRegistros($sql) ?? [];
 
   $i = 1;
   foreach ($productos as $producto) :

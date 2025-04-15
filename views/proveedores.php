@@ -31,7 +31,7 @@ $encabezados = [
 $datos = [
   'camposEscritorio' => ['nombre', 'rif', 'nombreEmpresa', 'telefono', 'direccion'],
   'camposMovil' => ['rif', 'nombreEmpresa'],
-  'filas' => getRegistros($sql)
+  'filas' => getRegistros($sql) ?? [],
 ];
 
 $editar = [
@@ -54,7 +54,14 @@ foreach ($datos['filas'] as &$proveedor)
 
 unset($proveedor);
 
-tabla('Proveedores', $encabezados, $datos, 'No hay proveedores registrados.', false, $editar);
+tabla(
+  'Proveedores',
+  $encabezados,
+  $datos,
+  'No hay proveedores registrados.',
+  false,
+  $editar
+);
 
 /*===========================================
   =            REGISTRAR PROVEEDOR            =

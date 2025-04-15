@@ -19,7 +19,8 @@ if ($_SESSION['cargo'] === 'a'):
   /*=============================================
     =            SELECCIONAR PROVEEDOR            =
     =============================================*/
-  $proveedores = getRegistros('SELECT * FROM proveedores ORDER BY rif');
+  $proveedores = getRegistros('SELECT * FROM proveedores ORDER BY rif') ?? [];
+
   $proveedor = [
     'id' => '',
     'rif' => '',
@@ -121,7 +122,8 @@ if ($_SESSION['cargo'] === 'a'):
   /*============================================
     =            SELECCIONAR PRODUCTO            =
     ============================================*/
-  $productos = getRegistros("SELECT * FROM inventario ORDER BY producto");
+  $productos = getRegistros("SELECT * FROM inventario ORDER BY producto") ?? [];
+
   $producto = [
     'id' => '',
     'codigo' => '',
@@ -135,6 +137,7 @@ if ($_SESSION['cargo'] === 'a'):
   }
 
   $botonesProductos = '';
+
   foreach ($productos as $producto)
     $botonesProductos .= <<<HTML
         <button producto-id="{$producto['id']}" class="w3-bar-item w3-button">
@@ -249,10 +252,12 @@ if ($_SESSION['cargo'] === 'a'):
       SELECT c.producto_id, i.producto, i.precio, c.unidades, c.precio_total
       FROM carrito_compra c INNER JOIN inventario i ON c.producto_id=i.id
     SQL;
-  $carrito = getRegistros($sql);
+
+  $carrito = getRegistros($sql) ?? [];
 
   $filasProductos = '';
   $totalCarrito = 0;
+
   foreach ($carrito as $producto):
     $precioBS = round($producto['precio'] * getDolar(), 2);
     $precioPesos = (int) ($producto['precio'] * getPeso());
@@ -295,7 +300,7 @@ if ($_SESSION['cargo'] === 'a'):
       HTML;
   endforeach;
 
-  if ($carrito !== null && $carrito !== []):
+  if ($carrito !== []):
     $precioBS = round($totalCarrito * floatval(getDolar()), 2);
     $precioPesos = (int) ($totalCarrito * floatval(getPeso()));
     $tooltipTotalCarrito = generarTooltip(sprintf('Bs. %s<br>%d pesos', $precioBS, $precioPesos), false);

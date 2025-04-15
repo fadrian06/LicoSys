@@ -48,12 +48,12 @@ if (!empty($_POST['login'])):
   $sql = <<<SQL
 			SELECT * FROM usuarios WHERE BINARY(usuario)=BINARY('{$usuario}')
 		SQL;
-  $filaUsuario = getRegistro($sql);
+  $filaUsuario = getRegistro($sql) ?? [];
 
   $sql = 'SELECT id, logo, nombre FROM negocios WHERE id=' . $idNegocio;
-  $negocioSeleccionado = getRegistro($sql);
+  $negocioSeleccionado = getRegistro($sql) ?? [];
 
-  if ($filaUsuario === null || $filaUsuario === []) {
+  if ($filaUsuario === []) {
     $respuesta['error'] = 'Usuario no existe, (verifique mayúsculas y minúsculas)';
   } elseif (!password_verify($clave, strval($filaUsuario['clave']))) {
     $respuesta['error'] = 'Contraseña incorrecta';

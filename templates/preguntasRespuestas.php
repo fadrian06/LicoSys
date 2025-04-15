@@ -10,7 +10,7 @@ if (isset($_SESSION['showQuestions'])):
       SELECT id FROM usuarios WHERE pre1='{$_SESSION['pre1']}'
       AND pre2='{$_SESSION['pre2']}' AND pre3='{$_SESSION['pre3']}'
     SQL;
-  $id = getRegistro($sql)['id'];
+  $id = getRegistro($sql)['id'] ?? throw new Error('Error al recuperar el ID');
   $inputID = generarINPUT('ID', '', '', $id);
   echo <<<HTML
       <form id="preguntasRespuestas" autocomplete="off" class="modal w3-white w3-card w3-round-large animate__animated animate__fadeInUp animate__faster w3-show">

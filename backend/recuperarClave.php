@@ -58,7 +58,11 @@ if (!empty($_POST['verificarRespuestas'])):
   $sql = 'SELECT id, usuario, res1, res2, res3 FROM usuarios WHERE id=' . $id;
   $filaUsuario = getRegistro($sql);
 
-  if (!password_verify($res1, strval($filaUsuario['res1'])) || !password_verify($res2, strval($filaUsuario['res2'])) || !password_verify($res3, strval($filaUsuario['res3']))) {
+  if (
+    !password_verify($res1, strval($filaUsuario['res1'] ?? ''))
+    || !password_verify($res2, strval($filaUsuario['res2'] ?? ''))
+    || !password_verify($res3, strval($filaUsuario['res3'] ?? ''))
+  ) {
     $respuesta['error'] = 'Respuestas incorrectas.';
   }
 
