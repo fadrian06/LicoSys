@@ -8,9 +8,6 @@
     "ext-mysqli": "*"
   },
   "scripts": {
-    "pre-install-cmd": [
-      "composer check-platform-reqs",
-      "cp -n .env.dist .env"
-    ]
+    "pre-install-cmd": ["composer check-platform-reqs", "cp -n .env.dist .env"]
   }
 }

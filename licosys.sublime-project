@@ -1,37 +1,45 @@
 {
-	"folders": [
-		{
-			"name": "LicoSys",
-			"path": ".",
-		},
-	],
-	"build_systems": [
-		{
-			"name": "Build Babel",
-			"shell_cmd": "npm run babel",
-		},
-		{
-			"name": "Build Stylus",
-			"shell_cmd": "npm run stylus",
-		},
-		{
-			"name": "Build Production",
-			"shell_cmd": "npm run build",
-		}
-	],
-	"settings": {
-		"LSP": {
-			"formatters": {
-				"source.json.sublime": "LSP-json",
-				"source.json.babel": "LSP-json",
-				"source.json.composer": "LSP-json",
-				"source.json.npm": "LSP-json",
-			},
-			"LSP-intelephense": {
-				"settings": {
-					"intelephense.format.braces": "k&r"
-				}
-			},
-		},
-	},
+  "folders": [
+    {
+      "name": "LicoSys",
+      "path": ".",
+    },
+  ],
+  "build_systems": [
+    {
+      "name": "Build Babel",
+      "shell_cmd": "npm run babel",
+    },
+    {
+      "name": "Build Stylus",
+      "shell_cmd": "npm run stylus",
+    },
+    {
+      "name": "Build Production",
+      "shell_cmd": "npm run build",
+    }
+  ],
+  "settings": {
+    "LSP": {
+      "formatters": {
+        "source.json.sublime": "LSP-json",
+        "source.json.babel": "LSP-biome",
+        "source.json.composer": "LSP-biome",
+        "source.json.npm": "LSP-json",
+        "source.js": "LSP-biome",
+        "source.json.biome": "LSP-biome",
+        "source.css": "LSP-css",
+      },
+      "LSP-intelephense": {
+        "settings": {
+          "intelephense.format.braces": "k&r",
+        },
+      },
+    },
+    "default_line_ending": "unix",
+    "tab_size": 2,
+    "translate_tabs_to_spaces": true,
+    "trim_trailing_white_space_on_save": "not_on_caret",
+    "ensure_newline_at_eof_on_save": true,
+  },
 }

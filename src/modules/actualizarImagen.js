@@ -9,21 +9,24 @@
  * @param {(error: string)} [cb] Una función que se ejecuta si algo sale mal. <i>(opcional)</i>
  */
 const actualizarImagen = (input, image, cb = () => {}) => {
-	input.onchange = () => {
-		const file = input.files[0]
-		if (file.type !== 'image/jpeg'
-			&& file.type !== 'image/jpg'
-			&& file.type !== 'image/png'
-		) return cb('Sólo se permiten imagenes JPG y PNG')
-		
-		if (file.size > (1 * 1000 * 1024 * 2)) /*1b * 1000 = 1kb * 1024 = 1mb * 2 = :D*/
-			return cb('La imagen no puede ser mayor a 2MB')
-		
-		const fileReader = new FileReader()
-		fileReader.readAsDataURL(file)
-		fileReader.onload = e => {
-			image.setAttribute('src', e.target.result)
-			return cb()
-		}
-	}
-}
+  input.onchange = () => {
+    const file = input.files[0];
+    if (
+      file.type !== "image/jpeg" &&
+      file.type !== "image/jpg" &&
+      file.type !== "image/png"
+    )
+      return cb("Sólo se permiten imagenes JPG y PNG");
+
+    if (file.size > 1 * 1000 * 1024 * 2)
+      /*1b * 1000 = 1kb * 1024 = 1mb * 2 = :D*/
+      return cb("La imagen no puede ser mayor a 2MB");
+
+    const fileReader = new FileReader();
+    fileReader.readAsDataURL(file);
+    fileReader.onload = (e) => {
+      image.setAttribute("src", e.target.result);
+      return cb();
+    };
+  };
+};

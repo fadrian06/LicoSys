@@ -1,18 +1,18 @@
 {
-	"devDependencies": {
-		"@babel/cli": "^7.27.0",
-		"@babel/core": "^7.26.10",
-		"@babel/preset-env": "^7.26.9",
-		"@babel/preset-react": "^7.26.3",
-		"@biomejs/biome": "1.9.4",
-		"nib": "^1.2.0",
-		"stylus": "^0.64.0"
-	},
-	"scripts": {
-		"stylus": "stylus src/index.styl -o assets/css/bundle.css -w -m -r --include-css",
-		"babel": "babel src/modules -d assets/js -w",
-		"build": "rm -rf assets/js assets/css & babel src/modules -d assets/js --minified & stylus src/index.styl -o assets/css/bundle.css -c -r --include-css",
-		"ci": "biome ci ./",
-		"format": "biome format ./"
-	}
+  "devDependencies": {
+    "@babel/cli": "^7.27.0",
+    "@babel/core": "^7.26.10",
+    "@babel/preset-env": "^7.26.9",
+    "@babel/preset-react": "^7.26.3",
+    "@biomejs/biome": "1.9.4",
+    "nib": "^1.2.0",
+    "stylus": "^0.64.0"
+  },
+  "scripts": {
+    "stylus": "stylus src/index.styl -o assets/css/bundle.css -w -m -r --include-css",
+    "babel": "babel src/modules -d assets/js -w",
+    "build": "rm -rf assets/js assets/css & babel src/modules -d assets/js --minified & stylus src/index.styl -o assets/css/bundle.css -c -r --include-css",
+    "ci": "biome ci ./",
+    "format": "biome format ./"
+  }
 }
