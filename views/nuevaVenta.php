@@ -245,8 +245,8 @@ foreach ($carrito as $producto):
   $precioPesos = (int) ($producto['precio_base'] * getPeso());
   $tooltipPrecio = generarTooltip(sprintf('Bs. %s<br>%d pesos', $precioBS, $precioPesos), false);
 
-  $precioBS = round((float) $total * getDolar(), 2);
-  $precioPesos = (int) ((float) $total * getPeso());
+  $precioBS = round((float) $total * floatval(getDolar()), 2);
+  $precioPesos = (int) ((float) $total * floatval(getPeso()));
   $tooltipTotal = generarTooltip(sprintf('Bs. %s<br>%d pesos', $precioBS, $precioPesos), false);
   $totalCarrito += (float) $total;
   $filasProductos .= <<<HTML
@@ -284,8 +284,8 @@ foreach ($carrito as $producto):
 endforeach;
 
 if ($carrito !== null && $carrito !== []):
-  $precioBS = round($totalCarrito * getDolar(), 2);
-  $precioPesos = (int) ($totalCarrito * getPeso());
+  $precioBS = round($totalCarrito * floatval(getDolar()), 2);
+  $precioPesos = (int) ($totalCarrito * floatval(getPeso()));
   $tooltipTotalCarrito = generarTooltip(sprintf('Bs. %s<br>%d pesos', $precioBS, $precioPesos), false);
   echo <<<HTML
       <section class="w3-section w3-responsive">

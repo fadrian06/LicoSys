@@ -325,7 +325,7 @@ function tabla(
   /*=====================================================
   =            ESTRUCTURA TABLA DESACTIVADOS            =
   =====================================================*/
-  if ($desactivar['filas']) :
+  if (is_array($desactivar) && $desactivar['filas']) :
     $cantidadDesactivados = count($desactivar['filas']);
     echo <<<HTML
       <br>
@@ -604,7 +604,7 @@ function getAPI(string $url, string $urlJSON): array {
   $data = @file_get_contents($url) ?: @file_get_contents($urlJSON);
   @file_put_contents($urlJSON, $data);
 
-  return json_decode($data, true, 512, JSON_INVALID_UTF8_IGNORE);
+  return json_decode($data ?: '', true, 512, JSON_INVALID_UTF8_IGNORE);
 }
 
 /**
@@ -641,9 +641,9 @@ function eliminarDuplicados(array $arrays, string $clave): array {
 function obtenerDiferenciaFecha(string $fecha): array {
   date_default_timezone_set('America/Caracas');
 
-  $objetoFecha = DateTime::createFromFormat('Y-m-d H:i:s', $fecha);
+  $objetoFecha = DateTime::createFromFormat('Y-m-d H:i:s', $fecha) ?: null;
   $actual = time();
-  $fecha  = $objetoFecha->getTimestamp();
+  $fecha  = $objetoFecha?->getTimestamp();
   $diferencia  = $actual - $fecha;
 
   $datetime = [

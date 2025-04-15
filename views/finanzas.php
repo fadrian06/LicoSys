@@ -14,7 +14,7 @@ if ($_SESSION['cargo'] === 'a'):
 
   /**
    * Genera un resúmen de gastos/ingresos filtrado.
-   * @param  string $rol       El filtro a aplicar: 'diario', 'semanal', 'quincenal', 'mensual'
+   * @param  'diario'|'semanal'|'quincenal'|'mensual' $rol       El filtro a aplicar: 'diario', 'semanal', 'quincenal', 'mensual'
    * @param  int    $negocioID El ID del negocio que posee los registros.
    * @return void            Devuelve al cliente la respuesta a su petición.
    */

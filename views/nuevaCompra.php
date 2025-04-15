@@ -258,8 +258,8 @@ if ($_SESSION['cargo'] === 'a'):
     $precioPesos = (int) ($producto['precio'] * getPeso());
     $tooltipPrecio = generarTooltip(sprintf('Bs. %s<br>%d pesos', $precioBS, $precioPesos), false);
 
-    $precioBS = round((float) $producto['precio_total'] * getDolar(), 2);
-    $precioPesos = (int) ((float) $producto['precio_total'] * getPeso());
+    $precioBS = round((float) $producto['precio_total'] * floatval(getDolar()), 2);
+    $precioPesos = (int) ((float) $producto['precio_total'] * floatval(getPeso()));
     $tooltipTotal = generarTooltip(sprintf('Bs. %s<br>%d pesos', $precioBS, $precioPesos), false);
     $totalCarrito += (float) $producto['precio_total'];
     $filasProductos .= <<<HTML
@@ -296,8 +296,8 @@ if ($_SESSION['cargo'] === 'a'):
   endforeach;
 
   if ($carrito !== null && $carrito !== []):
-    $precioBS = round($totalCarrito * getDolar(), 2);
-    $precioPesos = (int) ($totalCarrito * getPeso());
+    $precioBS = round($totalCarrito * floatval(getDolar()), 2);
+    $precioPesos = (int) ($totalCarrito * floatval(getPeso()));
     $tooltipTotalCarrito = generarTooltip(sprintf('Bs. %s<br>%d pesos', $precioBS, $precioPesos), false);
     echo <<<HTML
         <section class="w3-section w3-responsive">

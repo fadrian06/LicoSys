@@ -44,5 +44,5 @@ try {
 if (!empty($_POST['instalarBD'])) :
   $sql = file_get_contents(__DIR__ . '/../database/init.sql');
 
-  exit($conexion->multi_query($sql) ? 'true' : $conexion->error);
+  exit($conexion->multi_query($sql ?: '') ? 'true' : $conexion->error);
 endif;

@@ -12,8 +12,8 @@ if (!isset($_SESSION['activa'])) {
 }
 
 /*==========================================================
-	=            RETORNAR INFORMACIÓN DE UN CLIENTE            =
-	==========================================================*/
+=            RETORNAR INFORMACIÓN DE UN CLIENTE            =
+==========================================================*/
 if (!empty($_GET['clienteID'])):
   $id = (int) escapar($_GET['clienteID']);
   $respuesta['datos'] = getRegistro('SELECT * FROM clientes WHERE id=' . $id);
@@ -22,8 +22,8 @@ if (!empty($_GET['clienteID'])):
 endif;
 
 /*===========================================================
-	=            RETORNAR INFORMACIÓN DE UN PRODUCTO            =
-	===========================================================*/
+=            RETORNAR INFORMACIÓN DE UN PRODUCTO            =
+===========================================================*/
 if (!empty($_GET['productoID'])):
   $id = (int) escapar($_GET['productoID']);
   $respuesta['datos'] = getRegistro('SELECT * FROM inventario WHERE id=' . $id);
@@ -35,8 +35,8 @@ if (!empty($_GET['productoID'])):
 endif;
 
 /*===================================================
-	=            AÑADIR PRODUCTOS AL CARRITO            =
-	===================================================*/
+=            AÑADIR PRODUCTOS AL CARRITO            =
+===================================================*/
 if (!empty($_POST['addProduct'])):
   $productoID = (int) escapar($_POST['productoID']);
   $cantidad = (int) escapar($_POST['cantidad']);
@@ -57,7 +57,7 @@ if (!empty($_POST['addProduct'])):
   $totalIVA = 0;
 
   if ($excento !== 0) {
-    $totalIVA = $total + ($total * $iva);
+    $totalIVA = $total + ($total * floatval($iva));
   }
 
   /*----------  VALIDACIONES  ----------*/
@@ -87,7 +87,7 @@ if (!empty($_POST['addProduct'])):
     $cantidad += $productoEnCarrito['unidades'];
     $total = $productoEnCarrito['precio_base'] * $cantidad;
     if ($excento !== 0) {
-      $totalIVA = ($total * $iva) + $total;
+      $totalIVA = ($total * floatval($iva)) + $total;
     }
 
     $sql = <<<SQL
@@ -136,8 +136,8 @@ if (!empty($_POST['addProduct'])):
 endif;
 
 /*=====================================================
-	=            ELIMINAR PRODUCTO DEL CARRITO            =
-	=====================================================*/
+=            ELIMINAR PRODUCTO DEL CARRITO            =
+=====================================================*/
 if (!empty($_POST['eliminar'])):
   $id = (int) escapar($_POST['productoID']);
   $sql = 'SELECT antiguo_stock FROM carrito_venta WHERE producto_id=' . $id;
@@ -157,8 +157,8 @@ if (!empty($_POST['eliminar'])):
 endif;
 
 /*====================================
-	=            ANULAR VENTA            =
-	====================================*/
+=            ANULAR VENTA            =
+====================================*/
 if (!empty($_POST['anular'])):
   $productos = getRegistros('SELECT producto_id, antiguo_stock FROM carrito_venta');
 
@@ -186,8 +186,8 @@ if (!empty($_POST['anular'])):
 endif;
 
 /*=====================================
-	=            GENERAR VENTA            =
-	=====================================*/
+=            GENERAR VENTA            =
+=====================================*/
 if (!empty($_POST['generar'])):
   $productos = getRegistros('SELECT * FROM carrito_venta');
   $iva = getIVA();

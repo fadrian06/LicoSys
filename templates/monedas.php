@@ -8,7 +8,7 @@ if (isset($_SESSION['activa'])): ?>
     <table id="tablaMonedas" class="w3-table w3-bordered w3-border w3-hoverable w3-white">
       <tr>
         <td>IVA</td>
-        <td colspan="2"><b><?= getIVA() === 'No establecido' ? getIVA() : getIVA() * 100 . '%' ?></b></td>
+        <td colspan="2"><b><?= getIVA() === 'No establecido' ? getIVA() : floatval(getIVA()) * 100 . '%' ?></b></td>
       </tr>
       <tr>
         <td>DÓLAR</td>
@@ -57,22 +57,22 @@ if (isset($_SESSION['activa'])): ?>
         <i class="w3-spin icon-spinner w3-display-middle w3-jumbo loader"></i>
         <?php
         $label = getIVA() !== 'No establecido'
-          ? 'IVA (Actual): <b>' . getIVA() * 100 . '%</b>'
+          ? 'IVA (Actual): <b>' . floatval(getIVA()) * 100 . '%</b>'
           : '<b class="w3-block w3-margin-left">Establecer IVA:</b>';
         $value = getIVA() !== 'No establecido'
-          ? getIVA() * 100
+          ? floatval(getIVA()) * 100
           : '';
-        echo generarINPUT('IVA', $label, '', $value);
+        echo generarINPUT('IVA', $label, '', strval($value));
 
         $label = getDolar() !== 'No establecido'
           ? 'DÓLAR: (actual) <b class="w3-block w3-margin-left">Bs. ' . getDolar() . '</b>'
           : '<b class="w3-block w3-margin-left">Establecer DÓLAR (en Bs.)</b>';
-        echo generarINPUT('DOLAR', $label, '', getDolar());
+        echo generarINPUT('DOLAR', $label, '', strval(getDolar()));
 
         $label = getPeso() !== 'No establecido'
           ? '<b class="w3-block w3-margin-left">' . getPeso() . ' Pesos</b>'
           : '<b class="w3-block w3-margin-left">Establecer PESO (a pesos)</b>';
-        echo generarINPUT('PESO', $label, '', getPeso());
+        echo generarINPUT('PESO', $label, '', strval(getPeso()));
         ?>
       </section>
       <section class="w3-panel">

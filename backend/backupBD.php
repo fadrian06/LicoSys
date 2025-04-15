@@ -35,24 +35,26 @@ if (!empty($_POST['respaldar'])):
           $texto .= sprintf('INSERT INTO %s VALUES(', $tabla);
           $j = 0;
           foreach ($fila as $campo => $dato):
-            if ($campo === 'id' ||
-            $campo === 'activo' ||
-            $campo === 'cedula' ||
-            $campo === 'usuario_id' ||
-            $campo === 'negocio_id' ||
-            $campo === 'stock' ||
-            $campo === 'excento' ||
-            $campo === 'precio' ||
-            $campo === 'producto_id' ||
-            $campo === 'unidades' ||
-            $campo === 'total' ||
-            $campo === 'proveedor_id' ||
-            $campo === 'cliente_id' ||
-            $campo === 'iva' ||
-            $campo === 'antiguo_stock' ||
-            $campo === 'precio_base' ||
-            $campo === 'precio_total' ||
-            $campo === 'total_iva') {
+            if (
+              $campo === 'id' ||
+              $campo === 'activo' ||
+              $campo === 'cedula' ||
+              $campo === 'usuario_id' ||
+              $campo === 'negocio_id' ||
+              $campo === 'stock' ||
+              $campo === 'excento' ||
+              $campo === 'precio' ||
+              $campo === 'producto_id' ||
+              $campo === 'unidades' ||
+              $campo === 'total' ||
+              $campo === 'proveedor_id' ||
+              $campo === 'cliente_id' ||
+              $campo === 'iva' ||
+              $campo === 'antiguo_stock' ||
+              $campo === 'precio_base' ||
+              $campo === 'precio_total' ||
+              $campo === 'total_iva'
+            ) {
               $texto .= $dato;
             } else {
               $texto .= sprintf("'%s'", $dato);
@@ -70,7 +72,7 @@ if (!empty($_POST['respaldar'])):
       endfor;
     endforeach;
 
-    $archivo = fopen(__DIR__ . '/../database/backup.sql', 'w+');
+    $archivo = fopen(__DIR__ . '/../database/backup.sql', 'w+') ?: throw new Error('No se pudo abrir el archivo');
     fwrite($archivo, $texto);
     fclose($archivo);
     $respuesta['ok'] = 'Copia de Seguridad creada exitósamente.';
@@ -83,8 +85,8 @@ endif;
 
 if (!empty($_POST['restaurar'])):
   $archivo   = __DIR__ . '/../database/backup.sql';
-  $manejador = fopen($archivo, "r");
-  $sql       = fread($manejador, filesize($archivo));
+  $manejador = fopen($archivo, "r") ?: throw new Error('No se pudo abrir el archivo');
+  $sql       = fread($manejador, filesize($archivo) ?: throw new Error('No se pudo leer el archivo'));
   $resultado = $conexion->multi_query($sql);
   if (!$resultado) {
     $respuesta['error'] = $conexion->error;
