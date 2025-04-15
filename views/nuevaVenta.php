@@ -1,49 +1,50 @@
 <?php
-  declare(strict_types=1);
 
-  session_start();
+declare(strict_types=1);
 
-  if (!isset($_SESSION['activa'])) {
-    header('location: ../salir.php');
-  }
+session_start();
 
-  require __DIR__ . '/../backend/componentes.php';
-  require __DIR__ . '/../backend/conexion.php';
-  require __DIR__ . '/../backend/funciones.php';
+if (!isset($_SESSION['activa'])) {
+  header('location: ../salir.php');
+}
 
-  echo LOADER;
-  echo '<div id="moduloNuevaVenta">';
-  /*===========================================
+require __DIR__ . '/../backend/componentes.php';
+require __DIR__ . '/../backend/conexion.php';
+require __DIR__ . '/../backend/funciones.php';
+
+echo LOADER;
+echo '<div id="moduloNuevaVenta">';
+/*===========================================
   =            SELECCIONAR CLIENTE            =
   ===========================================*/
-  $clientes = getRegistros('SELECT id, cedula, nombre FROM clientes ORDER BY cedula');
+$clientes = getRegistros('SELECT id, cedula, nombre FROM clientes ORDER BY cedula');
 
-  $cliente = [
-    'id' => '',
-    'cedula' => '',
-    'nombre' => 'No especificado'
-  ];
-  if (!empty($_SESSION['clienteID'])) {
-    $cliente = getRegistro('SELECT * FROM clientes WHERE id=' . $_SESSION['clienteID']);
-  }
+$cliente = [
+  'id' => '',
+  'cedula' => '',
+  'nombre' => 'No especificado'
+];
+if (!empty($_SESSION['clienteID'])) {
+  $cliente = getRegistro('SELECT * FROM clientes WHERE id=' . $_SESSION['clienteID']);
+}
 
-  $botonesClientes = '';
-  foreach ($clientes as $cliente):
-    $display = $cliente['id'] == 3
-      ? 'w3-hide'
-      : '';
-    $botonesClientes .= <<<HTML
+$botonesClientes = '';
+foreach ($clientes as $cliente):
+  $display = $cliente['id'] == 3
+    ? 'w3-hide'
+    : '';
+  $botonesClientes .= <<<HTML
       <button cliente-id="{$cliente['id']}" title="{$cliente['nombre']}" class="w3-bar-item w3-button {$display}">
         <span>v-{$cliente['cedula']}</span>
       </button>
     HTML;
-  endforeach;
+endforeach;
 
-  $mostrarLista = isset($_SESSION['clienteID'])
-    ? ''
-    : 'w3-hide';
-  $tooltipRegistrarCliente = generarTooltip('Registrar Cliente');
-  echo <<<HTML
+$mostrarLista = isset($_SESSION['clienteID'])
+  ? ''
+  : 'w3-hide';
+$tooltipRegistrarCliente = generarTooltip('Registrar Cliente');
+echo <<<HTML
     <section id="seccionCliente" class="w3-row w3-padding-large w3-bottombar w3-round-large">
       <h2 class="w3-xlarge">Datos del <b>Cliente</b></h2>
       <div class="w3-third w3-margin-top">
@@ -85,10 +86,10 @@
     </section>
   HTML;
 
-  /*===================================
+/*===================================
   =            DATOS VENTA            =
   ===================================*/
-  echo <<<HTML
+echo <<<HTML
     <section class="w3-row w3-padding-large w3-bottombar w3-round-large">
       <div class="w3-half">
         <h2 class="w3-xlarge">Datos de la <b>Venta</b></h2>
@@ -96,59 +97,59 @@
         <span class="w3-text-blue">{$_SESSION['userName']}</span>
       </div>
   HTML;
-  include __DIR__ . '/../templates/monedas.php';
-  echo <<<HTML
+include __DIR__ . '/../templates/monedas.php';
+echo <<<HTML
     </section>
   HTML;
 
-  /*============================================
+/*============================================
   =            SELECCIONAR PRODUCTO            =
   ============================================*/
-  $productos = getRegistros("SELECT * FROM inventario ORDER BY producto");
-  $producto = [
-    'id' => '',
-    'codigo' => '',
-    'producto' => '',
-    'stock' => 100,
-    'precio' => 0,
-    'excento' => ''
-  ];
-  if (!empty($_SESSION['productoID'])) {
-    $producto = getRegistro('SELECT * FROM inventario WHERE id=' . $_SESSION['productoID']);
-  }
+$productos = getRegistros("SELECT * FROM inventario ORDER BY producto");
+$producto = [
+  'id' => '',
+  'codigo' => '',
+  'producto' => '',
+  'stock' => 100,
+  'precio' => 0,
+  'excento' => ''
+];
+if (!empty($_SESSION['productoID'])) {
+  $producto = getRegistro('SELECT * FROM inventario WHERE id=' . $_SESSION['productoID']);
+}
 
-  $botonesProductos = '';
-  foreach ($productos as $producto)
-    $botonesProductos .= <<<HTML
+$botonesProductos = '';
+foreach ($productos as $producto)
+  $botonesProductos .= <<<HTML
       <button producto-id="{$producto['id']}" class="w3-bar-item w3-button">
         {$producto['producto']}
       </button>
     HTML;
 
-  $mostrarLista = isset($_SESSION['productoID'])
-    ? ''
-    : 'w3-hide';
-  $iva = is_float(getIVA())
-    ? getIVA()
-    : 0;
-  $dolar = is_float(getDolar())
-    ? getDolar()
-    : 0;
-  $peso = is_int(getPeso())
-    ? getPeso()
-    : 0;
-  $stock = $producto['stock'] > 0
-    ? sprintf("<span class='w3-input w3-left-align w3-padding w3-light-grey'>%s</span>", $producto['stock'])
-    : "<span class='w3-input w3-padding w3-red'>Agotado</span>";
-  $precioBS = is_float(getDolar())
-    ? round($producto['precio'] * getDolar(), 2)
-    : 0;
-  $precioPesos = is_int(getPeso())
-    ? (int) ($producto['precio'] * getPeso())
-    : 0;
-  $tooltipPrecio = generarTooltip(sprintf('Bs. %s<br>%d pesos', $precioBS, $precioPesos), false);
-  $tooltipRegistrarProducto = generarTooltip('Registrar Producto');
-  echo <<<HTML
+$mostrarLista = isset($_SESSION['productoID'])
+  ? ''
+  : 'w3-hide';
+$iva = is_float(getIVA())
+  ? getIVA()
+  : 0;
+$dolar = is_float(getDolar())
+  ? getDolar()
+  : 0;
+$peso = is_int(getPeso())
+  ? getPeso()
+  : 0;
+$stock = $producto['stock'] > 0
+  ? sprintf("<span class='w3-input w3-left-align w3-padding w3-light-grey'>%s</span>", $producto['stock'])
+  : "<span class='w3-input w3-padding w3-red'>Agotado</span>";
+$precioBS = is_float(getDolar())
+  ? round($producto['precio'] * getDolar(), 2)
+  : 0;
+$precioPesos = is_int(getPeso())
+  ? (int) ($producto['precio'] * getPeso())
+  : 0;
+$tooltipPrecio = generarTooltip(sprintf('Bs. %s<br>%d pesos', $precioBS, $precioPesos), false);
+$tooltipRegistrarProducto = generarTooltip('Registrar Producto');
+echo <<<HTML
     <section class="w3-row w3-padding-large w3-bottombar w3-round-large">
       <div class="w3-col s12 m5 w3-margin-top">
         <div class="w3-dropdown-hover w3-transparent">
@@ -224,31 +225,31 @@
     </section>
   HTML;
 
-  /*========================================
+/*========================================
   =            CARRITO DE VENTA            =
   ========================================*/
-  $carrito = getRegistros('SELECT * FROM carrito_venta');
+$carrito = getRegistros('SELECT * FROM carrito_venta');
 
-  $filasProductos = '';
-  $i = 997;
-  $totalCarrito = 0;
-  foreach ($carrito as $producto):
-    $sql = 'SELECT producto FROM inventario WHERE id=' . $producto['producto_id'];
-    $producto['producto'] = getRegistro($sql)['producto'];
-    $calculoIVA = $producto['total_iva'] - $producto['precio_total'];
-    $total = $producto['total_iva'] > 0
-      ? sprintf("%s <sub class='w3-text-green'>+%s IVA</sub>", $producto['total_iva'], $calculoIVA)
-      : $producto['precio_total'];
+$filasProductos = '';
+$i = 997;
+$totalCarrito = 0;
+foreach ($carrito as $producto):
+  $sql = 'SELECT producto FROM inventario WHERE id=' . $producto['producto_id'];
+  $producto['producto'] = getRegistro($sql)['producto'];
+  $calculoIVA = $producto['total_iva'] - $producto['precio_total'];
+  $total = $producto['total_iva'] > 0
+    ? sprintf("%s <sub class='w3-text-green'>+%s IVA</sub>", $producto['total_iva'], $calculoIVA)
+    : $producto['precio_total'];
 
-    $precioBS = round($producto['precio_base'] * getDolar(), 2);
-    $precioPesos = (int) ($producto['precio_base'] * getPeso());
-    $tooltipPrecio = generarTooltip(sprintf('Bs. %s<br>%d pesos', $precioBS, $precioPesos), false);
+  $precioBS = round($producto['precio_base'] * getDolar(), 2);
+  $precioPesos = (int) ($producto['precio_base'] * getPeso());
+  $tooltipPrecio = generarTooltip(sprintf('Bs. %s<br>%d pesos', $precioBS, $precioPesos), false);
 
-    $precioBS = round((float) $total * getDolar(), 2);
-    $precioPesos = (int) ((float) $total * getPeso());
-    $tooltipTotal = generarTooltip(sprintf('Bs. %s<br>%d pesos', $precioBS, $precioPesos), false);
-    $totalCarrito += (float) $total;
-    $filasProductos .= <<<HTML
+  $precioBS = round((float) $total * getDolar(), 2);
+  $precioPesos = (int) ((float) $total * getPeso());
+  $tooltipTotal = generarTooltip(sprintf('Bs. %s<br>%d pesos', $precioBS, $precioPesos), false);
+  $totalCarrito += (float) $total;
+  $filasProductos .= <<<HTML
       <tr class="w3-white">
         <td>
           <button class="w3-button w3-transparent w3-hover-none">
@@ -279,14 +280,14 @@
         </td>
       </tr>
     HTML;
-    --$i;
-  endforeach;
+  --$i;
+endforeach;
 
-  if ($carrito !== null && $carrito !== []):
-    $precioBS = round($totalCarrito * getDolar(), 2);
-    $precioPesos = (int) ($totalCarrito * getPeso());
-    $tooltipTotalCarrito = generarTooltip(sprintf('Bs. %s<br>%d pesos', $precioBS, $precioPesos), false);
-    echo <<<HTML
+if ($carrito !== null && $carrito !== []):
+  $precioBS = round($totalCarrito * getDolar(), 2);
+  $precioPesos = (int) ($totalCarrito * getPeso());
+  $tooltipTotalCarrito = generarTooltip(sprintf('Bs. %s<br>%d pesos', $precioBS, $precioPesos), false);
+  echo <<<HTML
       <section class="w3-section w3-responsive">
         <form id="carritoVenta">
           <span class="w3-left icon-cart-arrow-down w3-padding w3-dark-grey w3-xxlarge" style="border-top-left-radius: 16px; border-top-right-radius: 16px; margin-bottom: -1px; margin-left: 1px"></span>
@@ -319,20 +320,20 @@
         </form>
       </section>
     HTML;
-  endif;
+endif;
 
-  echo '<br><br><br><br><br><br><br><br><br><br>';
+echo '<br><br><br><br><br><br><br><br><br><br>';
 
-  /*=========================================
+/*=========================================
   =            REGISTRAR CLIENTE            =
   =========================================*/
-  $label = '<b>Cédula: </b><sup class="w3-text-red">(requerido)</sup>';
-  $inputCedula = generarINPUT('CEDULA', $label, 'Cédula del cliente');
+$label = '<b>Cédula: </b><sup class="w3-text-red">(requerido)</sup>';
+$inputCedula = generarINPUT('CEDULA', $label, 'Cédula del cliente');
 
-  $label = '<b>Nombre: </b><sup class="w3-text-red">(requerido)</sup>';
-  $inputNombre = generarINPUT('NOMBRE', $label, 'Nombre del cliente');
+$label = '<b>Nombre: </b><sup class="w3-text-red">(requerido)</sup>';
+$inputNombre = generarINPUT('NOMBRE', $label, 'Nombre del cliente');
 
-  echo <<<HTML
+echo <<<HTML
     <form id="registrarCliente" autocomplete="off" class="modal w3-white w3-card w3-round-large animate__animated animate__fadeInUp animate__faster w3-hide">
       <div class="w3-right-align">
         <span class="icon-close w3-button w3-transparent w3-hover-red"></span>
@@ -353,20 +354,20 @@
     </form>
   HTML;
 
-  /*==========================================
+/*==========================================
   =            REGISTRAR PRODUCTO            =
   ==========================================*/
-  $label = '<b>Código: </b><sup class="w3-text-red">(requerido)</sup>';
-  $inputCodigo = generarINPUT('CODIGO', $label, 'Código del producto');
-  $label = '<b>Nombre: </b><sup class="w3-text-red">(requerido)</sup>';
-  $inputNombre = generarINPUT('NOMBRE', $label, 'Nombre del producto');
-  $label = '<b>Precio: </b><sup class="w3-text-red">(requerido)</sup>';
-  $inputPrecio = generarINPUT('PRECIO', $label, 'Precio base del producto');
-  $label = '<b>Excento: </b><sup class="w3-text-red">(requerido)</sup>';
-  $inputExcento = generarINPUT('EXCENTO', $label, '¿Excento de IVA?');
-  $label = '<b>Existencia: </b><sup class="w3-text-blue">(opcional)</sup>';
-  $inputStock = generarINPUT('STOCK', $label, 'Cantidad disponible');
-  echo <<<HTML
+$label = '<b>Código: </b><sup class="w3-text-red">(requerido)</sup>';
+$inputCodigo = generarINPUT('CODIGO', $label, 'Código del producto');
+$label = '<b>Nombre: </b><sup class="w3-text-red">(requerido)</sup>';
+$inputNombre = generarINPUT('NOMBRE', $label, 'Nombre del producto');
+$label = '<b>Precio: </b><sup class="w3-text-red">(requerido)</sup>';
+$inputPrecio = generarINPUT('PRECIO', $label, 'Precio base del producto');
+$label = '<b>Excento: </b><sup class="w3-text-red">(requerido)</sup>';
+$inputExcento = generarINPUT('EXCENTO', $label, '¿Excento de IVA?');
+$label = '<b>Existencia: </b><sup class="w3-text-blue">(opcional)</sup>';
+$inputStock = generarINPUT('STOCK', $label, 'Cantidad disponible');
+echo <<<HTML
     <form id="registrarProducto" autocomplete="off" class="modal w3-white w3-card w3-round-large animate__animated animate__fadeInUp animate__faster w3-hide">
       <div class="w3-right-align">
         <span class="icon-close w3-button w3-transparent w3-hover-red"></span>
@@ -390,7 +391,6 @@
     </form>
   HTML;
 
-  $productosEnCarrito = count($carrito);
-  echo sprintf("<span class='w3-hide' id='cantidadProductosEnCarrito'>%s</span>", $productosEnCarrito);
-  echo '</div>';
-?>
+$productosEnCarrito = count($carrito);
+echo sprintf("<span class='w3-hide' id='cantidadProductosEnCarrito'>%s</span>", $productosEnCarrito);
+echo '</div>';

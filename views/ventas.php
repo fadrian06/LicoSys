@@ -1,22 +1,23 @@
 <?php
-  declare(strict_types=1);
 
-  session_start();
-  if (!isset($_SESSION['activa'])) {
-    header('location: ../salir.php');
-  }
+declare(strict_types=1);
 
-  require __DIR__ . '/../backend/componentes.php';
-  require __DIR__ . '/../backend/conexion.php';
-  require __DIR__ . '/../backend/funciones.php';
+session_start();
+if (!isset($_SESSION['activa'])) {
+  header('location: ../salir.php');
+}
 
-  /*=========================================
+require __DIR__ . '/../backend/componentes.php';
+require __DIR__ . '/../backend/conexion.php';
+require __DIR__ . '/../backend/funciones.php';
+
+/*=========================================
   =            CONSULTAR FACTURA            =
   =========================================*/
-  if (!empty($_GET['ventaID'])):
-    $ventaID = (int) escapar($_GET['ventaID']);
+if (!empty($_GET['ventaID'])):
+  $ventaID = (int) escapar($_GET['ventaID']);
 
-    $sql = <<<SQL
+  $sql = <<<SQL
       SELECT n.nombre as nombreNegocio, n.tlf, n.direccion,
       c.nombre as nombreCliente, c.cedula, v.unidades,
       i.producto, i.precio, v.total
@@ -26,75 +27,74 @@
       WHERE v.id={$ventaID}
     SQL;
 
-    $datos = getRegistro($sql);
+  $datos = getRegistro($sql);
 
-    if ($datos === null || $datos === []) {
-      $respuesta['error'] = $conexion->error;
-    }
+  if ($datos === null || $datos === []) {
+    $respuesta['error'] = $conexion->error;
+  }
 
-    $respuesta['datos'] = [
-      'nombreNegocio'    => $datos['nombreNegocio'],
-      'telefonoNegocio'  => $datos['tlf'],
-      'direccionNegocio' => $datos['direccion'],
-      'nombreCliente'    => $datos['nombreCliente'],
-      'cedulaCliente'    => $datos['cedula'],
-      'cantidad' => $datos['unidades'],
-      'producto' => $datos['producto'],
-      'precio'   => $datos['precio'],
-      'total'    => $datos['total'],
-      'iva'      => getIVA()
-    ];
+  $respuesta['datos'] = [
+    'nombreNegocio'    => $datos['nombreNegocio'],
+    'telefonoNegocio'  => $datos['tlf'],
+    'direccionNegocio' => $datos['direccion'],
+    'nombreCliente'    => $datos['nombreCliente'],
+    'cedulaCliente'    => $datos['cedula'],
+    'cantidad' => $datos['unidades'],
+    'producto' => $datos['producto'],
+    'precio'   => $datos['precio'],
+    'total'    => $datos['total'],
+    'iva'      => getIVA()
+  ];
 
-    exit(json_encode($respuesta, JSON_INVALID_UTF8_IGNORE));
-  endif;  
+  exit(json_encode($respuesta, JSON_INVALID_UTF8_IGNORE));
+endif;
 
-  echo LOADER;
-  echo '<div id="moduloVentas">';
+echo LOADER;
+echo '<div id="moduloVentas">';
 
-  /*=============================
+/*=============================
   =            TABLA            =
   =============================*/
-  $sql = <<<SQL
+$sql = <<<SQL
     SELECT v.id, fecha, c.nombre, i.producto, unidades, total, usuario
     FROM ventas v INNER JOIN clientes c INNER JOIN inventario i INNER JOIN usuarios u
     ON v.cliente_id=c.id AND v.producto_id=i.id AND v.usuario_id=u.id
     WHERE v.negocio_id={$_SESSION['negocioID']} ORDER BY fecha DESC
   SQL;
 
-  $encabezados = [
-    'escritorio' => ['Fecha', 'Vendido a', 'Producto', 'Unidades', 'Total', 'Vendedor'],
-    'movil' => ['Producto', 'Total']
-  ];
+$encabezados = [
+  'escritorio' => ['Fecha', 'Vendido a', 'Producto', 'Unidades', 'Total', 'Vendedor'],
+  'movil' => ['Producto', 'Total']
+];
 
-  $datos = [
-    'camposEscritorio' => ['fecha', 'nombre', 'producto', 'unidades', 'total', 'usuario'],
-    'camposMovil' => ['producto', 'total'],
-    'filas' => getRegistros($sql)
-  ];
+$datos = [
+  'camposEscritorio' => ['fecha', 'nombre', 'producto', 'unidades', 'total', 'usuario'],
+  'camposMovil' => ['producto', 'total'],
+  'filas' => getRegistros($sql)
+];
 
-  foreach ($encabezados['escritorio'] as &$encabezado)
-    $encabezado = sprintf('<small>%s</small>', $encabezado);
+foreach ($encabezados['escritorio'] as &$encabezado)
+  $encabezado = sprintf('<small>%s</small>', $encabezado);
 
-  unset($encabezado);
+unset($encabezado);
 
-  foreach ($datos['filas'] as &$venta):
-    $venta['fecha'] = formatearFecha($venta['fecha']);
+foreach ($datos['filas'] as &$venta):
+  $venta['fecha'] = formatearFecha($venta['fecha']);
 
-    foreach ($venta as $clave => $valor)
-      $venta[$clave] = $valor === 'No Especificado'
-        ? ''
-        : sprintf('<small>%s</small>', $valor);
-  endforeach;
+  foreach ($venta as $clave => $valor)
+    $venta[$clave] = $valor === 'No Especificado'
+      ? ''
+      : sprintf('<small>%s</small>', $valor);
+endforeach;
 
-  unset($venta);
+unset($venta);
 
-  tabla('Ventas', $encabezados, $datos, 'No hay ventas registradas', false, false, true);
+tabla('Ventas', $encabezados, $datos, 'No hay ventas registradas', false, false, true);
 
-  /*===================================
+/*===================================
   =            VER FACTURA            =
   ===================================*/
-  generarModal('div', 'modalFactura', '', '');
+generarModal('div', 'modalFactura', '', '');
 
-  echo '<footer id="botones">' . BOTONES['NUEVA_VENTA'] . '</footer>';
-  echo '</div>';
-?>
+echo '<footer id="botones">' . BOTONES['NUEVA_VENTA'] . '</footer>';
+echo '</div>';

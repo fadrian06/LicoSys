@@ -1,23 +1,24 @@
 <?php
-  declare(strict_types=1);
 
-  session_start();
-  if (!isset($_SESSION['activa'])) {
-    header('location: ../salir.php');
-  }
+declare(strict_types=1);
 
-  if ($_SESSION['cargo'] === 'a'):
-    require __DIR__ . '/../backend/componentes.php';
-    require __DIR__ . '/../backend/conexion.php';
-    require __DIR__ . '/../backend/funciones.php';
+session_start();
+if (!isset($_SESSION['activa'])) {
+  header('location: ../salir.php');
+}
 
-    echo LOADER;
-    echo '<div id="moduloCompras">';
+if ($_SESSION['cargo'] === 'a'):
+  require __DIR__ . '/../backend/componentes.php';
+  require __DIR__ . '/../backend/conexion.php';
+  require __DIR__ . '/../backend/funciones.php';
 
-    /*=============================
+  echo LOADER;
+  echo '<div id="moduloCompras">';
+
+  /*=============================
     =            TABLA            =
     =============================*/
-    $sql = <<<SQL
+  $sql = <<<SQL
       SELECT c.id, c.fecha, i.producto, c.unidades, c.total, p.nombre
       FROM compras c INNER JOIN inventario i INNER JOIN proveedores p
       INNER JOIN usuarios u ON c.producto_id=i.id AND c.proveedor_id=p.id
@@ -25,43 +26,43 @@
       GROUP BY c.id ORDER BY c.fecha DESC
     SQL;
 
-    $encabezados = [
-      'escritorio' => ['Fecha', 'Producto', 'Unidades', 'Total', 'Proveedor'],
-      'movil' => ['Producto', 'Total']
-    ];
+  $encabezados = [
+    'escritorio' => ['Fecha', 'Producto', 'Unidades', 'Total', 'Proveedor'],
+    'movil' => ['Producto', 'Total']
+  ];
 
-    $datos = [
-      'camposEscritorio' => ['fecha', 'producto', 'unidades', 'total', 'nombre'],
-      'camposMovil' => ['producto', 'total'],
-      'filas' => getRegistros($sql)
-    ];
+  $datos = [
+    'camposEscritorio' => ['fecha', 'producto', 'unidades', 'total', 'nombre'],
+    'camposMovil' => ['producto', 'total'],
+    'filas' => getRegistros($sql)
+  ];
 
-    foreach ($encabezados['escritorio'] as &$encabezado)
-      $encabezado = sprintf('<small>%s</small>', $encabezado);
+  foreach ($encabezados['escritorio'] as &$encabezado)
+    $encabezado = sprintf('<small>%s</small>', $encabezado);
 
-    unset($encabezado);
+  unset($encabezado);
 
-    foreach ($datos['filas'] as &$compra):
-      $compra['fecha'] = formatearFecha($compra['fecha']);
+  foreach ($datos['filas'] as &$compra):
+    $compra['fecha'] = formatearFecha($compra['fecha']);
 
-      foreach ($compra as $clave => $valor)
-        $compra[$clave] = sprintf('<small>%s</small>', $valor);
-    endforeach;
+    foreach ($compra as $clave => $valor)
+      $compra[$clave] = sprintf('<small>%s</small>', $valor);
+  endforeach;
 
-    unset($compra);
+  unset($compra);
 
-    tabla('Compras', $encabezados, $datos, 'No hay compras registradas');
+  tabla('Compras', $encabezados, $datos, 'No hay compras registradas');
 
-    /*===================================
+  /*===================================
     =            VER FACTURA            =
     ===================================*/
-    $titulo = <<<HTML
+  $titulo = <<<HTML
       <div class="w3-container">
         <img src="assets/images/logo.png" class="w3-margin-right w3-responsive" width="100px">
         Taberna Los 7 Hermanos
       </div>
     HTML;
-    $contenido = <<<HTML
+  $contenido = <<<HTML
       <h3 class="w3-container w3-xlarge w3-right-align w3-blue">Comprobante</h3>
       <div class="w3-margin">
         <h5 class="w3-container w3-xlarge">Datos del proveedor:</h5>
@@ -120,12 +121,12 @@
         </div>
       </div>
     HTML;
-    generarModal('div', 'modalFactura', $titulo, $contenido);
+  generarModal('div', 'modalFactura', $titulo, $contenido);
 
-    echo '<footer id="botones">' . BOTONES['NUEVA_COMPRA'] . '</footer>';
-    echo '</div>';
-  else:
-    include __DIR__ . '/../templates/head.php';
-    $script .= sprintf("<script src='%sassets/js/restringido.js'></script>", $BASE_URL);
-    include __DIR__ . '/../templates/footer.php';
-  endif;
+  echo '<footer id="botones">' . BOTONES['NUEVA_COMPRA'] . '</footer>';
+  echo '</div>';
+else:
+  include __DIR__ . '/../templates/head.php';
+  $script .= sprintf("<script src='%sassets/js/restringido.js'></script>", $BASE_URL);
+  include __DIR__ . '/../templates/footer.php';
+endif;

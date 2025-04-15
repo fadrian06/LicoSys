@@ -1,47 +1,48 @@
 <?php
-  declare(strict_types=1);
 
-  session_start();
+declare(strict_types=1);
 
-  if (!isset($_SESSION['activa'])) {
-    header('location: ../salir.php');
-  }
+session_start();
 
-  if ($_SESSION['cargo'] === 'a'):
-    require __DIR__ . '/../backend/componentes.php';
-    require __DIR__ . '/../backend/conexion.php';
-    require __DIR__ . '/../backend/funciones.php';
+if (!isset($_SESSION['activa'])) {
+  header('location: ../salir.php');
+}
 
-    echo LOADER;
-    echo '<div id="moduloNuevaCompra">';
+if ($_SESSION['cargo'] === 'a'):
+  require __DIR__ . '/../backend/componentes.php';
+  require __DIR__ . '/../backend/conexion.php';
+  require __DIR__ . '/../backend/funciones.php';
 
-    /*=============================================
+  echo LOADER;
+  echo '<div id="moduloNuevaCompra">';
+
+  /*=============================================
     =            SELECCIONAR PROVEEDOR            =
     =============================================*/
-    $proveedores = getRegistros('SELECT * FROM proveedores ORDER BY rif');
-    $proveedor = [
-      'id' => '',
-      'rif' => '',
-      'nombre' => 'No especificado',
-    ];
+  $proveedores = getRegistros('SELECT * FROM proveedores ORDER BY rif');
+  $proveedor = [
+    'id' => '',
+    'rif' => '',
+    'nombre' => 'No especificado',
+  ];
 
-    if (!empty($_SESSION['proveedorID'])) {
-      $proveedor = getRegistro('SELECT * FROM proveedores WHERE id=' . $_SESSION['proveedorID']);
-    }
+  if (!empty($_SESSION['proveedorID'])) {
+    $proveedor = getRegistro('SELECT * FROM proveedores WHERE id=' . $_SESSION['proveedorID']);
+  }
 
-    $botonesProveedores = '';
-    foreach ($proveedores as $proveedor)
-      $botonesProveedores .= <<<HTML
+  $botonesProveedores = '';
+  foreach ($proveedores as $proveedor)
+    $botonesProveedores .= <<<HTML
         <button proveedor-id="{$proveedor['id']}" title="{$proveedor['nombre']}" class="w3-bar-item w3-button">
           <span>{$proveedor['rif']}</span>
         </button>
       HTML;
 
-    $mostrarLista = isset($_SESSION['proveedorID'])
-      ? ''
-      : 'w3-hide';
+  $mostrarLista = isset($_SESSION['proveedorID'])
+    ? ''
+    : 'w3-hide';
 
-    echo <<<HTML
+  echo <<<HTML
       <section class="w3-row w3-padding-large w3-bottombar w3-round-large">
         <h2 class="w3-xlarge">Datos del <b>Proveedor</b></h2>
         <div class="w3-col m5 w3-margin-top">
@@ -101,10 +102,10 @@
       </section>
     HTML;
 
-    /*==========================================
+  /*==========================================
     =            DATOS DE LA COMPRA            =
     ==========================================*/
-    echo <<<HTML
+  echo <<<HTML
       <section class="w3-row w3-padding-large w3-bottombar w3-round-large">
         <div class="w3-half">
           <h2 class="w3-xlarge">Datos de la <b>Compra</b></h2>
@@ -112,59 +113,59 @@
           <span class="w3-text-blue">{$_SESSION['userName']}</span>
         </div>
     HTML;
-    include __DIR__ . '/../templates/monedas.php';
-    echo <<<HTML
+  include __DIR__ . '/../templates/monedas.php';
+  echo <<<HTML
       </section>
-    HTML; 
+    HTML;
 
-    /*============================================
+  /*============================================
     =            SELECCIONAR PRODUCTO            =
     ============================================*/
-    $productos = getRegistros("SELECT * FROM inventario ORDER BY producto");
-    $producto = [
-      'id' => '',
-      'codigo' => '',
-      'producto' => '',
-      'stock' => 100,
-      'precio' => 0,
-      'excento' => ''
-    ];
-    if (!empty($_SESSION['productoID'])) {
-      $producto = getRegistro('SELECT * FROM inventario WHERE id=' . $_SESSION['productoID']);
-    }
+  $productos = getRegistros("SELECT * FROM inventario ORDER BY producto");
+  $producto = [
+    'id' => '',
+    'codigo' => '',
+    'producto' => '',
+    'stock' => 100,
+    'precio' => 0,
+    'excento' => ''
+  ];
+  if (!empty($_SESSION['productoID'])) {
+    $producto = getRegistro('SELECT * FROM inventario WHERE id=' . $_SESSION['productoID']);
+  }
 
-    $botonesProductos = '';
-    foreach ($productos as $producto)
-      $botonesProductos .= <<<HTML
+  $botonesProductos = '';
+  foreach ($productos as $producto)
+    $botonesProductos .= <<<HTML
         <button producto-id="{$producto['id']}" class="w3-bar-item w3-button">
           {$producto['producto']}
         </button>
       HTML;
 
-    $mostrarLista = isset($_SESSION['productoID'])
-      ? ''
-      : 'w3-hide';
-    $iva = is_float(getIVA())
-      ? getIVA()
-      : 0;
-    $dolar = is_float(getDolar())
-      ? getDolar()
-      : 0;
-    $peso = is_int(getPeso())
-      ? getPeso()
-      : 0;
-    $stock = $producto['stock'] > 0
-      ? sprintf("<span class='w3-input w3-left-align w3-padding w3-light-grey'>%s</span>", $producto['stock'])
-      : "<span class='w3-input w3-padding w3-red'>Agotado</span>";
-    $precioBS = is_float(getDolar())
-      ? round($producto['precio'] * getDolar(), 2)
-      : 0;
-    $precioPesos = is_int(getPeso())
-      ? (int) ($producto['precio'] * getPeso())
-      : 0;
-    $tooltipPrecio = generarTooltip(sprintf('Bs. %s<br>%d pesos', $precioBS, $precioPesos), false);
-    $tooltipRegistrarProducto = generarTooltip('Registrar Producto');
-    echo <<<HTML
+  $mostrarLista = isset($_SESSION['productoID'])
+    ? ''
+    : 'w3-hide';
+  $iva = is_float(getIVA())
+    ? getIVA()
+    : 0;
+  $dolar = is_float(getDolar())
+    ? getDolar()
+    : 0;
+  $peso = is_int(getPeso())
+    ? getPeso()
+    : 0;
+  $stock = $producto['stock'] > 0
+    ? sprintf("<span class='w3-input w3-left-align w3-padding w3-light-grey'>%s</span>", $producto['stock'])
+    : "<span class='w3-input w3-padding w3-red'>Agotado</span>";
+  $precioBS = is_float(getDolar())
+    ? round($producto['precio'] * getDolar(), 2)
+    : 0;
+  $precioPesos = is_int(getPeso())
+    ? (int) ($producto['precio'] * getPeso())
+    : 0;
+  $tooltipPrecio = generarTooltip(sprintf('Bs. %s<br>%d pesos', $precioBS, $precioPesos), false);
+  $tooltipRegistrarProducto = generarTooltip('Registrar Producto');
+  echo <<<HTML
       <section class="w3-row w3-padding-large w3-bottombar w3-round-large">
         <div class="w3-col s12 m5 w3-margin-top">
           <div class="w3-dropdown-hover w3-transparent">
@@ -238,30 +239,30 @@
           </form>
         </div>
       </section>
-    HTML; 
+    HTML;
 
 
-    /*=========================================
+  /*=========================================
     =            CARRITO DE COMPRA            =
     =========================================*/
-    $sql = <<<SQL
+  $sql = <<<SQL
       SELECT c.producto_id, i.producto, i.precio, c.unidades, c.precio_total
       FROM carrito_compra c INNER JOIN inventario i ON c.producto_id=i.id
     SQL;
-    $carrito = getRegistros($sql);
+  $carrito = getRegistros($sql);
 
-    $filasProductos = '';
-    $totalCarrito = 0;
-    foreach ($carrito as $producto):
-      $precioBS = round($producto['precio'] * getDolar(), 2);
-      $precioPesos = (int) ($producto['precio'] * getPeso());
-      $tooltipPrecio = generarTooltip(sprintf('Bs. %s<br>%d pesos', $precioBS, $precioPesos), false);
+  $filasProductos = '';
+  $totalCarrito = 0;
+  foreach ($carrito as $producto):
+    $precioBS = round($producto['precio'] * getDolar(), 2);
+    $precioPesos = (int) ($producto['precio'] * getPeso());
+    $tooltipPrecio = generarTooltip(sprintf('Bs. %s<br>%d pesos', $precioBS, $precioPesos), false);
 
-      $precioBS = round((float) $producto['precio_total'] * getDolar(), 2);
-      $precioPesos = (int) ((float) $producto['precio_total'] * getPeso());
-      $tooltipTotal = generarTooltip(sprintf('Bs. %s<br>%d pesos', $precioBS, $precioPesos), false);
-      $totalCarrito += (float) $producto['precio_total'];
-      $filasProductos .= <<<HTML
+    $precioBS = round((float) $producto['precio_total'] * getDolar(), 2);
+    $precioPesos = (int) ((float) $producto['precio_total'] * getPeso());
+    $tooltipTotal = generarTooltip(sprintf('Bs. %s<br>%d pesos', $precioBS, $precioPesos), false);
+    $totalCarrito += (float) $producto['precio_total'];
+    $filasProductos .= <<<HTML
         <tr class="w3-white">
           <td>
             <button class="w3-button w3-transparent w3-hover-none">
@@ -292,13 +293,13 @@
           </td>
         </tr>
       HTML;
-    endforeach;
+  endforeach;
 
-    if ($carrito !== null && $carrito !== []):
-      $precioBS = round($totalCarrito * getDolar(), 2);
-      $precioPesos = (int) ($totalCarrito * getPeso());
-      $tooltipTotalCarrito = generarTooltip(sprintf('Bs. %s<br>%d pesos', $precioBS, $precioPesos), false);
-      echo <<<HTML
+  if ($carrito !== null && $carrito !== []):
+    $precioBS = round($totalCarrito * getDolar(), 2);
+    $precioPesos = (int) ($totalCarrito * getPeso());
+    $tooltipTotalCarrito = generarTooltip(sprintf('Bs. %s<br>%d pesos', $precioBS, $precioPesos), false);
+    echo <<<HTML
         <section class="w3-section w3-responsive">
           <form id="carritoCompra">
             <span class="w3-left icon-cart-arrow-down w3-padding w3-dark-grey w3-xxlarge" style="border-top-left-radius: 16px; border-top-right-radius: 16px; margin-bottom: -1px; margin-left: 1px"></span>
@@ -331,18 +332,18 @@
           </form>
         </section>
       HTML;
-    endif;  
+  endif;
 
-    /*===========================================
+  /*===========================================
     =            REGISTRAR PROVEEDOR            =
     ===========================================*/
-    $label = '<b>RIF: </b><sup class="w3-text-red">(requerido)</sup>';
-    $inputRIF = generarINPUT('RIF', $label, 'RIF del proveedor');
+  $label = '<b>RIF: </b><sup class="w3-text-red">(requerido)</sup>';
+  $inputRIF = generarINPUT('RIF', $label, 'RIF del proveedor');
 
-    $label = '<b>Nombre: </b><sup class="w3-text-red">(requerido)</sup>';
-    $inputNombre = generarINPUT('NOMBRE_NEGOCIO', $label, 'Nombre del proveedor');
+  $label = '<b>Nombre: </b><sup class="w3-text-red">(requerido)</sup>';
+  $inputNombre = generarINPUT('NOMBRE_NEGOCIO', $label, 'Nombre del proveedor');
 
-    echo <<<HTML
+  echo <<<HTML
       <form id="registrarProveedor" autocomplete="off" class="modal w3-white w3-card w3-round-large animate__animated animate__fadeInUp animate__faster w3-hide">
         <div class="w3-right-align">
           <span class="icon-close w3-button w3-transparent w3-hover-red"></span>
@@ -361,22 +362,22 @@
           </button>
         </section>
       </form>
-    HTML; 
+    HTML;
 
-    /*==========================================
+  /*==========================================
     =            REGISTRAR PRODUCTO            =
     ==========================================*/
-    $label = '<b>Código: </b><sup class="w3-text-red">(requerido)</sup>';
-    $inputCodigo = generarINPUT('CODIGO', $label, 'Código del producto');
-    $label = '<b>Nombre: </b><sup class="w3-text-red">(requerido)</sup>';
-    $inputNombre = generarINPUT('NOMBRE', $label, 'Nombre del producto');
-    $label = '<b>Precio: </b><sup class="w3-text-red">(requerido)</sup>';
-    $inputPrecio = generarINPUT('PRECIO', $label, 'Precio base del producto');
-    $label = '<b>Excento: </b><sup class="w3-text-red">(requerido)</sup>';
-    $inputExcento = generarINPUT('EXCENTO', $label, '¿Excento de IVA?');
-    $label = '<b>Existencia: </b><sup class="w3-text-blue">(opcional)</sup>';
-    $inputStock = generarINPUT('STOCK', $label, 'Cantidad disponible');
-    echo <<<HTML
+  $label = '<b>Código: </b><sup class="w3-text-red">(requerido)</sup>';
+  $inputCodigo = generarINPUT('CODIGO', $label, 'Código del producto');
+  $label = '<b>Nombre: </b><sup class="w3-text-red">(requerido)</sup>';
+  $inputNombre = generarINPUT('NOMBRE', $label, 'Nombre del producto');
+  $label = '<b>Precio: </b><sup class="w3-text-red">(requerido)</sup>';
+  $inputPrecio = generarINPUT('PRECIO', $label, 'Precio base del producto');
+  $label = '<b>Excento: </b><sup class="w3-text-red">(requerido)</sup>';
+  $inputExcento = generarINPUT('EXCENTO', $label, '¿Excento de IVA?');
+  $label = '<b>Existencia: </b><sup class="w3-text-blue">(opcional)</sup>';
+  $inputStock = generarINPUT('STOCK', $label, 'Cantidad disponible');
+  echo <<<HTML
       <form id="registrarProducto" autocomplete="off" class="modal w3-white w3-card w3-round-large animate__animated animate__fadeInUp animate__faster w3-hide">
         <div class="w3-right-align">
           <span class="icon-close w3-button w3-transparent w3-hover-red"></span>
@@ -398,15 +399,15 @@
           </button>
         </section>
       </form>
-    HTML; 
+    HTML;
 
-    echo '<br><br><br><br><br><br><br><br><br><br>';
+  echo '<br><br><br><br><br><br><br><br><br><br>';
 
-    $productosEnCarrito = count($carrito);
-    echo sprintf("<span class='w3-hide' id='cantidadProductosEnCarrito'>%s</span>", $productosEnCarrito);
-    echo '</div>';
-  else:
-    include __DIR__ . '/../templates/head.php';
-    $script = sprintf("<script src='%sassets/js/restringido.js'></script>", $BASE_URL);
-    include __DIR__ . '/../templates/footer.php';
-  endif;
+  $productosEnCarrito = count($carrito);
+  echo sprintf("<span class='w3-hide' id='cantidadProductosEnCarrito'>%s</span>", $productosEnCarrito);
+  echo '</div>';
+else:
+  include __DIR__ . '/../templates/head.php';
+  $script = sprintf("<script src='%sassets/js/restringido.js'></script>", $BASE_URL);
+  include __DIR__ . '/../templates/footer.php';
+endif;
