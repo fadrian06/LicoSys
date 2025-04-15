@@ -3,7 +3,9 @@
     "symfony/var-dumper": "^7.2",
     "rector/rector": "^2.0",
     "phpstan/phpstan": "^2.1",
-    "phpstan/extension-installer": "^1.4"
+    "phpstan/extension-installer": "^1.4",
+    "phpmd/phpmd": "^2.15",
+    "symplify/easy-coding-standard": "^12.5"
   },
   "require": {
     "symfony/dotenv": "^7.2",
@@ -12,9 +14,17 @@
   },
   "scripts": {
     "pre-install-cmd": ["composer check-platform-reqs", "cp -n .env.dist .env"],
-    "ci": ["rector --dry-run --no-progress-bar", "phpstan --no-progress"],
-    "format": ["rector --no-progress-bar"],
-    "baseline": ["phpstan --generate-baseline"]
+    "ci": [
+      "ecs --no-progress-bar",
+      "phpmd backend templates views dashboard.php ecs.php index.php rector.php salir.php ansi phpmd.xml",
+      "rector --dry-run --no-progress-bar",
+      "phpstan --no-progress"
+    ],
+    "format": ["ecs --no-progress-bar --fix", "rector --no-progress-bar"],
+    "baseline": [
+      "phpstan --generate-baseline",
+      "phpmd backend templates views dashboard.php ecs.php index.php rector.php salir.php ansi phpmd.xml --generate-baseline"
+    ]
   },
   "config": {
     "allow-plugins": {

@@ -10,5 +10,6 @@ parameters:
     - views
     - index.php
     - dashboard.php
+    - ecs.php
     - rector.php
     - salir.php
