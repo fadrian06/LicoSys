@@ -27,4 +27,5 @@ return RectorConfig::configure()
   ->withParallel()
   ->withPreparedSets(
     deadCode: true,
+    codeQuality: true,
   );

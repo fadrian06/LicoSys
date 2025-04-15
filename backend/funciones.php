@@ -47,21 +47,21 @@ function tabla(string $titulo, array $encabezados, array $datos, string $sinRegi
   // Plantilla a mostrar CUANDO NO EXISTAN REGISTROS ACTIVOS NI INACTIVOS
   if (!$datos['filas'] and empty($desactivar['filas'])) :
     echo <<<HTML
-			<h2 class="w3-display-middle w3-container w3-center w3-opacity">
-				$sinRegistros
-			</h2>
-		HTML;
+      <h2 class="w3-display-middle w3-container w3-center w3-opacity">
+        $sinRegistros
+      </h2>
+    HTML;
     return true;
   endif;
 
   // Rellenamos los encabezados activos en escritorio.
   foreach ($encabezados['escritorio'] as $encabezado) :
     $encabezadosEscritorio .= <<<HTML
-			<th class="w3-indigo">$encabezado</th>
-		HTML;
+      <th class="w3-indigo">$encabezado</th>
+    HTML;
     $encabezadosDesactivadosEscritorio .= <<<HTML
-			<th class="w3-red">$encabezado</th>
-		HTML;
+      <th class="w3-red">$encabezado</th>
+    HTML;
   endforeach;
   if ($desactivar) $encabezadosEscritorio .= '<th></th>';
   if ($actualizar) $encabezadosEscritorio .= '<th></th>';
@@ -70,15 +70,15 @@ function tabla(string $titulo, array $encabezados, array $datos, string $sinRegi
   // Rellenamos lo encabezados en móvil.
   foreach ($encabezados['movil'] as $encabezado) :
     $encabezadosMovil .= <<<HTML
-			<div class="w3-padding w3-col s5 w3-indigo">
-				<b>$encabezado</b>
-			</div>
-		HTML;
+      <div class="w3-padding w3-col s5 w3-indigo">
+        <b>$encabezado</b>
+      </div>
+    HTML;
     $encabezadosDesactivadosMovil .= <<<HTML
-			<div class="w3-padding w3-col s5 w3-red">
-				<b>$encabezado</b>
-			</div>
-		HTML;
+      <div class="w3-padding w3-col s5 w3-red">
+        <b>$encabezado</b>
+      </div>
+    HTML;
   endforeach;
   $encabezadosDesactivadosEscritorio .= '<th class="w3-red"></th>';
 
@@ -87,114 +87,114 @@ function tabla(string $titulo, array $encabezados, array $datos, string $sinRegi
     $campos = '';
     foreach ($datos['camposEscritorio'] as $campo)
       $campos .= <<<HTML
-				<td>
-					<span class="w3-button w3-block w3-left-align w3-transparent w3-hover-none" style="padding-left: 0; padding-right: 0">
-						$fila[$campo]
-					</span>
-				</td>
-			HTML;
+        <td>
+          <span class="w3-button w3-block w3-left-align w3-transparent w3-hover-none" style="padding-left: 0; padding-right: 0">
+            $fila[$campo]
+          </span>
+        </td>
+      HTML;
 
     if ($desactivar)
       $campos .= <<<HTML
-				<td>
-					<button onclick="desactivar('{$desactivar['tabla']}', '{$desactivar['campo']}', {$fila[$desactivar['campo']]}, '{$desactivar['enlace']}')" class="w3-button w3-round-xlarge w3-red w3-hover-black">
-						Desactivar
-					</button>
-				</td>
-			HTML;
+        <td>
+          <button onclick="desactivar('{$desactivar['tabla']}', '{$desactivar['campo']}', {$fila[$desactivar['campo']]}, '{$desactivar['enlace']}')" class="w3-button w3-round-xlarge w3-red w3-hover-black">
+            Desactivar
+          </button>
+        </td>
+      HTML;
 
     if ($actualizar && $_SESSION['cargo'] === 'a')
       $campos .= <<<HTML
-				<td>
-					<button onclick="editar(this, '{$actualizar['tabla']}', '{$actualizar['campo']}', {$fila[$actualizar['campo']]}, '{$actualizar['enlace']}')" data-target="{$actualizar['IDform']}" class="w3-button w3-round-xlarge w3-blue w3-hover-black">
-						Editar
-					</button>
-				</td>
-			HTML;
+        <td>
+          <button onclick="editar(this, '{$actualizar['tabla']}', '{$actualizar['campo']}', {$fila[$actualizar['campo']]}, '{$actualizar['enlace']}')" data-target="{$actualizar['IDform']}" class="w3-button w3-round-xlarge w3-blue w3-hover-black">
+            Editar
+          </button>
+        </td>
+      HTML;
 
     if ($factura)
       $campos .= <<<HTML
-				<td>
-					<button onclick="verFacturaVenta(this, '{$fila['id']}')" data-target="#modalFactura" class="w3-button w3-round-xlarge w3-blue w3-hover-black">
-						Ver factura
-					</button>
-				</td>
-			HTML;
+        <td>
+          <button onclick="verFacturaVenta(this, '{$fila['id']}')" data-target="#modalFactura" class="w3-button w3-round-xlarge w3-blue w3-hover-black">
+            Ver factura
+          </button>
+        </td>
+      HTML;
 
     $filasEscritorio .= <<<HTML
-			<tr>$campos</tr>
-		HTML;
+      <tr>$campos</tr>
+    HTML;
 
     $campos = '';
     $verMas = '';
     foreach ($datos['camposMovil'] as $campo)
       $campos .= <<<HTML
-				<div class="w3-col s5 w3-left-align">$fila[$campo]</div>
-			HTML;
+        <div class="w3-col s5 w3-left-align">$fila[$campo]</div>
+      HTML;
 
     $cantidadDatosVerMas = count($datos['camposEscritorio']);
     for ($i = 0; $i < $cantidadDatosVerMas; ++$i)
       $verMas .= <<<HTML
-				<li class="w3-block w3-row-padding w3-border-bottom w3-border-black">
-					<div class="w3-col s4">
-						<b class="w3-tag">{$encabezados['escritorio'][$i]}:</b>
-					</div>
-					<div class="w3-rest">
-						<span class="w3-margin-left">
-							{$fila[$datos['camposEscritorio'][$i]]}
-						</span>
-					</div>
-				</li>
-			HTML;
+        <li class="w3-block w3-row-padding w3-border-bottom w3-border-black">
+          <div class="w3-col s4">
+            <b class="w3-tag">{$encabezados['escritorio'][$i]}:</b>
+          </div>
+          <div class="w3-rest">
+            <span class="w3-margin-left">
+              {$fila[$datos['camposEscritorio'][$i]]}
+            </span>
+          </div>
+        </li>
+      HTML;
 
     if ($desactivar)
       $verMas .= <<<HTML
-				<li class="w3-block">
-					<div class=w3-container>
-						<button onclick="desactivar('{$desactivar['tabla']}', '{$desactivar['campo']}', {$fila[$desactivar['campo']]}, '{$desactivar['enlace']}')" class="w3-block w3-button w3-round-xlarge w3-red w3-hover-black">
-							Desactivar
-						</button>
-					</div>
-				</li>
-			HTML;
+        <li class="w3-block">
+          <div class=w3-container>
+            <button onclick="desactivar('{$desactivar['tabla']}', '{$desactivar['campo']}', {$fila[$desactivar['campo']]}, '{$desactivar['enlace']}')" class="w3-block w3-button w3-round-xlarge w3-red w3-hover-black">
+              Desactivar
+            </button>
+          </div>
+        </li>
+      HTML;
 
     if ($actualizar && $_SESSION['cargo'] === 'a')
       $verMas .= <<<HTML
-				<li class="w3-block">
-					<div class=w3-container>
-						<button onclick="editar(this, '{$actualizar['tabla']}', '{$actualizar['campo']}', {$fila[$actualizar['campo']]}, '{$actualizar['enlace']}')" data-target="{$actualizar['IDform']}" class="w3-block w3-button w3-round-xlarge w3-blue w3-hover-black">
-							Editar
-						</button>
-					</div>
-				</li>
-			HTML;
+        <li class="w3-block">
+          <div class=w3-container>
+            <button onclick="editar(this, '{$actualizar['tabla']}', '{$actualizar['campo']}', {$fila[$actualizar['campo']]}, '{$actualizar['enlace']}')" data-target="{$actualizar['IDform']}" class="w3-block w3-button w3-round-xlarge w3-blue w3-hover-black">
+              Editar
+            </button>
+          </div>
+        </li>
+      HTML;
 
     if ($factura)
       $verMas .= <<<HTML
-				<li class="w3-block">
-					<div class=w3-container>
-						<button onclick="verFacturaVenta(this, '{$fila['id']}')" data-target="#modalFactura" class="w3-block w3-button w3-round-xlarge w3-blue w3-hover-black">
-							Ver factura
-						</button>
-					</div>
-				</li>
-			HTML;
+        <li class="w3-block">
+          <div class=w3-container>
+            <button onclick="verFacturaVenta(this, '{$fila['id']}')" data-target="#modalFactura" class="w3-block w3-button w3-round-xlarge w3-blue w3-hover-black">
+              Ver factura
+            </button>
+          </div>
+        </li>
+      HTML;
 
     $filasMovil .= <<<HTML
-			<div role="accordion">
-				<button class="w3-block w3-button w3-row w3-center">
-					$campos
-					<div class="w3-rest">
-						<i class="icon-chevron-right"></i>
-					</div>
-				</button>
-				<div class="w3-hide w3-animate-opacity">
-					<ul class="w3-ul w3-grey">
-						$verMas
-					</ul>
-				</div>
-			</div>
-		HTML;
+      <div role="accordion">
+        <button class="w3-block w3-button w3-row w3-center">
+          $campos
+          <div class="w3-rest">
+            <i class="icon-chevron-right"></i>
+          </div>
+        </button>
+        <div class="w3-hide w3-animate-opacity">
+          <ul class="w3-ul w3-grey">
+            $verMas
+          </ul>
+        </div>
+      </div>
+    HTML;
   endforeach;
 
   // Rellenamos las filas de desactivados en escritorio.
@@ -203,135 +203,135 @@ function tabla(string $titulo, array $encabezados, array $datos, string $sinRegi
       $campos = '';
       foreach ($datos['camposEscritorio'] as $campo)
         $campos .= <<<HTML
-					<td>
-						<span class="w3-button w3-left-align w3-transparent w3-hover-none" style="padding-left: 0; padding-right: 0">
-							$fila[$campo]
-						</span>
-					</td>
-				HTML;
+          <td>
+            <span class="w3-button w3-left-align w3-transparent w3-hover-none" style="padding-left: 0; padding-right: 0">
+              $fila[$campo]
+            </span>
+          </td>
+        HTML;
 
       if ($desactivar)
         $campos .= <<<HTML
-					<td>
-						<button onclick="activar('{$desactivar['tabla']}', '{$desactivar['campo']}', '{$fila[$desactivar['campo']]}', '{$desactivar['enlace']}')" class="w3-button w3-round-xlarge w3-green w3-hover-black">
-							Activar
-						</button>
-					</td>
-				HTML;
+          <td>
+            <button onclick="activar('{$desactivar['tabla']}', '{$desactivar['campo']}', '{$fila[$desactivar['campo']]}', '{$desactivar['enlace']}')" class="w3-button w3-round-xlarge w3-green w3-hover-black">
+              Activar
+            </button>
+          </td>
+        HTML;
 
       $filasDesactivadosEscritorio .= <<<HTML
-				<tr class="w3-left-align">$campos</tr>
-			HTML;
+        <tr class="w3-left-align">$campos</tr>
+      HTML;
 
       $campos = '';
       $verMas = '';
       foreach ($datos['camposMovil'] as $campo)
         $campos .= <<<HTML
-					<div class="w3-col s5 w3-left-align">$fila[$campo]</div>
-				HTML;
+          <div class="w3-col s5 w3-left-align">$fila[$campo]</div>
+        HTML;
 
       $cantidadDatosVerMas = count($datos['camposEscritorio']);
       for ($i = 0; $i < $cantidadDatosVerMas; ++$i)
         $verMas .= <<<HTML
-					<li class="w3-block w3-row-padding w3-border-bottom w3-border-black">
-						<div class="w3-col s4">
-							<b class="w3-tag">{$encabezados['escritorio'][$i]}:</b>
-						</div>
-						<div class="w3-rest">
-							<span>{$fila[$datos['camposEscritorio'][$i]]}</span>
-						</div>
-					</li>
-				HTML;
+          <li class="w3-block w3-row-padding w3-border-bottom w3-border-black">
+            <div class="w3-col s4">
+              <b class="w3-tag">{$encabezados['escritorio'][$i]}:</b>
+            </div>
+            <div class="w3-rest">
+              <span>{$fila[$datos['camposEscritorio'][$i]]}</span>
+            </div>
+          </li>
+        HTML;
 
       if ($desactivar)
         $verMas .= <<<HTML
-					<li class="w3-block">
-						<div class=w3-container>
-							<button onclick="activar('{$desactivar['tabla']}', '{$desactivar['campo']}', '{$fila[$desactivar['campo']]}', '{$desactivar['enlace']}')" class="w3-block w3-button w3-round-xlarge w3-green w3-hover-black">
-								Activar
-							</button>
-						</div>
-					</li>
-				HTML;
+          <li class="w3-block">
+            <div class=w3-container>
+              <button onclick="activar('{$desactivar['tabla']}', '{$desactivar['campo']}', '{$fila[$desactivar['campo']]}', '{$desactivar['enlace']}')" class="w3-block w3-button w3-round-xlarge w3-green w3-hover-black">
+                Activar
+              </button>
+            </div>
+          </li>
+        HTML;
 
       $filasDesactivadosMovil .= <<<HTML
-				<div role="accordion">
-					<button class="w3-block w3-button w3-row w3-center">
-						$campos
-						<div class="w3-rest">
-							<i class="icon-chevron-right"></i>
-						</div>
-					</button>
-					<div class="w3-hide w3-animate-opacity">
-						<ul class="w3-ul w3-grey">
-							$verMas
-						</ul>
-					</div>
-				</div>
-			HTML;
+        <div role="accordion">
+          <button class="w3-block w3-button w3-row w3-center">
+            $campos
+            <div class="w3-rest">
+              <i class="icon-chevron-right"></i>
+            </div>
+          </button>
+          <div class="w3-hide w3-animate-opacity">
+            <ul class="w3-ul w3-grey">
+              $verMas
+            </ul>
+          </div>
+        </div>
+      HTML;
     endforeach;
   endif;
 
   /*==================================================
-	=            ESTRUCTURA TABLA ACTIVADOS            =
-	==================================================*/
+  =            ESTRUCTURA TABLA ACTIVADOS            =
+  ==================================================*/
   if ($datos['filas'])
     echo <<<HTML
-			<h2 class='w3-center w3-bottombar w3-border-blue w3-round-medium'>$titulo</h2>
-			<div class="w3-animate-opacity w3-margin-top w3-margin-bottom w3-card-4 w3-responsive">
-				<table class="w3-table-all w3-hoverable w3-hide-small">
-					<tr class="w3-indigo">$encabezadosEscritorio</tr>
-					$filasEscritorio
-				</table>
-				<div class="w3-hide-medium w3-hide-large">
-					<div class="w3-row">
-						$encabezadosMovil
-						<div class="w3-padding w3-rest w3-indigo">
-							<b style="opacity: 0">Ver</b>
-						</div>
-					</div>
-					<div role="accordions">
-						$filasMovil
-					</div>
-				</div>
-			</div>
-		HTML;
+      <h2 class='w3-center w3-bottombar w3-border-blue w3-round-medium'>$titulo</h2>
+      <div class="w3-animate-opacity w3-margin-top w3-margin-bottom w3-card-4 w3-responsive">
+        <table class="w3-table-all w3-hoverable w3-hide-small">
+          <tr class="w3-indigo">$encabezadosEscritorio</tr>
+          $filasEscritorio
+        </table>
+        <div class="w3-hide-medium w3-hide-large">
+          <div class="w3-row">
+            $encabezadosMovil
+            <div class="w3-padding w3-rest w3-indigo">
+              <b style="opacity: 0">Ver</b>
+            </div>
+          </div>
+          <div role="accordions">
+            $filasMovil
+          </div>
+        </div>
+      </div>
+    HTML;
 
   /*=====================================================
-	=            ESTRUCTURA TABLA DESACTIVADOS            =
-	=====================================================*/
+  =            ESTRUCTURA TABLA DESACTIVADOS            =
+  =====================================================*/
   if ($desactivar['filas']) :
     $cantidadDesactivados = count($desactivar['filas']);
     echo <<<HTML
-			<br>
-			<details class="w3-margin-top">
-				<summary class="w3-xlarge w3-padding">
-					<i class="icon-lock"> Desactivados</i>
-					<span class="w3-badge w3-margin-left">$cantidadDesactivados</span>
-					<i class="icon-chevron-right w3-margin-left"></i>
-				</summary>
-				<div class="w3-margin w3-card-4 w3-responsive">
-					<table class="w3-table w3-table-all w3-hoverable w3-hide-small">
-						<tr class="w3-red">
-							$encabezadosDesactivadosEscritorio
-						</tr>
-						$filasDesactivadosEscritorio
-					</table>
-				</div>
-				<div class="w3-card-4 w3-hide-medium w3-hide-large">
-					<div class="w3-row">
-						$encabezadosDesactivadosMovil
-						<div class="w3-padding w3-rest w3-red">
-							<b style="opacity: 0">Ver</b>
-						</div>
-					</div>
-					<div role="accordions">
-						$filasDesactivadosMovil
-					</div>
-				</div>
-			</details>
-			<br><br><br><br><br><br><br><br><br><br>
-		HTML;
+      <br>
+      <details class="w3-margin-top">
+        <summary class="w3-xlarge w3-padding">
+          <i class="icon-lock"> Desactivados</i>
+          <span class="w3-badge w3-margin-left">$cantidadDesactivados</span>
+          <i class="icon-chevron-right w3-margin-left"></i>
+        </summary>
+        <div class="w3-margin w3-card-4 w3-responsive">
+          <table class="w3-table w3-table-all w3-hoverable w3-hide-small">
+            <tr class="w3-red">
+              $encabezadosDesactivadosEscritorio
+            </tr>
+            $filasDesactivadosEscritorio
+          </table>
+        </div>
+        <div class="w3-card-4 w3-hide-medium w3-hide-large">
+          <div class="w3-row">
+            $encabezadosDesactivadosMovil
+            <div class="w3-padding w3-rest w3-red">
+              <b style="opacity: 0">Ver</b>
+            </div>
+          </div>
+          <div role="accordions">
+            $filasDesactivadosMovil
+          </div>
+        </div>
+      </details>
+      <br><br><br><br><br><br><br><br><br><br>
+    HTML;
   endif;
   return true;
 }
@@ -423,9 +423,9 @@ function consulta(string $sql): ?int {
 function getSQLError(): string {
   global $conexion;
   return "
-		console.log(\"" . mysqli_error($conexion) . "\");
-		alerta('Ha ocurrido un error, por favor intente nuevamente')
-	";
+    console.log(\"" . mysqli_error($conexion) . "\");
+    alerta('Ha ocurrido un error, por favor intente nuevamente')
+  ";
 }
 
 /*======================================================

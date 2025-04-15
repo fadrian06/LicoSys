@@ -12,7 +12,6 @@ $seEncuentraEnCarpetaViews = $url[count($url) - 2] === 'views' ? true : false;
 /** @var string Hace referencia a la carpeta raiz del proyecto */
 $BASE_URL = $seEncuentraEnCarpetaViews ? '../' : '';
 
-require "{$BASE_URL}backend/config.php";
 require "{$BASE_URL}backend/componentes.php";
 require "{$BASE_URL}backend/conexion.php";
 require "{$BASE_URL}backend/funciones.php";
