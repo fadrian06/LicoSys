@@ -18,6 +18,7 @@ $archivoActual = $url[count($url) - 1];
 
 /** @var bool Indica si el usuario intenta acceder a una vista mediante la URL */
 $seEncuentraEnCarpetaViews = $url[count($url) - 2] === 'views';
+
 /** @var string Hace referencia a la carpeta raiz del proyecto */
 $BASE_URL = $seEncuentraEnCarpetaViews ? '../' : '';
 

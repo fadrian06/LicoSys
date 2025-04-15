@@ -19,6 +19,7 @@
   <rule ref="PSR2">
     <exclude name="PSR2.ControlStructures.SwitchDeclaration.BreakIndent" />
     <exclude name="PSR2.ControlStructures.ControlStructureSpacing.SpacingAfterOpenBrace" />
+    <exclude name="PSR2.Classes.ClassDeclaration.OpenBraceNewLine" />
   </rule>
 
   <rule ref="PSR12">
