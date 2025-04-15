@@ -16,4 +16,12 @@ return ECSConfig::configure()
     __DIR__ . '/salir.php',
   ])
   ->withCache(__DIR__ . '/storage/ecs')
-  ->withEditorConfig();
+  ->withEditorConfig()
+  ->withPhpCsFixerSets()
+  ->withPreparedSets()
+  ->withRealPathReporting()
+  ->withRootFiles()
+  ->withSkip([])
+  ->withRules([
+  ])
+  ->withSets([]);
