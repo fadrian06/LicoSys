@@ -1,5 +1,7 @@
 /** @typedef {import('./funciones')} */
 
+import validar from './validar';
+
 /*=====================================
 =            DECLARACIONES            =
 =====================================*/

@@ -2,10 +2,6 @@
 
 declare(strict_types=1);
 
-$EXPRESIONES = [
-  'clave' => '[!#$%&/=?¿¡@+.\-\w]{4,20}'
-];
-
 const LOADER = '
     <div class="loader" id="loader">
       <i class="w3-block w3-spin icon-spinner"></i>
@@ -127,7 +123,10 @@ const BOTONES = [
  * @return string El elemento `<input>`
  */
 function generarINPUT(string $nombre, string $label, string $placeholder = '', string $value = ''): string {
-  global $EXPRESIONES;
+  $EXPRESIONES = [
+    'clave' => '[!#$%&/=?¿¡@+.\-\w]{4,20}'
+  ];
+
   return match ($nombre) {
     'CLAVE' => <<<HTML
           <fieldset class="w3-border-0">

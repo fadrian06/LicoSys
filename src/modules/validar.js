@@ -282,7 +282,7 @@ const validarInput = (e) => {
  * precio </i>
  * @param {?(error: string, FormData: FormData, e: SubmitEvent)} cb Contiene el resultado de la validación, los datos a enviar y el Evento `submit`
  */
-const validar = (form, cb = () => {}) => {
+export default function validar(form, cb = () => {}) {
   const inputs = form.querySelectorAll("input");
   /**
    * @type {NodeListOf<HTMLInputElement>}
@@ -678,4 +678,4 @@ const validar = (form, cb = () => {}) => {
     input.onkeyup = validarInput;
     input.onblur = validarInput;
   }
-};
+}

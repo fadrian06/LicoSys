@@ -2,6 +2,106 @@
 
 declare(strict_types=1);
 
+function verificarCopiaDeSeguridad(string &$script): void {
+  if (file_exists('backup/backup.sql')) {
+    $script .= '<script src="assets/js/restaurarBD.js"></script>';
+  }
+}
+
+/**
+ * Genera un resúmen de gastos/ingresos filtrado.
+ * @param  'diario'|'semanal'|'quincenal'|'mensual' $rol       El filtro a aplicar: 'diario', 'semanal', 'quincenal', 'mensual'
+ * @param  int    $negocioID El ID del negocio que posee los registros.
+ * @param mixed[] $respuesta
+ * @return void            Devuelve al cliente la respuesta a su petición.
+ */
+function generarResumen(string $rol, int $negocioID, array &$respuesta): void {
+  $sql = <<<SQL
+      SELECT v.producto_id, v.fecha, i.producto, v.unidades, v.total
+      FROM ventas v INNER JOIN inventario i ON v.producto_id=i.id
+      WHERE v.negocio_id={$negocioID} ORDER BY i.producto DESC
+    SQL;
+
+  $ventas = getRegistros($sql) ?? [];
+  $ventas = filtrarFecha($rol, $ventas);
+
+  $ventasCombinadas = [];
+
+  foreach ($ventas as $venta):
+    $id = $venta['producto_id'];
+
+    if (!array_key_exists($id, $ventasCombinadas)):
+      $ventasCombinadas[$id] = $venta;
+    else:
+      $ventasCombinadas[$id]['unidades'] += $venta['unidades'];
+      $ventasCombinadas[$id]['total'] += $venta['total'];
+    endif;
+  endforeach;
+
+  $totalGastos = 0;
+  $totalIngresos = 0;
+  $ganancia = 0;
+  $filasProductos = '';
+  foreach ($ventasCombinadas as $ventaCombinada):
+    $sql = <<<SQL
+        SELECT producto_id, unidades, total, fecha FROM compras
+        WHERE producto_id={$ventaCombinada['producto_id']} AND negocio_id={$negocioID}
+      SQL;
+    $compras = getRegistros($sql) ?? [];
+    $compras = filtrarFecha($rol, $compras);
+    $comprasCombinadas = [];
+    foreach ($compras as $compra):
+      $id = $compra['producto_id'];
+      if (!array_key_exists($id, $comprasCombinadas)):
+        $comprasCombinadas[$id] = $compra;
+      else:
+        $comprasCombinadas[$id]['unidades'] += $compra['unidades'];
+        $comprasCombinadas[$id]['total'] += $compra['total'];
+      endif;
+    endforeach;
+
+    $compra = empty($comprasCombinadas[$id])
+      ? ['total' => 0, 'unidades' => 0]
+      : $comprasCombinadas[$id];
+    $compra['total'] = (float) $compra['total'];
+    $ventaCombinada['total'] = (float) $ventaCombinada['total'];
+
+    $totalGastos += $compra['total'];
+    $totalIngresos += $ventaCombinada['total'];
+
+    $filasProductos .= <<<HTML
+        <tr>
+          <td>{$compra['unidades']}</td>
+          <td>{$ventaCombinada['unidades']}</td>
+          <td>{$ventaCombinada['producto']}</td>
+          <td>{$compra['total']}</td>
+          <td>{$ventaCombinada['total']}</td>
+        </tr>
+      HTML;
+  endforeach;
+
+  $ganancia = $totalIngresos - $totalGastos;
+  $textoGanancia = $ganancia >= 0
+    ? <<<HTML
+        <b class="w3-margin-right">Ganancias: </b>
+        <i class="icon-dollar w3-text-green"></i>
+        {$ganancia}
+      HTML
+    : <<<HTML
+        <b class="w3-margin-right">Pérdidas: </b>
+        <i class="icon-dollar w3-text-red"></i>
+        {$ganancia}
+      HTML;
+
+  $respuesta['ok'] = $filasProductos;
+  $respuesta['datos'] = [
+    'gastos' => $totalGastos,
+    'ingresos' => $totalIngresos,
+    'ganancia' => $textoGanancia
+  ];
+  exit(json_encode($respuesta, JSON_INVALID_UTF8_IGNORE));
+}
+
 /**
  * Genera una tabla con los datos que le proporcionen.
  * @param string $titulo El título de la tabla.
@@ -604,7 +704,7 @@ function getAPI(string $url, string $urlJSON): array {
   $data = @file_get_contents($url) ?: @file_get_contents($urlJSON);
   @file_put_contents($urlJSON, $data);
 
-  return json_decode($data ?: '', true, 512, JSON_INVALID_UTF8_IGNORE);
+  return json_decode($data ?: '', true, 512, JSON_INVALID_UTF8_IGNORE) ?: [];
 }
 
 /**

@@ -12,19 +12,33 @@ include __DIR__ . '/templates/head.php';
 
 $versiones = getRegistros('SELECT * FROM versiones ORDER BY id DESC');
 
-$data = getAPI(
+$data = /*getAPI(
   'https://s3.amazonaws.com/dolartoday/data.json',
   __DIR__ . '/storage/dolarToday.json'
-);
+)*/ [
+  '_timestamp' => [
+    'fecha' => null,
+  ],
+  'USD' => [
+    'transferencia' => null,
+    'efectivo' => null,
+  ],
+];
 
 $dolarFecha = $data['_timestamp']['fecha'];
 $dolarT     = $data['USD']['transferencia'];
 $dolarE     = $data['USD']['efectivo'];
 
-$data = getAPI(
+$data = /*getAPI(
   'https://api.exchangedyn.com/markets/quotes/usdves/bcv',
   __DIR__ . '/storage/bcv.json'
-);
+)*/ [
+  'sources' => [
+    'BCV' => [
+      'quote' => 0,
+    ],
+  ],
+];
 
 $dolarBCV = round($data['sources']['BCV']['quote'], 2);
 

@@ -4,6 +4,13 @@
     "indentStyle": "space"
   },
   "files": {
-    "ignore": ["vendor", "*.min.*", "assets/libs", "*.sublime-*"]
+    "ignore": [
+      "vendor",
+      "*.min.*",
+      "assets/libs",
+      "*.sublime-*",
+      "assets/css",
+      "assets/js"
+    ]
   }
 }

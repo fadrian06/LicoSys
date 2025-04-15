@@ -9,3 +9,5 @@ js
 css
 backup.sql
 storage/ecs
+storage/*.json
+phpcs.xml

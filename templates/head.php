@@ -145,7 +145,7 @@ $productosEnCarritoCompra = contarRegistros('carrito_compra');
 
   if ($archivoActual !== 'index.php') :
     $mostrarMenu = true;
-    include __DIR__ . '/templates/menu.php';
+    include __DIR__ . '/../templates/menu.php';
   endif;
 
-  include __DIR__ . '/templates/acercaDe.php';
+  include __DIR__ . '/../templates/acercaDe.php';

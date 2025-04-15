@@ -6,6 +6,7 @@ declare(strict_types=1);
 =            LÓGICA INICIAL            =
 ======================================*/
 session_start();
+
 if (isset($_SESSION['activa'])) {
   header('location: dashboard.php');
 }
@@ -19,19 +20,12 @@ if (!empty($_SESSION['userID'])) {
 setRegistro('TRUNCATE TABLE carrito_venta');
 setRegistro('TRUNCATE TABLE carrito_compra');
 
-function verificarCopiaDeSeguridad(): void {
-  global $script;
-  if (file_exists('backup/backup.sql')) {
-    $script .= '<script src="assets/js/restaurarBD.js"></script>';
-  }
-}
-
 /*=====  End of LÓGICA INICIAL  ======*/
 
 /*----------  Si no hay negocios, solicita registro  ----------*/
 if (!isset($mostrarLoader) && !$negocios):
 
-  verificarCopiaDeSeguridad();
+  verificarCopiaDeSeguridad($script);
   $mostrarRegistro = true;
   include __DIR__ . '/templates/registrarNegocio.php';
   $script .= '<script src="assets/js/registrarNegocio.js"></script>';
@@ -39,7 +33,7 @@ if (!isset($mostrarLoader) && !$negocios):
 /*----------  Si no hay administrador, solicita registro  ----------*/
 elseif (!isset($mostrarLoader) && !$admin):
 
-  verificarCopiaDeSeguridad();
+  verificarCopiaDeSeguridad($script);
   $mostrarRegistro = true;
   include __DIR__ . '/templates/registrarAdmin.php';
   $script .= '<script src="assets/js/registrarAdmin.js"></script>';
@@ -47,7 +41,7 @@ elseif (!isset($mostrarLoader) && !$admin):
 /*----------  Si el administrador no tiene preguntas secretas, solicita registro  ----------*/
 elseif (!isset($mostrarLoader) && !$admin['pre1']):
 
-  verificarCopiaDeSeguridad();
+  verificarCopiaDeSeguridad($script);
   $mostrarRegistro = true;
   include __DIR__ . '/templates/registroPreguntasRespuestas.php';
   $script .= '<script src="assets/js/registrarPreguntasRespuestas.js"></script>';

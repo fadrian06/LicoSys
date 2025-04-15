@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ruleset
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:noNamespaceSchemaLocation="vendor/squizlabs/php_codesniffer/phpcs.xsd">
+  <description />
+  <arg name="colors" />
+  <arg name="tab-width" value="2" />
+  <file>backend/</file>
+  <file>templates/</file>
+  <file>views/</file>
+  <file>dashboard.php</file>
+  <file>index.php</file>
+  <file>rector.php</file>
+  <file>salir.php</file>
+
+  <rule ref="PSR1" />
+</ruleset>

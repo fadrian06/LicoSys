@@ -1,5 +1,8 @@
 /** @typedef {import('./funciones')} */
 
+import { actualizarMonedas, mostrarDetails } from "./funciones";
+import validar from "./validar";
+
 /**
  * Funcionalidad del módulo Usuarios
  * @param {HTMLElement} contenedor Contenedor del módulo.
@@ -750,7 +753,7 @@ const moduloNuevaCompra = (contenedor) => {
 };
 
 /** Comportamiento de la navegación */
-const navegacion = () => {
+export const navegacion = (main: HTMLElement) => {
   $('a[role="navegacion"]').each((_i, enlace) => {
     enlace.addEventListener("click", (e) => {
       /** @type {HTMLAnchorElement} */

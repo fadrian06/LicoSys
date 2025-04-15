@@ -1,6 +1,9 @@
 // @ts-nocheck
 /** @typedef {import('./funciones')} */
 
+import { actualizarMonedas, menu, reajustar } from "./funciones";
+import { navegacion } from "./navegacion";
+
 /*=====================================
 =            DECLARACIONES            =
 =====================================*/
@@ -27,7 +30,7 @@ if (document.body.offsetWidth < 600) $("#temario").addClass("w3-small");
 
 reajustar();
 menu();
-navegacion();
+navegacion(main);
 if (formMonedas) actualizarMonedas(formMonedas);
 if (conversionMonetaria) {
   const valorDolar = Number(conversionMonetaria.valorDolar.value);

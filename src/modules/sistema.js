@@ -1,3 +1,5 @@
+import validar from './validar';
+
 const overlay = w3.getElement("#modalOverlay");
 /*============================
 =            MENU            =

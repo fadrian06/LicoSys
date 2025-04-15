@@ -1,5 +1,7 @@
 // @ts-nocheck
 
+import validar from './validar';
+
 /**
  * @typedef {object} Respuesta Respuesta del servidor
  * @property {string} Respuesta.ok El mensaje de éxito.
@@ -69,7 +71,7 @@ const dropdown = (id) => {
  * Comportamiento de un elemento `<details> para navegadores que no lo soportan`
  * @param  {HTMLElement} details Elemento `<details>`
  */
-const mostrarDetails = (details) => {
+export const mostrarDetails = (details) => {
   if (details) {
     const summary = details.querySelector("summary");
     const flecha = summary.querySelector('[class^="icon-chevron"]');
@@ -85,14 +87,14 @@ const mostrarDetails = (details) => {
 };
 
 /** Reajusta la estructura del LicoSys, dependiendo la resolución. */
-const reajustar = () => {
+export const reajustar = () => {
   if (document.body.offsetWidth < 992) {
     $("main").css("margin-left", "0");
   } else $("main").css("margin-left", "250px");
 };
 
 /** Define el comportamiento de un menú lateral. */
-const menu = () => {
+export const menu = () => {
   /** @type {HTMLButtonElement} */
   const boton = document.querySelector(".icon-bars").parentElement;
   /** @type {HTMLDivElement} */
@@ -815,7 +817,7 @@ const registrarProveedor = (formulario, enlace) => {
  * Funcionalidad de actualizar el valor de las monedas.
  * @param  {HTMLFormElement} formulario El formulario de actualización.
  */
-const actualizarMonedas = (formulario) => {
+export const actualizarMonedas = (formulario) => {
   validar(formulario, (error, fd, e) => {
     if (error) return alerta(error).show();
 
