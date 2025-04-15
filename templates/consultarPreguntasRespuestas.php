@@ -1,5 +1,8 @@
 <?php
-	if (isset($mostrarLogin)):
+
+declare(strict_types=1);
+
+if (isset($mostrarLogin)):
 		$inputCedula = generarINPUT('CEDULA', 'Cédula:', 'Introduce tu cédula');
 		$inputUsuario = generarINPUT('USUARIO', 'Usuario:', '@usuario');
 		echo <<<HTML
@@ -28,4 +31,3 @@
 			</form>
 		HTML;
 	endif;
-?>

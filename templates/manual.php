@@ -1,5 +1,8 @@
 <?php
-	if (isset($mostrarManual)):
+
+declare(strict_types=1);
+
+if (isset($mostrarManual)):
 		/*=========================================
 		=            MANUAL DE USUARIO            =
 		=========================================*/
@@ -162,4 +165,3 @@
 		HTML;
 		generarModal('div', 'manual', $titulo, $contenido);
 	endif;
-?>

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 if ($_POST !== []):
   require __DIR__ . '/conexion.php';
   require __DIR__ . '/funciones.php';

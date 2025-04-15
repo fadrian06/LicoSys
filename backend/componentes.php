@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 $EXPRESIONES = [
   'clave' => '[!#$%&/=?¿¡@+.\-\w]{4,20}'
 ];

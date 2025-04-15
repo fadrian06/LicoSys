@@ -1,5 +1,8 @@
 <?php
-	if(!empty($mostrarRegistro)):
+
+declare(strict_types=1);
+
+if(!empty($mostrarRegistro)):
 		$label = '<b>Cédula:</b> <sup class="w3-text-red">(requerido)</sup>';
 		$inputCedula = generarINPUT('CEDULA', $label, 'Introduce tu cédula');
 		
@@ -60,4 +63,3 @@
 			</form>
 		HTML;
 	endif;
-?>

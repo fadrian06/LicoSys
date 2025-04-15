@@ -1,21 +1,23 @@
 <?php
+  declare(strict_types=1);
+
   session_start();
-  
+
   if (!isset($_SESSION['activa'])) {
     header('location: ../salir.php');
   }
-  
+
   require __DIR__ . '/../backend/componentes.php';
   require __DIR__ . '/../backend/conexion.php';
   require __DIR__ . '/../backend/funciones.php';
-  
+
   echo LOADER;
   echo '<div id="moduloNuevaVenta">';
   /*===========================================
   =            SELECCIONAR CLIENTE            =
   ===========================================*/
   $clientes = getRegistros('SELECT id, cedula, nombre FROM clientes ORDER BY cedula');
-  
+
   $cliente = [
     'id' => '',
     'cedula' => '',
@@ -24,7 +26,7 @@
   if (!empty($_SESSION['clienteID'])) {
     $cliente = getRegistro('SELECT * FROM clientes WHERE id=' . $_SESSION['clienteID']);
   }
-  
+
   $botonesClientes = '';
   foreach ($clientes as $cliente):
     $display = $cliente['id'] == 3
@@ -36,7 +38,7 @@
       </button>
     HTML;
   endforeach;
-  
+
   $mostrarLista = isset($_SESSION['clienteID'])
     ? ''
     : 'w3-hide';
@@ -82,7 +84,7 @@
       </div>
     </section>
   HTML;
-  
+
   /*===================================
   =            DATOS VENTA            =
   ===================================*/
@@ -98,7 +100,7 @@
   echo <<<HTML
     </section>
   HTML;
-  
+
   /*============================================
   =            SELECCIONAR PRODUCTO            =
   ============================================*/
@@ -114,7 +116,7 @@
   if (!empty($_SESSION['productoID'])) {
     $producto = getRegistro('SELECT * FROM inventario WHERE id=' . $_SESSION['productoID']);
   }
-  
+
   $botonesProductos = '';
   foreach ($productos as $producto)
     $botonesProductos .= <<<HTML
@@ -122,7 +124,7 @@
         {$producto['producto']}
       </button>
     HTML;
-    
+
   $mostrarLista = isset($_SESSION['productoID'])
     ? ''
     : 'w3-hide';
@@ -221,12 +223,12 @@
       </div>
     </section>
   HTML;
-  
+
   /*========================================
   =            CARRITO DE VENTA            =
   ========================================*/
   $carrito = getRegistros('SELECT * FROM carrito_venta');
-  
+
   $filasProductos = '';
   $i = 997;
   $totalCarrito = 0;
@@ -237,11 +239,11 @@
     $total = $producto['total_iva'] > 0
       ? sprintf("%s <sub class='w3-text-green'>+%s IVA</sub>", $producto['total_iva'], $calculoIVA)
       : $producto['precio_total'];
-    
+
     $precioBS = round($producto['precio_base'] * getDolar(), 2);
     $precioPesos = (int) ($producto['precio_base'] * getPeso());
     $tooltipPrecio = generarTooltip(sprintf('Bs. %s<br>%d pesos', $precioBS, $precioPesos), false);
-    
+
     $precioBS = round((float) $total * getDolar(), 2);
     $precioPesos = (int) ((float) $total * getPeso());
     $tooltipTotal = generarTooltip(sprintf('Bs. %s<br>%d pesos', $precioBS, $precioPesos), false);
@@ -279,7 +281,7 @@
     HTML;
     --$i;
   endforeach;
-  
+
   if ($carrito !== null && $carrito !== []):
     $precioBS = round($totalCarrito * getDolar(), 2);
     $precioPesos = (int) ($totalCarrito * getPeso());
@@ -318,18 +320,18 @@
       </section>
     HTML;
   endif;
-  
+
   echo '<br><br><br><br><br><br><br><br><br><br>';
-  
+
   /*=========================================
   =            REGISTRAR CLIENTE            =
   =========================================*/
   $label = '<b>Cédula: </b><sup class="w3-text-red">(requerido)</sup>';
   $inputCedula = generarINPUT('CEDULA', $label, 'Cédula del cliente');
-  
+
   $label = '<b>Nombre: </b><sup class="w3-text-red">(requerido)</sup>';
   $inputNombre = generarINPUT('NOMBRE', $label, 'Nombre del cliente');
-  
+
   echo <<<HTML
     <form id="registrarCliente" autocomplete="off" class="modal w3-white w3-card w3-round-large animate__animated animate__fadeInUp animate__faster w3-hide">
       <div class="w3-right-align">
@@ -350,7 +352,7 @@
       </section>
     </form>
   HTML;
-  
+
   /*==========================================
   =            REGISTRAR PRODUCTO            =
   ==========================================*/
@@ -387,7 +389,7 @@
       </section>
     </form>
   HTML;
-  
+
   $productosEnCarrito = count($carrito);
   echo sprintf("<span class='w3-hide' id='cantidadProductosEnCarrito'>%s</span>", $productosEnCarrito);
   echo '</div>';

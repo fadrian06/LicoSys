@@ -1,5 +1,8 @@
 <?php
-	if (isset($mostrarSoporteTecnico)):
+
+declare(strict_types=1);
+
+if (isset($mostrarSoporteTecnico)):
 		/*=======================================
 		=            SOPORTE TÉCNICO            =
 		=======================================*/
@@ -75,4 +78,3 @@
 		HTML;
 		generarModal('div', 'soporte', 'Soporte Técnico', $contenido);
 	endif;
-?>

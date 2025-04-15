@@ -1,18 +1,20 @@
 <?php
+  declare(strict_types=1);
+
   session_start();
-  
+
   if (!isset($_SESSION['activa'])) {
     header('location: ../salir.php');
   }
-  
+
   if ($_SESSION['cargo'] === 'a'):
     require __DIR__ . '/../backend/componentes.php';
     require __DIR__ . '/../backend/conexion.php';
     require __DIR__ . '/../backend/funciones.php';
-    
+
     echo LOADER;
     echo '<div id="moduloNuevaCompra">';
-    
+
     /*=============================================
     =            SELECCIONAR PROVEEDOR            =
     =============================================*/
@@ -22,11 +24,11 @@
       'rif' => '',
       'nombre' => 'No especificado',
     ];
-    
+
     if (!empty($_SESSION['proveedorID'])) {
       $proveedor = getRegistro('SELECT * FROM proveedores WHERE id=' . $_SESSION['proveedorID']);
     }
-    
+
     $botonesProveedores = '';
     foreach ($proveedores as $proveedor)
       $botonesProveedores .= <<<HTML
@@ -34,11 +36,11 @@
           <span>{$proveedor['rif']}</span>
         </button>
       HTML;
-    
+
     $mostrarLista = isset($_SESSION['proveedorID'])
       ? ''
       : 'w3-hide';
-      
+
     echo <<<HTML
       <section class="w3-row w3-padding-large w3-bottombar w3-round-large">
         <h2 class="w3-xlarge">Datos del <b>Proveedor</b></h2>
@@ -98,7 +100,7 @@
         </div>
       </section>
     HTML;
-    
+
     /*==========================================
     =            DATOS DE LA COMPRA            =
     ==========================================*/
@@ -114,7 +116,7 @@
     echo <<<HTML
       </section>
     HTML; 
-    
+
     /*============================================
     =            SELECCIONAR PRODUCTO            =
     ============================================*/
@@ -130,7 +132,7 @@
     if (!empty($_SESSION['productoID'])) {
       $producto = getRegistro('SELECT * FROM inventario WHERE id=' . $_SESSION['productoID']);
     }
-    
+
     $botonesProductos = '';
     foreach ($productos as $producto)
       $botonesProductos .= <<<HTML
@@ -138,7 +140,7 @@
           {$producto['producto']}
         </button>
       HTML;
-    
+
     $mostrarLista = isset($_SESSION['productoID'])
       ? ''
       : 'w3-hide';
@@ -237,8 +239,8 @@
         </div>
       </section>
     HTML; 
-    
-    
+
+
     /*=========================================
     =            CARRITO DE COMPRA            =
     =========================================*/
@@ -247,14 +249,14 @@
       FROM carrito_compra c INNER JOIN inventario i ON c.producto_id=i.id
     SQL;
     $carrito = getRegistros($sql);
-    
+
     $filasProductos = '';
     $totalCarrito = 0;
     foreach ($carrito as $producto):
       $precioBS = round($producto['precio'] * getDolar(), 2);
       $precioPesos = (int) ($producto['precio'] * getPeso());
       $tooltipPrecio = generarTooltip(sprintf('Bs. %s<br>%d pesos', $precioBS, $precioPesos), false);
-      
+
       $precioBS = round((float) $producto['precio_total'] * getDolar(), 2);
       $precioPesos = (int) ((float) $producto['precio_total'] * getPeso());
       $tooltipTotal = generarTooltip(sprintf('Bs. %s<br>%d pesos', $precioBS, $precioPesos), false);
@@ -291,7 +293,7 @@
         </tr>
       HTML;
     endforeach;
-    
+
     if ($carrito !== null && $carrito !== []):
       $precioBS = round($totalCarrito * getDolar(), 2);
       $precioPesos = (int) ($totalCarrito * getPeso());
@@ -330,16 +332,16 @@
         </section>
       HTML;
     endif;  
-    
+
     /*===========================================
     =            REGISTRAR PROVEEDOR            =
     ===========================================*/
     $label = '<b>RIF: </b><sup class="w3-text-red">(requerido)</sup>';
     $inputRIF = generarINPUT('RIF', $label, 'RIF del proveedor');
-    
+
     $label = '<b>Nombre: </b><sup class="w3-text-red">(requerido)</sup>';
     $inputNombre = generarINPUT('NOMBRE_NEGOCIO', $label, 'Nombre del proveedor');
-    
+
     echo <<<HTML
       <form id="registrarProveedor" autocomplete="off" class="modal w3-white w3-card w3-round-large animate__animated animate__fadeInUp animate__faster w3-hide">
         <div class="w3-right-align">
@@ -360,7 +362,7 @@
         </section>
       </form>
     HTML; 
-    
+
     /*==========================================
     =            REGISTRAR PRODUCTO            =
     ==========================================*/
@@ -397,9 +399,9 @@
         </section>
       </form>
     HTML; 
-    
+
     echo '<br><br><br><br><br><br><br><br><br><br>';
-    
+
     $productosEnCarrito = count($carrito);
     echo sprintf("<span class='w3-hide' id='cantidadProductosEnCarrito'>%s</span>", $productosEnCarrito);
     echo '</div>';

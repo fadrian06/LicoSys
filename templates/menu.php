@@ -1,4 +1,8 @@
-<?php if (isset($mostrarMenu)): ?>
+<?php
+
+declare(strict_types=1);
+
+if (isset($mostrarMenu)): ?>
 	<!--====================================
 	=            BARRA SUPERIOR            =
 	=====================================-->

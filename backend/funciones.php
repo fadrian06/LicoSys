@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * Genera una tabla con los datos que le proporcionen.
  * @param string $titulo El título de la tabla.

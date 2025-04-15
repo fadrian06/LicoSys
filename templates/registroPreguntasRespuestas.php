@@ -1,5 +1,8 @@
 <?php
-	if (!empty($mostrarRegistro)):
+
+declare(strict_types=1);
+
+if (!empty($mostrarRegistro)):
 		$inputPRE1 = generarINPUT('pre1', 'Pregunta 1:', 'Cree una pregunta');
 		$inputPRE2 = generarINPUT('pre2', 'Pregunta 2:', 'Cree una pregunta');
 		$inputPRE3 = generarINPUT('pre3', 'Pregunta 3:', 'Cree una pregunta');
@@ -47,4 +50,3 @@
 			</form>
 		HTML;
 	endif;
-?>

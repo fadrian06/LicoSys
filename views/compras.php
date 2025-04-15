@@ -1,9 +1,11 @@
 <?php
+  declare(strict_types=1);
+
   session_start();
   if (!isset($_SESSION['activa'])) {
     header('location: ../salir.php');
   }
-  
+
   if ($_SESSION['cargo'] === 'a'):
     require __DIR__ . '/../backend/componentes.php';
     require __DIR__ . '/../backend/conexion.php';

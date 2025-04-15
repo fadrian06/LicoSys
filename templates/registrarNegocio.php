@@ -1,5 +1,8 @@
 <?php
-	if(!empty($mostrarRegistro)):
+
+declare(strict_types=1);
+
+if(!empty($mostrarRegistro)):
 		$label = '<b>Nombre:</b> <sup class="w3-text-red">(requerido)</sup>';
 		$inputNombre = generarINPUT('NOMBRE_NEGOCIO', $label, 'Nombre del negocio');
 		
@@ -52,4 +55,3 @@
 			</form>
 		HTML;
 	endif;
-?>

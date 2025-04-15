@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 if ($_POST !== []):
   session_start();
   require_once __DIR__ . '/conexion.php';

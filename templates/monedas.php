@@ -1,4 +1,8 @@
-<?php if (isset($_SESSION['activa'])): ?>
+<?php
+
+declare(strict_types=1);
+
+if (isset($_SESSION['activa'])): ?>
 	<section class="w3-half w3-container w3-padding-24">
 		<h2 class="w3-large">Datos Financieros</h2>
 		<table id="tablaMonedas" class="w3-table w3-bordered w3-border w3-hoverable w3-white">

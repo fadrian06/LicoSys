@@ -1,5 +1,8 @@
 <?php
-	if (isset($_SESSION['showQuestions'])):
+
+declare(strict_types=1);
+
+if (isset($_SESSION['showQuestions'])):
 		$inputRES1 = generarINPUT('res1', $_SESSION['pre1'] . '?', '', '');
 		$inputRES2 = generarINPUT('res2', $_SESSION['pre2'] . '?', '', '');
 		$inputRES3 = generarINPUT('res3', $_SESSION['pre3'] . '?', '', '');
@@ -37,4 +40,3 @@
 			</form>
 		HTML;
 	endif;
-?>

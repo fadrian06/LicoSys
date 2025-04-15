@@ -1,5 +1,8 @@
 <?php
-	if (isset($_SESSION['changePassword'])):
+
+declare(strict_types=1);
+
+if (isset($_SESSION['changePassword'])):
 		$inputClave = generarINPUT('CLAVE', 'Nueva Contraseña:');
 		$inputConfirmar = generarINPUT('CONFIRMAR', 'Confirmar Contraseña:');
 		$sql = <<<SQL
@@ -35,4 +38,3 @@
 			</form>
 		HTML;
 	endif;
-?>

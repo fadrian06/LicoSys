@@ -1,8 +1,11 @@
 <?php
-	/*=================================
+
+declare(strict_types=1);
+
+/*=================================
 	=            ACERCA DE            =
 	=================================*/
-	if (!empty($negocios) && !empty($admin)):
+if (!empty($negocios) && !empty($admin)):
 		$titulo = 'Acerca de <small>LicoSys</small>';
 		$contenido = <<<HTML
 			<div class="w3-row">
@@ -69,4 +72,3 @@
 		
 		generarModal('div', 'acercaDe', $titulo, $contenido);
 	endif;
-?>

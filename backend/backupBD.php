@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 session_start();
 require __DIR__ . '/conexion.php';
 require __DIR__ . '/funciones.php';
@@ -28,7 +30,7 @@ if (!empty($_POST['respaldar'])):
       $texto .= "TRUNCATE TABLE {$tabla};\n";
 
       // ITERAR SOBRE LOS CAMPOS
-      for ($i = 0; $i < $columnas; $i++):
+      for ($i = 0; $i < $columnas; ++$i):
         while ($fila = $resultado->fetch_assoc()):
           $texto .= sprintf('INSERT INTO %s VALUES(', $tabla);
           $j = 0;
@@ -60,7 +62,7 @@ if (!empty($_POST['respaldar'])):
               $texto .= ", ";
             }
 
-            $j++;
+            ++$j;
           endforeach;
 
           $texto .= ");\n\n";

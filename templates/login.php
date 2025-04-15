@@ -1,4 +1,8 @@
-<?php if (isset($mostrarLogin)): ?>
+<?php
+
+declare(strict_types=1);
+
+if (isset($mostrarLogin)): ?>
 	<main class="w3-row w3-animate-zoom" id="mainLogin">
 		<?=LOADER?>
 		<!--===================================
