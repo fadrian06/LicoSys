@@ -34,7 +34,7 @@ try {
 
 /*----------  Instala la Base de Datos  ----------*/
 if (array_key_exists('instalarBD', $_POST)) {
-  $sql = file_get_contents(__DIR__ . '/../database/init.sql');
+  $sql = file_get_contents(__DIR__ . '/../database/init.mysql.sql');
 
   exit($conexion->multi_query($sql ?: '') ? 'true' : $conexion->error);
 }
