@@ -13,7 +13,7 @@ if (Session::has('activa')) {
   header('location: dashboard.php');
 }
 
-include __DIR__ . '/templates/head.php';
+include BASE_DIR . '/templates/head.php';
 
 if (!empty(Session::get('userID'))) {
   Session::set('userID', $admin['id']);

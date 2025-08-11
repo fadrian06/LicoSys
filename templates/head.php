@@ -5,9 +5,9 @@ declare(strict_types=1);
 use Leaf\Http\Session;
 
 require_once __DIR__ . '/../vendor/autoload.php';
-require_once __DIR__ . '/../backend/componentes.php';
-require_once __DIR__ . '/../backend/conexion.php';
-require_once __DIR__ . '/../backend/funciones.php';
+require_once BASE_DIR . '/backend/componentes.php';
+require_once BASE_DIR . '/backend/conexion.php';
+require_once BASE_DIR . '/backend/funciones.php';
 
 /*=================================================
 =            VARIABLES PREESTABLECIDAS            =

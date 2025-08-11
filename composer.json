@@ -37,6 +37,7 @@
   "autoload": {
     "psr-4": {
       "LicoSys\\": "src"
-    }
+    },
+    "files": ["bootstrap.php"]
   }
 }
