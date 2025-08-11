@@ -46,4 +46,15 @@
     "SublimeLinter.linters.phpmd.disable": false,
     "SublimeLinter.linters.phpmd.rulesets": "${project_path}/phpmd.xml",
   },
+  "connections": {
+    "licosys-mysql": {
+      "type": "mysql",
+      "host": "localhost",
+      "port": 3306,
+      "database": "licosys",
+      "username": "root",
+      "password": "",
+      "encoding": "utf-8"
+    },
+  }
 }
