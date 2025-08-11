@@ -1,7 +1,7 @@
 {
   "devDependencies": {
-    "@biomejs/biome": "1.9.4",
-    "esbuild": "^0.25.2",
+    "@biomejs/biome": "^2.1.4",
+    "esbuild": "^0.25.8",
     "nib": "^1.2.0",
     "stylus": "^0.64.0"
   },
