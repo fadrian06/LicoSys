@@ -1,6 +1,14 @@
 /** @typedef {import('./funciones')} */
 
-import validar from './validar';
+import actualizarImagen from "./actualizarImagen";
+import {
+  ajax,
+  alerta,
+  mostrarLoader,
+  notificacion,
+  ocultarLoader,
+} from "./funciones";
+import validar from "./validar";
 
 /*=====================================
 =            DECLARACIONES            =
@@ -17,7 +25,7 @@ const image = form.querySelector(".image-result");
 =            EJECUCIÓN DE FUNCIONES            =
 ==============================================*/
 actualizarImagen(inputFile, image, (error) => {
-  if (error) return alerta(error).show()
+  if (error) return alerta(error).show();
 });
 
 validar(form, (error, fd, e) => {
@@ -29,19 +37,21 @@ validar(form, (error, fd, e) => {
   fd.append(inputFile.id, inputFile.files[0]);
 
   ajax("backend/registrarNegocio.php", fd, (res) => {
-    /** @type {Respuesta} */
+    /** @type {import("./funciones").Respuesta} */
     const respuesta = JSON.parse(res);
 
-    if (respuesta.error)
-      return alerta(respuesta.error)
-        .on("afterClose", () => ocultarLoader(form))
-        .show();
+    if (respuesta.error) {
+      const alertaError = alerta(respuesta.error);
+      alertaError.on("afterClose", () => ocultarLoader(form));
+
+      return alertaError.show();
+    }
 
     ocultarLoader(form);
 
-    return notificacion(respuesta.ok)
-      .on("onClose", () => location.reload())
-      .show();
+    const alertaExito = notificacion(respuesta.ok);
+    alertaExito.on("onClose", () => location.reload());
+    alertaExito.show();
   });
 });
 /*=====  End of EJECUCIÓN DE FUNCIONES  ======*/

@@ -1,6 +1,16 @@
 /** @typedef {import('./funciones')} */
 
-import validar from './validar';
+import {
+  ajax,
+  alerta,
+  confirmar,
+  labelPreguntas,
+  mostrarLoader,
+  notificacion,
+  ocultarLoader,
+  verClave,
+} from "./funciones";
+import validar from "./validar";
 
 /*=====================================
 =            DECLARACIONES            =
@@ -8,23 +18,24 @@ import validar from './validar';
 /** @type {HTMLFormElement} */
 const form = document.querySelector("#registrarPreguntasRespuestas");
 
-/** @param  {RespuestaCruda} res */
+/** @param  {import("./funciones").RespuestaCruda} res */
 function recibirRespuesta(res) {
-  /** @type {Respuesta} */
+  /** @type {import("./funciones").Respuesta} */
   const respuesta = JSON.parse(res);
 
-  if (respuesta.error)
-    return alerta(respuesta.error)
-      .on("afterClose", () => ocultarLoader(form))
-      .show();
+  if (respuesta.error) {
+    const alertaError = alerta(respuesta.error);
+    alertaError.on("afterClose", () => ocultarLoader(form));
+    return alertaError.show();
+  }
 
   ocultarLoader(form);
 
   Noty.closeAll();
 
-  return notificacion("Registro exitoso.")
-    .on("onClose", () => location.reload())
-    .show();
+  const alertaExito = notificacion("Registro exitoso.");
+  alertaExito.on("onClose", () => location.reload());
+  alertaExito.show();
 }
 /*=====  End of DECLARACIONES  ======*/
 

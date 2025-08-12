@@ -1,8 +1,15 @@
-// @ts-nocheck
 /** @typedef {import('./funciones')} */
 /** @typedef {import('./login')} */
 
-import validar from './validar';
+import {
+  ajax,
+  alerta,
+  modal,
+  mostrarModal,
+  notificacion,
+  verClave,
+} from "./funciones";
+import validar from "./validar";
 
 /*=====================================
 =            DECLARACIONES            =
@@ -32,12 +39,15 @@ validar(formConsulta, (error, fd, e) => {
   formConsulta.classList.add("showLoader");
   fd.append("consultar", true);
   ajax("backend/recuperarClave.php", fd, (res) => {
-    /** @type {Respuesta} */
+    /** @type {import("./funciones").Respuesta} */
     const datos = JSON.parse(res);
-    if (datos.error)
-      return alerta(datos.error)
-        .on("onShow", () => formConsulta.classList.remove("showLoader"))
-        .show();
+    if (datos.error) {
+      const alertaError = alerta(datos.error);
+      alertaError.on("onShow", () =>
+        formConsulta.classList.remove("showLoader"),
+      );
+      return alertaError.show();
+    }
 
     formConsulta.classList.remove("showLoader");
     location.reload();
@@ -69,14 +79,16 @@ if (formPreguntasRespuestas) {
     formPreguntasRespuestas.classList.add("showLoader");
     fd.append("verificarRespuestas", true);
     return ajax("backend/recuperarClave.php", fd, (res) => {
-      /** @type {Respuesta} */
+      /** @type {import("./funciones").Respuesta} */
       const datos = JSON.parse(res);
-      if (datos.error)
-        return alerta(datos.error)
-          .on("onShow", () => {
-            formPreguntasRespuestas.classList.remove("showLoader");
-          })
-          .show();
+      if (datos.error) {
+        const alertaError = alerta(datos.error);
+        alertaError.on("onShow", () => {
+          formPreguntasRespuestas.classList.remove("showLoader");
+        });
+
+        return alertaError.show();
+      }
 
       formPreguntasRespuestas.classList.remove("showLoader");
       location.reload();
@@ -100,17 +112,22 @@ if (formClave) {
     formClave.classList.add("showLoader");
     fd.append("cambiarClave", true);
     return ajax("backend/recuperarClave.php", fd, (res) => {
-      /** @type {Respuesta} */
+      /** @type {import("./funciones").Respuesta} */
       const datos = JSON.parse(res);
 
-      if (datos.error)
-        return alerta(datos.error)
-          .on("onShow", () => formClave.classList.remove("showLoader"))
-          .show();
+      if (datos.error) {
+        const alertaError = alerta(datos.error);
+        alertaError.on("onShow", () =>
+          formClave.classList.remove("showLoader"),
+        );
+
+        return alertaError.show();
+      }
 
       formClave.classList.remove("showLoader");
       notificacion("Contraseña actualizada exitósamente.").show();
-      return formClave.querySelector(".icon-close").click();
+
+      return formClave.querySelector(".icon-close")?.click();
     });
   });
 }

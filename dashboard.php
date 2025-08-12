@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 use Leaf\Http\Session;
-use LicoSys\Enums\BOTONES;
+use LicoSys\Enums\Botones;
 
 require_once __DIR__ . '/vendor/autoload.php';
 
@@ -15,35 +15,14 @@ include __DIR__ . '/templates/head.php';
 
 $versiones = getRegistros('SELECT * FROM versiones ORDER BY id DESC');
 
-$data = /*getAPI(
-  'https://s3.amazonaws.com/dolartoday/data.json',
-  __DIR__ . '/storage/dolarToday.json'
-)*/ [
-  '_timestamp' => [
-    'fecha' => null,
-  ],
-  'USD' => [
-    'transferencia' => null,
-    'efectivo' => null,
-  ],
-];
-
-$dolarFecha = $data['_timestamp']['fecha'];
-$dolarT     = $data['USD']['transferencia'];
-$dolarE     = $data['USD']['efectivo'];
-
-$data = /*getAPI(
-  'https://api.exchangedyn.com/markets/quotes/usdves/bcv',
+$data = getAPI(
+  'https://pydolarve.org/api/v2/tipo-cambio',
   __DIR__ . '/storage/bcv.json'
-)*/ [
-  'sources' => [
-    'BCV' => [
-      'quote' => 0,
-    ],
-  ],
-];
+);
 
-$dolarBCV = round($data['sources']['BCV']['quote'], 2);
+$dolarFecha = $data['datetime']['date'];
+$dolarBCV = round($data['monitors']['usd']['price'], 2);
+$euro = round($data['monitors']['eur']['price'], 2);
 $negocioId = Session::get('negocioID');
 
 $sql = <<<SQL
@@ -205,10 +184,9 @@ $cantidadProductos = consulta($sql);
           </td>
         </tr>
         <tr>
-          <td>DÓLAR (Bs.)</td>
+          <td>DIVISAS (Bs.)</td>
           <td><b><i class="w3-small">BCV </i><?= $dolarBCV ?></b></td>
-          <td><b><i class="w3-small">Transferencia </i><?= $dolarT ?></b></td>
-          <td><b><i class="w3-small">Efectivo </i><?= $dolarE ?></b></td>
+          <td><b><i class="w3-small">Euro </i><?= $euro ?></b></td>
         </tr>
       </table>
     </section>

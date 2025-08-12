@@ -33,7 +33,6 @@ if (isset($mostrarLogin)) : ?>
     =====================================================-->
     <form
       id="login"
-      autocomplete="off"
       class="
         w3-padding w3-rest w3-white w3-topbar w3-bottombar w3-rightbar
         w3-leftbar w3-border-black w3-round-xlarge

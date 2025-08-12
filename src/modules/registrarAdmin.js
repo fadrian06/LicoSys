@@ -1,6 +1,15 @@
 /** @typedef {import('./funciones')} */
 
-import validar from './validar';
+import actualizarImagen from "./actualizarImagen";
+import {
+  ajax,
+  alerta,
+  mostrarLoader,
+  notificacion,
+  ocultarLoader,
+  verClave,
+} from "./funciones";
+import validar from "./validar";
 
 /*=====================================
 =            DECLARACIONES            =
@@ -30,19 +39,21 @@ validar(form, (error, fd, e) => {
   fd.append(inputFile.id, inputFile.files[0]);
   fd.append("cargo", "a");
   ajax("backend/registrarUsuario.php", fd, (res) => {
-    /** @type {Respuesta} */
+    /** @type {import("./funciones").Respuesta} */
     const respuesta = JSON.parse(res);
 
-    if (respuesta.error)
-      return alerta(respuesta.error)
-        .on("afterClose", () => ocultarLoader(form))
-        .show();
+    if (respuesta.error) {
+      const alertaError = alerta(respuesta.error);
+      alertaError.on("afterClose", () => ocultarLoader(form));
+
+      return alertaError.show();
+    }
 
     ocultarLoader(form);
 
-    return notificacion(respuesta.ok)
-      .on("afterClose", () => location.reload())
-      .show();
+    const alertaExito = notificacion(respuesta.ok);
+    alertaExito.on("afterClose", () => location.reload());
+    alertaExito.show();
   });
 });
 /*=====  End of EJECUCIÓN DE FUNCIONES  ======*/

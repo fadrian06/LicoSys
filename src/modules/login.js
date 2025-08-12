@@ -1,6 +1,6 @@
 /** @typedef {import('./funciones')} */
 
-import { verClave } from './funciones';
+import { ajax, alerta, verClave } from "./funciones";
 import { reloj } from "./reloj";
 import validar from "./validar";
 
@@ -45,22 +45,23 @@ form.usuario.addEventListener("blur", () => {
 
   const post = { verificarUsuario: true, usuario: form.usuario.value };
   $.post("backend/login.php", post, (res) => {
-    /** @type {Respuesta} */
+    /** @type {import("./funciones").Respuesta} */
     const datos = JSON.parse(res);
 
-    if (datos.error)
-      return alerta(datos.error)
-        .on("onShow", () => {
-          usuarioLoader.classList.remove("w3-show");
-          usuarioLoader.classList.add("w3-hide");
-          form.usuario.parentElement.parentElement.classList.remove("valido");
-          form.usuario.parentElement.parentElement.classList.add("invalido");
-        })
-        .show();
+    if (datos.error) {
+      const alertaError = alerta(datos.error);
+      alertaError.on("onShow", () => {
+        usuarioLoader.classList.remove("w3-show");
+        usuarioLoader.classList.add("w3-hide");
+        form.usuario.parentElement.parentElement.classList.remove("valido");
+        form.usuario.parentElement.parentElement.classList.add("invalido");
+      });
+      return alertaError.show();
+    }
 
     const spinner = usuarioLoader.querySelector("i");
-    spinner.classList.remove("icon-spinner", "w3-spin");
-    spinner.classList.add("icon-check", "w3-text-green");
+    spinner?.classList.remove("icon-spinner", "w3-spin");
+    spinner?.classList.add("icon-check", "w3-text-green");
     form.usuario.parentElement.parentElement.classList.add("valido");
   });
 });
@@ -75,7 +76,7 @@ validar(form, (error, fd, e) => {
 
   fd.append("login", true);
   ajax("backend/login.php", fd, (res) => {
-    /** @type {Respuesta} */
+    /** @type {import("./funciones").Respuesta} */
     const datos = JSON.parse(res);
 
     if (datos.error) {
@@ -92,16 +93,17 @@ validar(form, (error, fd, e) => {
          */
         intentos = 0;
       }
-      return alerta(text)
-        .on("onShow", () => form.classList.remove("showLoader"))
-        .show();
+      const alertaError = alerta(text);
+      alertaError.on("onShow", () => form.classList.remove("showLoader"));
+      return alertaError.show();
     }
 
     form.classList.remove("showLoader");
 
     let href = location.href;
 
-    form.parentElement.classList.add("showLoader");
+    form.parentElement?.classList.add("showLoader");
+
     if (!href.indexOf("index.php")) {
       location.href += "dashboard.php";
 

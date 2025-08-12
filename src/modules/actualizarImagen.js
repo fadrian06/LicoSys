@@ -6,9 +6,9 @@
  * </ul>
  * @param  {HTMLInputElement} input `<input type="file">`
  * @param  {HTMLImageElement} image La `<img>` a actualizar
- * @param {(error: string)} [cb] Una función que se ejecuta si algo sale mal. <i>(opcional)</i>
+ * @param {(error?: string) => void} [cb] Una función que se ejecuta si algo sale mal. <i>(opcional)</i>
  */
-const actualizarImagen = (input, image, cb = () => {}) => {
+export default function actualizarImagen(input, image, cb = () => {}) {
   input.onchange = () => {
     const file = input.files[0];
     if (
@@ -29,4 +29,4 @@ const actualizarImagen = (input, image, cb = () => {}) => {
       return cb();
     };
   };
-};
+}

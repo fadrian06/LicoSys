@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use Leaf\Http\Session;
+use LicoSys\Enums\NombreInput;
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
@@ -54,7 +55,6 @@ if (Session::has('activa')) : ?>
   <?php if (Session::get('cargo') === 'a') : ?>
     <form
       id="actualizarMonedas"
-      autocomplete="off"
       class="modal w3-white w3-card w3-round-large animate__animated animate__fadeInUp animate__faster w3-hide">
       <div class="w3-right-align">
         <span class="icon-close w3-button w3-transparent w3-hover-red"></span>

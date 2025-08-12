@@ -1,7 +1,6 @@
-// @ts-nocheck
 /** @typedef {import('./funciones')} */
 
-import { actualizarMonedas, menu, reajustar } from "./funciones";
+import { actualizarMonedas, menu, reajustar, modal } from "./funciones";
 import { navegacion } from "./navegacion";
 
 /*=====================================
@@ -10,17 +9,18 @@ import { navegacion } from "./navegacion";
 /** @type {HTMLDivElement} */
 const overlay = document.querySelector(".w3-overlay");
 /** @type {HTMLButtonElement} */
-const barras = document.querySelector(".icon-bars").parentElement;
-/** @type {HTMLElement} [description] */
+const barras = document.querySelector(".icon-bars")?.parentElement;
+/** @type {HTMLElement} */
 const menuLateral = document.querySelector("#menu");
 /** @type {HTMLButtonElement} */
 const btnModenas = document.querySelector("#btn-monedas");
 /** @type {HTMLFormElement} */
 const formMonedas = document.querySelector("#actualizarMonedas");
 const main = document.querySelector("main");
-const dashboardHTML = main.innerHTML;
-
+const dashboardHTML = main?.innerHTML;
 const conversionMonetaria = document.querySelector("#conversionMonetaria");
+
+globalThis.modal = modal;
 /*=====  End of DECLARACIONES  ======*/
 
 /*==============================================
@@ -32,7 +32,8 @@ reajustar();
 menu();
 navegacion(main);
 if (formMonedas) actualizarMonedas(formMonedas);
-if (conversionMonetaria) {
+if (conversionMonetaria)
+{
   const valorDolar = Number(conversionMonetaria.valorDolar.value);
   const valorPesos = Number(conversionMonetaria.valorPesos.value);
 
@@ -58,12 +59,16 @@ if (conversionMonetaria) {
     resultadoDolar = Number(inputBS.value / valorDolar).toFixed(2);
     resultadoPesos = Number(resultadoDolar * valorPesos).toFixed(0);
 
-    if (Number.isNaN(resultadoDolar) || Number.isNaN(resultadoPesos)) {
-      try {
+    if (Number.isNaN(resultadoDolar) || Number.isNaN(resultadoPesos))
+    {
+      try
+      {
         resultadoBS = Number(eval(inputBS.value)).toFixed(2);
-      } catch (error) {
-        true;
+      } catch (error)
+      {
+        console.error(error);
       }
+
       if (resultadoBS < 0) resultadoBS *= -1;
 
       resultadoDolar = Number(resultadoBS / valorDolar).toFixed(2);
@@ -81,10 +86,13 @@ if (conversionMonetaria) {
     resultadoBS = Number((inputDolar.value * valorDolar).toFixed(2));
     resultadoPesos = Number((inputDolar.value * valorPesos).toFixed(0));
 
-    if (Number.isNaN(resultadoBS) || Number.isNaN(resultadoPesos)) {
-      try {
+    if (Number.isNaN(resultadoBS) || Number.isNaN(resultadoPesos))
+    {
+      try
+      {
         resultadoDolar = Number(eval(inputDolar.value).toFixed(2));
-      } catch (error) {
+      } catch (error)
+      {
         true;
       }
       if (resultadoDolar < 0) resultadoDolar *= -1;
@@ -104,10 +112,13 @@ if (conversionMonetaria) {
     resultadoDolar = Number(inputPesos.value / valorPesos).toFixed(2);
     resultadoBS = Number(resultadoDolar * valorDolar).toFixed(2);
 
-    if (Number.isNaN(resultadoDolar) || Number.isNaN(resultadoBS)) {
-      try {
+    if (Number.isNaN(resultadoDolar) || Number.isNaN(resultadoBS))
+    {
+      try
+      {
         resultadoPesos = eval(inputPesos.value).toFixed(0);
-      } catch (error) {
+      } catch (error)
+      {
         true;
       }
       if (resultadoPesos < 0) resultadoPesos *= -1;

@@ -135,7 +135,7 @@ export const menu = () => {
  * @param  {HTMLElement} modal Contenedor del modal.
  * @param {()} [callback] Función adicional a ejecutar al cerrar el modal.
  */
-const mostrarModal = (modal, callback = () => {}) => {
+export function mostrarModal(modal, callback = () => {}) {
   /** @type {HTMLSpanElement} */
   const cerrar = modal.querySelector(".icon-close");
   /** @type {HTMLDivElement} */
@@ -183,7 +183,7 @@ const mostrarModal = (modal, callback = () => {}) => {
     }, 500);
     callback();
   };
-};
+}
 
 /**
  * Define el comportamiento de un modal.<br>
@@ -195,33 +195,33 @@ const mostrarModal = (modal, callback = () => {}) => {
  * </ul>
  * @param  {HTMLElement} boton El elemento que abre el modal al hacer click o touch.
  */
-const modal = (boton) => {
+export function modal(boton) {
   const selector = boton.getAttribute("data-target");
   const modal = document.querySelector(selector);
   mostrarModal(modal);
-};
+}
 
 /**
  * Opaca el fondo y muestra el loader.
  * @param  {HTMLElement} modal Modal contenedor de algún elemento con `id='loader'`
  */
-const mostrarLoader = (modal) => {
+export function mostrarLoader(modal) {
   const overlay = document.querySelector('[role="modalOverlay"]');
   overlay.classList.remove("w3-hide");
   overlay.classList.add("w3-show");
   modal.classList.add("showLoader");
-};
+}
 
 /**
  * Quita el fondo opaco y el loader.
  * @param  {HTMLElement} modal    Modal contenedor de algún elemento con `id='loader'`
  */
-const ocultarLoader = (modal) => {
+export function ocultarLoader(modal) {
   const overlay = document.querySelector('[role="modalOverlay"]');
   overlay.classList.remove("w3-show");
   overlay.classList.add("w3-hide");
   modal.classList.remove("showLoader");
-};
+}
 
 /**
  * Realiza una petición POST
@@ -229,7 +229,7 @@ const ocultarLoader = (modal) => {
  * @param  {FormData} data    Datos a enviar.
  * @param  {(res: RespuestaCruda)} success Una función que recibe la respuesta del servidor.
  */
-const ajax = (url, data, success) => {
+export function ajax(url, data, success) {
   $.ajax({
     url,
     type: "POST",
@@ -238,7 +238,7 @@ const ajax = (url, data, success) => {
     processData: false,
     success,
   });
-};
+}
 
 /**
  * Muestra u oculta la contraseña
@@ -267,7 +267,7 @@ export const verClave = (ojo, input) => {
  * @param  {(e: Event)} callback Función que se ejecuta al confirmar.
  * @return {Noty} Retorna un objeto Noty activado por defecto.
  */
-const confirmar = (texto, posicion = "center", callback = () => {}) => {
+export function confirmar(texto, posicion = "center", callback = () => {}) {
   const text = `
     <div class="w3-white w3-round-xlarge w3-padding w3-center w3-border" style="z-index: 1000">
       <div class="animate__animated animate__flip animate__infinite icon-question w3-xxxlarge"></div>
@@ -300,29 +300,29 @@ const confirmar = (texto, posicion = "center", callback = () => {}) => {
       },
     },
   }).show();
-};
+}
 
 /**
  * Muestra una alerta :V
  * @param  {string} texto Texto de la alerta.
  * @param {number} timer Milisegundos que deben pasar para ocultar la alerta.
  */
-const alerta = (texto, timer = 2000) => {
+export function alerta(texto, timer = 2000) {
   return new Noty({
     text: `<strong><i class="icon-close w3-margin-right"></i> ${texto}</strong>`,
     type: "error",
     timeout: timer,
   });
-};
+}
 
 /** @param  {string} texto */
-const notificacion = (texto) => {
+export function notificacion(texto) {
   return new Noty({
     text: `<i class="icon-check w3-margin-right"></i> ${texto}`,
     type: "success",
     timeout: 3000,
   });
-};
+}
 
 /** @param  {string} texto */
 const advertencia = (texto) => {
@@ -348,7 +348,7 @@ const informacion = (texto) => {
  * Actualiza una ayuda que vincula cada pregunta con su respectiva respuesta
  * @param  {HTMLFormElement} form El formulario que contiene a los inputs de preguntas y respuestas.
  */
-const labelPreguntas = (form) => {
+export function labelPreguntas(form) {
   form.pre1.addEventListener("keyup", () => {
     const legendRespuesta = form.querySelector(
       `sup[respuesta=${form.res1.id}]`,
@@ -369,7 +369,7 @@ const labelPreguntas = (form) => {
     );
     legendRespuesta.innerText = `(${form.pre3.value})`;
   });
-};
+}
 
 /**
  * Envia la petición al servidor para activar o desactivar un registro.

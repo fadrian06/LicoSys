@@ -161,7 +161,6 @@ namespace {
 
   /**
    * Genera un `<input />` HTML
-   * @deprecated $nombre como string
    * @param  string $label El título del `<input />`
    * @param  string $placeholder El placeholder del input.
    * @param string $value El valor por defecto del `<input />`
@@ -176,6 +175,9 @@ namespace {
     $expresiones = [
       'clave' => '[!#$%&/=?¿¡@+.\-\w]{4,20}',
     ];
+
+    $id = uniqid();
+    $value = $value === 'No establecido' ? "" : $value;
 
     return match ($nombre->name) {
       'CLAVE' => <<<HTML
@@ -231,14 +233,14 @@ namespace {
                 <div class="icon-user-circle-o w3-col s2 w3-xxlarge"></div>
                 <div class="w3-col s10 w3-display-container">
                   <input
-                    id="usuario"
+                    id="usuario-{$id}"
                     name="usuario"
                     placeholder="{$placeholder}"
                     value="{$value}"
                     required
                     minlength="4"
                     maxlength="20"
-                    pattern="^[\w-]{4,20}$"
+                    pattern="[\w\-]{4,20}"
                     title="Sólo se permiten entre 4 y 20 letras, números o guiones(-)"
                     class="w3-input w3-border-0 w3-large" />
                   <div class="w3-display-right w3-xxlarge w3-hide" id="usuarioLoader">
