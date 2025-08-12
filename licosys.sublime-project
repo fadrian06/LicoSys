@@ -25,6 +25,7 @@
         "source.js": "LSP-biome",
         "source.json.biome": "LSP-biome",
         "source.css": "LSP-css",
+        "source.ts": "LSP-biome",
       },
       "LSP-intelephense": {
         "settings": {
@@ -54,7 +55,7 @@
       "database": "licosys",
       "username": "root",
       "password": "",
-      "encoding": "utf-8"
+      "encoding": "utf-8",
     },
-  }
+  },
 }
