@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use Leaf\Http\Session;
+use LicoSys\Enums\BOTONES;
 
 require_once __DIR__ . '/../vendor/autoload.php';
 require_once __DIR__ . '/../backend/componentes.php';
@@ -93,7 +94,7 @@ if (Session::get('cargo') === 'a') :
       </form>
     HTML;
 
-  echo '<footer id="botones">' . BOTONES['REGISTRAR_USUARIO'] . '</footer>';
+  echo '<footer id="botones">' . BOTONES::REGISTRAR_USUARIO->value . '</footer>';
   echo '</div>';
 else :
   include __DIR__ . '/../templates/head.php';

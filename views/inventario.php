@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use Leaf\Http\Session;
+use LicoSys\Enums\BOTONES;
 
 require_once __DIR__ . '/../vendor/autoload.php';
 require_once __DIR__ . '/../backend/componentes.php';
@@ -147,5 +148,5 @@ echo <<<HTML
 /*==========================================
   =            BOTONES INFERIORES            =
   ==========================================*/
-echo '<footer id="botones">' . BOTONES['REGISTRAR_PRODUCTO'] . BOTONES['REGISTRAR_COMBO'] . '</footer>';
+echo '<footer id="botones">' . BOTONES::REGISTRAR_PRODUCTO->value . BOTONES::REGISTRAR_COMBO->value . '</footer>';
 echo '</div>';

@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use Leaf\Http\Session;
+use LicoSys\Enums\BOTONES;
 
 require_once __DIR__ . '/vendor/autoload.php';
 
@@ -313,7 +314,7 @@ $cantidadProductos = consulta($sql);
   include __DIR__ . '/templates/soporteTecnico.php';
   include __DIR__ . '/templates/manual.php';
   ?>
-  <footer id="botones"><?= BOTONES['NUEVA_VENTA'] ?></footer>
+  <footer id="botones"><?= BOTONES::NUEVA_VENTA->value ?></footer>
 </main>
 
 <?php include __DIR__ . '/templates/footer.php';

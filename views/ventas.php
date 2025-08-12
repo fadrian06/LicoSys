@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use Leaf\Http\Session;
+use LicoSys\Enums\BOTONES;
 
 require_once __DIR__ . '/../vendor/autoload.php';
 require_once __DIR__ . '/../backend/componentes.php';
@@ -102,5 +103,5 @@ tabla('Ventas', $encabezados, $datos, 'No hay ventas registradas', false, false,
   ===================================*/
 generarModal('div', 'modalFactura', '', '');
 
-echo '<footer id="botones">' . BOTONES['NUEVA_VENTA'] . '</footer>';
+echo '<footer id="botones">' . BOTONES::NUEVA_VENTA->value . '</footer>';
 echo '</div>';

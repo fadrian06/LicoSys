@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use Leaf\Http\Session;
+use LicoSys\Enums\BOTONES;
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
@@ -52,7 +53,7 @@ if (Session::get('cargo') === 'a') :
   );
 
   if ($datos['filas'] !== []) {
-    echo '<footer id="botones">' . BOTONES['VACIAR_LOG'] . '</footer>';
+    echo '<footer id="botones">' . BOTONES::VACIAR_LOG->value . '</footer>';
   }
 
   echo '</div>';

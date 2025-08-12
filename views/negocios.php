@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use Leaf\Http\Session;
+use LicoSys\Enums\BOTONES;
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
@@ -258,9 +259,9 @@ if (Session::get('cargo') === 'a') :
   endif;
 
   /*=====================================
-    =            BARRA LATERAL            =
-    =====================================*/
-  $botonRegistrar = BOTONES['REGISTRAR_NEGOCIO'];
+  =            BARRA LATERAL            =
+  =====================================*/
+  $botonRegistrar = BOTONES::REGISTRAR_NEGOCIO->value;
   echo <<<HTML
       <div class="w3-col s4 m3 w3-padding-top-64 w3-ul w3-center">
         <ul class="w3-ul w3-card w3-white w3-tiny w3-center">{$botones}</ul>
@@ -357,8 +358,8 @@ if (Session::get('cargo') === 'a') :
           &nbsp;Base de Datos
         </button>
     ',
-  BOTONES['RESPALDAR'],
-  BOTONES['RESTAURAR'],
+  BOTONES::RESPALDAR->value,
+  BOTONES::RESTAURAR->value,
   '</footer>';
   echo '</div>';
 else :
