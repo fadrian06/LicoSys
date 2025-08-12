@@ -3,13 +3,14 @@
 declare(strict_types=1);
 
 use Leaf\Http\Session;
+use LicoSys\Enums\NombreInput;
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
 if (Session::has('showQuestions')) :
-  $inputRES1 = generarINPUT('res1', Session::get('pre1') . '?', '', '');
-  $inputRES2 = generarINPUT('res2', Session::get('pre2') . '?', '', '');
-  $inputRES3 = generarINPUT('res3', Session::get('pre3') . '?', '', '');
+  $inputRES1 = generarInput(NombreInput::res1, Session::get('pre1') . '?', '', '');
+  $inputRES2 = generarInput(NombreInput::res2, Session::get('pre2') . '?', '', '');
+  $inputRES3 = generarInput(NombreInput::res3, Session::get('pre3') . '?', '', '');
   $pre1 = Session::get('pre1');
   $pre2 = Session::get('pre2');
   $pre3 = Session::get('pre3');
@@ -20,7 +21,7 @@ if (Session::has('showQuestions')) :
   ";
 
   $id = getRegistro($sql)['id'] ?? throw new Error('Error al recuperar el ID');
-  $inputID = generarINPUT('ID', '', '', $id);
+  $inputID = generarInput(NombreInput::ID, '', '', $id);
   echo <<<HTML
       <form
         id="preguntasRespuestas"

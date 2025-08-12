@@ -2,11 +2,13 @@
 
 declare(strict_types=1);
 
+use LicoSys\Enums\NombreInput;
+
 require_once __DIR__ . '/../vendor/autoload.php';
 
 if (isset($mostrarLogin)) :
-  $inputCedula = generarINPUT('CEDULA', 'Cédula:', 'Introduce tu cédula');
-  $inputUsuario = generarINPUT('USUARIO', 'Usuario:', '@usuario');
+  $inputCedula = generarInput(NombreInput::CEDULA, 'Cédula:', 'Introduce tu cédula');
+  $inputUsuario = generarInput(NombreInput::USUARIO, 'Usuario:', '@usuario');
   echo <<<HTML
       <form
         id="consultar"

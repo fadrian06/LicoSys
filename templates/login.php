@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+use LicoSys\Enums\NombreInput;
+
 require_once __DIR__ . '/../vendor/autoload.php';
 
 if (isset($mostrarLogin)) : ?>
@@ -76,8 +78,8 @@ if (isset($mostrarLogin)) : ?>
       </section>
       <section class="w3-display-container">
         <i class="w3-spin icon-spinner w3-display-middle w3-jumbo loader"></i>
-        <?= generarINPUT('USUARIO', 'Usuario:', 'Introduzca su usuario') ?>
-        <?= generarINPUT('CLAVE', 'Contraseña:', 'Introduzca su contraseña') ?>
+        <?= generarInput(NombreInput::USUARIO, 'Usuario:', 'Introduzca su usuario') ?>
+        <?= generarInput(NombreInput::CLAVE, 'Contraseña:', 'Introduzca su contraseña') ?>
       </section>
       <section class="w3-panel w3-center">
         <button class="w3-button w3-round-xlarge w3-blue w3-ripple w3-block" style="width: 75%; margin: auto">

@@ -81,17 +81,17 @@ if (Session::has('activa')) : ?>
         $value = getIVA() !== 'No establecido'
           ? floatval(getIVA()) * 100
           : '';
-        echo generarINPUT('IVA', $label, '', strval($value));
+        echo generarInput(NombreInput::IVA, $label, '', strval($value));
 
         $label = getDolar() !== 'No establecido'
           ? 'DÓLAR: (actual) <b class="w3-block w3-margin-left">Bs. ' . getDolar() . '</b>'
           : '<b class="w3-block w3-margin-left">Establecer DÓLAR (en Bs.)</b>';
-        echo generarINPUT('DOLAR', $label, '', strval(getDolar()));
+        echo generarInput(NombreInput::DOLAR, $label, '', strval(getDolar()));
 
         $label = getPeso() !== 'No establecido'
           ? '<b class="w3-block w3-margin-left">' . getPeso() . ' Pesos</b>'
           : '<b class="w3-block w3-margin-left">Establecer PESO (a pesos)</b>';
-        echo generarINPUT('PESO', $label, '', strval(getPeso()));
+        echo generarInput(NombreInput::PESO, $label, '', strval(getPeso()));
         ?>
       </section>
       <section class="w3-panel">

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use Leaf\Http\Session;
 use LicoSys\Enums\BOTONES;
+use LicoSys\Enums\NombreInput;
 
 require_once __DIR__ . '/../vendor/autoload.php';
 require_once __DIR__ . '/../backend/componentes.php';
@@ -50,22 +51,22 @@ if (Session::get('cargo') === 'a') :
   );
 
   $label = '<b>Cédula: </b><sup class="w3-text-red">(requerido)</sup>';
-  $inputCedula = generarINPUT('CEDULA', $label, 'Cédula del empleado');
+  $inputCedula = generarInput(NombreInput::CEDULA, $label, 'Cédula del empleado');
 
   $label = '<b>Nombre: </b><sup class="w3-text-red">(requerido)</sup>';
-  $inputNombre = generarINPUT('NOMBRE', $label, 'Nombre del empleado');
+  $inputNombre = generarInput(NombreInput::NOMBRE, $label, 'Nombre del empleado');
 
   $label = '<b>Usuario: </b><sup class="w3-text-red">(requerido)</sup>';
-  $inputUsuario = generarINPUT('USUARIO', $label, 'Cree un usuario');
+  $inputUsuario = generarInput(NombreInput::USUARIO, $label, 'Cree un usuario');
 
   $label = '<b>Contraseña: </b><sup class="w3-text-red">(requerido)</sup>';
-  $inputClave = generarINPUT('CLAVE', $label, 'Crea una contraseña');
+  $inputClave = generarInput(NombreInput::CLAVE, $label, 'Crea una contraseña');
 
   $label = '<b>Confirmar contraseña: </b><sup class="w3-text-red">(requerido)</sup>';
-  $inputConfirmar = generarINPUT('CONFIRMAR', $label, 'Repite la contraseña');
+  $inputConfirmar = generarInput(NombreInput::CONFIRMAR, $label, 'Repite la contraseña');
 
   $label = '<b>Teléfono: </b><sup class="w3-text-blue">(opcional)</sup>';
-  $inputTelefono = generarINPUT('TELEFONO', $label, 'Introduce un teléfono');
+  $inputTelefono = generarInput(NombreInput::TELEFONO, $label, 'Introduce un teléfono');
   echo <<<HTML
       <form
         id="registrarUsuario"

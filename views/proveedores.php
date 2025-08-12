@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use Leaf\Http\Session;
 use LicoSys\Enums\BOTONES;
+use LicoSys\Enums\NombreInput;
 
 require_once __DIR__ . '/../vendor/autoload.php';
 require_once __DIR__ . '/../backend/componentes.php';
@@ -75,22 +76,22 @@ tabla(
 =            REGISTRAR PROVEEDOR            =
 ===========================================*/
 $label = '<b>Cédula: </b><sup class="w3-text-red">(requerido)</sup>';
-$inputCedula = generarINPUT('CEDULA', $label, 'Cédula de persona');
+$inputCedula = generarInput(NombreInput::CEDULA, $label, 'Cédula de persona');
 
 $label = '<b>Nombre: </b><sup class="w3-text-red">(requirido)</sup>';
-$inputNombre = generarINPUT('NOMBRE', $label, 'Nombre de persona');
+$inputNombre = generarInput(NombreInput::NOMBRE, $label, 'Nombre de persona');
 
 $label = '<b>RIF: </b><sup class="w3-text-red">(requerido)</sup>';
-$inputRIF = generarINPUT('RIF', $label, 'RIF del proveedor');
+$inputRIF = generarInput(NombreInput::RIF, $label, 'RIF del proveedor');
 
 $label = '<b>Nombre: </b><sup class="w3-text-red">(requerido)</sup>';
-$inputNombreEmpresa = generarINPUT('NOMBRE_NEGOCIO', $label, 'Nombre del proveedor');
+$inputNombreEmpresa = generarInput(NombreInput::NOMBRE_NEGOCIO, $label, 'Nombre del proveedor');
 
 $label = '<b>Teléfono: </b><sup class="w3-text-blue">(opcional)</sup>';
-$inputTelefono = generarINPUT('TELEFONO', $label, 'Teléfono de contacto');
+$inputTelefono = generarInput(NombreInput::TELEFONO, $label, 'Teléfono de contacto');
 
 $label = '<b>Dirección: </b><sup class="w3-text-blue">(opcional)</sup>';
-$inputDireccion = generarINPUT('DIRECCION', $label, 'Direccion del proveedor');
+$inputDireccion = generarInput(NombreInput::DIRECCION, $label, 'Direccion del proveedor');
 
 echo <<<HTML
     <form

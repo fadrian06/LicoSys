@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use Leaf\Http\Session;
 use LicoSys\Enums\BOTONES;
+use LicoSys\Enums\NombreInput;
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
@@ -282,16 +283,16 @@ if (Session::get('cargo') === 'a') :
     =            REGISTRAR NEGOCIO            =
     =========================================*/
   $label = '<b>Nombre:</b> <sup class="w3-text-red">(requerido)</sup>';
-  $inputNombre = generarINPUT('NOMBRE_NEGOCIO', $label, 'Nombre del negocio');
+  $inputNombre = generarInput(NombreInput::NOMBRE_NEGOCIO, $label, 'Nombre del negocio');
 
   $label = '<b>RIF:</b> <sup class="w3-text-red">(requerido)</sup>';
-  $inputRIF = generarINPUT('RIF', $label, 'RIF del negocio');
+  $inputRIF = generarInput(NombreInput::RIF, $label, 'RIF del negocio');
 
   $label = '<b>Teléfono:</b> <sup class="w3-text-blue">(opcional)</sup>';
-  $inputTelefono = generarINPUT('TELEFONO', $label, 'Teléfono de contacto');
+  $inputTelefono = generarInput(NombreInput::TELEFONO, $label, 'Teléfono de contacto');
 
   $label = '<b>Dirección:</b> <sup class="w3-text-blue">(opcional)</sup>';
-  $inputDireccion = generarINPUT('DIRECCION', $label, 'Dirección del negocio');
+  $inputDireccion = generarInput(NombreInput::DIRECCION, $label, 'Dirección del negocio');
   echo <<<HTML
       <form
         id="registrarNegocio"

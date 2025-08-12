@@ -3,14 +3,14 @@
 declare(strict_types=1);
 
 namespace LicoSys\Enums {
-  enum BOTONES: string {
+  enum Botones: string {
     case REGISTRAR_USUARIO = <<<'html'
       <button
         onclick="modal(this)"
         data-target="#registrarUsuario"
         class="w3-blue w3-text-black w3-button w3-circle w3-border w3-border-black">
         <i class="w3-block w3-center icon-user-plus w3-xxlarge"></i>
-        Registrar<br>Usuario
+        Registrar<br />Usuario
       </button>
     html;
     case NUEVA_VENTA = <<<'html'
@@ -19,7 +19,7 @@ namespace LicoSys\Enums {
         role="navegacion"
         class="w3-blue w3-text-black w3-button w3-circle w3-border w3-border-black">
         <i class="w3-block w3-center icon-cart-plus w3-xxlarge"></i>
-        Nueva<br>&nbsp;&nbsp;Venta&nbsp;&nbsp;
+        Nueva<br />&nbsp;&nbsp;Venta&nbsp;&nbsp;
       </a>
     html;
     case NUEVA_COMPRA = <<<'html'
@@ -28,7 +28,7 @@ namespace LicoSys\Enums {
         role="navegacion"
         class="w3-blue w3-text-black w3-button w3-circle w3-border w3-border-black">
         <i class="w3-block w3-center icon-cart-plus w3-xxlarge"></i>
-        Nueva<br>&nbsp;&nbsp;Compra&nbsp;&nbsp;
+        Nueva<br />&nbsp;&nbsp;Compra&nbsp;&nbsp;
       </a>
     html;
     case VACIAR_LOG = <<<'html'
@@ -36,7 +36,7 @@ namespace LicoSys\Enums {
         onclick="vaciarLog()"
         class="w3-blue w3-text-black w3-button w3-circle w3-border w3-border-black">
         <i class="w3-block w3-center icon-trash w3-xxlarge"></i>
-        Vaciar<br>Registro
+        Vaciar<br />Registro
       </button>
     html;
     case REGISTRAR_CLIENTE = <<<'html'
@@ -45,7 +45,7 @@ namespace LicoSys\Enums {
         data-target="#registrarCliente"
         class="w3-blue w3-text-black w3-button w3-circle w3-border w3-border-black">
         <i class="w3-block w3-center icon-id-card w3-xxlarge"></i>
-        Registrar<br>Cliente
+        Registrar<br />Cliente
       </button>
     html;
     case REGISTRAR_PROVEEDOR = <<<'html'
@@ -54,7 +54,7 @@ namespace LicoSys\Enums {
         data-target="#registrarProveedor"
         class="w3-blue w3-text-black w3-button w3-circle w3-border w3-border-black">
         <i class="w3-block w3-center icon-truck w3-xxlarge"></i>
-        Registrar<br>Proveedor
+        Registrar<br />Proveedor
       </button>
     html;
     case REGISTRAR_NEGOCIO = <<<'html'
@@ -72,7 +72,7 @@ namespace LicoSys\Enums {
         data-target="#registrarProducto"
         class="w3-blue w3-text-black w3-button w3-circle w3-border w3-border-black w3-margin-right">
         <i class="w3-block w3-center icon-plus w3-xxlarge"></i>
-        Nuevo<br>Producto
+        Nuevo<br />Producto
       </button>
     html;
     case REGISTRAR_COMBO = <<<'html'
@@ -81,7 +81,7 @@ namespace LicoSys\Enums {
         data-target="#registrarCombo"
         class="w3-hide w3-disabled w3-blue w3-text-black w3-button w3-circle w3-border w3-border-black">
         <i class="w3-block w3-center icon-list w3-xxlarge"></i>
-        Nuevo<br>&nbsp;&nbsp;Combo&nbsp;&nbsp;
+        Nuevo<br />&nbsp;&nbsp;Combo&nbsp;&nbsp;
       </button>
     html;
     case RESPALDAR = <<<'html'
@@ -101,9 +101,39 @@ namespace LicoSys\Enums {
       </button>
     html;
   }
+
+  enum NombreInput {
+    case CLAVE;
+    case CONFIRMAR;
+    case USUARIO;
+    case CEDULA;
+    case IVA;
+    case DOLAR;
+    case PESO;
+    case res1;
+    case res2;
+    case res3;
+    case NOMBRE;
+    case TELEFONO;
+    case NOMBRE_NEGOCIO;
+    case RIF;
+    case DIRECCION;
+    case pre1;
+    case pre2;
+    case pre3;
+    case ID;
+    case CODIGO;
+    case STOCK;
+    case PRECIO;
+    case EXCENTO;
+    case BS;
+  }
 }
 
 namespace {
+
+  use LicoSys\Enums\NombreInput;
+
   const LOADER = <<<'html'
     <div class="loader" id="loader">
       <i class="w3-block w3-spin icon-spinner"></i>
@@ -130,29 +160,24 @@ namespace {
   }
 
   /**
-   * Genera un `<input>` HTML
-   * @param  string $nombre El nombre del input. <br><br>
-   * `'CLAVE', 'CONFIRMAR', 'USUARIO', 'CEDULA', 'IVA', `<br>`
-   * 'DOLAR', 'PESO', 'res1', 'res2', 'res3', 'NOMBRE', `<br>`
-   * 'TELEFONO', 'NOMBRE_NEGOCIO', 'RIF', 'DIRECCION', `<br>`
-   * 'pre1', 'pre2', 'pre3', 'ID', 'CODIGO', 'STOCK', `<br>`
-   * 'PRECIO', 'EXCENTO', 'BS'`
-   * @param  string $label El título del `<input>`
+   * Genera un `<input />` HTML
+   * @deprecated $nombre como string
+   * @param  string $label El título del `<input />`
    * @param  string $placeholder El placeholder del input.
-   * @param string $value El valor por defecto del `<input>`
-   * @return string El elemento `<input>`
+   * @param string $value El valor por defecto del `<input />`
+   * @return string El elemento `<input />`
    */
-  function generarINPUT(
-    string $nombre,
+  function generarInput(
+    NombreInput $nombre,
     string $label,
     string $placeholder = '',
-    string $value = ''
+    string $value = '',
   ): string {
-    $EXPRESIONES = [
-      'clave' => '[!#$%&/=?¿¡@+.\-\w]{4,20}'
+    $expresiones = [
+      'clave' => '[!#$%&/=?¿¡@+.\-\w]{4,20}',
     ];
 
-    return match ($nombre) {
+    return match ($nombre->name) {
       'CLAVE' => <<<HTML
             <fieldset class="w3-border-0">
               <legend class="w3-large w3-padding"><b>{$label}</b></legend>
@@ -168,7 +193,7 @@ namespace {
                     required
                     minlength="4"
                     maxlength="20"
-                    pattern="{$EXPRESIONES['clave']}"
+                    pattern="{$expresiones['clave']}"
                     title="Sólo se permiten entre 4 y 20 letras, números y símbolos (. - _ @ # / *)"
                     class="w3-input w3-border-0 w3-large">
                   <div class="w3-display-right w3-xxlarge icon-eye w3-show"></div>
@@ -191,7 +216,7 @@ namespace {
                     required
                     minlength="4"
                     maxlength="20"
-                    pattern="{$EXPRESIONES['clave']}"
+                    pattern="{$expresiones['clave']}"
                     title="Sólo se permiten entre 4 y 20 letras, números y símbolos (. - _ @ # / *)"
                     class="w3-input w3-border-0 w3-large">
                   <div class="w3-display-right w3-xxlarge icon-eye w3-show"></div>
@@ -358,8 +383,8 @@ namespace {
                 <div class="w3-col s10 w3-display-container">
                   <input
                     type="password"
-                    id="{$nombre}"
-                    name="{$nombre}"
+                    id="{$nombre->name}"
+                    name="{$nombre->name}"
                     placeholder="{$placeholder}"
                     value="{$value}"
                     required
@@ -492,8 +517,8 @@ namespace {
                 <div class="icon-question-circle w3-col s2 w3-xxlarge"></div>
                 <div class="w3-col s10 w3-display-container">
                   <input
-                    id="{$nombre}"
-                    name="{$nombre}"
+                    id="{$nombre->name}"
+                    name="{$nombre->name}"
                     placeholder="{$placeholder}"
                     value="{$value}"
                     required
@@ -577,7 +602,7 @@ namespace {
               </div>
             </fieldset>
           HTML,
-      'EXCENTO' => <<<HTML
+      default => <<<HTML
             <fieldset class="w3-border-0">
               <legend class="w3-large w3-padding"><b>{$label}</b></legend>
               <div class="w3-row w3-center w3-border-bottom">
@@ -598,7 +623,6 @@ namespace {
               </div>
             </fieldset>
           HTML,
-      default => '',
     };
   }
 

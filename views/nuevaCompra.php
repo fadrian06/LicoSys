@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use Leaf\Http\Session;
+use LicoSys\Enums\NombreInput;
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
@@ -389,10 +390,10 @@ if (Session::get('cargo') === 'a') :
     =            REGISTRAR PROVEEDOR            =
     ===========================================*/
   $label = '<b>RIF: </b><sup class="w3-text-red">(requerido)</sup>';
-  $inputRIF = generarINPUT('RIF', $label, 'RIF del proveedor');
+  $inputRIF = generarInput(NombreInput::RIF, $label, 'RIF del proveedor');
 
   $label = '<b>Nombre: </b><sup class="w3-text-red">(requerido)</sup>';
-  $inputNombre = generarINPUT('NOMBRE_NEGOCIO', $label, 'Nombre del proveedor');
+  $inputNombre = generarInput(NombreInput::NOMBRE_NEGOCIO, $label, 'Nombre del proveedor');
 
   echo <<<HTML
       <form
@@ -422,15 +423,15 @@ if (Session::get('cargo') === 'a') :
     =            REGISTRAR PRODUCTO            =
     ==========================================*/
   $label = '<b>Código: </b><sup class="w3-text-red">(requerido)</sup>';
-  $inputCodigo = generarINPUT('CODIGO', $label, 'Código del producto');
+  $inputCodigo = generarInput(NombreInput::CODIGO, $label, 'Código del producto');
   $label = '<b>Nombre: </b><sup class="w3-text-red">(requerido)</sup>';
-  $inputNombre = generarINPUT('NOMBRE', $label, 'Nombre del producto');
+  $inputNombre = generarInput(NombreInput::NOMBRE, $label, 'Nombre del producto');
   $label = '<b>Precio: </b><sup class="w3-text-red">(requerido)</sup>';
-  $inputPrecio = generarINPUT('PRECIO', $label, 'Precio base del producto');
+  $inputPrecio = generarInput(NombreInput::PRECIO, $label, 'Precio base del producto');
   $label = '<b>Excento: </b><sup class="w3-text-red">(requerido)</sup>';
-  $inputExcento = generarINPUT('EXCENTO', $label, '¿Excento de IVA?');
+  $inputExcento = generarInput(NombreInput::EXCENTO, $label, '¿Excento de IVA?');
   $label = '<b>Existencia: </b><sup class="w3-text-blue">(opcional)</sup>';
-  $inputStock = generarINPUT('STOCK', $label, 'Cantidad disponible');
+  $inputStock = generarInput(NombreInput::STOCK, $label, 'Cantidad disponible');
   echo <<<HTML
       <form
         id="registrarProducto"

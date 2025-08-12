@@ -3,12 +3,13 @@
 declare(strict_types=1);
 
 use Leaf\Http\Session;
+use LicoSys\Enums\NombreInput;
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
 if (Session::has('changePassword')) :
-  $inputClave = generarINPUT('CLAVE', 'Nueva Contraseña:');
-  $inputConfirmar = generarINPUT('CONFIRMAR', 'Confirmar Contraseña:');
+  $inputClave = generarInput(NombreInput::CLAVE, 'Nueva Contraseña:');
+  $inputConfirmar = generarInput(NombreInput::CONFIRMAR, 'Confirmar Contraseña:');
   $pre1 = Session::get('pre1');
   $pre2 = Session::get('pre2');
   $pre3 = Session::get('pre3');
@@ -19,7 +20,7 @@ if (Session::has('changePassword')) :
   ";
 
   $id = getRegistro($sql)['id'] ?? throw new Error('No se encontró el ID del usuario');
-  $inputID = generarINPUT('ID', '', '', $id);
+  $inputID = generarInput(NombreInput::ID, '', '', $id);
   echo <<<HTML
       <form
         id="cambiarClave"

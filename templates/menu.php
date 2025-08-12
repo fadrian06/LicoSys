@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use Leaf\Http\Session;
+use LicoSys\Enums\NombreInput;
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
@@ -95,9 +96,9 @@ if (isset($mostrarMenu)) : ?>
               <div class="w3-container">Calculadora Monetaria</div>
             HTML;
 
-          $inputBS = generarINPUT('BS', 'Monto en Bs.');
-          $inputDolar = generarINPUT('DOLAR', 'Monto en Dólares');
-          $inputPesos = generarINPUT('PESO', 'Monto en Pesos');
+          $inputBS = generarInput(NombreInput::BS, 'Monto en Bs.');
+          $inputDolar = generarInput(NombreInput::DOLAR, 'Monto en Dólares');
+          $inputPesos = generarInput(NombreInput::PESO, 'Monto en Pesos');
 
           $valorDolar = getDolar();
           $valorPesos = getPeso();

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use Leaf\Http\Session;
 use LicoSys\Enums\BOTONES;
+use LicoSys\Enums\NombreInput;
 
 require_once __DIR__ . '/../vendor/autoload.php';
 require_once __DIR__ . '/../backend/componentes.php';
@@ -57,10 +58,10 @@ tabla(
   =            REGISTRAR CLIENTE            =
   =========================================*/
 $label = '<b>Cédula: </b><sup class="w3-text-red">(requerido)</sup>';
-$inputCedula = generarINPUT('CEDULA', $label, 'Cédula del cliente');
+$inputCedula = generarInput(NombreInput::CEDULA, $label, 'Cédula del cliente');
 
 $label = '<b>Nombre: </b><sup class="w3-text-red">(requerido)</sup>';
-$inputNombre = generarINPUT('NOMBRE', $label, 'Nombre del cliente');
+$inputNombre = generarInput(NombreInput::NOMBRE, $label, 'Nombre del cliente');
 
 echo <<<HTML
     <form

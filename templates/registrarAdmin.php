@@ -2,26 +2,28 @@
 
 declare(strict_types=1);
 
+use LicoSys\Enums\NombreInput;
+
 require_once __DIR__ . '/../vendor/autoload.php';
 
 if (!empty($mostrarRegistro)) :
   $label = '<b>Cédula:</b> <sup class="w3-text-red">(requerido)</sup>';
-  $inputCedula = generarINPUT('CEDULA', $label, 'Introduce tu cédula');
+  $inputCedula = generarInput(NombreInput::CEDULA, $label, 'Introduce tu cédula');
 
   $label = '<b>Nombre:</b> <sup class="w3-text-red">(requerido)</sup>';
-  $inputNombre = generarINPUT('NOMBRE', $label, 'Introduce tu nombre');
+  $inputNombre = generarInput(NombreInput::NOMBRE, $label, 'Introduce tu nombre');
 
   $label = '<b>Usuario:</b> <sup class="w3-text-red">(requerido)</sup>';
-  $inputUsuario = generarINPUT('USUARIO', $label, '@usuario');
+  $inputUsuario = generarInput(NombreInput::USUARIO, $label, '@usuario');
 
   $label = '<b>Contraseña:</b> <sup class="w3-text-red">(requerido)</sup>';
-  $inputClave = generarINPUT('CLAVE', $label, 'Cree una contraseña');
+  $inputClave = generarInput(NombreInput::CLAVE, $label, 'Cree una contraseña');
 
   $label = '<b>Repetir contraseña:</b> <sup class="w3-text-red">(requerido)</sup>';
-  $inputConfirmar = generarINPUT('CONFIRMAR', $label, 'Repite la contraseña');
+  $inputConfirmar = generarInput(NombreInput::CONFIRMAR, $label, 'Repite la contraseña');
 
   $label = '<b>Teléfono:</b> <sup class="w3-text-blue">(opcional)</sup>';
-  $inputTelefono = generarINPUT('TELEFONO', $label, 'Introduce un número de teléfono');
+  $inputTelefono = generarInput(NombreInput::TELEFONO, $label, 'Introduce un número de teléfono');
   echo <<<HTML
       <form
         id="registrarAdmin"

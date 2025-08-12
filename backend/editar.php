@@ -3,11 +3,12 @@
 declare(strict_types=1);
 
 use Leaf\Http\Session;
+use LicoSys\Enums\NombreInput;
 
 require_once __DIR__ . '/../vendor/autoload.php';
-require_once __DIR__ . '/componentes.php';
-require_once __DIR__ . '/conexion.php';
-require_once __DIR__ . '/funciones.php';
+require_once BASE_DIR . '/backend/componentes.php';
+require_once BASE_DIR . '/backend/conexion.php';
+require_once BASE_DIR . '/backend/funciones.php';
 
 /*====================================================
 =            ENVIAR FORMULARIO DE EDICIÓN            =
@@ -36,11 +37,11 @@ if (!empty($_POST['editar'])) :
     exit(json_encode($respuesta, JSON_INVALID_UTF8_IGNORE));
   }
 
-  $inputID = generarINPUT('ID', '', '', $registro['id']);
+  $inputID = generarInput(NombreInput::ID, '', '', $registro['id']);
   switch ($tabla) {
     case 'clientes':
       $label = '<b>Nombre: </b><sup class="w3-text-red">(requerido)</sup>';
-      $inputNombre = generarINPUT('NOMBRE', $label, '', $registro['nombre']);
+      $inputNombre = generarInput(NombreInput::NOMBRE, $label, '', $registro['nombre']);
 
       $respuesta['ok'] = <<<HTML
           <div class="w3-right-align">
@@ -63,22 +64,22 @@ if (!empty($_POST['editar'])) :
       break;
     case 'proveedores':
       $label = '<b>Cédula: </b><sup class="w3-text-red">(requerido)</sup>';
-      $inputCedula = generarINPUT('CEDULA', $label, '', $registro['cedula']);
+      $inputCedula = generarInput(NombreInput::CEDULA, $label, '', $registro['cedula']);
 
       $label = '<b>Nombre: </b><sup class="w3-text-red">(requirido)</sup>';
-      $inputNombre = generarINPUT('NOMBRE', $label, '', $registro['nombre']);
+      $inputNombre = generarInput(NombreInput::NOMBRE, $label, '', $registro['nombre']);
 
       $label = '<b>RIF: </b><sup class="w3-text-red">(requerido)</sup>';
-      $inputRIF = generarINPUT('RIF', $label, '', $registro['rif']);
+      $inputRIF = generarInput(NombreInput::RIF, $label, '', $registro['rif']);
 
       $label = '<b>Nombre: </b><sup class="w3-text-red">(requerido)</sup>';
-      $inputNombreEmpresa = generarINPUT('NOMBRE_NEGOCIO', $label, '', $registro['nombreEmpresa']);
+      $inputNombreEmpresa = generarInput(NombreInput::NOMBRE_NEGOCIO, $label, '', $registro['nombreEmpresa']);
 
       $label = '<b>Teléfono: </b><sup class="w3-text-blue">(opcional)</sup>';
-      $inputTelefono = generarINPUT('TELEFONO', $label, $registro['telefono']);
+      $inputTelefono = generarInput(NombreInput::TELEFONO, $label, $registro['telefono']);
 
       $label = '<b>Dirección: </b><sup class="w3-text-blue">(opcional)</sup>';
-      $inputDireccion = generarINPUT('DIRECCION', $label, $registro['direccion']);
+      $inputDireccion = generarInput(NombreInput::DIRECCION, $label, $registro['direccion']);
 
       $respuesta['ok'] = <<<HTML
           <div class="w3-right-align">
@@ -112,13 +113,13 @@ if (!empty($_POST['editar'])) :
       break;
     case 'inventario':
       $label = '<b>Código: </b><sup class="w3-text-red">(requerido)</sup>';
-      $inputCodigo = generarINPUT('CODIGO', $label, '', $registro['codigo']);
+      $inputCodigo = generarInput(NombreInput::CODIGO, $label, '', $registro['codigo']);
       $label = '<b>Nombre: </b><sup class="w3-text-red">(requerido)</sup>';
-      $inputNombre = generarINPUT('NOMBRE', $label, '', $registro['producto']);
+      $inputNombre = generarInput(NombreInput::NOMBRE, $label, '', $registro['producto']);
       $label = '<b>Precio: </b><sup class="w3-text-red">(requerido)</sup>';
-      $inputPrecio = generarINPUT('PRECIO', $label, '', $registro['precio']);
+      $inputPrecio = generarInput(NombreInput::PRECIO, $label, '', $registro['precio']);
       $label = '<b>Excento: </b><sup class="w3-text-red">(requerido)</sup>';
-      $inputExcento = generarINPUT('EXCENTO', $label, '¿Excento de IVA?');
+      $inputExcento = generarInput(NombreInput::EXCENTO, $label, '¿Excento de IVA?');
       $respuesta['ok'] = <<<HTML
           <div class="w3-right-align">
             <span class="icon-close w3-button w3-transparent w3-hover-red"></span>
@@ -143,16 +144,16 @@ if (!empty($_POST['editar'])) :
       break;
     case 'usuarios:informacion':
       $label = '<b>Nombre: </b><sup class="w3-text-red">(requerido)</sup>';
-      $inputNombre = generarINPUT('NOMBRE', $label, '', $registro['nombre']);
+      $inputNombre = generarInput(NombreInput::NOMBRE, $label, '', $registro['nombre']);
 
       $label = '<b>Usuario: </b><sup class="w3-text-red">(requerido)</sup>';
-      $inputUsuario = generarINPUT('USUARIO', $label, '', $registro['usuario']);
+      $inputUsuario = generarInput(NombreInput::USUARIO, $label, '', $registro['usuario']);
 
       $registro['telefono'] = $registro['telefono'] ?: 'No especificado';
       $label = '<b>Teléfono: </b><sup class="w3-text-blue">(opcional)</sup>';
-      $inputTelefono = generarINPUT('TELEFONO', $label, $registro['telefono']);
+      $inputTelefono = generarInput(NombreInput::TELEFONO, $label, $registro['telefono']);
 
-      $inputID = generarINPUT('ID', '', '', $registro['id']);
+      $inputID = generarInput(NombreInput::ID, '', '', $registro['id']);
       $respuesta['ok'] = <<<HTML
           <div class="w3-right-align">
             <span class="icon-close w3-button w3-transparent w3-hover-red"></span>
@@ -175,9 +176,9 @@ if (!empty($_POST['editar'])) :
         HTML;
       break;
     case 'usuarios:clave':
-      $inputClave = generarINPUT('CLAVE', 'Nueva Contraseña:', '********');
-      $inputConfirmar = generarINPUT('CONFIRMAR', 'Confirmar Contraseña:', '********');
-      $inputID = generarINPUT('ID', '', '', Session::get('userID'));
+      $inputClave = generarInput(NombreInput::CLAVE, 'Nueva Contraseña:', '********');
+      $inputConfirmar = generarInput(NombreInput::CONFIRMAR, 'Confirmar Contraseña:', '********');
+      $inputID = generarInput(NombreInput::ID, '', '', Session::get('userID'));
       $respuesta['ok'] = <<<HTML
           <div class="w3-right-align">
             <span class="icon-close w3-button w3-transparent w3-hover-red"></span>
@@ -202,18 +203,18 @@ if (!empty($_POST['editar'])) :
       $registro['pre1'] = $registro['pre1'] ?: 'No definida';
       $registro['pre2'] = $registro['pre2'] ?: 'No definida';
       $registro['pre3'] = $registro['pre3'] ?: 'No definida';
-      $inputPRE1 = generarINPUT('pre1', 'Pregunta 1:', '', $registro['pre1']);
-      $inputPRE2 = generarINPUT('pre2', 'Pregunta 2:', '', $registro['pre2']);
-      $inputPRE3 = generarINPUT('pre3', 'Pregunta 3:', '', $registro['pre3']);
+      $inputPRE1 = generarInput(NombreInput::pre1, 'Pregunta 1:', '', $registro['pre1']);
+      $inputPRE2 = generarInput(NombreInput::pre2, 'Pregunta 2:', '', $registro['pre2']);
+      $inputPRE3 = generarInput(NombreInput::pre3, 'Pregunta 3:', '', $registro['pre3']);
 
       $label = '<b>Respuesta 1:</b> <sup respuesta="res1" class="w3-text-blue"></sup>';
-      $inputRES1 = generarINPUT('res1', $label, '********');
+      $inputRES1 = generarInput(NombreInput::res1, $label, '********');
 
       $label = '<b>Respuesta 2:</b> <sup respuesta="res2" class="w3-text-blue"></sup>';
-      $inputRES2 = generarINPUT('res2', $label, '********');
+      $inputRES2 = generarInput(NombreInput::res2, $label, '********');
 
       $label = '<b>Respuesta 3:</b> <sup respuesta="res3" class="w3-text-blue"></sup>';
-      $inputRES3 = generarINPUT('res3', $label, '********');
+      $inputRES3 = generarInput(NombreInput::res3, $label, '********');
 
       $respuesta['ok'] = <<<HTML
           <div class="w3-right-align">
@@ -249,16 +250,16 @@ if (!empty($_POST['editar'])) :
       $registro['direccion'] = $registro['direccion'] ?: 'No establecido';
 
       $label = '<b>Nombre:</b> <sup class="w3-text-red">(requerido)</sup>';
-      $inputNombre = generarINPUT('NOMBRE_NEGOCIO', $label, '', $registro['nombre']);
+      $inputNombre = generarInput(NombreInput::NOMBRE_NEGOCIO, $label, '', $registro['nombre']);
 
       $label = '<b>RIF:</b> <sup class="w3-text-red">(requerido)</sup>';
-      $inputRIF = generarINPUT('RIF', $label, '', $registro['rif']);
+      $inputRIF = generarInput(NombreInput::RIF, $label, '', $registro['rif']);
 
       $label = '<b>Teléfono:</b> <sup class="w3-text-blue">(opcional)</sup>';
-      $inputTelefono = generarINPUT('TELEFONO', $label, $registro['tlf']);
+      $inputTelefono = generarInput(NombreInput::TELEFONO, $label, $registro['tlf']);
 
       $label = '<b>Dirección:</b> <sup class="w3-text-blue">(opcional)</sup>';
-      $inputDireccion = generarINPUT('DIRECCION', $label, $registro['direccion']);
+      $inputDireccion = generarInput(NombreInput::DIRECCION, $label, $registro['direccion']);
       $respuesta['ok'] = <<<HTML
           <div class="w3-right-align">
             <span class="icon-close w3-button w3-transparent w3-hover-red"></span>
