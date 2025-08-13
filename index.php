@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use Leaf\BareUI;
 use Leaf\Http\Session;
 
 require_once __DIR__ . '/vendor/autoload.php';
@@ -27,27 +28,24 @@ setRegistro('TRUNCATE TABLE carrito_compra');
 if (!isset($mostrarLoader) && !$negocios) :
   verificarCopiaDeSeguridad($script);
   $mostrarRegistro = true;
-  include __DIR__ . '/templates/registrarNegocio.php';
-  $script .= '<script src="assets/js/registrarNegocio.js"></script>';
+  echo BareUI::render('pages/business/create');
+  $script .= '<script src="./assets/js/registrarNegocio.js"></script>';
 
 /*----------  Si no hay administrador, solicita registro  ----------*/
 elseif (!isset($mostrarLoader) && !$admin) :
   verificarCopiaDeSeguridad($script);
-  $mostrarRegistro = true;
-  include __DIR__ . '/templates/registrarAdmin.php';
-  $script .= '<script src="assets/js/registrarAdmin.js"></script>';
+  echo BareUI::render('pages/users/create');
+  $script .= '<script src="./assets/js/registrarAdmin.js"></script>';
 
 /*----------  Si el administrador no tiene preguntas secretas, solicita registro  ----------*/
 elseif (!isset($mostrarLoader) && !$admin['pre1']) :
   verificarCopiaDeSeguridad($script);
-  $mostrarRegistro = true;
-  include __DIR__ . '/templates/registroPreguntasRespuestas.php';
-  $script .= '<script src="assets/js/registrarPreguntasRespuestas.js"></script>';
+  echo BareUI::render('pages/create-secret-questions');
+  $script .= '<script src="./assets/js/registrarPreguntasRespuestas.js"></script>';
 
 /*----------  Muestra el login  ----------*/
 elseif (!isset($mostrarLoader)) :
-  $mostrarLogin = true;
-  include __DIR__ . '/templates/login.php';
+  echo BareUI::render('pages/login');
   include __DIR__ . '/templates/consultarPreguntasRespuestas.php';
 
   if (Session::has('showQuestions')) {
@@ -58,10 +56,10 @@ elseif (!isset($mostrarLoader)) :
     include __DIR__ . '/templates/cambiarClave.php';
   }
 
-  $script .= '<script src="assets/js/reloj.js"></script>';
-  $script .= '<script src="assets/libs/typedjs/typed.min.js"></script>';
-  $script .= '<script src="assets/js/login.js"></script>';
-  $script .= '<script src="assets/js/recuperarClave.js"></script>';
+  $script .= '<script src="./assets/js/reloj.js"></script>';
+  $script .= '<script src="./assets/libs/typedjs/typed.min.js"></script>';
+  $script .= '<script src="./assets/js/login.js"></script>';
+  $script .= '<script src="./assets/js/recuperarClave.js"></script>';
 endif;
 
 include __DIR__ . '/templates/footer.php';

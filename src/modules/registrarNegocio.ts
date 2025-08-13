@@ -1,5 +1,3 @@
-/** @typedef {import('./funciones')} */
-
 import actualizarImagen from "./actualizarImagen";
 import {
   ajax,
