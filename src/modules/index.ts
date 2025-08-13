@@ -1,3 +1,5 @@
+import "@fontsource/roboto";
+import "@fontsource/oswald";
 import {
   advertencia,
   alerta,

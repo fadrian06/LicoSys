@@ -121,9 +121,9 @@ $productosEnCarritoCompra = contarRegistros('carrito_compra');
   <base href="/licosys/" />
   <link rel="icon" href="./assets/images/logo.png" />
   <link rel="stylesheet" href="./assets/ico/style.min.css" />
-  <link rel="stylesheet" href="./assets/fonts/fuentes.min.css" />
   <link rel="stylesheet" href="./assets/libs/noty/noty.css" />
   <link rel="stylesheet" href="./assets/libs/noty/themes/sunset.css" />
+  <link rel="stylesheet" href="./assets/js/index.css" />
   <link rel="stylesheet" href="./assets/css/bundle.css" />
   <script src="./assets/js/index.js"></script>
   <script src="./assets/libs/jquery.min.js"></script>

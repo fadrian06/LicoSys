@@ -1,6 +1,8 @@
 {
   "devDependencies": {
     "@biomejs/biome": "^2.1.4",
+    "@fontsource/oswald": "^5.2.6",
+    "@fontsource/roboto": "^5.2.6",
     "@types/jquery": "^3.5.32",
     "esbuild": "^0.25.8",
     "jquery": "^3.7.1",
@@ -12,7 +14,7 @@
   },
   "scripts": {
     "stylus": "stylus src/index.styl -o assets/css/bundle.css -w -m -r --include-css",
-    "build": "rm -rf assets/js assets/css & esbuild src/modules/* --outdir=assets/js --minify --bundle --sourcemap & stylus src/index.styl -o assets/css/bundle.css -c -r --include-css",
+    "build": "rm -rf assets/js assets/css & esbuild src/modules/* --outdir=assets/js --minify --bundle --sourcemap --loader:.ttf=copy --loader:.eot=copy --loader:.woff=copy --loader:.woff2=copy --loader:.svg=copy & stylus src/index.styl -o assets/css/bundle.css -c -r --include-css",
     "ci": "biome ci ./",
     "format": "biome format ./"
   }
