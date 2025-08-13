@@ -302,6 +302,7 @@ $cantidadProductos = consulta($sql);
       'background' => 'blue',
       'icon' => 'icon-cart-plus',
       'slot' => 'Nueva Venta',
+      'size' => 'normal',
     ]) ?>
   </footer>
 </main>
