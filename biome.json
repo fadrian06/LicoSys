@@ -5,6 +5,6 @@
     "useEditorconfig": true
   },
   "files": {
-    "includes": ["src/modules/*.js", "src/modules/*.ts", "src/styles/*.css"]
+    "includes": ["src/scripts/*.js", "src/scripts/*.ts", "src/styles/*.css"]
   }
 }
