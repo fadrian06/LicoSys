@@ -136,8 +136,8 @@ html;
   <!--==================================
   =            FONDO OSCURO            =
   ===================================-->
-  <div role="modalOverlay" class="w3-overlay w3-animate-opacity w3-hide"></div>
-  <div role="menuOverlay" class="w3-overlay w3-animate-opacity w3-hide"></div>
+  <?= BareUI::render('components/overlay', ['role' => 'modalOverlay']) ?>
+  <?= BareUI::render('components/overlay', ['role' => 'menuOverlay']) ?>
 
   <?php
 
