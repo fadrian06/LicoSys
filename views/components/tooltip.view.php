@@ -19,6 +19,9 @@ $class = match ($textAlignment) {
 
 ?>
 
-<div class="w3-dropdown-content w3-padding-small w3-card-4 w3-white <?= $class ?>">
+<div
+  class="w3-dropdown-content w3-padding-small w3-card-4 w3-white <?= $class ?>"
+  style="text-transform: capitalize"
+>
   <b><?= $slot ?></b>
 </div>

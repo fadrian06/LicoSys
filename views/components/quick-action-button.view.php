@@ -45,7 +45,8 @@ if ($size === 'small') {
 <<?= $tag ?>
   class="w3-button w3-circle w3-border w3-border-black <?= $class ?>"
   style="aspect-ratio: 1/1; text-transform: capitalize"
-  <?= join(' ', $props) ?>>
+  <?= join(' ', $props) ?>
+>
   <span class="w3-block w3-center <?= $icon ?>"></span>
   <?= $slot ?>
 </<?= $tag ?>>
