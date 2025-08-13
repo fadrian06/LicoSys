@@ -1,5 +1,3 @@
-/** @typedef {import('./funciones')} */
-
 import actualizarImagen from "./actualizarImagen";
 import {
   ajax,
@@ -7,28 +5,22 @@ import {
   mostrarLoader,
   notificacion,
   ocultarLoader,
-  verClave,
 } from "./funciones";
 import validar from "./validar";
 
 /*=====================================
 =            DECLARACIONES            =
 =====================================*/
-/** @type {HTMLFormElement} */
 const form = document.querySelector("#registrarAdmin");
 /** @type {HTMLInputElement} */
-const inputFile = form.foto;
-/** @type {HTMLImageElement} */
-const image = form.querySelector(".image-result");
+const inputFile = form?.foto;
+const image = form?.querySelector(".image-result");
 /*=====  End of DECLARACIONES  ======*/
 
 /*==============================================
 =            EJECUCIÓN DE FUNCIONES            =
 ==============================================*/
 actualizarImagen(inputFile, image, (error) => alerta(error).show());
-
-verClave(form.clave.nextElementSibling, form.clave);
-verClave(form.confirmar.nextElementSibling, form.confirmar);
 
 validar(form, (error, fd, e) => {
   if (error) return alerta(error).show();

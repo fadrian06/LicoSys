@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use Leaf\BareUI;
 use LicoSys\Enums\NombreInput;
 
 $label = '<b>Nombre:</b> <sup class="w3-text-red">(requerido)</sup>';
@@ -25,17 +26,7 @@ $inputDireccion = generarInput(NombreInput::DIRECCION, $label, 'Dirección del n
   <h1 class="w3-center w3-xlarge oswald w3-margin-bottom">
     Registro de Negocio
   </h1>
-  <div class="step-container">
-    <div class="step">
-      <span class="w3-blue">1</span>
-    </div>
-    <div class="step">
-      <span>2</span>
-    </div>
-    <div class="step">
-      <span>3</span>
-    </div>
-  </div>
+  <?= BareUI::render('components/steps', ['stepsAmount' => 3, 'currentStep' => 1]) ?>
   <section class="w3-padding-top-24 w3-twothird w3-rightbar w3-topbar w3-bottombar w3-display-container">
     <i class="w3-spin icon-spinner w3-display-middle w3-jumbo loader"></i>
     <?= $inputNombre ?>

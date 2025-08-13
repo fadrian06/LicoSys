@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use Leaf\BareUI;
 use LicoSys\Enums\NombreInput;
 
 $inputPRE1 = generarInput(NombreInput::pre1, 'Pregunta 1:', 'Cree una pregunta');
@@ -26,17 +27,7 @@ $inputRES3 = generarInput(NombreInput::res3, $label, 'La respuesta');
   <h1 class="w3-center w3-xlarge oswald w3-margin-bottom">
     Cree sus Preguntas y Respuestas
   </h1>
-  <div class="step-container">
-    <div class="step">
-      <span>1</span>
-    </div>
-    <div class="step">
-      <span>2</span>
-    </div>
-    <div class="step">
-      <span class="w3-blue">3</span>
-    </div>
-  </div>
+  <?= BareUI::render('components/steps', ['stepsAmount' => 3, 'currentStep' => 3]) ?>
   <div class="w3-row w3-display-container w3-topbar">
     <i class="w3-spin icon-spinner w3-display-middle w3-jumbo loader"></i>
     <section class="w3-padding-top-24 w3-half w3-rightbar">

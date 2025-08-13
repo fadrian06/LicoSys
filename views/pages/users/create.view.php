@@ -2,25 +2,15 @@
 
 declare(strict_types=1);
 
+use Leaf\BareUI;
 use LicoSys\Enums\NombreInput;
 
-$label = '<b>Cédula:</b> <sup class="w3-text-red">(requerido)</sup>';
-$inputCedula = generarInput(NombreInput::CEDULA, $label, 'Introduce tu cédula');
-
-$label = '<b>Nombre:</b> <sup class="w3-text-red">(requerido)</sup>';
-$inputNombre = generarInput(NombreInput::NOMBRE, $label, 'Introduce tu nombre');
-
-$label = '<b>Usuario:</b> <sup class="w3-text-red">(requerido)</sup>';
-$inputUsuario = generarInput(NombreInput::USUARIO, $label, '@usuario');
-
-$label = '<b>Contraseña:</b> <sup class="w3-text-red">(requerido)</sup>';
-$inputClave = generarInput(NombreInput::CLAVE, $label, 'Cree una contraseña');
-
-$label = '<b>Repetir contraseña:</b> <sup class="w3-text-red">(requerido)</sup>';
-$inputConfirmar = generarInput(NombreInput::CONFIRMAR, $label, 'Repite la contraseña');
-
-$label = '<b>Teléfono:</b> <sup class="w3-text-blue">(opcional)</sup>';
-$inputTelefono = generarInput(NombreInput::TELEFONO, $label, 'Introduce un número de teléfono');
+$inputCedula = generarInput(NombreInput::CEDULA, 'Cédula', 'Introduce tu cédula');
+$inputNombre = generarInput(NombreInput::NOMBRE, 'Nombre', 'Introduce tu nombre');
+$inputUsuario = generarInput(NombreInput::USUARIO, 'Usuario', '@usuario');
+$inputClave = generarInput(NombreInput::CLAVE, 'Contraseña', 'Cree una contraseña');
+$inputConfirmar = generarInput(NombreInput::CONFIRMAR, 'Repetir contraseña', 'Repite la contraseña');
+$inputTelefono = generarInput(NombreInput::TELEFONO, 'Teléfono', 'Introduce un número de teléfono');
 
 ?>
 
@@ -31,17 +21,7 @@ $inputTelefono = generarInput(NombreInput::TELEFONO, $label, 'Introduce un núme
   <h1 class="w3-center w3-xlarge oswald w3-margin-bottom">
     Cree su cuenta de Administrador
   </h1>
-  <div class="step-container">
-    <div class="step">
-      <span>1</span>
-    </div>
-    <div class="step">
-      <span class="w3-blue">2</span>
-    </div>
-    <div class="step">
-      <span>3</span>
-    </div>
-  </div>
+  <?= BareUI::render('components/steps', ['stepsAmount' => 3, 'currentStep' => 2]) ?>
   <section class="w3-padding-top-24 w3-twothird w3-rightbar w3-topbar w3-bottombar w3-display-container">
     <i class="w3-spin icon-spinner w3-display-middle w3-jumbo loader"></i>
     <?= $inputCedula ?>
