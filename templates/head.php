@@ -118,18 +118,9 @@ html;
   <title>LicoSys</title>
   <base href="/licosys/" />
   <link rel="icon" href="./assets/images/logo.png" />
-  <link rel="stylesheet" href="./assets/libs/noty/noty.css" />
-  <link rel="stylesheet" href="./assets/libs/noty/themes/sunset.css" />
   <link rel="stylesheet" href="./assets/js/index.css" />
   <link rel="stylesheet" href="./assets/css/bundle.css" />
   <script src="./assets/js/index.js"></script>
-  <script src="./assets/libs/jquery.min.js"></script>
-  <script src="./assets/libs/noty/noty.min.js"></script>
-  <script src="./assets/libs/Chart.js"></script>
-  <script src="./assets/libs/html2pdf.bundle.min.js"></script>
-  <script src="./assets/js/actualizarImagen.js"></script>
-  <script src="./assets/js/funciones.js"></script>
-  <script src="./assets/js/validar.js"></script>
 </head>
 
 <body class="w3-disabled">

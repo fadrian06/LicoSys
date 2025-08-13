@@ -1,8 +1,10 @@
 import "../styles/fontawesome.css";
 import "@fontsource/roboto";
 import "@fontsource/oswald";
+import "noty/lib/noty.css";
 import "w3s/w3.min.css";
 import "animate.css/animate.min.css";
+
 import {
   advertencia,
   alerta,
