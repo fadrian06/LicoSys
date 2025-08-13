@@ -58,7 +58,7 @@ if (isset($mostrarMenu)) : ?>
     <div class="w3-medium w3-dropdown-hover w3-black">
       <a href="dashboard.php" role="navegacion" title="Panel de Administración" class="w3-medium w3-button">
         <img
-          src="<?= $BASE_URL . Session::get('negocioLogo') ?>"
+          src="./<?= Session::get('negocioLogo') ?>"
           class="w3-image w3-circle"
           style="height: 25px; width:25px" />
         &nbsp;
@@ -75,7 +75,7 @@ if (isset($mostrarMenu)) : ?>
       <a href="views/miPerfil.php" role="navegacion" title="Mi Perfil" class="w3-block w3-col s3">
         <img
           id="fotoPerfil"
-          src="<?= $BASE_URL . Session::get('userFoto') ?>"
+          src="./<?= Session::get('userFoto') ?>"
           class="w3-image w3-circle w3-margin-right w3-padding-small" />
       </a>
       <div class="w3-col s9 w3-center">

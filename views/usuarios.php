@@ -109,6 +109,6 @@ if (Session::get('cargo') === 'a') :
   echo '</div>';
 else :
   include __DIR__ . '/../templates/head.php';
-  $script = sprintf("<script src='%sassets/js/restringido.js'></script>", $BASE_URL);
+  $script = "<script src='./assets/js/restringido.js'></script>";
   include __DIR__ . '/../templates/footer.php';
 endif;

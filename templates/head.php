@@ -16,12 +16,6 @@ $script = '';
 $url = explode('/', strval($_SERVER['SCRIPT_NAME']));
 $archivoActual = $url[count($url) - 1];
 
-/** @var bool Indica si el usuario intenta acceder a una vista mediante la URL */
-$seEncuentraEnCarpetaViews = $url[count($url) - 2] === 'views';
-
-/** @var string Hace referencia a la carpeta raiz del proyecto */
-$BASE_URL = $seEncuentraEnCarpetaViews ? '../' : '';
-
 /*=================================================================
 =            LÓGICA DE TOD0 EL SISTEMA, MENOS EL LOGIN            =
 =================================================================*/
