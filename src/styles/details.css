@@ -1,4 +1,4 @@
-details [class^='icon-chevron'] {
+details [class^="icon-chevron"] {
   transform: rotate(0deg);
 }
 details div {
@@ -14,6 +14,6 @@ details summary::marker {
 details.abierto div {
   height: auto;
 }
-details.abierto [class^='icon-chevron'] {
+details.abierto [class^="icon-chevron"] {
   transform: rotate(90deg);
 }

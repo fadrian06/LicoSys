@@ -126,7 +126,7 @@ main#mainLogin form#login input[type="radio"]:checked + label {
   }
 }
 aside.w3-hide-small {
-  background: url("../assets/fondo.jpg") left/cover no-repeat;
+  background: url("../assets/fondo.jpg") left / cover no-repeat;
 }
 .icon-eye,
 .icon-eye-slash {

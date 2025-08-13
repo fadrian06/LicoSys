@@ -1,7 +1,7 @@
 .invalido {
   border-color: #f00 !important;
 }
-.invalido *[class^='icon'] {
+.invalido *[class^="icon"] {
   color: #f00;
 }
 .invalido input::placeholder {
@@ -13,7 +13,7 @@
 .valido {
   border-color: #008000 !important;
 }
-.valido *[class^='icon'] {
+.valido *[class^="icon"] {
   color: #008000;
 }
 .valido .icon-check {

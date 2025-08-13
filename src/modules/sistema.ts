@@ -1,4 +1,4 @@
-import validar from './validar';
+import validar from "./validar";
 
 const overlay = w3.getElement("#modalOverlay");
 /*============================
