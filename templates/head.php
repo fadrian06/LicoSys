@@ -101,12 +101,6 @@ if ($archivoActual !== 'index.php') {
 $negocios = getRegistros('SELECT * FROM negocios WHERE activo=1');
 $admin = getRegistro("SELECT * FROM usuarios WHERE cargo='a'");
 
-$script .= <<<'html'
-  <script>
-    document.body.classList.remove('w3-disabled')
-  </script>
-html;
-
 ?>
 
 <!doctype html>
@@ -120,10 +114,9 @@ html;
   <link rel="icon" href="./assets/images/logo.png" />
   <link rel="stylesheet" href="./assets/js/index.css" />
   <link rel="stylesheet" href="./assets/css/bundle.css" />
-  <script src="./assets/js/index.js"></script>
 </head>
 
-<body class="w3-disabled">
+<body class="w3-disabled" x-init="$el.classList.remove('w3-disabled')">
   <!--==================================
   =            FONDO OSCURO            =
   ===================================-->

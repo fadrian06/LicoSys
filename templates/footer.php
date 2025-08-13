@@ -8,6 +8,7 @@ declare(strict_types=1);
   <script src="./assets/js/loader.js"></script>
 <?php endif ?>
 
+<script src="./assets/js/index.js"></script>
 <?= $script ?>
 
 </body>
