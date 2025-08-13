@@ -1,6 +1,8 @@
+import $ from "jquery";
 import Noty from "noty";
 
 new Noty({
+  theme: undefined,
   id: "loader",
   type: "info",
   layout: "center",
@@ -28,6 +30,7 @@ new Noty({
           $("#loader").remove();
 
           new Noty({
+            theme: undefined,
             id: "intro",
             type: "info",
             text: `
