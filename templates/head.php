@@ -25,9 +25,9 @@ $BASE_URL = $seEncuentraEnCarpetaViews ? '../' : '';
 /*=================================================================
 =            LÓGICA DE TOD0 EL SISTEMA, MENOS EL LOGIN            =
 =================================================================*/
-if ($archivoActual !== 'index.php') :
-  $script .= sprintf("<script src='%sassets/js/navegacion.js'></script>", $BASE_URL);
-  $script .= sprintf("<script src='%sassets/js/main.js'></script>", $BASE_URL);
+if ($archivoActual !== 'index.php') {
+  $script .= "<script src='./assets/js/navegacion.js'></script>";
+  $script .= "<script src='./assets/js/main.js'></script>";
   $userId = Session::get('userID');
 
   /*----------  No tienes preguntas y respuestas registradas  ----------*/
@@ -68,7 +68,7 @@ if ($archivoActual !== 'index.php') :
   $productos = getRegistros($sql) ?? [];
   $i = 1;
 
-  foreach ($productos as $producto) :
+  foreach ($productos as $producto) {
     $tiempo = 1000 * 60; /*60 segundos*/
 
     if (!$producto['stock']) {
@@ -97,8 +97,8 @@ if ($archivoActual !== 'index.php') :
       html;
     }
     ++$i;
-  endforeach;
-endif;
+  }
+}
 
 /*====================================================================
 =            LÓGICA DE TOD0 EL SISTEMA, INCLUIDO EL LOGIN            =
@@ -123,22 +123,23 @@ $productosEnCarritoCompra = contarRegistros('carrito_compra');
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width" />
-  <link rel="icon" href="<?= $BASE_URL ?>assets/images/logo.png" />
-  <link rel="stylesheet" href="<?= $BASE_URL ?>assets/ico/style.min.css" />
-  <link rel="stylesheet" href="<?= $BASE_URL ?>assets/fonts/fuentes.min.css" />
-  <link rel="stylesheet" href="<?= $BASE_URL ?>assets/libs/noty/noty.css" />
-  <link rel="stylesheet" href="<?= $BASE_URL ?>assets/libs/noty/themes/sunset.css" />
-  <link rel="stylesheet" href="<?= $BASE_URL ?>assets/css/bundle.css" />
   <title>LicoSys</title>
-  <script src="<?= $BASE_URL ?>assets/js/index.js"></script>
-  <script src="<?= $BASE_URL ?>assets/libs/jquery.min.js"></script>
-  <script src="<?= $BASE_URL ?>assets/libs/w3/w3.min.js"></script>
-  <script src="<?= $BASE_URL ?>assets/libs/noty/noty.min.js"></script>
-  <script src="<?= $BASE_URL ?>assets/libs/Chart.js"></script>
-  <script src="<?= $BASE_URL ?>assets/libs/html2pdf.bundle.min.js"></script>
-  <script src="<?= $BASE_URL ?>assets/js/actualizarImagen.js"></script>
-  <script src="<?= $BASE_URL ?>assets/js/funciones.js"></script>
-  <script src="<?= $BASE_URL ?>assets/js/validar.js"></script>
+  <base href="/licosys/" />
+  <link rel="icon" href="./assets/images/logo.png" />
+  <link rel="stylesheet" href="./assets/ico/style.min.css" />
+  <link rel="stylesheet" href="./assets/fonts/fuentes.min.css" />
+  <link rel="stylesheet" href="./assets/libs/noty/noty.css" />
+  <link rel="stylesheet" href="./assets/libs/noty/themes/sunset.css" />
+  <link rel="stylesheet" href="./assets/css/bundle.css" />
+  <script src="./assets/js/index.js"></script>
+  <script src="./assets/libs/jquery.min.js"></script>
+  <script src="./assets/libs/w3/w3.min.js"></script>
+  <script src="./assets/libs/noty/noty.min.js"></script>
+  <script src="./assets/libs/Chart.js"></script>
+  <script src="./assets/libs/html2pdf.bundle.min.js"></script>
+  <script src="./assets/js/actualizarImagen.js"></script>
+  <script src="./assets/js/funciones.js"></script>
+  <script src="./assets/js/validar.js"></script>
 </head>
 
 <body class="w3-disabled">
@@ -150,9 +151,10 @@ $productosEnCarritoCompra = contarRegistros('carrito_compra');
 
   <?php
 
-  if ($archivoActual !== 'index.php') :
+  if ($archivoActual !== 'index.php') {
     $mostrarMenu = true;
-    include __DIR__ . '/../templates/menu.php';
-  endif;
 
-  include __DIR__ . '/../templates/acercaDe.php';
+    include BASE_DIR . '/templates/menu.php';
+  }
+
+  include BASE_DIR . '/templates/acercaDe.php';
