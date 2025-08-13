@@ -1,0 +1,19 @@
+#botones {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: max-content;
+  width: -moz-max-content;
+  display: flex;
+  justify-content: end;
+  align-items: center;
+}
+#botones button,
+#botones a {
+  min-width: 5.62rem;
+  min-height: 5.62rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}

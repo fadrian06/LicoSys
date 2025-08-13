@@ -24,12 +24,17 @@
         "source.json.npm": "LSP-json",
         "source.js": "LSP-biome",
         "source.json.biome": "LSP-biome",
-        "source.css": "LSP-css",
+        "source.css": "LSP-biome",
         "source.ts": "LSP-biome",
       },
       "LSP-intelephense": {
         "settings": {
           "intelephense.format.braces": "k&r",
+        },
+      },
+      "LSP-css": {
+        "settings": {
+          "css.lint.importStatement": "ignore",
         },
       },
     },

@@ -1,0 +1,21 @@
+.invalido {
+  border-color: #f00 !important;
+}
+.invalido *[class^='icon'] {
+  color: #f00;
+}
+.invalido input::placeholder {
+  color: #f00;
+}
+.invalido .icon-close {
+  display: block !important;
+}
+.valido {
+  border-color: #008000 !important;
+}
+.valido *[class^='icon'] {
+  color: #008000;
+}
+.valido .icon-check {
+  display: block !important;
+}

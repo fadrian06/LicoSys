@@ -113,7 +113,6 @@ $admin = getRegistro("SELECT * FROM usuarios WHERE cargo='a'");
   <base href="/licosys/" />
   <link rel="icon" href="./assets/images/logo.png" />
   <link rel="stylesheet" href="./assets/js/index.css" />
-  <link rel="stylesheet" href="./assets/css/bundle.css" />
 </head>
 
 <body class="w3-disabled" x-init="$el.classList.remove('w3-disabled')">
