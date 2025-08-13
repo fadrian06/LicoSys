@@ -126,7 +126,6 @@ $productosEnCarritoCompra = contarRegistros('carrito_compra');
   <link rel="stylesheet" href="./assets/css/bundle.css" />
   <script src="./assets/js/index.js"></script>
   <script src="./assets/libs/jquery.min.js"></script>
-  <script src="./assets/libs/w3/w3.min.js"></script>
   <script src="./assets/libs/noty/noty.min.js"></script>
   <script src="./assets/libs/Chart.js"></script>
   <script src="./assets/libs/html2pdf.bundle.min.js"></script>

@@ -1,6 +1,7 @@
 import "../styles/fontawesome.css";
 import "@fontsource/roboto";
 import "@fontsource/oswald";
+import "w3s/w3.min.css";
 import "animate.css/animate.min.css";
 import {
   advertencia,
