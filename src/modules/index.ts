@@ -1,3 +1,4 @@
+import "../styles/fontawesome.css";
 import "@fontsource/roboto";
 import "@fontsource/oswald";
 import {
