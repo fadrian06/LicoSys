@@ -1,15 +1,21 @@
-/** @typedef {import('./funciones')} */
-
-import { actualizarMonedas, mostrarDetails } from "./funciones";
+import {
+  acordeon,
+  actualizarMonedas,
+  ajax,
+  alerta,
+  mostrarDetails,
+  mostrarLoader,
+  notificacion,
+  ocultarLoader,
+  type Respuesta,
+  registrarCliente,
+  verClave,
+} from "./funciones";
 import validar from "./validar";
 
-/**
- * Funcionalidad del módulo Usuarios
- * @param {HTMLElement} contenedor Contenedor del módulo.
- */
-const moduloUsuarios = (contenedor) => {
-  /** @type {HTMLFormElement} */
-  const formRegistrar = contenedor.querySelector("#registrarUsuario");
+const moduloUsuarios = (contenedor: HTMLElement) => {
+  const formRegistrar: HTMLFormElement =
+    contenedor.querySelector("#registrarUsuario");
   acordeon();
   verClave(formRegistrar.clave.nextElementSibling, formRegistrar.clave);
   verClave(formRegistrar.confirmar.nextElementSibling, formRegistrar.confirmar);
@@ -22,33 +28,31 @@ const moduloUsuarios = (contenedor) => {
     mostrarLoader(formRegistrar);
     fd.append("cargo", "v");
     ajax("backend/registrarUsuario.php", fd, (res) => {
-      /** @type {Respuesta} */
-      const datos = JSON.parse(res);
+      const datos: Respuesta = JSON.parse(res);
 
-      if (datos.error)
-        return alerta(datos.error)
-          .on("onShow", () => formRegistrar.classList.remove("showLoader"))
-          .show();
+      if (datos.error) {
+        const alertaError = alerta(datos.error);
+        alertaError.on("onShow", () =>
+          formRegistrar.classList.remove("showLoader"),
+        );
+
+        return alertaError.show();
+      }
 
       ocultarLoader(formRegistrar);
-      return notificacion("Usuario registrado correctamente")
-        .on("onShow", () => $('[href="views/usuarios.php"]')[0].click())
-        .show();
+      const alertaExito = notificacion("Usuario registrado correctamente");
+      alertaExito.on("onShow", () =>
+        $('[href="views/usuarios.php"]')[0].click(),
+      );
+
+      alertaExito.show();
     });
   });
 };
 
-/**
- * Funcionalidad del módulo log.
- * @param  {HTMLElement} _contenedor Contenedor del módulo.
- */
-const moduloLog = (_contenedor) => acordeon();
+const moduloLog = (_contenedor: HTMLElement) => acordeon();
 
-/**
- * Funcionalidad del módulo clientes.
- * @param  {HTMLElement} contenedor Contenedor del módulo.
- */
-const moduloClientes = (contenedor) => {
+const moduloClientes = (contenedor: HTMLElement) => {
   acordeon();
   mostrarDetails(contenedor.querySelector("details"));
   registrarCliente(

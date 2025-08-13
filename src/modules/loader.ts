@@ -1,4 +1,4 @@
-/** @typedef {import('./funciones')} */
+import Noty from "noty";
 
 const textoCargando = `
   <h1 class="w3-text-white w3-center w3-xlarge oswald">
@@ -25,23 +25,19 @@ const textoBienvenida = `
 `;
 
 const alertaCargando = new Noty({
-  theme: null,
   id: "loader",
   type: "info",
   layout: "center",
   text: textoCargando,
-  closeWith: [null],
   animation: { open: "w3-animate-opacity" },
   callbacks: { onShow: instalarBD },
 });
 
 const alertaBienvenido = new Noty({
-  theme: null,
   id: "intro",
   type: "info",
   text: textoBienvenida,
   layout: "center",
-  closeWith: [null],
   animation: { open: "w3-animate-zoom" },
   timeout: 3000,
   callbacks: { afterClose: () => location.reload() },
@@ -51,7 +47,7 @@ alertaCargando.show();
 
 /** Hace la petición para instalar la Base de Datos, recibida la respuesta
  * muestra la bienvenida. */
-function instalarBD() {
+function instalarBD(): void {
   $.post("backend/conexion.php", { instalarBD: true }, (data) => {
     if (data !== "true") return console.error(data);
     return setTimeout(() => {

@@ -1,5 +1,4 @@
-/** @typedef {import('./funciones')} */
-
+import Typed from "typed.js";
 import { ajax, alerta, verClave } from "./funciones";
 import { reloj } from "./reloj";
 import validar from "./validar";
@@ -7,12 +6,9 @@ import validar from "./validar";
 /*=====================================
 =            DECLARACIONES            =
 =====================================*/
-/** @type {HTMLDivElement} */
 const contenedorReloj = document.querySelector(".reloj");
-/** @type {HTMLFormElement} */
 const form = document.querySelector("#login");
-/** @type {HTMLElement} */
-const usuarioLoader = form.querySelector("#usuarioLoader");
+const usuarioLoader = form?.querySelector("#usuarioLoader");
 /*=====  End of DECLARACIONES  ======*/
 
 /*==============================================

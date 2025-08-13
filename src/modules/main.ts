@@ -1,6 +1,10 @@
-/** @typedef {import('./funciones')} */
-
-import { actualizarMonedas, menu, reajustar, modal } from "./funciones";
+import {
+  actualizarMonedas,
+  cerrarSesion,
+  menu,
+  modal,
+  reajustar,
+} from "./funciones";
 import { navegacion } from "./navegacion";
 
 /*=====================================
@@ -17,10 +21,11 @@ const btnModenas = document.querySelector("#btn-monedas");
 /** @type {HTMLFormElement} */
 const formMonedas = document.querySelector("#actualizarMonedas");
 const main = document.querySelector("main");
-const dashboardHTML = main?.innerHTML;
 const conversionMonetaria = document.querySelector("#conversionMonetaria");
 
 globalThis.modal = modal;
+globalThis.dashboardHTML = main?.innerHTML;
+globalThis.cerrarSesion = cerrarSesion;
 /*=====  End of DECLARACIONES  ======*/
 
 /*==============================================
@@ -32,8 +37,7 @@ reajustar();
 menu();
 navegacion(main);
 if (formMonedas) actualizarMonedas(formMonedas);
-if (conversionMonetaria)
-{
+if (conversionMonetaria) {
   const valorDolar = Number(conversionMonetaria.valorDolar.value);
   const valorPesos = Number(conversionMonetaria.valorPesos.value);
 
@@ -59,13 +63,10 @@ if (conversionMonetaria)
     resultadoDolar = Number(inputBS.value / valorDolar).toFixed(2);
     resultadoPesos = Number(resultadoDolar * valorPesos).toFixed(0);
 
-    if (Number.isNaN(resultadoDolar) || Number.isNaN(resultadoPesos))
-    {
-      try
-      {
+    if (Number.isNaN(resultadoDolar) || Number.isNaN(resultadoPesos)) {
+      try {
         resultadoBS = Number(eval(inputBS.value)).toFixed(2);
-      } catch (error)
-      {
+      } catch (error) {
         console.error(error);
       }
 
@@ -86,13 +87,10 @@ if (conversionMonetaria)
     resultadoBS = Number((inputDolar.value * valorDolar).toFixed(2));
     resultadoPesos = Number((inputDolar.value * valorPesos).toFixed(0));
 
-    if (Number.isNaN(resultadoBS) || Number.isNaN(resultadoPesos))
-    {
-      try
-      {
+    if (Number.isNaN(resultadoBS) || Number.isNaN(resultadoPesos)) {
+      try {
         resultadoDolar = Number(eval(inputDolar.value).toFixed(2));
-      } catch (error)
-      {
+      } catch (error) {
         true;
       }
       if (resultadoDolar < 0) resultadoDolar *= -1;
@@ -112,13 +110,10 @@ if (conversionMonetaria)
     resultadoDolar = Number(inputPesos.value / valorPesos).toFixed(2);
     resultadoBS = Number(resultadoDolar * valorDolar).toFixed(2);
 
-    if (Number.isNaN(resultadoDolar) || Number.isNaN(resultadoBS))
-    {
-      try
-      {
+    if (Number.isNaN(resultadoDolar) || Number.isNaN(resultadoBS)) {
+      try {
         resultadoPesos = eval(inputPesos.value).toFixed(0);
-      } catch (error)
-      {
+      } catch (error) {
         true;
       }
       if (resultadoPesos < 0) resultadoPesos *= -1;

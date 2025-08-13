@@ -1,106 +1,135 @@
-// @ts-nocheck
-
+import $ from "jquery";
+import Noty from "noty";
+import w3 from "w3s";
 import validar from "./validar";
 
-/**
- * @typedef {object} Respuesta Respuesta del servidor
- * @property {string} Respuesta.ok El mensaje de éxito.
- * @property {string} Respuesta.error Errores que lanza el servidor.
- * @property {object} Respuesta.datos Objeto con datos de la posible consulta.
- * @typedef {string} RespuestaCruda Respuesta serializada `"{error: string, datos: {}}"`
- * @typedef {import('../../assets/libs/noty/index').*} Noty
- * @typedef {import('../../assets/libs/jquery.min.js').*} $
- * @typedef {import('../../assets/libs/typedjs/index').*} Typed
- * @typedef {import('../../assets/libs/w3/w3.min').*} w3
- * @typedef {import('./validar')}
- * @typedef {import('./actualizarImagen')}
- * @typedef {import('./reloj')}
- */
+export interface Respuesta {
+  ok: string;
+  error: string;
+  datos: object;
+}
+
+export type RespuestaCruda = string;
 
 Noty.overrideDefaults({ theme: "sunset" });
 
 /**
- * Comportamiento de un acordión de filas en una tabla. <br>
+ * Comportamiento de un acordión de filas en una tabla.
  * <u>Requisitos</u>
- * <ul>
- *  <li>Cada acordeón debe tener el atributo `role="accordion`</li>
- *  <li>Cada acordeón debe tener un botón que sirva para abrir y cerrar</li>
- *  <li>Cada acordeón debe tener una flecha que indique su estado</li>
- * </ul>
+ *
+ * - Cada acordeón debe tener el atributo `role="accordion`
+ * - Cada acordeón debe tener un botón que sirva para abrir y cerrar
+ * - Cada acordeón debe tener una flecha que indique su estado
  */
-const acordeon = () => {
+export function acordeon(): void {
   const acordeones = document.querySelectorAll('[role="accordion"]');
-  for (let i = 0; i < acordeones.length; ++i) {
-    /** @type {HTMLButtonElement} */
-    const boton = acordeones[i].firstElementChild;
-    const flecha = boton.querySelector('[class^="icon-chevron"]');
-    boton.onclick = () => {
-      boton.nextElementSibling.classList.toggle("w3-hide");
-      boton.nextElementSibling.classList.toggle("w3-show");
-      if (flecha) {
-        flecha.classList.toggle("icon-chevron-right");
-        flecha.classList.toggle("icon-chevron-down");
-      }
-    };
-  }
-};
 
-/**
- * Redirige a una ruta especificada
- * @param  {string} destino Ruta destino
- * @returns {string} La nueva ruta
- */
-const redirigir = (destino) => {
+  for (let i = 0; i < acordeones.length; ++i) {
+    const boton = acordeones[i].firstElementChild as HTMLButtonElement | null;
+    const flecha = boton?.querySelector('[class^="icon-chevron"]');
+
+    if (!boton) {
+      console.warn(
+        "El acordeón debe tener un botón para abrir y cerrar el acordeón.",
+      );
+    } else {
+      boton.onclick = () => {
+        boton.nextElementSibling?.classList.toggle("w3-hide");
+        boton.nextElementSibling?.classList.toggle("w3-show");
+
+        if (flecha) {
+          flecha.classList.toggle("icon-chevron-right");
+          flecha.classList.toggle("icon-chevron-down");
+        }
+      };
+    }
+  }
+}
+
+/** Redirige a una ruta especificada. */
+export function redirigir(destino: string): void {
   let href = location.href.split("/");
   href[href.length - 1] = destino;
   href = href.join("/");
   location.href = href;
-};
+}
 
 /**
  * Comportamiento de un Dropdown Click
- * @param  {string} id El ID del content (incluido el '#')
+ * @param id El ID del content (incluido el '#')
  */
-const dropdown = (id) => {
-  /** @type {HTMLElement} */
-  const content = document.querySelector(id);
-  content.classList.toggle("w3-show");
-};
+export function dropdown(id: string): void {
+  const content = document.querySelector(id) as HTMLElement | null;
 
-/**
- * Comportamiento de un elemento `<details> para navegadores que no lo soportan`
- * @param  {HTMLElement} details Elemento `<details>`
- */
-export const mostrarDetails = (details) => {
-  if (details) {
-    const summary = details.querySelector("summary");
-    const flecha = summary.querySelector('[class^="icon-chevron"]');
-    summary.onclick = () => {
-      details.removeAttribute("open");
-      details.classList.toggle("abierto");
-      if (flecha) {
-        flecha.classList.toggle("icon-chevron-right");
-        flecha.classList.toggle("icon-chevron-down");
-      }
-    };
+  content?.classList.toggle("w3-show");
+}
+
+/** Comportamiento de un elemento `<details> para navegadores que no lo soportan`. */
+export const mostrarDetails = (details: HTMLDetailsElement): void => {
+  const summary = details.querySelector("summary");
+  const flecha = summary?.querySelector('[class^="icon-chevron"]');
+
+  if (!summary) {
+    console.warn(
+      "El elemento <details> debe tener un <summary> para poder abrir y cerrar.",
+    );
+
+    return;
   }
+
+  summary.onclick = () => {
+    details.removeAttribute("open");
+    details.classList.toggle("abierto");
+    if (flecha) {
+      flecha.classList.toggle("icon-chevron-right");
+      flecha.classList.toggle("icon-chevron-down");
+    }
+  };
 };
 
 /** Reajusta la estructura del LicoSys, dependiendo la resolución. */
-export const reajustar = () => {
+export function reajustar(): void {
   if (document.body.offsetWidth < 992) {
     $("main").css("margin-left", "0");
-  } else $("main").css("margin-left", "250px");
-};
+
+    return;
+  }
+
+  $("main").css("margin-left", "250px");
+}
 
 /** Define el comportamiento de un menú lateral. */
-export const menu = () => {
-  /** @type {HTMLButtonElement} */
-  const boton = document.querySelector(".icon-bars").parentElement;
-  /** @type {HTMLDivElement} */
-  const overlay = document.querySelector('[role="menuOverlay"]');
-  /** @type {HTMLElement} */
-  const menu = document.querySelector("#menu");
+export function menu(): void {
+  const boton = document.querySelector(".icon-bars")
+    ?.parentElement as HTMLButtonElement | null;
+  const overlay = document.querySelector(
+    '[role="menuOverlay"]',
+  ) as HTMLDivElement | null;
+  const menu = document.querySelector("#menu") as HTMLMenuElement | null;
+
+  if (!boton) {
+    console.warn(
+      "El menú debe tener un botón con la clase 'icon-bars' para poder abrir y cerrar el menú.",
+    );
+
+    return;
+  }
+
+  if (!overlay) {
+    console.warn(
+      "El menú debe tener un elemento con el atributo 'role=menuOverlay' para poder abrir y cerrar el menú.",
+    );
+
+    return;
+  }
+
+  if (!menu) {
+    console.warn(
+      "El menú debe tener un elemento con el ID 'menu' para poder abrir y cerrar el menú.",
+    );
+
+    return;
+  }
 
   boton.onclick = () => {
     // Mostramos el fondo.
@@ -121,6 +150,7 @@ export const menu = () => {
     menu.classList.remove("w3-animate-left");
     menu.classList.add("animate__animated", "animate__slideOutLeft");
     menu.classList.add("animate__faster");
+
     setTimeout(() => {
       // Ocultar el menú
       menu.classList.remove("w3-show");
@@ -129,17 +159,36 @@ export const menu = () => {
   };
 
   globalThis.onresize = reajustar;
-};
+}
 
 /**
- * @param  {HTMLElement} modal Contenedor del modal.
- * @param {()} [callback] Función adicional a ejecutar al cerrar el modal.
+ * @param modal Contenedor del modal.
+ * @param [callback] Función adicional a ejecutar al cerrar el modal.
  */
-export function mostrarModal(modal, callback = () => {}) {
-  /** @type {HTMLSpanElement} */
-  const cerrar = modal.querySelector(".icon-close");
-  /** @type {HTMLDivElement} */
-  const overlay = document.querySelector('[role="modalOverlay"]');
+export function mostrarModal(
+  modal: HTMLElement,
+  callback: () => void = () => {},
+): void {
+  const cerrar = modal.querySelector(".icon-close") as HTMLSpanElement | null;
+  const overlay = document.querySelector(
+    '[role="modalOverlay"]',
+  ) as HTMLDivElement | null;
+
+  if (!overlay) {
+    console.warn(
+      "El modal debe tener un elemento con el atributo 'role=modalOverlay' para poder abrir y cerrar el modal.",
+    );
+
+    return;
+  }
+
+  if (!cerrar) {
+    console.warn(
+      "El modal debe tener un elemento con la clase 'icon-close' para poder cerrar el modal.",
+    );
+
+    return;
+  }
 
   // Oscurecemos el fondo
   overlay.classList.remove("w3-hide");
@@ -186,50 +235,60 @@ export function mostrarModal(modal, callback = () => {}) {
 }
 
 /**
- * Define el comportamiento de un modal.<br>
- * &nbsp;<u>Requisitos</u>
- * <ul>
- *   <li>Para llamar a esta función a el botón o enlace debes agregarle el atributo `onclick="modal(this)"`.</li>
- *   <li>Define un atributo `data-target="selectorCSS"` al elemento modal, ya sea por `#id` o `.class`.</li>
- *   <li>Verifica que coincida el `selectorCSS` con el elemento del modal.</li>
- * </ul>
- * @param  {HTMLElement} boton El elemento que abre el modal al hacer click o touch.
+ * Define el comportamiento de un modal.
+ * <u>Requisitos</u>
+ *
+ * - Para llamar a esta función a el botón o enlace debes agregarle el atributo `onclick="modal(this)"`.
+ * - Define un atributo `data-target="selectorCSS"` al elemento modal, ya sea por `#id` o `.class`.
+ * - Verifica que coincida el `selectorCSS` con el elemento del modal.
+ * @param boton El elemento que abre el modal al hacer click o touch.
  */
-export function modal(boton) {
-  const selector = boton.getAttribute("data-target");
-  const modal = document.querySelector(selector);
+export function modal(boton: HTMLElement): void {
+  const selector = String(boton.getAttribute("data-target"));
+  const modal = document.querySelector(selector) as HTMLElement | null;
+
+  if (!modal) {
+    console.warn(`No se encontró el modal con el selector: ${selector}`);
+
+    return;
+  }
+
   mostrarModal(modal);
 }
 
 /**
  * Opaca el fondo y muestra el loader.
- * @param  {HTMLElement} modal Modal contenedor de algún elemento con `id='loader'`
+ * @param modal Modal contenedor de algún elemento con `id='loader'`
  */
-export function mostrarLoader(modal) {
+export function mostrarLoader(modal: HTMLElement): void {
   const overlay = document.querySelector('[role="modalOverlay"]');
-  overlay.classList.remove("w3-hide");
-  overlay.classList.add("w3-show");
+  overlay?.classList.remove("w3-hide");
+  overlay?.classList.add("w3-show");
   modal.classList.add("showLoader");
 }
 
 /**
  * Quita el fondo opaco y el loader.
- * @param  {HTMLElement} modal    Modal contenedor de algún elemento con `id='loader'`
+ * @param modal Modal contenedor de algún elemento con `id='loader'`
  */
-export function ocultarLoader(modal) {
+export function ocultarLoader(modal: HTMLElement): void {
   const overlay = document.querySelector('[role="modalOverlay"]');
-  overlay.classList.remove("w3-show");
-  overlay.classList.add("w3-hide");
+  overlay?.classList.remove("w3-show");
+  overlay?.classList.add("w3-hide");
   modal.classList.remove("showLoader");
 }
 
 /**
  * Realiza una petición POST
- * @param  {string} url     Ruta relativa al fichero PHP
- * @param  {FormData} data    Datos a enviar.
- * @param  {(res: RespuestaCruda)} success Una función que recibe la respuesta del servidor.
+ * @param url     Ruta relativa al fichero PHP
+ * @param data    Datos a enviar.
+ * @param success Una función que recibe la respuesta del servidor.
  */
-export function ajax(url, data, success) {
+export function ajax(
+  url: string,
+  data: FormData,
+  success: (res: RespuestaCruda) => void,
+): void {
   $.ajax({
     url,
     type: "POST",
@@ -242,15 +301,16 @@ export function ajax(url, data, success) {
 
 /**
  * Muestra u oculta la contraseña
- * @param  {HTMLElement} ojo El ícono
- * @param {HTMLInputElement} input `<input type="password">`
+ * @param ojo El ícono
+ * @param input `<input type="password">`
  */
-export const verClave = (ojo, input) => {
+export function verClave(ojo: HTMLElement, input: HTMLInputElement): void {
   ojo.onclick = () => {
     if (input.type === "password") {
       input.type = "text";
       ojo.classList.remove("icon-eye");
       ojo.classList.add("icon-eye-slash");
+
       return;
     }
 
@@ -258,16 +318,20 @@ export const verClave = (ojo, input) => {
     ojo.classList.remove("icon-eye-slash");
     ojo.classList.add("icon-eye");
   };
-};
+}
 
 /**
  * Muestra un diálogo de confirmación.
- * @param  {string}   texto    Título de la ventana emergente.
- * @param  {Noty.Layout}   [posicion] Default: 'center'
- * @param  {(e: Event)} callback Función que se ejecuta al confirmar.
- * @return {Noty} Retorna un objeto Noty activado por defecto.
+ * @param texto Título de la ventana emergente.
+ * @param [posicion] Default: 'center'
+ * @param [callback] Función que se ejecuta al confirmar.
+ * @return Retorna un objeto Noty activado por defecto.
  */
-export function confirmar(texto, posicion = "center", callback = () => {}) {
+export function confirmar(
+  texto: string,
+  posicion: Noty.Layout = "center",
+  callback: (e: JQuery.ClickEvent) => void = () => {},
+): Noty {
   const text = `
     <div class="w3-white w3-round-xlarge w3-padding w3-center w3-border" style="z-index: 1000">
       <div class="animate__animated animate__flip animate__infinite icon-question w3-xxxlarge"></div>
@@ -281,9 +345,9 @@ export function confirmar(texto, posicion = "center", callback = () => {}) {
     </div>
   `;
 
-  return new Noty({
+  const noty = new Noty({
     id: "confirmacion",
-    theme: null,
+    theme: undefined,
     text,
     layout: posicion,
     modal: true,
@@ -299,15 +363,19 @@ export function confirmar(texto, posicion = "center", callback = () => {}) {
         });
       },
     },
-  }).show();
+  });
+
+  noty.show();
+
+  return noty;
 }
 
 /**
  * Muestra una alerta :V
- * @param  {string} texto Texto de la alerta.
- * @param {number} timer Milisegundos que deben pasar para ocultar la alerta.
+ * @param texto Texto de la alerta.
+ * @param timer Milisegundos que deben pasar para ocultar la alerta.
  */
-export function alerta(texto, timer = 2000) {
+export function alerta(texto: string, timer: number = 2000): Noty {
   return new Noty({
     text: `<strong><i class="icon-close w3-margin-right"></i> ${texto}</strong>`,
     type: "error",
@@ -315,8 +383,7 @@ export function alerta(texto, timer = 2000) {
   });
 }
 
-/** @param  {string} texto */
-export function notificacion(texto) {
+export function notificacion(texto: string): Noty {
   return new Noty({
     text: `<i class="icon-check w3-margin-right"></i> ${texto}`,
     type: "success",
@@ -324,142 +391,197 @@ export function notificacion(texto) {
   });
 }
 
-/** @param  {string} texto */
-const advertencia = (texto) => {
+export function advertencia(texto: string): Noty {
   return new Noty({
     text: `<strong class="w3-text-black"><i class="icon-warning w3-margin-right"></i> ${texto}</strong>`,
     type: "warning",
     timeout: 3000,
   });
-};
+}
 
-/**
- * @param  {string} texto
- */
-const informacion = (texto) => {
+export function informacion(texto: string): Noty {
   return new Noty({
     text: `<i class="w3-margin-right">!</i> ${texto}`,
     type: "info",
     timeout: 3000,
   });
-};
+}
 
 /**
  * Actualiza una ayuda que vincula cada pregunta con su respectiva respuesta
- * @param  {HTMLFormElement} form El formulario que contiene a los inputs de preguntas y respuestas.
+ * @param form El formulario que contiene a los inputs de preguntas y respuestas.
  */
-export function labelPreguntas(form) {
+export function labelPreguntas(form: HTMLFormElement): void {
   form.pre1.addEventListener("keyup", () => {
     const legendRespuesta = form.querySelector(
       `sup[respuesta=${form.res1.id}]`,
-    );
+    ) as HTMLLegendElement | null;
+
+    if (!legendRespuesta) {
+      console.warn(
+        "No se encontró el elemento sup que vincula la pregunta con la respuesta.",
+      );
+
+      return;
+    }
+
     legendRespuesta.innerText = `(${form.pre1.value})`;
   });
 
   form.pre2.addEventListener("keyup", () => {
     const legendRespuesta = form.querySelector(
       `sup[respuesta=${form.res2.id}]`,
-    );
+    ) as HTMLLegendElement | null;
+
+    if (!legendRespuesta) {
+      console.warn(
+        "No se encontró el elemento sup que vincula la pregunta con la respuesta.",
+      );
+
+      return;
+    }
+
     legendRespuesta.innerText = `(${form.pre2.value})`;
   });
 
   form.pre3.addEventListener("keyup", () => {
     const legendRespuesta = form.querySelector(
       `sup[respuesta=${form.res3.id}]`,
-    );
+    ) as HTMLLegendElement | null;
+
+    if (!legendRespuesta) {
+      console.warn(
+        "No se encontró el elemento sup que vincula la pregunta con la respuesta.",
+      );
+
+      return;
+    }
+
     legendRespuesta.innerText = `(${form.pre3.value})`;
   });
 }
 
 /**
  * Envia la petición al servidor para activar o desactivar un registro.
- * @param  {string} tabla  De qué tabla es el registro.
- * @param  {string} campo  El nombre del campo para identificar el registro.
- * @param  {number} valor  Valor único de cada registro.
- * @param  {string} accion Si quieres `activar` o `desactivar`.
- * @param  {string} hrefEnlace El HREF del enlace a clickear cuando se active o se desactive un registro.
+ * @param tabla  De qué tabla es el registro.
+ * @param campo  El nombre del campo para identificar el registro.
+ * @param valor  Valor único de cada registro.
+ * @param accion Si quieres `activar` o `desactivar`.
+ * @param hrefEnlace El HREF del enlace a clickear cuando se active o se desactive un registro.
  */
-const activarDesactivar = (tabla, campo, valor, accion, hrefEnlace) => {
+export function activarDesactivar(
+  tabla: string,
+  campo: string,
+  valor: number,
+  accion: string,
+  hrefEnlace: string,
+): void {
   const post = {
     tabla: tabla,
     campo: campo,
     valor: valor,
     accion: accion,
   };
-  return $.post("backend/activarDesactivar.php", post, (res) => {
-    /** @type {Respuesta} */
-    const respuesta = JSON.parse(res);
+
+  $.post("backend/activarDesactivar.php", post, (res) => {
+    const respuesta: Respuesta = JSON.parse(res);
 
     if (respuesta.error) return alerta(respuesta.error).show();
 
-    if (accion === "activar")
-      notificacion(respuesta.ok)
-        .on("beforeShow", () => $(`[href="${hrefEnlace}"]`)[0].click())
-        .show();
-    else if (accion === "desactivar")
-      informacion(respuesta.ok)
-        .on("beforeShow", () => $(`[href="${hrefEnlace}"]`)[0].click())
-        .show();
+    if (accion === "activar") {
+      const alertaExito = notificacion(respuesta.ok);
+      alertaExito.on("beforeShow", () =>
+        $(`[href="${hrefEnlace}"]`)[0].click(),
+      );
+      alertaExito.show();
+    } else if (accion === "desactivar") {
+      const alertaInfo = informacion(respuesta.ok);
+      alertaInfo.on("beforeShow", () => $(`[href="${hrefEnlace}"]`)[0].click());
+      alertaInfo.show();
+    }
   });
-};
+}
 
 /**
  * Funcionalidad de activar un registro.
- * @param  {string} tabla De qué tabla es el registro.
- * @param  {string} campo Nombre del campo para identificar el registro.
- * @param  {number} valor Valor único de cada registro.
- * @param  {string} hrefEnlace El HREF del enlace a clickear al activar.
+ * @param tabla De qué tabla es el registro.
+ * @param campo Nombre del campo para identificar el registro.
+ * @param valor Valor único de cada registro.
+ * @param hrefEnlace El HREF del enlace a clickear al activar.
  */
-const activar = (tabla, campo, valor, hrefEnlace) => {
-  return activarDesactivar(tabla, campo, valor, "activar", hrefEnlace);
-};
+export function activar(
+  tabla: string,
+  campo: string,
+  valor: number,
+  hrefEnlace: string,
+): void {
+  activarDesactivar(tabla, campo, valor, "activar", hrefEnlace);
+
+  return;
+}
 
 /**
  * Funcionalidad de desactivar un registro.
- * @param  {string} tabla De qué tabla es el registro.
- * @param  {string} campo Nombre del campo para identificar el registro.
- * @param  {number} valor Valor único de cada registro.
- * @param  {string} hrefEnlace El HREF del enlace a clickear al activar.
+ * @param tabla De qué tabla es el registro.
+ * @param campo Nombre del campo para identificar el registro.
+ * @param valor Valor único de cada registro.
+ * @param hrefEnlace El HREF del enlace a clickear al activar.
  */
-const desactivar = (tabla, campo, valor, hrefEnlace) => {
-  return activarDesactivar(tabla, campo, valor, "desactivar", hrefEnlace);
-};
+export function desactivar(
+  tabla: string,
+  campo: string,
+  valor: number,
+  hrefEnlace: string,
+): void {
+  activarDesactivar(tabla, campo, valor, "desactivar", hrefEnlace);
 
-const vaciarLog = () => {
-  return confirmar("¿Seguro que desea vaciar el registro?", "center", () => {
+  return;
+}
+
+export function vaciarLog(): void {
+  confirmar("¿Seguro que desea vaciar el registro?", "center", () => {
     w3.addClass("main", "showLoader");
+
     return $.post("backend/vaciarLog.php", { vaciar: true }, (res) => {
       w3.removeClass("main", "showLoader");
-      /** @type {Respuesta} */
-      const respuesta = JSON.parse(res);
+      const respuesta: Respuesta = JSON.parse(res);
 
       if (respuesta.error) return alerta(respuesta.error).show();
 
-      return notificacion(respuesta.ok)
-        .on("onShow", () => $('nav [href="views/log.php"]')[0].click())
-        .show();
+      const alertaExito = notificacion(respuesta.ok);
+      alertaExito.on("onShow", () =>
+        $('nav [href="views/log.php"]')[0].click(),
+      );
+
+      alertaExito.show();
     });
   });
-};
+}
 
-export const cerrarSesion = () => {
-  return confirmar("¿Seguro que desea cerrar sesión?", "center", () => {
+export function cerrarSesion(): void {
+  confirmar("¿Seguro que desea cerrar sesión?", "center", () => {
     w3.addClass("main", "showLoader");
     const url = location.href.split("/");
     url[url.length - 1] = "salir.php";
     location.href = url.join("/");
   });
-};
+}
 
 /**
  * Funcionalidad de editar registros.
- * @param  {HTMLElement} boton  El botón del registro que quieres editar.
- * @param  {string} tabla  La tabla a la cual pertenecen los registros.
- * @param  {string} campo  El nombre del campo que identifica cada registro.
- * @param  {number} valor  Un valor único por cada registro.
- * @param  {string} hrefEnlace El HREF del enlace al clickear tras editar.
+ * @param boton  El botón del registro que quieres editar.
+ * @param tabla  La tabla a la cual pertenecen los registros.
+ * @param campo  El nombre del campo que identifica cada registro.
+ * @param valor  Un valor único por cada registro.
+ * @param [hrefEnlace] El HREF del enlace al clickear tras editar.
  */
-const editar = (boton, tabla, campo, valor, hrefEnlace = "") => {
+export function editar(
+  boton: HTMLElement,
+  tabla: string,
+  campo: string,
+  valor: number,
+  hrefEnlace: string = "",
+): void {
   const url = "backend/editar.php";
   const datos = {
     editar: true,
@@ -472,8 +594,18 @@ const editar = (boton, tabla, campo, valor, hrefEnlace = "") => {
 
     if (respuesta.error) return alerta(respuesta.error).show();
 
-    /** @type {HTMLFormElement} */
-    const form = document.querySelector(boton.getAttribute("data-target"));
+    const form = document.querySelector(
+      String(boton.getAttribute("data-target")),
+    ) as HTMLFormElement | null;
+
+    if (!form) {
+      console.warn(
+        `No se encontró el formulario con el selector: ${boton.getAttribute("data-target")}`,
+      );
+
+      return;
+    }
+
     form.innerHTML = respuesta.ok;
     modal(boton);
 
@@ -498,35 +630,40 @@ const editar = (boton, tabla, campo, valor, hrefEnlace = "") => {
       ajax(url, fd, (res) => {
         const respuesta = JSON.parse(res);
 
-        if (respuesta.error)
-          return alerta(respuesta.error)
-            .on("onShow", () => form.classList.remove("showLoader"))
-            .show();
+        if (respuesta.error) {
+          const alertaError = alerta(respuesta.error);
+          alertaError.on("onShow", () => form.classList.remove("showLoader"));
+          return alertaError.show();
+        }
 
-        return notificacion(respuesta.ok)
-          .on("onShow", () => {
-            ocultarLoader(form);
-            if (hrefEnlace) $(`a[href="${hrefEnlace}"]`)[0].click();
-          })
-          .show();
+        const alertaExito = notificacion(respuesta.ok);
+        alertaExito.on("onShow", () => {
+          ocultarLoader(form);
+          if (hrefEnlace) $(`a[href="${hrefEnlace}"]`)[0].click();
+        });
+        alertaExito.show();
       });
     });
   });
-};
+}
 
 /**
  * Consulta la factura de una venta específica.
- * @param {HTMLElement} boton El botón de esa venta.
- * @param {string} ventaID El ID de la venta.
+ * @param boton El botón de esa venta.
+ * @param ventaID El ID de la venta.
  */
-const verFacturaVenta = (boton, ventaID) => {
-  /** @type {HTMLElement} */
+export function verFacturaVenta(boton: HTMLElement, ventaID: string): void {
   const modalFactura = document.querySelector("#modalFactura");
   const ventaIdFormateado = ventaID.slice(7).slice(0, -8);
 
+  if (!modalFactura) {
+    console.warn("No se encontró el modal con el ID: #modalFactura");
+
+    return;
+  }
+
   $.get(`views/ventas.php?ventaID=${ventaIdFormateado}`, (res) => {
-    /** @type {Respuesta} */
-    const respuesta = JSON.parse(res);
+    const respuesta: Respuesta = JSON.parse(res);
 
     if (respuesta.error) return alerta(respuesta.error).show();
 
@@ -570,6 +707,7 @@ const verFacturaVenta = (boton, ventaID) => {
         </div>
       `
         : "";
+
     modalFactura.innerHTML = `
       <div class="w3-right-align">
         <span class="icon-close w3-button w3-transparent w3-hover-red"></span>
@@ -622,22 +760,21 @@ const verFacturaVenta = (boton, ventaID) => {
     `;
     modal(boton);
   });
-};
+}
 
-const generarPDF = () => {
-  /** @type {HTMLElement} */
+export function generarPDF(): void {
   const modalFactura = document.querySelector("#modalFactura");
-  html2pdf(modalFactura.innerHTML);
-};
+  html2pdf(String(modalFactura?.innerHTML));
+}
 
 /**
  * Comportamiento de cambiar los páneles.
- * @param  {HTMLElement} boton El botón clickeado.
- * @param  {string} id    El ID del panel a mostrar (incluido el #).
+ * @param boton El botón clickeado.
+ * @param id    El ID del panel a mostrar (incluido el #).
  */
-const mostrarPanel = (boton, id) => {
-  /** @type {HTMLDivElement} */
+export function mostrarPanel(boton: HTMLElement, id: string): void {
   const panel = $(id)[0];
+
   $('[role="botonPanel"]').each((_i, boton) =>
     boton.classList.remove("w3-blue"),
   );
@@ -649,42 +786,42 @@ const mostrarPanel = (boton, id) => {
 
   panel.classList.remove("w3-hide");
   panel.classList.add("w3-show");
-};
+}
 
-const respaldarBD = () => {
-  return confirmar(
+export function respaldarBD(): void {
+  confirmar(
     "¿Desea crear una copia de seguridad de todos los datos?",
     "center",
     () => {
       w3.addClass("main", "showLoader");
       $.post("backend/backupBD.php", { respaldar: true }, (res) => {
         w3.removeClass("main", "showLoader");
-        /** @type {Respuesta} */
-        const respuesta = JSON.parse(res);
+        const respuesta: Respuesta = JSON.parse(res);
         if (respuesta.error) return alerta(respuesta.error).show();
 
         return notificacion(respuesta.ok).show();
       });
     },
   );
-};
+}
 
-const restaurarBD = () => {
+export function restaurarBD(): void {
   const texto = `
     Tener en cuenta que al restaurar se perderán cambios
     que no hayan sido respaldados<br>
     <strong class="w3-text-red">¿Desea continuar?</strong>
   `;
-  return confirmar(texto, "center", () => {
+
+  confirmar(texto, "center", () => {
     w3.addClass("main", "showLoader");
     $.post("backend/backupBD.php", { restaurar: true }, (res) => {
-      /** @type {Respuesta} */
-      const respuesta = JSON.parse(res);
+      const respuesta: Respuesta = JSON.parse(res);
 
-      if (respuesta.error)
-        return alerta(respuesta.error)
-          .on("onShow", () => w3.removeClass("main", "showLoader"))
-          .show();
+      if (respuesta.error) {
+        const alertaError = alerta(respuesta.error);
+        alertaError.on("onShow", () => w3.removeClass("main", "showLoader"));
+        return alertaError.show();
+      }
 
       const html = `
         <div class="w3-card w3-round-xlarge w3-white w3-padding-large w3-center">
@@ -694,47 +831,56 @@ const restaurarBD = () => {
           </h2>
         </div>
       `;
+
       new Noty({
-        theme: null,
         id: "intro",
         type: "info",
         text: html,
         layout: "center",
         modal: true,
-        closeWith: [null],
         animation: { open: "w3-animate-zoom" },
         timeout: 5000,
         callbacks: { afterClose: () => location.reload() },
       }).show();
     });
   });
-};
+}
 
 /**
  * Filtra elementos en una lista.
- * @param  {HTMLInputElement} input Entrada de texto.
- * @param  {string} contenedorID   ID del contenedor de la lista
+ * @param input Entrada de texto.
+ * @param contenedorID   ID del contenedor de la lista
  */
-const filter = (input, contenedorID) => {
+export function filter(input: HTMLInputElement, contenedorID: string): void {
   const contenedor = document.querySelector(`#${contenedorID}`);
-  /** @type {string} Texto a buscar en mayúsculas */
+
+  if (!contenedor) {
+    console.warn(`No se encontró el contenedor con el ID: ${contenedorID}`);
+
+    return;
+  }
+
+  /** Texto a buscar en mayúsculas */
   const texto = input.value.toUpperCase();
   const elementos = contenedor.querySelectorAll("button");
   for (let i = 0; i < elementos.length; ++i) {
-    /** @type {string} Texto del elemento */
+    /** Texto del elemento */
     const txtValue = elementos[i].textContent || elementos[i].innerText;
     if (txtValue.toUpperCase().indexOf(texto) > -1)
       elementos[i].style.display = "";
     else elementos[i].style.display = "none";
   }
-};
+}
 
 /**
  * Funcionalidad del formulario para registrar productos.
- * @param  {HTMLFormElement} formulario El formulario de registro.
- * @param  {string} enlace     El HREF del enlace a clickear terminado el registro.
+ * @param formulario El formulario de registro.
+ * @param enlace     El HREF del enlace a clickear terminado el registro.
  */
-const registrarProducto = (formulario, enlace) => {
+export function registrarProducto(
+  formulario: HTMLFormElement,
+  enlace: string,
+): void {
   validar(formulario, (error, fd, e) => {
     if (error) return alerta(error).show();
 
@@ -742,94 +888,105 @@ const registrarProducto = (formulario, enlace) => {
     mostrarLoader(formulario);
     ajax("backend/registrarProducto.php", fd, (res) => {
       /** @type {Respuesta} */
-      const datos = JSON.parse(res);
+      const datos: Respuesta = JSON.parse(res);
 
-      if (datos.error)
-        return alerta(datos.error)
-          .on("onShow", () => ocultarLoader(formulario))
-          .show();
+      if (datos.error) {
+        const alertaError = alerta(datos.error);
+        alertaError.on("onShow", () => ocultarLoader(formulario));
+        return alertaError.show();
+      }
 
       ocultarLoader(formulario);
-      return notificacion(datos.ok)
-        .on("onShow", () => $(`[href="${enlace}"]`)[0].click())
-        .show();
+      const alertaExito = notificacion(datos.ok);
+      alertaExito.on("onShow", () => $(`[href="${enlace}"]`)[0].click());
+      alertaExito.show();
     });
   });
-};
+}
 
 /**
  * Funcionalidad del formulario para registrar clientes.
- * @param  {HTMLFormElement} formulario El formulario de registro.
- * @param  {string} enlace     El HREF del enlace a clickear terminado el registro.
+ * @param formulario El formulario de registro.
+ * @param enlace     El HREF del enlace a clickear terminado el registro.
  */
-const registrarCliente = (formulario, enlace) => {
+export function registrarCliente(
+  formulario: HTMLFormElement,
+  enlace: string,
+): void {
   validar(formulario, (error, fd, e) => {
     if (error) return alerta(error).show();
 
     e.preventDefault();
     mostrarLoader(formulario);
     ajax("backend/registrarCliente.php", fd, (res) => {
-      /** @type {Respuesta} */
-      const datos = JSON.parse(res);
+      const datos: Respuesta = JSON.parse(res);
 
-      if (datos.error)
-        return alerta(datos.error)
-          .on("onShow", () => ocultarLoader(formulario))
-          .show();
+      if (datos.error) {
+        const alertaError = alerta(datos.error);
+        alertaError.on("onShow", () => ocultarLoader(formulario));
+        alertaError.show();
+      }
 
       ocultarLoader(formulario);
-      return notificacion(datos.ok)
-        .on("onShow", () => $(`[href="${enlace}"]`)[0].click())
-        .show();
+      const alertaExito = notificacion(datos.ok);
+      alertaExito.on("onShow", () => $(`[href="${enlace}"]`)[0].click());
+      alertaExito.show();
     });
   });
-};
+}
 
 /**
  * Funcionalidad del formulario para registrar proveedores.
  * @param  {HTMLFormElement} formulario El formulario de registro.
  * @param  {string} enlace     El HREF del enlace a clickear terminado el registro.
  */
-const registrarProveedor = (formulario, enlace) => {
+export function registrarProveedor(
+  formulario: HTMLFormElement,
+  enlace: string,
+): void {
   validar(formulario, (error, fd, e) => {
     if (error) return alerta(error).show();
 
     e.preventDefault();
     mostrarLoader(formulario);
     ajax("backend/registrarProveedor.php", fd, (res) => {
-      /** @type {Respuesta} */
-      const datos = JSON.parse(res);
+      const datos: Respuesta = JSON.parse(res);
 
-      if (datos.error)
-        return alerta(datos.error)
-          .on("onShow", () => formulario.classList.remove("showLoader"))
-          .show();
+      if (datos.error) {
+        const alertaError = alerta(datos.error);
+        alertaError.on("onShow", () =>
+          formulario.classList.remove("showLoader"),
+        );
+        return alertaError.show();
+      }
 
       ocultarLoader(formulario);
-      return notificacion(datos.ok)
-        .on("onShow", () => $(`[href="${enlace}"]`)[0].click())
-        .show();
+      const alertaExito = notificacion(datos.ok);
+      alertaExito.on("onShow", () => $(`[href="${enlace}"]`)[0].click());
+      alertaExito.show();
     });
   });
-};
+}
 
 /**
  * Funcionalidad de actualizar el valor de las monedas.
- * @param  {HTMLFormElement} formulario El formulario de actualización.
+ * @param formulario El formulario de actualización.
  */
-export const actualizarMonedas = (formulario) => {
+export function actualizarMonedas(formulario: HTMLFormElement): void {
   validar(formulario, (error, fd, e) => {
     if (error) return alerta(error).show();
 
     e.preventDefault();
     formulario.classList.add("showLoader");
     ajax("backend/actualizarMonedas.php", fd, (res) => {
-      /** @type {Respuesta} */
-      const datos = JSON.parse(res);
-      if (datos.error)
-        return alerta(datos.error)
-          .on("onClose", () => formulario.classList.remove("showLoader"))
-          .show();
+      const datos: Respuesta = JSON.parse(res);
+      if (datos.error) {
+        const alertaError = alerta(datos.error);
+        alertaError.on("onClose", () =>
+          formulario.classList.remove("showLoader"),
+        );
+        alertaError.show();
+      }
 
       $("#tablaMonedas").html(`
         <tr>
@@ -844,42 +1001,58 @@ export const actualizarMonedas = (formulario) => {
           <td><b>${formulario.pesos.value}<i> Pesos</i></b></td>
         </tr>
       `);
+
       formulario.classList.remove("showLoader");
 
-      return notificacion(datos.ok)
-        .on("onShow", () => {
-          formulario.querySelector(".icon-close").click();
-        })
-        .on("afterClose", () => location.reload())
-        .show();
+      const alertaNotificacion = notificacion(datos.ok);
+      alertaNotificacion.on("onShow", () => {
+        const iconClose = formulario.querySelector(".icon-close");
+
+        if (iconClose instanceof HTMLElement) {
+          iconClose.click();
+        } else {
+          console.warn(
+            "No se encontró el elemento con la clase 'icon-close' en el formulario.",
+          );
+        }
+      });
+
+      alertaNotificacion.on("afterClose", () => location.reload());
+      alertaNotificacion.show();
     });
   });
-};
+}
 
 /**
  * Actualiza dinámicamente el total de un producto.
- * @param  {HTMLInputElement} cantidad   Un elemento `<input>` con `name="cantidad`
- * @param  {number} excento Representa si el producto es o no es excento de IVA.
- * @param  {string} inputTotalID ID del `<input>` en dónde mostrar el total.
+ * @param cantidad   Un elemento `<input>` con `name="cantidad`
+ * @param excento Representa si el producto es o no es excento de IVA.
+ * @param inputTotalID ID del `<input>` en dónde mostrar el total.
  */
-const actualizarTotal = (cantidad, excento, inputTotalID) => {
-  const precio = Number(cantidad.form.querySelector('[name="precio"]').value);
-  const iva = Number(cantidad.form.querySelector('[name="iva"]').value);
-  const dolar = Number(cantidad.form.querySelector('[name="dolar"]').value);
-  const peso = Number(cantidad.form.querySelector('[name="peso"]').value);
-  /** @type {HTMLInputElement} */
-  const total = cantidad.form.querySelector(inputTotalID);
+export function actualizarTotal(
+  cantidad: HTMLInputElement,
+  excento: number,
+  inputTotalID: string,
+): void {
+  const precio = Number(cantidad.form?.querySelector('[name="precio"]')?.value);
+  const iva = Number(cantidad.form?.querySelector('[name="iva"]')?.value);
+  const dolar = Number(cantidad.form?.querySelector('[name="dolar"]')?.value);
+  const peso = Number(cantidad.form?.querySelector('[name="peso"]')?.value);
+  const total = cantidad.form?.querySelector(
+    inputTotalID,
+  ) as HTMLInputElement | null;
+
   total.value = (precio * cantidad.value).toFixed(2);
-  total.setAttribute("total", total.value);
+  total?.setAttribute("total", total.value);
 
   if (excento) {
-    const totalIVA = Number(total.getAttribute("total")) * iva;
+    const totalIVA = Number(total?.getAttribute("total")) * iva;
     const precioBS = (
-      (Number(total.getAttribute("total")) + totalIVA) *
+      (Number(total?.getAttribute("total")) + totalIVA) *
       dolar
     ).toFixed(2);
     const precioPesos = (
-      (Number(total.getAttribute("total")) + totalIVA) *
+      (Number(total?.getAttribute("total")) + totalIVA) *
       peso
     ).toFixed(0);
     total.parentElement.innerHTML = `
@@ -892,8 +1065,10 @@ const actualizarTotal = (cantidad, excento, inputTotalID) => {
       </div>
     `;
   } else {
-    const precioBS = (Number(total.getAttribute("total")) * dolar).toFixed(2);
-    const precioPesos = (Number(total.getAttribute("total")) * peso).toFixed(0);
+    const precioBS = (Number(total?.getAttribute("total")) * dolar).toFixed(2);
+    const precioPesos = (Number(total?.getAttribute("total")) * peso).toFixed(
+      0,
+    );
     total.parentElement.innerHTML = `
       <span id="total" class="w3-left-align w3-input w3-padding w3-light-grey w3-text-black" disabled>
         ${total.value}
@@ -905,18 +1080,21 @@ const actualizarTotal = (cantidad, excento, inputTotalID) => {
     `;
   }
 
-  if (Number.parseInt(cantidad.value) !== 0)
-    cantidad.form.querySelector("button").classList.remove("w3-hide");
-};
+  if (Number.parseInt(cantidad.value) !== 0) {
+    cantidad.form?.querySelector("button")?.classList.remove("w3-hide");
+  }
+}
 
 /**
  * Actualiza dinámicamente el tooltip del precio.
- * @param  {HTMLInputElement} inputPrecio El `<input>` con el precio.
+ * @param inputPrecio El `<input>` con el precio.
  */
-const actualizarPrecio = (inputPrecio) => {
+export function actualizarPrecio(inputPrecio: HTMLInputElement) {
   const precio = Number(inputPrecio.value);
-  const dolar = Number(inputPrecio.form.querySelector('[name="dolar"]').value);
-  const peso = Number(inputPrecio.form.querySelector('[name="peso"]').value);
+  const dolar = Number(
+    inputPrecio.form?.querySelector('[name="dolar"]')?.value,
+  );
+  const peso = Number(inputPrecio.form?.querySelector('[name="peso"]')?.value);
 
   const precioBS = (precio * dolar).toFixed(2);
   const precioPesos = (precio * peso).toFixed(0);
@@ -926,7 +1104,7 @@ const actualizarPrecio = (inputPrecio) => {
       ${precioPesos} pesos
     </b>
   `;
-};
+}
 
 globalThis.onoffline = () => advertencia("Se ha perdido la conexión").show();
 
