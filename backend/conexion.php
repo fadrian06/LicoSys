@@ -2,11 +2,7 @@
 
 declare(strict_types=1);
 
-use Symfony\Component\Dotenv\Dotenv;
-
 require_once __DIR__ . '/../vendor/autoload.php';
-
-(new Dotenv)->load(BASE_DIR . '/.env.dist', BASE_DIR . '/.env');
 
 /**
  * Respuesta del servidor al cliente.
@@ -30,11 +26,4 @@ try {
   }
 } catch (mysqli_sql_exception) {
   $mostrarLoader = true;
-}
-
-/*----------  Instala la Base de Datos  ----------*/
-if (array_key_exists('instalarBD', $_POST)) {
-  $sql = file_get_contents(BASE_DIR . '/database/init.mysql.sql');
-
-  exit($conexion->multi_query($sql ?: '') ? 'true' : $conexion->error);
 }

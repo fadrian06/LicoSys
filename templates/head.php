@@ -118,12 +118,11 @@ $productosEnCarritoCompra = contarRegistros('carrito_compra');
 ?>
 
 <!DOCTYPE html>
-<html>
+<html lang="es">
 
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width" />
-  <meta name="theme-color" content="black" />
   <link rel="icon" href="<?= $BASE_URL ?>assets/images/logo.png" />
   <link rel="stylesheet" href="<?= $BASE_URL ?>assets/ico/style.min.css" />
   <link rel="stylesheet" href="<?= $BASE_URL ?>assets/fonts/fuentes.min.css" />
