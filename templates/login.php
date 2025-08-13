@@ -51,7 +51,8 @@ if (isset($mostrarLogin)) : ?>
               ? 'assets/images/negocios/' . $negocio['logo']
               : 'assets/images/logoNegocio.jpg';
 
-            $tooltipNombreNegocio = generarTooltip($negocio['nombre']);
+            $tooltipNombreNegocio = BareUI::render('components/tooltip', ['slot' => $negocio['nombre']]);
+
             echo <<<HTML
                 <div class="w3-col s4 w3-dropdown-hover w3-white">
                   <input

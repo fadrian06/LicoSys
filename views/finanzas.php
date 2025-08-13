@@ -141,8 +141,8 @@ if (Session::get('cargo') === 'a') :
           {$ganancia}
         HTML;
 
-    $tooltipCompradas = generarTooltip('Unidades compradas');
-    $tooltipVendidas = generarTooltip('Unidades vendidas');
+    $tooltipCompradas = BareUI::render('components/tooltip', ['slot' => 'Unidades compradas']);
+    $tooltipVendidas = BareUI::render('components/tooltip', ['slot' => 'Unidades vendidas']);
 
     $panelActivo = $negocio['id'] === Session::get('negocioID')
       ? 'w3-show-inline-block'

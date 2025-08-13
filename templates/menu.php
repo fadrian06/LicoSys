@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use Leaf\BareUI;
 use Leaf\Http\Session;
 use LicoSys\Enums\NombreInput;
 
@@ -22,7 +23,7 @@ if (isset($mostrarMenu)) : ?>
       <button onclick="modal(this)" data-target="#acercaDe" class="w3-button">
         LicoSys <?= getUltimaVersion() ?>
       </button>
-      <?= generarTooltip('Acerca De') ?>
+      <?= BareUI::render('components/tooltip', ['slot' => 'Acerca de']) ?>
     </div>
     <div class="w3-row">
       <div class="w3-half w3-medium w3-dropdown-hover w3-black">
@@ -30,10 +31,12 @@ if (isset($mostrarMenu)) : ?>
           <i class="icon-cart-arrow-down"></i>
           <b id="productosEnCarrito"><?= $productosEnCarrito ?></b>
         </a>
-        <?= generarTooltip('Carrito de Ventas') ?>
+        <?= BareUI::render('components/tooltip', ['slot' => 'Carrito de Ventas']) ?>
       </div>
       <?php
-      $tooltipCarritoCompras = generarTooltip('Carrito de Compras');
+
+      $tooltipCarritoCompras = BareUI::render('components/tooltip', ['slot' => 'Carrito de Compras']);
+
       if (Session::get('cargo') === 'a') {
         echo <<<HTML
             <div class="w3-half w3-medium w3-dropdown-hover w3-black">
@@ -49,6 +52,7 @@ if (isset($mostrarMenu)) : ?>
             </div>
           HTML;
       }
+
       ?>
     </div>
     <div class="w3-medium w3-dropdown-hover w3-black">
@@ -60,7 +64,7 @@ if (isset($mostrarMenu)) : ?>
         &nbsp;
         <b id="menuNombreNegocio"><?= Session::get('negocio') ?></b>
       </a>
-      <?= generarTooltip('Panel de Administración') ?>
+      <?= BareUI::render('components/tooltip', ['slot' => 'Panel de Administración']) ?>
     </div>
   </header>
   <!--==================================

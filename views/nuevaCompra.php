@@ -186,8 +186,14 @@ if (Session::get('cargo') === 'a') :
     ? (int) ($producto['precio'] * getPeso())
     : 0;
 
-  $tooltipPrecio = generarTooltip(sprintf('Bs. %s<br>%d pesos', $precioBS, $precioPesos), false);
-  $tooltipRegistrarProducto = generarTooltip('Registrar Producto');
+  $tooltipPrecio = BareUI::render('components/tooltip', [
+    'slot' => sprintf('Bs. %s<br>%d pesos', $precioBS, $precioPesos),
+    'textAlignment' => 'start',
+  ]);
+
+  $tooltipRegistrarProducto = BareUI::render('components/tooltip', [
+    'slot' => 'Registrar Producto',
+  ]);
 
   echo <<<HTML
       <section class="w3-row w3-padding-large w3-bottombar w3-round-large">
@@ -301,11 +307,19 @@ if (Session::get('cargo') === 'a') :
   foreach ($carrito as $producto) :
     $precioBS = round($producto['precio'] * getDolar(), 2);
     $precioPesos = (int) ($producto['precio'] * getPeso());
-    $tooltipPrecio = generarTooltip(sprintf('Bs. %s<br>%d pesos', $precioBS, $precioPesos), false);
+    $tooltipPrecio = BareUI::render('components/tooltip', [
+      'slot' => sprintf('Bs. %s<br>%d pesos', $precioBS, $precioPesos),
+      'textAlignment' => 'start',
+    ]);
 
     $precioBS = round((float) $producto['precio_total'] * floatval(getDolar()), 2);
     $precioPesos = (int) ((float) $producto['precio_total'] * floatval(getPeso()));
-    $tooltipTotal = generarTooltip(sprintf('Bs. %s<br>%d pesos', $precioBS, $precioPesos), false);
+
+    $tooltipTotal = BareUI::render('components/tooltip', [
+      'slot' => sprintf('Bs. %s<br>%d pesos', $precioBS, $precioPesos),
+      'textAlignment' => 'start',
+    ]);
+
     $totalCarrito += (float) $producto['precio_total'];
     $filasProductos .= <<<HTML
         <tr class="w3-white">
@@ -343,7 +357,11 @@ if (Session::get('cargo') === 'a') :
   if ($carrito !== []) :
     $precioBS = round($totalCarrito * floatval(getDolar()), 2);
     $precioPesos = (int) ($totalCarrito * floatval(getPeso()));
-    $tooltipTotalCarrito = generarTooltip(sprintf('Bs. %s<br>%d pesos', $precioBS, $precioPesos), false);
+    $tooltipTotalCarrito = BareUI::render('components/tooltip', [
+      'slot' => sprintf('Bs. %s<br>%d pesos', $precioBS, $precioPesos),
+      'textAlignment' => 'start',
+    ]);
+
     echo <<<HTML
         <section class="w3-section w3-responsive">
           <form id="carritoCompra">

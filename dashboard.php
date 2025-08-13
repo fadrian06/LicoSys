@@ -125,7 +125,7 @@ $cantidadProductos = consulta($sql);
             <span class="w3-large w3-block w3-margin-top">Ventas</span>
           </div>
         </a>
-        <?= generarTooltip('Ver Ventas') ?>
+        <?= BareUI::render('components/tooltip', ['slot' => 'Ver Ventas']) ?>
       </div>
       <div class="w3-col s6 m3 w3-dropdown-hover w3-transparent">
         <a href="views/compras.php" role="navegacion" class="w3-hover-opacity">
@@ -136,7 +136,7 @@ $cantidadProductos = consulta($sql);
             <span class="w3-large w3-block w3-margin-top">Compras</span>
           </div>
         </a>
-        <?= generarTooltip('Ver Compras') ?>
+        <?= BareUI::render('components/tooltip', ['slot' => 'Ver Compras']) ?>
       </div>
     <?php endif ?>
     <div class="w3-col <?= Session::get('cargo') === 'a' ? 's6 m3' : 's6' ?> w3-dropdown-hover w3-transparent">
@@ -148,7 +148,7 @@ $cantidadProductos = consulta($sql);
           <span class="w3-large w3-block w3-margin-top">Productos</span>
         </div>
       </a>
-      <?= generarTooltip('Ver Inventario') ?>
+      <?= BareUI::render('components/tooltip', ['slot' => 'Ver Inventario']) ?>
     </div>
     <div class="w3-col <?= Session::get('cargo') === 'a' ? 's6 m3' : 's6' ?> w3-dropdown-hover w3-transparent">
       <a
@@ -166,7 +166,11 @@ $cantidadProductos = consulta($sql);
           </span>
         </div>
       </a>
-      <?= generarTooltip(Session::get('cargo') === 'a' ? 'Ver Usuarios' : 'Ver Clientes') ?>
+      <?= BareUI::render('components/tooltip', [
+        'slot' => Session::get('cargo') === 'a'
+          ? 'Ver Usuarios'
+          : 'Ver Clientes',
+      ]) ?>
     </div>
   </section>
   <!--=============================
@@ -204,7 +208,7 @@ $cantidadProductos = consulta($sql);
             class="w3-button w3-block w3-border-bottom w3-light-gray w3-text-indigo w3-xlarge">
             Usuarios recientes
           </a>
-          <?= generarTooltip('Ver Registro de Sesiones') ?>
+          <?= BareUI::render('components/tooltip', ['slot' => 'Ver Registro de Sesiones']) ?>
         </div>
         <?php foreach ($recientes as $reciente) : ?>
           <li class="w3-padding-16">
@@ -221,7 +225,11 @@ $cantidadProductos = consulta($sql);
       =            PRODUCTOS MÁS VENDIDOS            =
       =============================================-->
       <?php
-      $tooltipProductosMasVendidos = generarTooltip('Ver Finanzas');
+
+      $tooltipProductosMasVendidos = BareUI::render('components/tooltip', [
+        'slot' => 'Ver Finanzas',
+      ]);
+
       if ($ventasCombinadas !== []) {
         echo <<<HTML
             <div class="w3-col s12 m6 w3-ul w3-card-4 w3-white">
@@ -241,6 +249,7 @@ $cantidadProductos = consulta($sql);
       ?>
     </section>
   <?php endif ?>
+
   <!--===================================
   =            PIE DE PÁGINA            =
   ====================================-->
@@ -284,6 +293,7 @@ $cantidadProductos = consulta($sql);
   </footer>
 
   <?php
+
   $mostrarChangelog = true;
   $mostrarSoporteTecnico = true;
   $mostrarManual = true;
