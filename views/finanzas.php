@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use Leaf\BareUI;
 use Leaf\Http\Session;
 
 require_once __DIR__ . '/../vendor/autoload.php';
@@ -42,7 +43,7 @@ if (Session::get('cargo') === 'a') :
     =========================================*/
   $negocios = getRegistros('SELECT * FROM negocios WHERE activo=1') ?? [];
 
-  echo LOADER;
+  echo BareUI::render('components/loader');
   echo '<div id="moduloFinanzas" class="w3-center">';
 
   $botones = '';

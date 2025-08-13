@@ -2,13 +2,14 @@
 
 declare(strict_types=1);
 
+use Leaf\BareUI;
 use LicoSys\Enums\NombreInput;
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
 if (isset($mostrarLogin)) : ?>
   <main class="w3-row w3-animate-zoom" id="mainLogin">
-    <?= LOADER ?>
+    <?= BareUI::render('components/loader') ?>
     <!--===================================
     =            PANEL LATERAL            =
     ====================================-->

@@ -16,7 +16,7 @@ if (!Session::has('activa')) {
 }
 
 if (Session::get('cargo') === 'a') :
-  echo LOADER;
+  echo BareUI::render('components/loader');
   echo '<div id="moduloUsuarios">';
 
   $sql = "SELECT cedula, nombre, usuario, telefono FROM usuarios WHERE cargo='v' AND activo=1 ORDER BY cedula";

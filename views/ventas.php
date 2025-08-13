@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use Leaf\BareUI;
 use Leaf\Http\Session;
 use LicoSys\Enums\BOTONES;
 
@@ -52,7 +53,7 @@ if (!empty($_GET['ventaID'])) :
   exit(json_encode($respuesta, JSON_INVALID_UTF8_IGNORE));
 endif;
 
-echo LOADER;
+echo BareUI::render('components/loader');
 echo '<div id="moduloVentas">';
 
 /*=============================

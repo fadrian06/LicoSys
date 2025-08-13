@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use Leaf\BareUI;
 use Leaf\Http\Session;
 use LicoSys\Enums\NombreInput;
 
@@ -14,7 +15,7 @@ if (!Session::has('activa')) {
   header('location: ../salir.php');
 }
 
-echo LOADER;
+echo BareUI::render('components/loader');
 echo '<div id="moduloNuevaVenta">';
 /*===========================================
   =            SELECCIONAR CLIENTE            =

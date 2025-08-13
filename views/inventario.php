@@ -15,7 +15,7 @@ if (!Session::has('activa')) {
   header('location: ../salir.php');
 }
 
-echo LOADER;
+echo BareUI::render('components/loader');
 echo '<div id="moduloInventario">';
 
 /*=============================

@@ -16,7 +16,7 @@ if (Session::get('cargo') === 'a') :
   require_once __DIR__ . '/../backend/conexion.php';
   require_once __DIR__ . '/../backend/funciones.php';
 
-  echo LOADER;
+  echo BareUI::render('components/loader');
   echo '<div id="moduloCompras">';
 
   /*=============================

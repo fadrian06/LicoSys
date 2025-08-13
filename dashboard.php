@@ -107,7 +107,7 @@ $cantidadProductos = consulta($sql);
 ?>
 
 <main class="w3-container w3-light-gray">
-  <?= LOADER ?>
+  <?= BareUI::render('components/loader') ?>
   <h1 class="w3-xlarge w3-padding-16">
     <i class="icon-dashboard"></i> Administración
   </h1>

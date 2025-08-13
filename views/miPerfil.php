@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use Leaf\BareUI;
 use Leaf\Http\Session;
 
 require_once __DIR__ . '/../vendor/autoload.php';
@@ -21,7 +22,7 @@ $usuario = getRegistro("
   WHERE id={$userId}
 ");
 
-echo LOADER;
+echo BareUI::render('components/loader');
 echo '<div id="moduloPerfil" class="w3-row w3-padding-top-24">';
 
 /*=====================================

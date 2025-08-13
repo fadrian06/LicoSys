@@ -17,7 +17,7 @@ if (Session::get('cargo') === 'a') :
   require_once __DIR__ . '/../backend/conexion.php';
   require_once __DIR__ . '/../backend/funciones.php';
 
-  echo LOADER;
+  echo BareUI::render('components/loader');
   echo '<div id="moduloNegocios" class="w3-row" style="max-height: 71vh; overflow: auto">';
 
   $negocios = getRegistros('SELECT * FROM negocios WHERE activo=1') ?? [];

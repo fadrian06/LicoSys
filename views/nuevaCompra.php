@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use Leaf\BareUI;
 use Leaf\Http\Session;
 use LicoSys\Enums\NombreInput;
 
@@ -16,7 +17,7 @@ if (Session::get('cargo') === 'a') :
   require_once __DIR__ . '/../backend/conexion.php';
   require_once __DIR__ . '/../backend/funciones.php';
 
-  echo LOADER;
+  echo BareUI::render('components/loader');
   echo '<div id="moduloNuevaCompra">';
 
   /*=============================================
