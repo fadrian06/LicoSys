@@ -14,7 +14,8 @@
     "ext-mysqli": "*",
     "leafs/session": "^4.0",
     "flightphp/container": "^1.3",
-    "leafs/bareui": "^1.2"
+    "leafs/bareui": "^1.2",
+    "flightphp/core": "^3.17"
   },
   "scripts": {
     "pre-install-cmd": ["composer check-platform-reqs", "cp -n .env.dist .env"],
