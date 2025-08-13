@@ -5,16 +5,6 @@
     "useEditorconfig": true
   },
   "files": {
-    "includes": [
-      "!vendor",
-      "!*.min.*",
-      "!assets/libs",
-      "!*.sublime-*",
-      "!assets/css",
-      "!assets/js",
-      "src/modules/*.js",
-      "src/modules/*.ts",
-      "src/styles/*.css"
-    ]
+    "includes": ["src/modules/*.js", "src/modules/*.ts", "src/styles/*.css"]
   }
 }

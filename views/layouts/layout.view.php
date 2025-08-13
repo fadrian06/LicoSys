@@ -25,7 +25,7 @@ $archivoActual = $url[count($url) - 1];
   <title>LicoSys</title>
   <base href="/licosys/" />
   <link rel="icon" href="./assets/images/logo.png" />
-  <link rel="stylesheet" href="./assets/js/index.css" />
+  <link rel="stylesheet" href="./assets/dist/index.css" />
   <link rel="stylesheet" href="./assets/css/bundle.css" />
 </head>
 
@@ -112,7 +112,7 @@ $archivoActual = $url[count($url) - 1];
   ]) ?>
 
   <?= $slot ?>
-  <script src="./assets/js/index.js"></script>
+  <script src="./assets/dist/index.js"></script>
   <?= $scripts ?>
 </body>
 

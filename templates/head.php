@@ -21,8 +21,8 @@ $archivoActual = $url[count($url) - 1];
 =            LÓGICA DE TOD0 EL SISTEMA, MENOS EL LOGIN            =
 =================================================================*/
 if ($archivoActual !== 'index.php') {
-  $script .= "<script src='./assets/js/navegacion.js'></script>";
-  $script .= "<script src='./assets/js/main.js'></script>";
+  $script .= "<script src='./assets/dist/navegacion.js'></script>";
+  $script .= "<script src='./assets/dist/main.js'></script>";
   $userId = Session::get('userID');
 
   /*----------  No tienes preguntas y respuestas registradas  ----------*/
@@ -112,7 +112,7 @@ $admin = getRegistro("SELECT * FROM usuarios WHERE cargo='a'");
   <title>LicoSys</title>
   <base href="/licosys/" />
   <link rel="icon" href="./assets/images/logo.png" />
-  <link rel="stylesheet" href="./assets/js/index.css" />
+  <link rel="stylesheet" href="./assets/dist/index.css" />
 </head>
 
 <body class="w3-disabled" x-init="$el.classList.remove('w3-disabled')">

@@ -1,13 +1,7 @@
+assets/dist
 node_modules
-Rubbish
-licosys.sublime-workspace
-desktop.ini
-README.html
-.env
 vendor
-js
-css
-backup.sql
-storage/ecs
-storage/*.json
+.env
+*.sublime-workspace
 phpcs.xml
+phpstan.dist.neon

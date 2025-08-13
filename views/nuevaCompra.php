@@ -485,6 +485,6 @@ if (Session::get('cargo') === 'a') :
   echo '</div>';
 else :
   include __DIR__ . '/../templates/head.php';
-  $script = "<script src='./assets/js/restringido.js'></script>";
+  $script = "<script src='./assets/dist/restringido.js'></script>";
   include __DIR__ . '/../templates/footer.php';
 endif;

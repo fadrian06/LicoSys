@@ -6,7 +6,7 @@ use Leaf\Http\Session;
 
 function verificarCopiaDeSeguridad(string &$script): void {
   if (file_exists('backup/backup.sql')) {
-    $script .= '<script src="assets/js/restaurarBD.js"></script>';
+    $script .= '<script src="assets/dist/restaurarBD.js"></script>';
   }
 }
 

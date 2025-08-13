@@ -14,7 +14,7 @@
     "w3s": "^1.1.0"
   },
   "scripts": {
-    "build": "rm -rf assets/js assets/css & esbuild src/modules/* --outdir=assets/js --minify --bundle --sourcemap --loader:.ttf=copy --loader:.eot=copy --loader:.woff=copy --loader:.woff2=copy --loader:.svg=dataurl --loader:.jpg=dataurl",
+    "build": "esbuild src/modules/* --outdir=assets/dist --minify --bundle --sourcemap --loader:.ttf=copy --loader:.eot=copy --loader:.woff=copy --loader:.woff2=copy --loader:.svg=dataurl --loader:.jpg=dataurl",
     "ci": "biome ci ./",
     "format": "biome format ./ --write"
   }
