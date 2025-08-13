@@ -107,9 +107,6 @@ $script .= <<<'html'
   </script>
 html;
 
-$productosEnCarrito = contarRegistros('carrito_venta');
-$productosEnCarritoCompra = contarRegistros('carrito_compra');
-
 ?>
 
 <!doctype html>
@@ -143,12 +140,6 @@ $productosEnCarritoCompra = contarRegistros('carrito_compra');
   <div role="menuOverlay" class="w3-overlay w3-animate-opacity w3-hide"></div>
 
   <?php
-
-  if ($archivoActual !== 'index.php') {
-    $mostrarMenu = true;
-
-    include BASE_DIR . '/templates/menu.php';
-  }
 
   $archivoActual !== 'index.php' && print BareUI::render('components/header', [
     'salesCartProductsAmount' => contarRegistros('carrito_venta'),
