@@ -2,8 +2,8 @@
 
 declare(strict_types=1);
 
+use Leaf\BareUI;
 use Leaf\Http\Session;
-use LicoSys\Enums\BOTONES;
 use LicoSys\Enums\NombreInput;
 
 require_once __DIR__ . '/../vendor/autoload.php';
@@ -262,7 +262,17 @@ if (Session::get('cargo') === 'a') :
   /*=====================================
   =            BARRA LATERAL            =
   =====================================*/
-  $botonRegistrar = BOTONES::REGISTRAR_NEGOCIO->value;
+  $botonRegistrar = BareUI::render('components/quick-action-button', [
+    'tag' => 'button',
+    'background' => 'blue',
+    'icon' => 'icon-plus',
+    'props' => [
+      'onclick="modal(this)"',
+      'data-target="#registrarNegocio"',
+    ],
+    'slot' => 'Nuevo Negocio',
+    'size' => 'normal',
+  ]);
   echo <<<HTML
       <div class="w3-col s4 m3 w3-padding-top-64 w3-ul w3-center">
         <ul class="w3-ul w3-card w3-white w3-tiny w3-center">{$botones}</ul>
@@ -352,15 +362,33 @@ if (Session::get('cargo') === 'a') :
   /*==========================================
     =            BOTONES INFERIORES            =
     ==========================================*/
-  echo '
-      <footer id="botones" class="w3-grey w3-padding-small" style="width: 100vw; bottom: 0">
-        <button class="w3-button w3-disabled w3-opacity-min w3-hover-gray w3-margin-bottom">
-          <i class="icon-chevron-right w3-xxlarge"></i>
-          &nbsp;Base de Datos
-        </button>
-    ',
-  BOTONES::RESPALDAR->value,
-  BOTONES::RESTAURAR->value,
+  echo <<<'html'
+    <footer id="botones" class="w3-grey w3-padding-small" style="width: 100vw; bottom: 0">
+      <button class="w3-button w3-disabled w3-opacity-min w3-hover-gray w3-margin-bottom">
+        <i class="icon-chevron-right w3-xxlarge"></i>
+        &nbsp;Base de Datos
+      </button>
+  html,
+  BareUI::render('components/quick-action-button', [
+    'tag' => 'button',
+    'background' => 'black',
+    'icon' => 'icon-download',
+    'props' => [
+      'onclick="respaldarBD()"',
+    ],
+    'slot' => 'Respaldar',
+    'size' => 'small',
+  ]),
+  BareUI::render('components/quick-action-button', [
+    'tag' => 'button',
+    'background' => 'black',
+    'icon' => 'icon-upload',
+    'props' => [
+      'onclick="restaurarBD()"',
+    ],
+    'slot' => 'Restaurar',
+    'size' => 'small',
+  ]),
   '</footer>';
   echo '</div>';
 else :

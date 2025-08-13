@@ -2,8 +2,8 @@
 
 declare(strict_types=1);
 
+use Leaf\BareUI;
 use Leaf\Http\Session;
-use LicoSys\Enums\BOTONES;
 use LicoSys\Enums\NombreInput;
 
 require_once __DIR__ . '/../vendor/autoload.php';
@@ -149,5 +149,27 @@ echo <<<HTML
 /*==========================================
   =            BOTONES INFERIORES            =
   ==========================================*/
-echo '<footer id="botones">' . BOTONES::REGISTRAR_PRODUCTO->value . BOTONES::REGISTRAR_COMBO->value . '</footer>';
+echo '<footer id="botones">' . BareUI::render('components/quick-action-button', [
+  'tag' => 'button',
+  'props' => [
+    'onclick="modal(this)"',
+    'data-target="#registrarProducto"',
+  ],
+  'class' => 'w3-margin-right',
+  'icon' => 'icon-plus',
+  'slot' => 'Nuevo Producto',
+  'background' => 'blue',
+  'size' => 'normal',
+]) . BareUI::render('components/quick-action-button', [
+  'tag' => 'button',
+  'props' => [
+    // 'onclick="modal(this)"',
+    'data-target="#registrarCombo"',
+  ],
+  'class' => 'w3-disabled',
+  'background' => 'blue',
+  'icon' => 'icon-list',
+  'slot' => 'Registrar Combo',
+  'size' => 'normal',
+]) . '</footer>';
 echo '</div>';

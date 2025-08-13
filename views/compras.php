@@ -2,8 +2,8 @@
 
 declare(strict_types=1);
 
+use Leaf\BareUI;
 use Leaf\Http\Session;
-use LicoSys\Enums\BOTONES;
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
@@ -140,7 +140,17 @@ if (Session::get('cargo') === 'a') :
     HTML;
   generarModal('div', 'modalFactura', $titulo, $contenido);
 
-  echo '<footer id="botones">' . BOTONES::NUEVA_COMPRA->value . '</footer>';
+  echo '<footer id="botones">' . BareUI::render('components/quick-action-button', [
+    'tag' => 'a',
+    'props' => [
+      'href="views/nuevaCompra.php"',
+      'role="navegacion"'
+    ],
+    'background' => 'blue',
+    'icon' => 'icon-cart-plus',
+    'slot' => 'Nueva Compra',
+    'size' => 'normal',
+  ]) . '</footer>';
   echo '</div>';
 else :
   include __DIR__ . '/../templates/head.php';

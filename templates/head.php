@@ -131,6 +131,7 @@ $productosEnCarritoCompra = contarRegistros('carrito_compra');
   <link rel="stylesheet" href="<?= $BASE_URL ?>assets/libs/noty/themes/sunset.css" />
   <link rel="stylesheet" href="<?= $BASE_URL ?>assets/css/bundle.css" />
   <title>LicoSys</title>
+  <script src="<?= $BASE_URL ?>assets/js/index.js"></script>
   <script src="<?= $BASE_URL ?>assets/libs/jquery.min.js"></script>
   <script src="<?= $BASE_URL ?>assets/libs/w3/w3.min.js"></script>
   <script src="<?= $BASE_URL ?>assets/libs/noty/noty.min.js"></script>

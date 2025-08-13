@@ -2,8 +2,8 @@
 
 declare(strict_types=1);
 
+use Leaf\BareUI;
 use Leaf\Http\Session;
-use LicoSys\Enums\BOTONES;
 use LicoSys\Enums\NombreInput;
 
 require_once __DIR__ . '/../vendor/autoload.php';
@@ -101,5 +101,15 @@ echo <<<HTML
 /*=======================================
 =            BOTÓN REGISTRAR            =
 =======================================*/
-echo '<footer id="botones">' . BOTONES::REGISTRAR_CLIENTE->value . '</footer>';
+echo '<footer id="botones">' . BareUI::render('components/quick-action-button', [
+  'tag' => 'button',
+  'props' => [
+    'onclick="modal(this)"',
+    'data-target="#registrarCliente"',
+  ],
+  'icon' => 'icon-id-card',
+  'slot' => 'Registrar cliente',
+  'background' => 'blue',
+  'size' => 'normal',
+]) . '</footer>';
 echo '</div>';

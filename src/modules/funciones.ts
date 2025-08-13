@@ -163,26 +163,22 @@ export function menu(): void {
 
 /**
  * @param modal Contenedor del modal.
- * @param [callback] Función adicional a ejecutar al cerrar el modal.
+ * @param [onBeforeHide] Función adicional a ejecutar al cerrar el modal.
  */
 export function mostrarModal(
   modal: HTMLElement,
-  callback: () => void = () => {},
+  onBeforeHide: () => void = () => {},
 ): void {
-  const cerrar = modal.querySelector(".icon-close") as HTMLSpanElement | null;
-  const overlay = document.querySelector(
-    '[role="modalOverlay"]',
-  ) as HTMLDivElement | null;
+  const closeIcon = modal.querySelector(".icon-close");
+  const overlay = document.querySelector('[role="modalOverlay"]');
 
   if (!overlay) {
-    console.warn(
-      "El modal debe tener un elemento con el atributo 'role=modalOverlay' para poder abrir y cerrar el modal.",
-    );
+    console.warn('Elemento con el atributo role="modalOverlay" no encontrado.');
 
     return;
   }
 
-  if (!cerrar) {
+  if (!closeIcon) {
     console.warn(
       "El modal debe tener un elemento con la clase 'icon-close' para poder cerrar el modal.",
     );
@@ -197,41 +193,48 @@ export function mostrarModal(
   // Mostramos el modal
   modal.classList.remove("w3-hide");
   modal.classList.add("w3-show");
+
   // Cambiamos a la animación de apertura
   modal.classList.remove("animate__fadeOutDown");
   modal.classList.add("animate__fadeInUp");
 
   // Al hacer click en el fondo
-  overlay.onclick = () => {
+  overlay.addEventListener("click", () => {
     // Ocultamos el fondo
     overlay.classList.remove("w3-show");
     overlay.classList.add("w3-hide");
+
     // Cambiamos a la animación de cierre
     modal.classList.remove("animate__fadeInUp");
     modal.classList.add("animate__fadeOutDown");
+
     setTimeout(() => {
       // Ocultamos el modal
       modal.classList.remove("w3-show");
       modal.classList.add("w3-hide");
     }, 500);
-    callback();
-  };
+
+    onBeforeHide();
+  });
 
   // Al hacer click en la X
-  cerrar.onclick = () => {
+  closeIcon.addEventListener("click", () => {
     // Ocultamos el fondo
     overlay.classList.remove("w3-show");
     overlay.classList.add("w3-hide");
+
     // Cambiamos a la animación de cierre
     modal.classList.remove("animate__fadeInUp");
     modal.classList.add("animate__fadeOutDown");
+
     setTimeout(() => {
       // Ocultamos el modal
       modal.classList.remove("w3-show");
       modal.classList.add("w3-hide");
     }, 500);
-    callback();
-  };
+
+    onBeforeHide();
+  });
 }
 
 /**
@@ -241,14 +244,24 @@ export function mostrarModal(
  * - Para llamar a esta función a el botón o enlace debes agregarle el atributo `onclick="modal(this)"`.
  * - Define un atributo `data-target="selectorCSS"` al elemento modal, ya sea por `#id` o `.class`.
  * - Verifica que coincida el `selectorCSS` con el elemento del modal.
- * @param boton El elemento que abre el modal al hacer click o touch.
+ * @param trigger El elemento que abre el modal al hacer click o touch.
  */
-export function modal(boton: HTMLElement): void {
-  const selector = String(boton.getAttribute("data-target"));
-  const modal = document.querySelector(selector) as HTMLElement | null;
+export function modal(trigger: HTMLElement): void {
+  const target = trigger.dataset.target;
+
+  if (!target) {
+    console.warn(
+      `El elemento debe tener el atributo 'data-target' con el selector CSS del modal a abrir.`,
+      trigger,
+    );
+
+    return;
+  }
+
+  const modal = document.querySelector(target);
 
   if (!modal) {
-    console.warn(`No se encontró el modal con el selector: ${selector}`);
+    console.warn(`No se encontró el modal con el selector: ${target}`);
 
     return;
   }
@@ -322,21 +335,21 @@ export function verClave(ojo: HTMLElement, input: HTMLInputElement): void {
 
 /**
  * Muestra un diálogo de confirmación.
- * @param texto Título de la ventana emergente.
- * @param [posicion] Default: 'center'
- * @param [callback] Función que se ejecuta al confirmar.
+ * @param text Título de la ventana emergente.
+ * @param [layout] Default: 'center'
+ * @param [onConfirm] Función que se ejecuta al confirmar.
  * @return Retorna un objeto Noty activado por defecto.
  */
 export function confirmar(
-  texto: string,
-  posicion: Noty.Layout = "center",
-  callback: (e: JQuery.ClickEvent) => void = () => {},
+  text: string,
+  layout: Noty.Layout = "center",
+  onConfirm: () => void = () => {},
 ): Noty {
-  const text = `
+  text = `
     <div class="w3-white w3-round-xlarge w3-padding w3-center w3-border" style="z-index: 1000">
       <div class="animate__animated animate__flip animate__infinite icon-question w3-xxxlarge"></div>
       <h2 class="w3-large w3-margin-bottom">
-        <strong>${texto}</strong>
+        <strong>${text}</strong>
       </h2>
       <div class="w3-center w3-padding w3-margin-top">
         <button id="btnConfirmar" class="w3-button w3-round-xlarge w3-blue">Sí</button>
@@ -347,17 +360,17 @@ export function confirmar(
 
   const noty = new Noty({
     id: "confirmacion",
-    theme: undefined,
     text,
-    layout: posicion,
+    layout,
     modal: true,
     closeWith: ["button"],
     callbacks: {
       onShow: () => {
-        $("#btnConfirmar").on("click", (e) => {
+        $("#btnConfirmar").on("click", () => {
           $("#confirmacion .noty_close_button")[0].click();
-          callback(e);
+          onConfirm();
         });
+
         $("#btnCancelar").on("click", () => {
           $("#confirmacion .noty_close_button")[0].click();
         });
@@ -542,18 +555,22 @@ export function vaciarLog(): void {
   confirmar("¿Seguro que desea vaciar el registro?", "center", () => {
     w3.addClass("main", "showLoader");
 
-    return $.post("backend/vaciarLog.php", { vaciar: true }, (res) => {
+    $.post("backend/vaciarLog.php", { vaciar: true }, (response) => {
       w3.removeClass("main", "showLoader");
-      const respuesta: Respuesta = JSON.parse(res);
 
-      if (respuesta.error) return alerta(respuesta.error).show();
+      const data: Respuesta = JSON.parse(response);
 
-      const alertaExito = notificacion(respuesta.ok);
-      alertaExito.on("onShow", () =>
-        $('nav [href="views/log.php"]')[0].click(),
-      );
+      if (data.error) {
+        return alerta(data.error).show();
+      }
 
-      alertaExito.show();
+      const noty = notificacion(data.ok);
+
+      noty.on("onShow", () => {
+        $('nav [href="views/log.php"]')[0].click();
+      });
+
+      noty.show();
     });
   });
 }
@@ -794,12 +811,17 @@ export function respaldarBD(): void {
     "center",
     () => {
       w3.addClass("main", "showLoader");
-      $.post("backend/backupBD.php", { respaldar: true }, (res) => {
-        w3.removeClass("main", "showLoader");
-        const respuesta: Respuesta = JSON.parse(res);
-        if (respuesta.error) return alerta(respuesta.error).show();
 
-        return notificacion(respuesta.ok).show();
+      $.post("backend/backupBD.php", { respaldar: true }, (response) => {
+        w3.removeClass("main", "showLoader");
+
+        const data: Respuesta = JSON.parse(response);
+
+        if (data.error) {
+          return alerta(data.error).show();
+        }
+
+        return notificacion(data.ok).show();
       });
     },
   );
@@ -808,24 +830,26 @@ export function respaldarBD(): void {
 export function restaurarBD(): void {
   const texto = `
     Tener en cuenta que al restaurar se perderán cambios
-    que no hayan sido respaldados<br>
+    que no hayan sido respaldados<br />
     <strong class="w3-text-red">¿Desea continuar?</strong>
   `;
 
   confirmar(texto, "center", () => {
     w3.addClass("main", "showLoader");
-    $.post("backend/backupBD.php", { restaurar: true }, (res) => {
-      const respuesta: Respuesta = JSON.parse(res);
 
-      if (respuesta.error) {
-        const alertaError = alerta(respuesta.error);
-        alertaError.on("onShow", () => w3.removeClass("main", "showLoader"));
-        return alertaError.show();
+    $.post("backend/backupBD.php", { restaurar: true }, (response) => {
+      const data: Respuesta = JSON.parse(response);
+
+      if (data.error) {
+        const noty = alerta(data.error);
+        noty.on("onShow", () => w3.removeClass("main", "showLoader"));
+
+        return noty.show();
       }
 
-      const html = `
+      const text = `
         <div class="w3-card w3-round-xlarge w3-white w3-padding-large w3-center">
-          <h1 class="w3-xlarge oswald">${respuesta.ok}</h1>
+          <h1 class="w3-xlarge oswald">${data.ok}</h1>
           <h2 class="w3-large w3-padding-top-24 w3-topbar">
             Reiniciando el Sistema...
           </h2>
@@ -835,12 +859,16 @@ export function restaurarBD(): void {
       new Noty({
         id: "intro",
         type: "info",
-        text: html,
+        text,
         layout: "center",
         modal: true,
         animation: { open: "w3-animate-zoom" },
         timeout: 5000,
-        callbacks: { afterClose: () => location.reload() },
+        callbacks: {
+          afterClose() {
+            location.reload();
+          },
+        },
       }).show();
     });
   });

@@ -2,8 +2,8 @@
 
 declare(strict_types=1);
 
+use Leaf\BareUI;
 use Leaf\Http\Session;
-use LicoSys\Enums\BOTONES;
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
@@ -53,7 +53,16 @@ if (Session::get('cargo') === 'a') :
   );
 
   if ($datos['filas'] !== []) {
-    echo '<footer id="botones">' . BOTONES::VACIAR_LOG->value . '</footer>';
+    echo '<footer id="botones">' . BareUI::render('components/quick-action-button', [
+      'tag' => 'button',
+      'props' => [
+        'onclick="vaciarLog()"',
+      ],
+      'background' => 'blue',
+      'icon' => 'icon-trash',
+      'slot' => 'Vaciar Registro',
+      'size' => 'normal',
+    ]) . '</footer>';
   }
 
   echo '</div>';

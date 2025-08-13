@@ -2,8 +2,8 @@
 
 declare(strict_types=1);
 
+use Leaf\BareUI;
 use Leaf\Http\Session;
-use LicoSys\Enums\Botones;
 
 require_once __DIR__ . '/vendor/autoload.php';
 
@@ -292,7 +292,18 @@ $cantidadProductos = consulta($sql);
   include __DIR__ . '/templates/soporteTecnico.php';
   include __DIR__ . '/templates/manual.php';
   ?>
-  <footer id="botones"><?= BOTONES::NUEVA_VENTA->value ?></footer>
+  <footer id="botones">
+    <?= BareUI::render('components/quick-action-button', [
+      'tag' => 'a',
+      'props' => [
+        'href="views/nuevaVenta.php"',
+        'role="navegacion"',
+      ],
+      'background' => 'blue',
+      'icon' => 'icon-cart-plus',
+      'slot' => 'Nueva Venta',
+    ]) ?>
+  </footer>
 </main>
 
 <?php include __DIR__ . '/templates/footer.php';
