@@ -742,8 +742,8 @@ function fecha(): string {
   $diaSemana = (int) date('w');
   $diaActual = (int) date('d');
   $mesActual = (int) date('m');
-  $añoActual = (int) date('Y');
-  return sprintf('%s, %s de %s del %d', $dias[$diaSemana], $diaActual, $meses[$mesActual], $añoActual);
+  $anioActual = (int) date('Y');
+  return sprintf('%s, %s de %s del %d', $dias[$diaSemana], $diaActual, $meses[$mesActual], $anioActual);
 }
 
 /*========================================================

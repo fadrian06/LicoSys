@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+use Leaf\BareUI;
+
 require_once __DIR__ . '/../vendor/autoload.php';
 
 /*=================================
@@ -72,5 +74,10 @@ if (!empty($negocios) && !empty($admin)) :
       </p>
     HTML;
 
-  generarModal('div', 'acercaDe', $titulo, $contenido);
+  BareUI::render('components/modal', [
+    'tag' => 'div',
+    'id' => 'acercaDe',
+    'title' => $titulo,
+    'slot' => $contenido,
+  ]);
 endif;

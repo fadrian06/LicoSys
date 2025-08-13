@@ -128,7 +128,12 @@ if (isset($mostrarMenu)) : ?>
                 <input type="hidden" id="valorPesos" value="{$valorPesos}">
               </section>
             HTML;
-          generarModal('form', 'conversionMonetaria', $titulo, $contenido);
+          BareUI::render('components/modal', [
+            'tag' => 'form',
+            'id' => 'conversionMonetaria',
+            'title' => $titulo,
+            'slot' => $contenido,
+          ]);
         endif;
         ?>
         <a href="views/miPerfil.php" role="navegacion" title="Mi Perfil" class="w3-button icon-cog"></a>

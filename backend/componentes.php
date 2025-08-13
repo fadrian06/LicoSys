@@ -503,44 +503,4 @@ namespace {
           HTML,
     };
   }
-
-  /**
-   * @param  string       $tipo      `div` o `form`
-   * @param  string       $id        El ID del modal.
-   * @param  string       $titulo    Contenido HTML para el título del modal.
-   * @param  string       $contenido Contenido HTML para el contenido del modal.
-   * @param  bool|boolean $cerrar    Si quieres agregar el botón de cerrar el modal, por defecto es `true`.
-   * @param  bool|boolean $mostrar   Si quieres mostrar el modal cuando cargue la vista, por defecto es `false`.
-   * @return void                    No retorna, imprime el modal.
-   */
-  function generarModal(
-    string $tipo,
-    string $id,
-    string $titulo,
-    string $contenido,
-    bool $cerrar = true,
-    bool $mostrar = false
-  ): void {
-    $mostrar = $mostrar ? 'w3-show' : 'w3-hide';
-
-    echo sprintf(
-      "<%s id='%s' class='modal w3-white w3-card w3-round-large animate__animated animate__fadeInUp animate__faster %s'>",
-      $tipo,
-      $id,
-      $mostrar
-    );
-    if ($cerrar) {
-      echo <<<HTML
-            <div class="w3-right-align">
-              <span class="icon-close w3-button w3-transparent w3-hover-red"></span>
-            </div>
-          HTML;
-    }
-
-    echo <<<HTML
-          <h2 class="w3-center w3-xxlarge oswald w3-margin-bottom">{$titulo}</h2>
-          {$contenido}
-        HTML;
-    echo sprintf('</%s>', $tipo);
-  }
 }

@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+use Leaf\BareUI;
+
 require_once __DIR__ . '/../vendor/autoload.php';
 
 if (isset($mostrarSoporteTecnico)) :
@@ -78,5 +80,11 @@ if (isset($mostrarSoporteTecnico)) :
           </dd>
       </dl>
     HTML;
-  generarModal('div', 'soporte', 'Soporte Técnico', $contenido);
+
+  BareUI::render('components/modal', [
+    'tag' => 'div',
+    'id' => 'soporte',
+    'title' => 'Soporte Técnico',
+    'slot' => $contenido,
+  ]);
 endif;

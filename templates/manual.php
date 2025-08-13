@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+use Leaf\BareUI;
+
 require_once __DIR__ . '/../vendor/autoload.php';
 
 if (isset($mostrarManual)) :
@@ -165,5 +167,10 @@ if (isset($mostrarManual)) :
         </div>
       </div>
     HTML;
-  generarModal('div', 'manual', $titulo, $contenido);
+  BareUI::render('components/modal', [
+    'tag' => 'div',
+    'id' => 'manual',
+    'title' => $titulo,
+    'slot' => $contenido,
+  ]);
 endif;

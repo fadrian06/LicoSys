@@ -138,7 +138,12 @@ if (Session::get('cargo') === 'a') :
         </div>
       </div>
     HTML;
-  generarModal('div', 'modalFactura', $titulo, $contenido);
+  BareUI::render('components/modal', [
+    'tag' => 'div',
+    'id' => 'modalFactura',
+    'title' => $titulo,
+    'slot' => $contenido,
+  ]);
 
   echo '<footer id="botones">' . BareUI::render('components/quick-action-button', [
     'tag' => 'a',

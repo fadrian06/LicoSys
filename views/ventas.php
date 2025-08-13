@@ -101,7 +101,11 @@ tabla('Ventas', $encabezados, $datos, 'No hay ventas registradas', false, false,
 /*===================================
   =            VER FACTURA            =
   ===================================*/
-generarModal('div', 'modalFactura', '', '');
+BareUI::render('components/modal', [
+  'tag' => 'div',
+  'id' => 'modalFactura',
+  'title' => '',
+]);
 
 echo '<footer id="botones">' . BareUI::render('components/quick-action-button', [
   'tag' => 'a',

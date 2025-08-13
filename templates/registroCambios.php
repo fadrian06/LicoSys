@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+use Leaf\BareUI;
+
 require_once __DIR__ . '/../vendor/autoload.php';
 
 if (isset($mostrarChangelog)) :
@@ -19,5 +21,11 @@ if (isset($mostrarChangelog)) :
   $contenido = <<<HTML
       <dl class="w3-container">{$listaVersiones}</dl>
     HTML;
-  generarModal('div', 'registroCambios', 'Registro de Cambios', $contenido);
+
+  BareUI::render('components/modal', [
+    'tag' => 'div',
+    'id' => 'registroCambios',
+    'title' => 'Registro de Cambios',
+    'slot' => $contenido,
+  ]);
 endif;
