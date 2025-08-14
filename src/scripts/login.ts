@@ -1,5 +1,6 @@
+import $ from "jquery";
 import Typed from "typed.js";
-import { ajax, alerta, verClave } from "./funciones";
+import { ajax, alerta, type Respuesta } from "./funciones";
 import { reloj } from "./reloj";
 import validar from "./validar";
 
@@ -16,7 +17,6 @@ const usuarioLoader = form?.querySelector("#usuarioLoader");
 ==============================================*/
 reloj(contenedorReloj);
 setInterval(() => reloj(contenedorReloj), 1 * 1000 * 60 /*1 minuto*/);
-verClave(form.clave.nextElementSibling, form.clave);
 
 new Typed("#typed", {
   strings: [
@@ -33,54 +33,66 @@ new Typed("#typed", {
   cursorChar: '<i class="w3-medium icon-chevron-left"></i>',
 });
 
-form.usuario.addEventListener("blur", () => {
-  if (!form.usuario.value) return;
+form?.usuario.addEventListener("blur", () => {
+  if (!form?.usuario.value) {
+    return;
+  }
 
-  usuarioLoader.classList.remove("w3-hide");
-  usuarioLoader.classList.add("w3-show");
+  usuarioLoader?.classList.remove("w3-hide");
+  usuarioLoader?.classList.add("w3-show");
 
-  const post = { verificarUsuario: true, usuario: form.usuario.value };
-  $.post("backend/login.php", post, (res) => {
-    /** @type {import("./funciones").Respuesta} */
-    const datos = JSON.parse(res);
+  $.post(
+    "backend/login.php",
+    { verificarUsuario: true, usuario: form?.usuario.value },
+    (res) => {
+      const datos: Respuesta = JSON.parse(res);
 
-    if (datos.error) {
-      const alertaError = alerta(datos.error);
-      alertaError.on("onShow", () => {
-        usuarioLoader.classList.remove("w3-show");
-        usuarioLoader.classList.add("w3-hide");
-        form.usuario.parentElement.parentElement.classList.remove("valido");
-        form.usuario.parentElement.parentElement.classList.add("invalido");
-      });
-      return alertaError.show();
-    }
+      if (datos.error) {
+        const alertaError = alerta(datos.error);
 
-    const spinner = usuarioLoader.querySelector("i");
-    spinner?.classList.remove("icon-spinner", "w3-spin");
-    spinner?.classList.add("icon-check", "w3-text-green");
-    form.usuario.parentElement.parentElement.classList.add("valido");
-  });
+        alertaError.on("onShow", () => {
+          usuarioLoader?.classList.remove("w3-show");
+          usuarioLoader?.classList.add("w3-hide");
+          form?.usuario.parentElement.parentElement.classList.remove("valido");
+          form?.usuario.parentElement.parentElement.classList.add("invalido");
+        });
+
+        return alertaError.show();
+      }
+
+      const spinner = usuarioLoader?.querySelector("i");
+
+      spinner?.classList.remove("icon-spinner", "w3-spin");
+      spinner?.classList.add("icon-check", "w3-text-green");
+      form?.usuario.parentElement.parentElement.classList.add("valido");
+    },
+  );
 });
 
 let intentos = 0;
+
 validar(form, (error, fd, e) => {
-  if (error) return alerta(error).show();
+  if (error) {
+    return alerta(error).show();
+  }
 
   e.preventDefault();
+  form?.classList.add("showLoader");
+  fd?.append("login", true);
 
-  form.classList.add("showLoader");
-
-  fd.append("login", true);
   ajax("backend/login.php", fd, (res) => {
-    /** @type {import("./funciones").Respuesta} */
-    const datos = JSON.parse(res);
+    const datos: Respuesta = JSON.parse(res);
 
     if (datos.error) {
       let text = datos.error;
-      if (datos.error === "Contraseña incorrecta") ++intentos;
-      if (intentos <= 3 && intentos > 0)
+
+      if (datos.error === "Contraseña incorrecta") {
+        ++intentos;
+      }
+
+      if (intentos <= 3 && intentos > 0) {
         text += ` <strong>(intento: ${intentos} / 3)</strong>`;
-      else {
+      } else {
         /**
 
           TODO:
@@ -89,16 +101,17 @@ validar(form, (error, fd, e) => {
          */
         intentos = 0;
       }
+
       const alertaError = alerta(text);
+
       alertaError.on("onShow", () => form.classList.remove("showLoader"));
       return alertaError.show();
     }
 
-    form.classList.remove("showLoader");
+    form?.classList.remove("showLoader");
+    form?.parentElement?.classList.add("showLoader");
 
     let href = location.href;
-
-    form.parentElement?.classList.add("showLoader");
 
     if (!href.indexOf("index.php")) {
       location.href += "dashboard.php";

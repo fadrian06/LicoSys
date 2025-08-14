@@ -1,5 +1,5 @@
-/** @typedef {import('./funciones')} */
-
+import $ from "jquery";
+import Noty from "noty";
 import {
   ajax,
   alerta,
@@ -8,29 +8,27 @@ import {
   mostrarLoader,
   notificacion,
   ocultarLoader,
-  verClave,
+  type Respuesta,
+  type RespuestaCruda,
 } from "./funciones";
 import validar from "./validar";
 
 /*=====================================
 =            DECLARACIONES            =
 =====================================*/
-/** @type {HTMLFormElement} */
 const form = document.querySelector("#registrarPreguntasRespuestas");
 
-/** @param  {import("./funciones").RespuestaCruda} res */
-function recibirRespuesta(res) {
-  /** @type {import("./funciones").Respuesta} */
-  const respuesta = JSON.parse(res);
+function recibirRespuesta(res: RespuestaCruda) {
+  const respuesta: Respuesta = JSON.parse(res);
 
   if (respuesta.error) {
     const alertaError = alerta(respuesta.error);
     alertaError.on("afterClose", () => ocultarLoader(form));
+
     return alertaError.show();
   }
 
   ocultarLoader(form);
-
   Noty.closeAll();
 
   const alertaExito = notificacion("Registro exitoso.");
@@ -42,9 +40,6 @@ function recibirRespuesta(res) {
 /*==============================================
 =            EJECUCIÓN DE FUNCIONES            =
 ==============================================*/
-verClave(form.res1.nextElementSibling, form.res1);
-verClave(form.res2.nextElementSibling, form.res2);
-verClave(form.res3.nextElementSibling, form.res3);
 labelPreguntas(form);
 
 $("#masTarde").on("click", (e) => {
@@ -69,7 +64,7 @@ $("#masTarde").on("click", (e) => {
     form.pre3.value = "No especificada";
     const fd = new FormData(form);
     ajax("backend/registrarPreguntasRespuestas.php", fd, recibirRespuesta);
-  }).show();
+  });
 });
 
 validar(form, (error, fd, e) => {

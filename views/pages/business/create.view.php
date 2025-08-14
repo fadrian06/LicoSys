@@ -32,19 +32,11 @@ $inputDireccion = generarInput(NombreInput::DIRECCION, 'Dirección', 'Dirección
     </div>
   </section>
   <section class="w3-third w3-topbar w3-bottombar w3-center">
-    <label for="logo" class="w3-display-container w3-hover-opacity" style="cursor: pointer">
-      <i class="icon-camera w3-xxxlarge w3-display-middle w3-display-hover"></i>
-      <input type="file" id="logo" accept="image/jpeg,image/png" name="logo" class="w3-hide">
-      <img class="image-result w3-image" src="./assets/images/logoNegocio.jpg" width="150" />
-    </label>
-    <div class="w3-container w3-margin-top w3-center">
-      <label for="logo" class="w3-button w3-round-xlarge w3-blue w3-ripple">
-        <i class="icon-upload"></i> Subir logo
-      </label>
-    </div>
-    <b class="w3-white w3-block w3-margin-top w3-margin-bottom">
-      Logotipo del negocio
-    </b>
-    <b class="w3-margin-bottom w3-white w3-block w3-text-blue">Opcional</b>
+    <?= BareUI::render('components/input-image', [
+      'name' => 'logo',
+      'defaultImageSrc' => './assets/images/logoNegocio.jpg',
+      'placeholder' => 'Subir logo',
+      'label' => 'Logotipo del negocio',
+    ]) ?>
   </section>
 </form>

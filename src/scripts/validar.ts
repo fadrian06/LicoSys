@@ -36,7 +36,7 @@ const expresiones = {
   telefono: /^(0|\+57|\+58)\s?-?(412|414|424|416|426)-?[0-9]{3}-?[0-9]{4}$/,
 
   // Entre 4 y 50 letras, números o símbolos (, . - # /)
-  direccion: /^([a-záÁéÉíÍóÓúÚñÑ\d\,\.\-\#\/]\s?){4,50}$/i,
+  direccion: /^([a-záÁéÉíÍóÓúÚñÑ\d,.\-#/]\s?){4,50}$/i,
 
   // Entre 7 y 8 números
   cedula: /^[^e]?[\d]{7,8}$/,
@@ -48,10 +48,10 @@ const expresiones = {
   usuario: /^[\w-]{4,20}$/i,
 
   // Entre 4 y 20 letras, números y símbolos (- _ . @ # / *)
-  clave: /^[\!\#\$\%\&\/\=\?\¿\¡\@\+\.\-\*\w]{4,20}$/i,
+  clave: /^[!#$%&/=?¿¡@+.\-*\w]{4,20}$/i,
 
   // Entre 1 y 50 letras y símbolos (¿ ?)
-  pregunta: /^[\?a-záÁéÉíÍóÓúÚñÑ¿\s]+$/i,
+  pregunta: /^[?a-záÁéÉíÍóÓúÚñÑ¿\s]+$/i,
 
   // Entre 4 y 50 letras y números
   respuesta: /^[a-záÁéÉíÍóÓúÚñÑ\d\s]{4,20}$/i,
@@ -66,7 +66,7 @@ const expresiones = {
   pesos: /^[^e]?\d{1,4}$/,
 
   // Entre 3 y 10 letras, números y símbolos ( - . # )
-  codigo: /^[a-z\d-\.#]{3,10}$/i,
+  codigo: /^[a-z\d-.#]{3,10}$/i,
 
   // Un número sin decimales
   stock: /^[^e]?[\d]+$/,
@@ -96,71 +96,61 @@ const campos = {
   pesos: false,
 };
 
-/**
- * @param  {HTMLInputElement} input
- */
-const correcto = (input) => {
-  input.parentElement.parentElement.classList.remove("invalido");
-  input.parentElement.parentElement.classList.add("valido");
-};
+function correcto(input: HTMLInputElement): void {
+  input.parentElement?.parentElement?.classList.remove("invalido");
+  input.parentElement?.parentElement?.classList.add("valido");
+}
 
-/**
- * @param  {HTMLInputElement} input
- */
-const error = (input) => {
-  input.parentElement.parentElement.classList.remove("valido");
-  input.parentElement.parentElement.classList.add("invalido");
-};
+function error(input: HTMLInputElement): void {
+  input.parentElement?.parentElement?.classList.remove("valido");
+  input.parentElement?.parentElement?.classList.add("invalido");
+}
 
-/**
- * @param  {RegExp} expresion
- * @param  {HTMLInputElement} input
- * @param  {string} campo
- */
-const validarCampo = (expresion, input, campo) => {
+function validarCampo(
+  expresion: RegExp,
+  input: HTMLInputElement,
+  campo: keyof typeof campos,
+): void {
   if (expresion.test(input.value)) {
     correcto(input);
     campos[campo] = true;
+
     return;
   }
 
   error(input);
   campos[campo] = false;
-};
+}
 
 /**
- * @param  {string} string Convierte cada inicial en mayúscula
- * @return {string} El `string` convertido
+ * @param string Convierte cada inicial en mayúscula
+ * @return El `string` convertido
  */
-const mayuscula = (string) => {
+function mayuscula(string: string): string {
   const expresion = /(^[\wáÁéÉíÍóÓúÚñÑ]{1})|(\s+[\wáÁéÉíÍóÓúÚñÑ]{1})/g;
   const mayuscula = string.replace(expresion, (letra) => letra.toUpperCase());
+
   return mayuscula;
-};
+}
 
 /**
- * @param  {HTMLInputElement} clave `<input name="clave">`
- * @param  {HTMLInputElement} confirmar `<input name="confirmar">`
+ * @param clave `<input name="clave">`
+ * @param confirmar `<input name="confirmar">`
  */
-const compararClaves = (clave, confirmar) => {
+function compararClaves(clave: HTMLInputElement, confirmar: HTMLInputElement) {
   if (clave.value === confirmar.value) {
     correcto(confirmar);
     campos.confirmar = true;
+
     return;
   }
 
   error(confirmar);
   campos.confirmar = false;
-};
+}
 
-/**
- * @param  {KeyboardEvent | FocusEvent} e Evento `keyup` o `blur`
- */
-const validarInput = (e) => {
-  /**
-   * @type {HTMLInputElement}
-   */
-  const input = e.target;
+function validarInput(event: KeyboardEvent | FocusEvent) {
+  const input = event.target;
 
   switch (input.name) {
     case "nombreNegocio":
@@ -241,55 +231,63 @@ const validarInput = (e) => {
       validarCampo(expresiones[input.name], input, input.name);
       break;
   }
-};
+}
 
 /**
- * @param  {HTMLFormElement} form El `<form>`a validar. DEBE TENER UN ID de los siguientes: <br><br>
- * <i>registrarNegocio <br>
- * registrarAdmin <br>
- * registrarUsuario <br>
- * registrarPreguntasRespuestas <br>
- * registrarCliente <br>
- * registrarProveedor <br>
- * registrarProducto <br>
- * editarCliente <br>
- * editarProveedor <br>
- * editarUsuario <br>
- * login <br>
- * consultar <br>
- * preguntasRespuestas <br>
- * cambiarClave <br>
- * actualizarMonedas <br></i>
- * <br>
- * <br>
- * Los `input` deben tener alguno de los siguientes `name` y `id` <br><br>
- * <i>nombreNegocio <br>
- * rif <br>
- * telefono <br>
- * direccion <br>
- * cedula <br>
- * nombre <br>
- * usuario <br>
- * clave <br>
- * confirmar <br>
- * pre1, pre2 o pre3 <br>
- * res1, res2 o res3 <br>
- * iva <br>
- * dolar <br>
- * pesos <br>
- * codigo <br>
- * stock <br>
- * precio </i>
- * @param {?(error: string, FormData: FormData, e: SubmitEvent)} cb Contiene el resultado de la validación, los datos a enviar y el Evento `submit`
+ * @param form El `<form>`a validar. DEBE TENER UN ID de los siguientes:
+ *
+ * - registrarNegocio
+ * - registrarAdmin
+ * - registrarUsuario
+ * - registrarPreguntasRespuestas
+ * - registrarCliente
+ * - registrarProveedor
+ * - registrarProducto
+ * - editarCliente
+ * - editarProveedor
+ * - editarUsuario
+ * - login
+ * - consultar
+ * - preguntasRespuestas
+ * - cambiarClave
+ * - actualizarMonedas
+ *
+ * Los `input` deben tener alguno de los siguientes `name`
+ *
+ * - nombreNegocio
+ * - rif
+ * - telefono
+ * - direccion
+ * - cedula
+ * - nombre
+ * - usuario
+ * - clave
+ * - confirmar
+ * - pre1, pre2 o pre3
+ * - res1, res2 o res3
+ * - iva
+ * - dolar
+ * - pesos
+ * - codigo
+ * - stock
+ * - precio
+ * @param [cb] Contiene el resultado de la validación, los datos a enviar y el Evento `submit`
  */
-export default function validar(form, cb = () => {}) {
-  const inputs = form.querySelectorAll("input");
-  /**
-   * @type {NodeListOf<HTMLInputElement>}
-   */
-  const radios = form.querySelectorAll('input[type="radio"]');
+export default function validar(
+  form: HTMLFormElement,
+  cb: (
+    error?: string,
+    formData?: FormData,
+    event?: SubmitEvent,
+  ) => void = () => {},
+) {
+  const inputs = form?.querySelectorAll("input");
 
-  form.onsubmit = (e) => {
+  const radios: NodeListOf<HTMLInputElement> = form?.querySelectorAll(
+    'input[type="radio"]',
+  );
+
+  form?.addEventListener("submit", (e) => {
     const fd = new FormData(form);
 
     if (form.id === "registrarNegocio") {
@@ -657,10 +655,10 @@ export default function validar(form, cb = () => {}) {
       }
     }
 
-    cb(null, fd, e);
-  };
+    cb(undefined, fd, e);
+  });
 
-  for (let i = 0; i <= inputs.length; ++i) {
+  for (let i = 0; i <= inputs?.length; ++i) {
     const input = inputs[i];
 
     if (!input) return;

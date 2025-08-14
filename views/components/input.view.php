@@ -26,9 +26,9 @@ $isEdge = str_contains($_SERVER['HTTP_USER_AGENT'], 'Edg');
 <fieldset class="w3-border-0">
   <legend class="w3-large w3-padding w3-bold">
     <?php if ($required) : ?>
-      <sup class="w3-text-red">(requerido)</sup>
+      <sup class="w3-text-red">(requerido) </sup>
     <?php else : ?>
-      <sup class="w3-text-blue">(opcional)</sup>
+      <sup class="w3-text-blue">(opcional) </sup>
     <?php endif ?>
     <?= $legend ?>
   </legend>

@@ -1,3 +1,5 @@
+import $ from "jquery";
+import actualizarImagen from "./actualizarImagen";
 import {
   acordeon,
   actualizarMonedas,
@@ -14,19 +16,26 @@ import {
 import validar from "./validar";
 
 const moduloUsuarios = (contenedor: HTMLElement) => {
-  const formRegistrar: HTMLFormElement =
-    contenedor.querySelector("#registrarUsuario");
+  const formRegistrar = contenedor.querySelector("#registrarUsuario");
   acordeon();
-  verClave(formRegistrar.clave.nextElementSibling, formRegistrar.clave);
-  verClave(formRegistrar.confirmar.nextElementSibling, formRegistrar.confirmar);
+  verClave(formRegistrar?.clave.nextElementSibling, formRegistrar?.clave);
+
+  verClave(
+    formRegistrar?.confirmar.nextElementSibling,
+    formRegistrar?.confirmar,
+  );
+
   mostrarDetails(contenedor.querySelector("details"));
 
   validar(formRegistrar, (error, fd, e) => {
-    if (error) return alerta(error).show();
+    if (error) {
+      return alerta(error).show();
+    }
 
     e.preventDefault();
     mostrarLoader(formRegistrar);
     fd.append("cargo", "v");
+
     ajax("backend/registrarUsuario.php", fd, (res) => {
       const datos: Respuesta = JSON.parse(res);
 

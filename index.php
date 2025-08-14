@@ -45,7 +45,10 @@ elseif (!isset($mostrarLoader) && !$admin['pre1']) :
 
 /*----------  Muestra el login  ----------*/
 elseif (!isset($mostrarLoader)) :
-  echo BareUI::render('pages/login');
+  echo BareUI::render('pages/login', [
+    'negocios' => $negocios,
+  ]);
+
   include __DIR__ . '/templates/consultarPreguntasRespuestas.php';
 
   if (Session::has('showQuestions')) {
@@ -57,7 +60,6 @@ elseif (!isset($mostrarLoader)) :
   }
 
   $script .= '<script src="./assets/dist/reloj.js"></script>';
-  $script .= '<script src="./assets/libs/typedjs/typed.min.js"></script>';
   $script .= '<script src="./assets/dist/login.js"></script>';
   $script .= '<script src="./assets/dist/recuperarClave.js"></script>';
 endif;

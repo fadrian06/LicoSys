@@ -37,19 +37,11 @@ $inputTelefono = generarInput(NombreInput::TELEFONO, 'Teléfono', 'Introduce un 
     </div>
   </section>
   <section class="w3-third w3-topbar w3-bottombar w3-center">
-    <label for="foto" class="w3-display-container w3-hover-opacity w3-circle">
-      <i class="icon-camera w3-xxxlarge w3-display-middle w3-display-hover"></i>
-      <input type="file" id="foto" accept="image/jpeg,image/png" name="foto" class="w3-hide">
-      <img class="image-result w3-image" src="./assets/images/avatar1.png" width="150" />
-    </label>
-    <div class="w3-container w3-margin-top w3-center">
-      <label for="foto" class="w3-button w3-round-xlarge w3-blue w3-ripple">
-        <i class="icon-upload"></i> Subir foto
-      </label>
-    </div>
-    <b class="w3-white w3-block w3-margin-top w3-margin-bottom">
-      Foto de perfil
-    </b>
-    <b class="w3-margin-bottom w3-white w3-block w3-text-blue">Opcional</b>
+    <?= BareUI::render('components/input-image', [
+      'name' => 'foto',
+      'defaultImageSrc' => './assets/images/avatar1.png',
+      'placeholder' => 'Subir foto',
+      'label' => 'Foto de perfil',
+    ]) ?>
   </section>
 </form>

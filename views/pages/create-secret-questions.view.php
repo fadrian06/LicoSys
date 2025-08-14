@@ -48,7 +48,7 @@ $inputRES3 = generarInput(NombreInput::res3, $label, 'La respuesta');
       Registrar
     </button>
     <br>
-    <button id="masTarde" class="w3-button w3-round-xlarge w3-ripple w3-margin-bottom">
+    <button type="button" id="masTarde" class="w3-button w3-round-xlarge w3-ripple w3-margin-bottom">
       Más tarde
     </button>
   </div>

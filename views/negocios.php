@@ -13,9 +13,9 @@ if (!Session::has('activa')) {
 }
 
 if (Session::get('cargo') === 'a') :
-  require_once __DIR__ . '/../backend/componentes.php';
-  require_once __DIR__ . '/../backend/conexion.php';
-  require_once __DIR__ . '/../backend/funciones.php';
+  require_once BASE_DIR . '/backend/componentes.php';
+  require_once BASE_DIR . '/backend/conexion.php';
+  require_once BASE_DIR . '/backend/funciones.php';
 
   echo BareUI::render('components/loader');
   echo '<div id="moduloNegocios" class="w3-row" style="max-height: 71vh; overflow: auto">';
@@ -29,116 +29,121 @@ if (Session::get('cargo') === 'a') :
   $negocioId = Session::get('negocioID');
 
   foreach ($negocios as $negocio) :
-    $activo = $negocio['id'] === $negocioId
-      ? 'w3-blue'
-      : '';
+    $activo = $negocio['id'] === $negocioId ? 'w3-blue' : '';
 
-    $botones .= <<<HTML
-        <li
-          role="botonPanel"
-          onclick="mostrarPanel(this, '#panelNegocio{$negocio['id']}')"
-          class="w3-button w3-block w3-rightbar {$activo}">
-          <i class="icon-building w3-large"></i>
-          <div>{$negocio['nombre']}</div>
-        </li>
-      HTML;
+    $botones .= <<<html
+      <li
+        role="botonPanel"
+        onclick="mostrarPanel(this, '#panelNegocio{$negocio['id']}')"
+        class="w3-button w3-block w3-rightbar {$activo}">
+        <i class="icon-building w3-large"></i>
+        <div>{$negocio['nombre']}</div>
+      </li>
+    html;
 
-    $activo = $negocio['id'] === $negocioId
-      ? 'w3-show'
-      : 'w3-hide';
+    $activo = $negocio['id'] === $negocioId ? 'w3-show' : 'w3-hide';
+
     $botonActualizarActivo = $negocio['id'] === $negocioId
       ? 'w3-hide'
       : 'w3-show-inline-block';
+
     $negocio['logo'] = $negocio['logo']
       ? 'assets/images/negocios/' . $negocio['logo']
       : 'assets/images/logoNegocio.jpg';
+
     $negocio['tlf'] = $negocio['tlf'] ?: '<b class="w3-text-red">No establecido</b>';
     $negocio['direccion'] = $negocio['direccion'] ?: '<b class="w3-text-red">No establecido</b>';
+
     $permitirDesactivar = $negocio['id'] === $negocioId
       ? 'w3-hide'
       : 'w3-show-inline-block';
+
     $idNegocioActivo = $negocio['id'] === $negocioId
       ? 'id="nombreNegocioActivo"'
       : '';
-    $paneles .= <<<HTML
-        <div id="panelNegocio{$negocio['id']}" role="panel" class="w3-rest {$activo} w3-animate-opacity">
-          <div class="w3-row">
-            <!------------  INFORMACIÓN  ------------>
-            <div class="w3-twothird m6 w3-margin-top w3-container w3-white w3-card">
-              <h2 class="w3-large w3-padding w3-border-bottom w3-text-blue">Información</h2>
-              <ul class="w3-ul w3-small">
-                <li>
-                  <span class="w3-tag w3-blue w3-left">Identificador:</span>
-                  <b class="w3-right">{$negocio['id']}</b>
-                  <div class="w3-clear"></div>
-                </li>
-                <li>
-                  <span class="w3-tag w3-blue w3-left">Nombre:</span>
-                  <b {$idNegocioActivo} class="w3-right">{$negocio['nombre']}</b>
-                  <div class="w3-clear"></div>
-                </li>
-                <li>
-                  <span class="w3-tag w3-blue w3-left">RIF:</span>
-                  <b class="w3-right">{$negocio['rif']}</b>
-                  <div class="w3-clear"></div>
-                </li>
-                <li>
-                  <span class="w3-tag w3-blue w3-left">Teléfono:</span>
-                  <b class="w3-right">{$negocio['tlf']}</b>
-                  <div class="w3-clear"></div>
-                </li>
-                <li>
-                  <span class="w3-tag w3-blue w3-left">Dirección:</span>
-                  <b class="w3-right">{$negocio['direccion']}</b>
-                  <div class="w3-clear"></div>
-                </li>
-              </ul>
-              <div class="w3-center w3-padding-large">
-                <button
-                  onclick="editar(this, 'negocios', 'id', {$negocio['id']}, 'views/negocios.php')"
-                  data-target="#editarNegocio"
-                  class="w3-show-inline-block w3-button w3-blue w3-round-large">
-                  Actualizar Datos
-                </button>
-                <button
-                  onclick="desactivar('negocios', 'id', {$negocio['id']}, 'views/negocios.php')"
-                  class="{$permitirDesactivar} w3-button w3-red w3-round-large">
-                  Desactivar
-                </button>
-              </div>
+
+    $paneles .= <<<html
+      <div
+        id="panelNegocio{$negocio['id']}"
+        role="panel"
+        class="w3-rest {$activo} w3-animate-opacity">
+        <div class="w3-row">
+          <!------------  INFORMACIÓN  ------------>
+          <div class="w3-twothird m6 w3-margin-top w3-container w3-white w3-card">
+            <h2 class="w3-large w3-padding w3-border-bottom w3-text-blue">Información</h2>
+            <ul class="w3-ul w3-small">
+              <li>
+                <span class="w3-tag w3-blue w3-left">Identificador:</span>
+                <b class="w3-right">{$negocio['id']}</b>
+                <div class="w3-clear"></div>
+              </li>
+              <li>
+                <span class="w3-tag w3-blue w3-left">Nombre:</span>
+                <b {$idNegocioActivo} class="w3-right">{$negocio['nombre']}</b>
+                <div class="w3-clear"></div>
+              </li>
+              <li>
+                <span class="w3-tag w3-blue w3-left">RIF:</span>
+                <b class="w3-right">{$negocio['rif']}</b>
+                <div class="w3-clear"></div>
+              </li>
+              <li>
+                <span class="w3-tag w3-blue w3-left">Teléfono:</span>
+                <b class="w3-right">{$negocio['tlf']}</b>
+                <div class="w3-clear"></div>
+              </li>
+              <li>
+                <span class="w3-tag w3-blue w3-left">Dirección:</span>
+                <b class="w3-right">{$negocio['direccion']}</b>
+                <div class="w3-clear"></div>
+              </li>
+            </ul>
+            <div class="w3-center w3-padding-large">
+              <button
+                onclick="editar(this, 'negocios', 'id', {$negocio['id']}, 'views/negocios.php')"
+                data-target="#editarNegocio"
+                class="w3-show-inline-block w3-button w3-blue w3-round-large">
+                Actualizar Datos
+              </button>
+              <button
+                onclick="desactivar('negocios', 'id', {$negocio['id']}, 'views/negocios.php')"
+                class="{$permitirDesactivar} w3-button w3-red w3-round-large">
+                Desactivar
+              </button>
             </div>
-            <!------------  LOGO  ------------>
-            <div class="w3-third w3-center">
-              <div class="w3-margin-top w3-leftbar">
-                <form enctype="multipart/form-data" class="w3-padding-large w3-center w3-white w3-card">
-                  <h3 class="w3-large">Actualizar Logo</h3>
-                  <p class="w3-small w3-text-blue">Pulsa en la imagen para actualizar</p>
-                  <label for="logo{$negocio['id']}" class="w3-display-container w3-hover-opacity w3-circle">
-                    <i class="icon-camera w3-xxxlarge w3-display-middle w3-display-hover"></i>
-                    <input type="hidden" name="id" value="{$negocio['id']}" class="w3-hide">
-                    <input
-                      type="file"
-                      id="logo{$negocio['id']}"
-                      accept="image/jpeg,image/png"
-                      name="logo"
-                      class="w3-hide" />
-                    <img class="image-result w3-image" src="{$negocio['logo']}" style="width: 150px">
-                  </label>
-                  <div class="w3-center">
-                    <button class="w3-button w3-blue w3-round-large w3-section w3-animate-right w3-hide">
-                      Actualizar
-                    </button>
-                  </div>
-                  <div class="w3-padding">
-                    <span class="w3-medium w3-white w3-block">{$negocio['nombre']}</span>
-                    <span class="w3-small w3-white w3-block w3-text-blue">{$negocio['rif']}</span>
-                  </div>
-                </form>
-              </div>
+          </div>
+          <!------------  LOGO  ------------>
+          <div class="w3-third w3-center">
+            <div class="w3-margin-top w3-leftbar">
+              <form enctype="multipart/form-data" class="w3-padding-large w3-center w3-white w3-card">
+                <h3 class="w3-large">Actualizar Logo</h3>
+                <p class="w3-small w3-text-blue">Pulsa en la imagen para actualizar</p>
+                <label for="logo{$negocio['id']}" class="w3-display-container w3-hover-opacity w3-circle">
+                  <i class="icon-camera w3-xxxlarge w3-display-middle w3-display-hover"></i>
+                  <input type="hidden" name="id" value="{$negocio['id']}" class="w3-hide">
+                  <input
+                    type="file"
+                    id="logo{$negocio['id']}"
+                    accept="image/jpeg,image/png"
+                    name="logo"
+                    class="w3-hide" />
+                  <img class="image-result w3-image" src="{$negocio['logo']}" style="width: 150px">
+                </label>
+                <div class="w3-center">
+                  <button class="w3-button w3-blue w3-round-large w3-section w3-animate-right w3-hide">
+                    Actualizar
+                  </button>
+                </div>
+                <div class="w3-padding">
+                  <span class="w3-medium w3-white w3-block">{$negocio['nombre']}</span>
+                  <span class="w3-small w3-white w3-block w3-text-blue">{$negocio['rif']}</span>
+                </div>
+              </form>
             </div>
           </div>
         </div>
-      HTML;
+      </div>
+    html;
   endforeach;
 
   /*----------  DESACTIVADOS  ----------*/

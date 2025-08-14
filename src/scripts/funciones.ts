@@ -66,7 +66,7 @@ export function dropdown(id: string): void {
 
 /** Comportamiento de un elemento `<details> para navegadores que no lo soportan`. */
 export const mostrarDetails = (details: HTMLDetailsElement): void => {
-  const summary = details.querySelector("summary");
+  const summary = details?.querySelector("summary");
   const flecha = summary?.querySelector('[class^="icon-chevron"]');
 
   if (!summary) {
@@ -359,6 +359,7 @@ export function confirmar(
   `;
 
   const noty = new Noty({
+    theme: undefined,
     id: "confirmacion",
     text,
     layout,
@@ -427,8 +428,8 @@ export function informacion(texto: string): Noty {
 export function labelPreguntas(form: HTMLFormElement): void {
   form.pre1.addEventListener("keyup", () => {
     const legendRespuesta = form.querySelector(
-      `sup[respuesta=${form.res1.id}]`,
-    ) as HTMLLegendElement | null;
+      `sup[respuesta=${form.res1.name}]`,
+    );
 
     if (!legendRespuesta) {
       console.warn(
@@ -443,8 +444,8 @@ export function labelPreguntas(form: HTMLFormElement): void {
 
   form.pre2.addEventListener("keyup", () => {
     const legendRespuesta = form.querySelector(
-      `sup[respuesta=${form.res2.id}]`,
-    ) as HTMLLegendElement | null;
+      `sup[respuesta=${form.res2.name}]`,
+    );
 
     if (!legendRespuesta) {
       console.warn(
@@ -459,8 +460,8 @@ export function labelPreguntas(form: HTMLFormElement): void {
 
   form.pre3.addEventListener("keyup", () => {
     const legendRespuesta = form.querySelector(
-      `sup[respuesta=${form.res3.id}]`,
-    ) as HTMLLegendElement | null;
+      `sup[respuesta=${form.res3.name}]`,
+    );
 
     if (!legendRespuesta) {
       console.warn(
