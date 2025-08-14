@@ -5,23 +5,15 @@ declare(strict_types=1);
 use Leaf\BareUI;
 use LicoSys\Enums\NombreInput;
 
-$label = '<b>Nombre:</b> <sup class="w3-text-red">(requerido)</sup>';
-$inputNombre = generarInput(NombreInput::NOMBRE_NEGOCIO, $label, 'Nombre del negocio');
-
-$label = '<b>RIF:</b> <sup class="w3-text-red">(requerido)</sup>';
-$inputRIF = generarInput(NombreInput::RIF, $label, 'RIF del negocio');
-
-$label = '<b>Teléfono:</b> <sup class="w3-text-blue">(opcional)</sup>';
-$inputTelefono = generarInput(NombreInput::TELEFONO, $label, 'Teléfono de contacto');
-
-$label = '<b>Dirección:</b> <sup class="w3-text-blue">(opcional)</sup>';
-$inputDireccion = generarInput(NombreInput::DIRECCION, $label, 'Dirección del negocio');
+$inputNombre = generarInput(NombreInput::NOMBRE_NEGOCIO, 'Nombre', 'Nombre del negocio');
+$inputRIF = generarInput(NombreInput::RIF, 'RIF', 'RIF del negocio');
+$inputTelefono = generarInput(NombreInput::TELEFONO, 'Teléfono', 'Teléfono de contacto');
+$inputDireccion = generarInput(NombreInput::DIRECCION, 'Dirección', 'Dirección del negocio');
 
 ?>
 
 <form
   id="registrarNegocio"
-  autocomplete="off"
   class="w3-row modal w3-white w3-card w3-round-large w3-animate-zoom">
   <h1 class="w3-center w3-xlarge oswald w3-margin-bottom">
     Registro de Negocio
