@@ -1,0 +1,48 @@
+<?php
+
+declare(strict_types=1);
+
+if ($_POST !== []) :
+  require_once __DIR__ . '/../vendor/autoload.php';
+  require_once __DIR__ . '/conexion.php';
+  require_once __DIR__ . '/funciones.php';
+
+  $nuevoIVA = $_POST['iva'] < 1
+    ? (float) $_POST['iva']
+    : (float) $_POST['iva'] / 100;
+
+  $nuevoDolar = round(floatval($_POST['dolar']), 2);
+  $nuevoPeso = (int) $_POST['pesos'];
+
+  /*----------  VALIDACIONES  ----------*/
+  if (!$nuevoIVA || !$nuevoDolar || $nuevoPeso === 0) {
+    $respuesta['error'] = 'Por favor rellene los campos.';
+  }
+
+  if ($respuesta['error']) {
+    exit(json_encode($respuesta, JSON_INVALID_UTF8_IGNORE));
+  }
+
+  $sqlIVA = sprintf("INSERT INTO iva(valor) VALUES('%s')", $nuevoIVA);
+  $sqlDolar = sprintf("INSERT INTO dolar(valor) VALUES('%s')", $nuevoDolar);
+  $sqlPeso = sprintf("INSERT INTO peso(valor) VALUES('%d')", $nuevoPeso);
+
+  if (
+    in_array(
+      setRegistro($sqlIVA),
+      [null, 0],
+      true
+    )
+    || in_array(
+      setRegistro($sqlDolar),
+      [null, 0],
+      true
+    )
+    || in_array(setRegistro($sqlPeso), [null, 0], true)
+  ) {
+    $respuesta['error'] = json_encode($conexion->error_list, JSON_INVALID_UTF8_IGNORE);
+  }
+
+  $respuesta['ok'] = 'Valores actualizados correctamente.';
+  exit(json_encode($respuesta, JSON_INVALID_UTF8_IGNORE));
+endif;
