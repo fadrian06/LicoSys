@@ -59,12 +59,12 @@
 						? getIVA() * 100
 						: '';
 					echo generarINPUT('IVA', $label, '', $value);
-					
+
 					$label = getDolar() !== 'No establecido'
 						? 'DÓLAR: (actual) <b class="w3-block w3-margin-left">Bs. ' . getDolar() . '</b>'
 						: '<b class="w3-block w3-margin-left">Establecer DÓLAR (en Bs.)</b>';
 					echo generarINPUT('DOLAR', $label, '', getDolar());
-					
+
 					$label = getPeso() !== 'No establecido'
 						? '<b class="w3-block w3-margin-left">' . getPeso() . ' Pesos</b>'
 						: '<b class="w3-block w3-margin-left">Establecer PESO (a pesos)</b>';

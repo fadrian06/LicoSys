@@ -1,13 +1,13 @@
 <?php
 	session_start();
 	if (!isset($_SESSION['activa'])) header('location: ../salir.php');
-	
+
 	if ($_SESSION['cargo'] === 'a'):
 		require '../backend/config.php';
 		require '../backend/componentes.php';
 		require '../backend/conexion.php';
 		require '../backend/funciones.php';
-		
+
 		/**
 		 * Genera un resúmen de gastos/ingresos filtrado.
 		 * @param  string $rol       El filtro a aplicar: 'diario', 'semanal', 'quincenal', 'mensual'
@@ -23,7 +23,7 @@
 			SQL;
 			$ventas = getRegistros($sql);
 			$ventas = filtrarFecha($rol, $ventas);
-			
+
 			$ventasCombinadas = [];
 			foreach ($ventas as $venta):
 				$id = $venta['producto_id'];
@@ -34,7 +34,7 @@
 					$ventasCombinadas[$id]['total'] += $venta['total'];
 				endif;
 			endforeach;
-			
+
 			$totalGastos = 0;
 			$totalIngresos = 0;
 			$ganancia = 0;
@@ -61,10 +61,10 @@
 					: ['total' => 0, 'unidades' => 0];
 				$compra['total'] = (float) $compra['total'];
 				$venta['total'] = (float) $venta['total'];
-				
+
 				$totalGastos += $compra['total'];
 				$totalIngresos += $venta['total'];
-				
+
 				$filasProductos .= <<<HTML
 					<tr>
 						<td>{$compra['unidades']}</td>
@@ -75,7 +75,7 @@
 					</tr>
 				HTML;
 			endforeach;
-			
+
 			$ganancia = $totalIngresos - $totalGastos;
 			$textoGanancia = $ganancia >= 0
 				? <<<HTML
@@ -88,7 +88,7 @@
 					<i class="icon-dollar w3-text-red"></i>
 					$ganancia
 				HTML;
-			
+
 			$respuesta['ok'] = $filasProductos;
 			$respuesta['datos'] = [
 				'gastos' => $totalGastos,
@@ -97,7 +97,7 @@
 			];
 			exit(json_encode($respuesta, JSON_INVALID_UTF8_IGNORE));
 		}
-		
+
 		/*=======================================
 		=            RESUMEN VARIABLE           =
 		=======================================*/
@@ -118,15 +118,15 @@
 					break;
 			endswitch;
 		endif;
-		
+
 		/*=========================================
 		=            VISTA POR DEFECTO            =
 		=========================================*/
 		$negocios = getRegistros('SELECT * FROM negocios WHERE activo=1');
-		
+
 		echo LOADER;
 		echo '<div id="moduloFinanzas" class="w3-center">';
-		
+
 		$botones = '';
 		$paneles = '';
 		foreach ($negocios as $negocio):
@@ -140,7 +140,7 @@
 					<div>{$negocio['nombre']}</div>
 				</li>
 			HTML;
-			
+
 			/*----------  TABLA  ----------*/
 			// Obtenemos las ventas y aplicamos filtro diario por defecto.
 			$sql = <<<SQL
@@ -150,7 +150,7 @@
 			SQL;
 			$ventas = getRegistros($sql);
 			$ventas = filtrarFecha('diario', $ventas);
-			
+
 			$ventasCombinadas = [];
 			foreach ($ventas as $venta):
 				$id = $venta['producto_id'];
@@ -161,7 +161,7 @@
 					$ventasCombinadas[$id]['total'] += $venta['total'];
 				endif;
 			endforeach;
-			
+
 			$totalGastos = 0;
 			$totalIngresos = 0;
 			$ganancia = 0;
@@ -188,10 +188,10 @@
 					: ['total' => 0, 'unidades' => 0];
 				$compra['total'] = (float) $compra['total'];
 				$venta['total'] = (float) $venta['total'];
-				
+
 				$totalGastos += $compra['total'];
 				$totalIngresos += $venta['total'];
-				
+
 				$filasProductos .= <<<HTML
 					<tr class="w3-animate-opacity">
 						<td>{$compra['unidades']}</td>
@@ -202,7 +202,7 @@
 					</tr>
 				HTML;
 			endforeach;
-			
+
 			$ganancia = $totalIngresos - $totalGastos;
 			$textoGanancia = $ganancia >= 0
 				? <<<HTML
@@ -215,10 +215,10 @@
 					<i class="icon-dollar w3-text-red"></i>
 					$ganancia
 				HTML;
-			
+
 			$tooltipCompradas = generarTooltip('Unidades compradas');
 			$tooltipVendidas = generarTooltip('Unidades vendidas');
-			
+
 			$panelActivo = $negocio['id'] === $_SESSION['negocioID']
 				? 'w3-show-inline-block'
 				: 'w3-hide';
@@ -273,7 +273,7 @@
 				</div>
 			HTML;
 		endforeach;
-		
+
 		/*==================================
 		=            ESTRUCTURA            =
 		==================================*/
@@ -286,7 +286,7 @@
 			</ul>
 			$paneles
 		HTML;
-		
+
 		echo '</div>';
 	else:
 		include '../templates/head.php';

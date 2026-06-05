@@ -1,15 +1,15 @@
 <?php
 	session_start();
 	if (!isset($_SESSION['activa'])) header('location: ../salir.php');
-	
+
 	require '../backend/config.php';
 	require '../backend/componentes.php';
 	require '../backend/conexion.php';
 	require '../backend/funciones.php';
-	
+
 	echo LOADER;
 	echo '<div id="moduloClientes">';
-	
+
 	/*=============================
 	=            TABLA            =
 	=============================*/
@@ -18,36 +18,36 @@
 		INNER JOIN usuarios u ON c.usuario_id=u.id
 		WHERE c.cedula!=40000000 ORDER BY c.cedula
 	SQL;
-	
+
 	$encabezados = [
 		'escritorio' => ['C.I', 'Nombre', 'Registrado por'],
 		'movil' => ['C.I', 'Nombre']
 	];
-	
+
 	$datos = [
 		'camposEscritorio' => ['cedula', 'nombre', 'usuario'],
 		'camposMovil' => ['cedula', 'nombre'],
 		'filas' => getRegistros($sql)
 	];
-	
+
 	$editar = [
 		'tabla' => 'clientes',
 		'campo' => 'cedula',
 		'enlace' => 'views/clientes.php',
 		'IDform' => '#editarCliente'
 	];
-	
+
 	tabla('Clientes', $encabezados, $datos, 'No hay clientes registrados.', false, $editar);
-	
+
 	/*=========================================
 	=            REGISTRAR CLIENTE            =
 	=========================================*/
 	$label = '<b>Cédula: </b><sup class="w3-text-red">(requerido)</sup>';
 	$inputCedula = generarINPUT('CEDULA', $label, 'Cédula del cliente');
-	
+
 	$label = '<b>Nombre: </b><sup class="w3-text-red">(requerido)</sup>';
 	$inputNombre = generarINPUT('NOMBRE', $label, 'Nombre del cliente');
-	
+
 	echo <<<HTML
 		<form id="registrarCliente" autocomplete="off" class="modal w3-white w3-card w3-round-large animate__animated animate__fadeInUp animate__faster w3-hide">
 			<div class="w3-right-align">
@@ -68,14 +68,14 @@
 			</section>
 		</form>
 	HTML;
-		
+
 	/*======================================
 	=            EDITAR CLIENTE            =
 	======================================*/
 	echo <<<HTML
 		<form id="editarCliente" autocomplete="off" class="modal w3-white w3-card w3-round-large animate__animated animate__fadeInUp animate__faster w3-hide"></form>
 	HTML;
-	
+
 	/*=======================================
 	=            BOTÓN REGISTRAR            =
 	=======================================*/

@@ -2,13 +2,13 @@
 	if(!empty($mostrarRegistro)):
 		$label = '<b>Nombre:</b> <sup class="w3-text-red">(requerido)</sup>';
 		$inputNombre = generarINPUT('NOMBRE_NEGOCIO', $label, 'Nombre del negocio');
-		
+
 		$label = '<b>RIF:</b> <sup class="w3-text-red">(requerido)</sup>';
 		$inputRIF = generarINPUT('RIF', $label, 'RIF del negocio');
-		
+
 		$label = '<b>Teléfono:</b> <sup class="w3-text-blue">(opcional)</sup>';
 		$inputTelefono = generarINPUT('TELEFONO', $label, 'Teléfono de contacto');
-		
+
 		$label = '<b>Dirección:</b> <sup class="w3-text-blue">(opcional)</sup>';
 		$inputDireccion = generarINPUT('DIRECCION', $label, 'Dirección del negocio');
 		echo <<<HTML

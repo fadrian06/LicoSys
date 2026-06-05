@@ -313,7 +313,7 @@ if(w3.getElement("#panelNuevaVenta")){
 	const dolar = parseFloat(w3.getElement("#dolar").textContent.substring(4));
 	const peso = parseInt(w3.getElement("#peso").textContent);
 	const tooltips = w3.getElement(".tooltip").children;
-	
+
 	botonesClientes.forEach(boton => {
 		const spans = boton.children;
 		boton.addEventListener("click", () => {
@@ -392,7 +392,7 @@ if(w3.getElement("#panelNuevaCompra")){
 	const dolar = parseFloat(w3.getElement("#dolar").textContent.substring(4));
 	const peso = parseInt(w3.getElement("#peso").textContent);
 	const tooltips = w3.getElement(".tooltip").children;
-	
+
 	botonesProveedores.forEach(boton => {
 		const spans = boton.children;
 		boton.addEventListener("click", () => {
@@ -480,7 +480,7 @@ if(w3.getElement('#formEditar')){
 if(w3.getElement('#modalFactura')){
 	const form = w3.getElement('form[method="POST"]')
 	form.onsubmit = e => e.preventDefault()
-	
+
 	const modalFactura = w3.getElement('#modalFactura')
 	const botones = w3.getElements('a[name="factura"]')
 	botones.forEach(boton => modal(boton, modalFactura, overlay))

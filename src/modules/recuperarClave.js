@@ -25,7 +25,7 @@ botonRecuperar.onclick = e => {
 
 validar(formConsulta, (error, fd, e) => {
 	if (error) return alerta(error).show()
-		
+
 	e.preventDefault()
 	formConsulta.classList.add('showLoader')
 	fd.append('consultar', true)
@@ -36,7 +36,7 @@ validar(formConsulta, (error, fd, e) => {
 			return alerta(datos.error)
 				.on('onShow', () => formConsulta.classList.remove('showLoader'))
 				.show()
-		
+
 		formConsulta.classList.remove('showLoader')
 		location.reload()
 	})
@@ -53,7 +53,7 @@ if (formPreguntasRespuestas) {
 	verClave(formPreguntasRespuestas.res3.nextElementSibling, formPreguntasRespuestas.res3)
 	validar(formPreguntasRespuestas, (error, fd, e) => {
 		if (error) return alerta(error).show()
-		
+
 		e.preventDefault()
 		formPreguntasRespuestas.classList.add('showLoader')
 		fd.append('verificarRespuestas', true)
@@ -65,7 +65,7 @@ if (formPreguntasRespuestas) {
 					formPreguntasRespuestas.classList.remove('showLoader')
 				})
 				.show()
-		
+
 			formPreguntasRespuestas.classList.remove('showLoader')
 			location.reload()
 		})
@@ -80,21 +80,21 @@ if (formClave) {
 	})
 	verClave(formClave.clave.nextElementSibling, formClave.clave)
 	verClave(formClave.confirmar.nextElementSibling, formClave.confirmar)
-	
+
 	validar(formClave, (error, fd, e) => {
 		if (error) return alerta(error).show()
-			
+
 		e.preventDefault()
 		formClave.classList.add('showLoader')
 		fd.append('cambiarClave', true)
 		return ajax('backend/recuperarClave.php', fd, res => {
 			/** @type {Respuesta} */
 			const datos = JSON.parse(res)
-			
+
 			if (datos.error) return alerta(datos.error)
 				.on('onShow', () => formClave.classList.remove('showLoader'))
 				.show()
-			
+
 			formClave.classList.remove('showLoader')
 			notificacion('Contraseña actualizada exitósamente.').show()
 			return formClave.querySelector('.icon-close').click()

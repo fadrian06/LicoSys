@@ -21,23 +21,23 @@ verClave(form.confirmar.nextElementSibling, form.confirmar)
 
 validar(form, (error, fd, e) => {
 	if (error) return alerta(error).show()
-	
+
 	e.preventDefault()
 	mostrarLoader(form)
-	
+
 	fd.append(inputFile.id, inputFile.files[0])
 	fd.append('cargo', 'a')
 	ajax('backend/registrarUsuario.php', fd, res => {
 		/** @type {Respuesta} */
 		const respuesta = JSON.parse(res)
-		
+
 		if (respuesta.error)
 			return alerta(respuesta.error)
 				.on('afterClose', () => ocultarLoader(form))
 				.show()
-		
+
 		ocultarLoader(form)
-		
+
 		return notificacion(respuesta.ok)
 			.on('afterClose', () => location.reload())
 			.show()

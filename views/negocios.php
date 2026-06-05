@@ -1,19 +1,19 @@
 <?php
 	session_start();
 	if (!isset($_SESSION['activa'])) header('location: ../salir.php');
-	
+
 	if ($_SESSION['cargo'] === 'a'):
 		require '../backend/config.php';
 		require '../backend/componentes.php';
 		require '../backend/conexion.php';
 		require '../backend/funciones.php';
-		
+
 		echo LOADER;
 		echo '<div id="moduloNegocios" class="w3-row" style="max-height: 71vh; overflow: auto">';
-		
+
 		$negocios = getRegistros('SELECT * FROM negocios WHERE activo=1');
 		$desactivados = getRegistros('SELECT * FROM negocios WHERE activo=0');
-		
+
 		/*----------  ACTIVADOS  ----------*/
 		$botones = '';
 		$paneles = '';
@@ -27,7 +27,7 @@
 					<div>{$negocio['nombre']}</div>
 				</li>
 			HTML;
-			
+
 			$activo = $negocio['id'] === $_SESSION['negocioID']
 				? 'w3-show'
 				: 'w3-hide';
@@ -115,7 +115,7 @@
 				</div>
 			HTML;
 		endforeach;
-		
+
 		/*----------  DESACTIVADOS  ----------*/
 		$mostrarDesactivados = '';
 		$botonesDesactivados = '';
@@ -219,7 +219,7 @@
 				</details>
 			HTML;
 		endif;
-		
+
 		/*=====================================
 		=            BARRA LATERAL            =
 		=====================================*/
@@ -231,25 +231,25 @@
 				<div class="w3-margin w3-padding-top-24">$botonRegistrar</div>
 			</div>
 		HTML;
-		
+
 		/*=======================================
 		=            PANEL PRINCIPAL            =
 		=======================================*/
 		echo $paneles;
 		if ($desactivados) echo $panelesDesactivados;
-		
+
 		/*=========================================
 		=            REGISTRAR NEGOCIO            =
 		=========================================*/
 		$label = '<b>Nombre:</b> <sup class="w3-text-red">(requerido)</sup>';
 		$inputNombre = generarINPUT('NOMBRE_NEGOCIO', $label, 'Nombre del negocio');
-		
+
 		$label = '<b>RIF:</b> <sup class="w3-text-red">(requerido)</sup>';
 		$inputRIF = generarINPUT('RIF', $label, 'RIF del negocio');
-		
+
 		$label = '<b>Teléfono:</b> <sup class="w3-text-blue">(opcional)</sup>';
 		$inputTelefono = generarINPUT('TELEFONO', $label, 'Teléfono de contacto');
-		
+
 		$label = '<b>Dirección:</b> <sup class="w3-text-blue">(opcional)</sup>';
 		$inputDireccion = generarINPUT('DIRECCION', $label, 'Dirección del negocio');
 		echo <<<HTML
@@ -290,14 +290,14 @@
 				</section>
 			</form>
 		HTML;
-		
+
 		/*======================================
 		=            EDITAR NEGOCIO            =
 		======================================*/
 		echo <<<HTML
 			<form id="editarNegocio" autocomplete="off" class="modal w3-white w3-card w3-round-large animate__animated animate__fadeInUp animate__faster w3-hide"></form>
 		HTML;
-		
+
 		/*==========================================
 		=            BOTONES INFERIORES            =
 		==========================================*/

@@ -98,7 +98,7 @@ const menu = () => {
 	const overlay = document.querySelector('[role="menuOverlay"]')
 	/** @type {HTMLElement} */
 	const menu = document.querySelector('#menu')
-	
+
 	boton.onclick = () => {
 		// Mostramos el fondo.
 		overlay.classList.remove('w3-hide')
@@ -108,7 +108,7 @@ const menu = () => {
 		menu.classList.remove('animate__slideOutLeft', 'animate__faster')
 		menu.classList.add('w3-show', 'w3-animate-left')
 	}
-	
+
 	// Al cerrar el menú.
 	overlay.onclick = () => {
 		// Ocultar el fondo.
@@ -124,31 +124,31 @@ const menu = () => {
 			menu.classList.add('w3-hide')
 		}, 500)
 	}
-	
+
 	onresize = () => reajustar()
 }
 
 /**
  * @param  {HTMLElement} modal Contenedor del modal.
- * @param {()} [callback] Función adicional a ejecutar al cerrar el modal. 
+ * @param {()} [callback] Función adicional a ejecutar al cerrar el modal.
  */
 const mostrarModal = (modal, callback = () => {}) => {
 	/** @type {HTMLSpanElement} */
 	const cerrar = modal.querySelector('.icon-close')
 	/** @type {HTMLDivElement} */
 	const overlay = document.querySelector('[role="modalOverlay"]')
-	
+
 	// Oscurecemos el fondo
 	overlay.classList.remove('w3-hide')
 	overlay.classList.add('w3-show')
-	
+
 	// Mostramos el modal
 	modal.classList.remove('w3-hide')
 	modal.classList.add('w3-show')
 	// Cambiamos a la animación de apertura
 	modal.classList.remove('animate__fadeOutDown')
 	modal.classList.add('animate__fadeInUp')
-	
+
 	// Al hacer click en el fondo
 	overlay.onclick = () => {
 		// Ocultamos el fondo
@@ -164,7 +164,7 @@ const mostrarModal = (modal, callback = () => {}) => {
 		}, 500)
 		callback()
 	}
-	
+
 	// Al hacer click en la X
 	cerrar.onclick = () => {
 		// Ocultamos el fondo
@@ -250,7 +250,7 @@ const verClave = (ojo, input) => {
 			ojo.classList.add('icon-eye-slash')
 			return
 		}
-		
+
 		input.type = 'password'
 		ojo.classList.remove('icon-eye-slash')
 		ojo.classList.add('icon-eye')
@@ -277,7 +277,7 @@ const confirmar = (texto, posicion = 'center', callback = () => {}) => {
 			</div>
 		</div>
 	`
-	
+
 	return new Noty({
 		id: 'confirmacion',
 		theme: null,
@@ -380,9 +380,9 @@ const activarDesactivar = (tabla, campo, valor, accion, hrefEnlace) => {
 	return $.post('backend/activarDesactivar.php', post, res => {
 		/** @type {Respuesta} */
 		const respuesta = JSON.parse(res)
-		
+
 		if (respuesta.error) return alerta(respuesta.error).show()
-		
+
 		if (accion === 'activar')
 			notificacion(respuesta.ok)
 				.on('beforeShow', () => $(`[href="${hrefEnlace}"]`)[0].click())
@@ -423,9 +423,9 @@ const vaciarLog = () => {
 			w3.removeClass('main', 'showLoader')
 			/** @type {Respuesta} */
 			const respuesta = JSON.parse(res)
-			
+
 			if (respuesta.error) return alerta(respuesta.error).show()
-			
+
 			return notificacion(respuesta.ok)
 				.on('onShow', () => $('nav [href="views/log.php"]')[0].click())
 				.show()
@@ -460,39 +460,39 @@ const editar = (boton, tabla, campo, valor, hrefEnlace = '') => {
 	}
 	$.post(url, datos, res => {
 		const respuesta = JSON.parse(res)
-		
+
 		if (respuesta.error) return alerta(respuesta.error).show()
-		
+
 		/** @type {HTMLFormElement} */
 		const form = document.querySelector(boton.getAttribute('data-target'))
 		form.innerHTML = respuesta.ok
 		modal(boton)
-		
+
 		if (tabla === 'usuarios:preguntasRespuestas') {
 			labelPreguntas(form)
 			verClave(form.res1.nextElementSibling, form.res1)
 			verClave(form.res2.nextElementSibling, form.res2)
 			verClave(form.res3.nextElementSibling, form.res3)
 		}
-		
+
 		if (tabla === 'usuarios:clave') {
 			verClave(form.clave.nextElementSibling, form.clave)
 			verClave(form.confirmar.nextElementSibling, form.confirmar)
 		}
-		
+
 		validar(form, (error, fd, e) => {
 			if (error) return alerta(error).show()
-			
+
 			e.preventDefault()
 			fd.append('tabla', tabla)
 			mostrarLoader(form)
 			ajax(url, fd, res => {
 				const respuesta = JSON.parse(res)
-				
+
 				if (respuesta.error) return alerta(respuesta.error)
 					.on('onShow', () => form.classList.remove('showLoader'))
 					.show()
-				
+
 				return notificacion(respuesta.ok)
 					.on('onShow', () => {
 						ocultarLoader(form)
@@ -515,13 +515,13 @@ const verFacturaVenta = (boton, ventaID) => {
 	const modalFactura = document.querySelector('#modalFactura')
 	ventaID = ventaID.slice(7)
 	ventaID = ventaID.slice(0, -8)
-	
+
 	$.get(`views/ventas.php?ventaID=${ventaID}`, res => {
 		/** @type {Respuesta} */
 		const respuesta = JSON.parse(res)
-		
+
 		if (respuesta.error) return alerta(respuesta.error).show()
-		
+
 		let textoTelefono = respuesta.datos.telefonoNegocio
 			? `
 				<tr>
@@ -533,7 +533,7 @@ const verFacturaVenta = (boton, ventaID) => {
 				</tr>
 			`
 			: ''
-			
+
 		let textoDireccion = respuesta.datos.direccionNegocio
 			? `
 				<tr>
@@ -542,7 +542,7 @@ const verFacturaVenta = (boton, ventaID) => {
 				</tr>
 			`
 			: ''
-			
+
 		let textoCliente = respuesta.datos.cedulaCliente != 40000000
 			? `
 				<div class="w3-margin">
@@ -635,7 +635,7 @@ const mostrarPanel = (boton, id) => {
 		panel.classList.remove('w3-show')
 		panel.classList.add('w3-hide')
 	})
-	
+
 	panel.classList.remove('w3-hide')
 	panel.classList.add('w3-show')
 }
@@ -648,7 +648,7 @@ const respaldarBD = () => {
 			/** @type {Respuesta} */
 			const respuesta = JSON.parse(res)
 			if (respuesta.error) return alerta(respuesta.error).show()
-			
+
 			return notificacion(respuesta.ok).show()
 		})
 	})
@@ -656,7 +656,7 @@ const respaldarBD = () => {
 
 const restaurarBD = () => {
 	let texto = `
-		Tener en cuenta que al restaurar se perderán cambios 
+		Tener en cuenta que al restaurar se perderán cambios
 		que no hayan sido respaldados<br>
 		<strong class="w3-text-red">¿Desea continuar?</strong>
 	`
@@ -665,17 +665,17 @@ const restaurarBD = () => {
 		$.post('backend/backupBD.php', { restaurar: true }, res => {
 			/** @type {Respuesta} */
 			const respuesta = JSON.parse(res)
-			
+
 			if (respuesta.error) return alerta(respuesta.error)
 				.on('onShow', () => w3.removeClass('main', 'showLoader'))
 				.show()
-			
+
 			let html = `
 				<div class="w3-card w3-round-xlarge w3-white w3-padding-large w3-center">
 					<h1 class="w3-xlarge oswald">${respuesta.ok}</h1>
 					<h2 class="w3-large w3-padding-top-24 w3-topbar">
 						Reiniciando el Sistema...
-					</h2>	
+					</h2>
 				</div>
 			`
 			new Noty({
@@ -721,18 +721,18 @@ const filter = (input, contenedorID) => {
 const registrarProducto = (formulario, enlace) => {
 	validar(formulario, (error, fd, e) => {
 		if (error) return alerta(error).show()
-		
+
 		e.preventDefault()
 		mostrarLoader(formulario)
 		ajax('backend/registrarProducto.php', fd, res => {
 			/** @type {Respuesta} */
 			const datos = JSON.parse(res)
-			
+
 			if (datos.error)
 				return alerta(datos.error)
 					.on('onShow', () => ocultarLoader(formulario))
 					.show()
-			
+
 			ocultarLoader(formulario)
 			return notificacion(datos.ok)
 				.on('onShow', () => $(`[href="${enlace}"]`)[0].click())
@@ -749,18 +749,18 @@ const registrarProducto = (formulario, enlace) => {
 const registrarCliente = (formulario, enlace) => {
 	validar(formulario, (error, fd, e) => {
 		if (error) return alerta(error).show()
-			
+
 		e.preventDefault()
 		mostrarLoader(formulario)
 		ajax('backend/registrarCliente.php', fd, res => {
 			/** @type {Respuesta} */
 			const datos = JSON.parse(res)
-			
+
 			if (datos.error)
 				return alerta(datos.error)
 					.on('onShow', () => ocultarLoader(formulario))
 					.show()
-			
+
 			ocultarLoader(formulario)
 			return notificacion(datos.ok)
 				.on('onShow', () => $(`[href="${enlace}"]`)[0].click())
@@ -777,17 +777,17 @@ const registrarCliente = (formulario, enlace) => {
 const registrarProveedor = (formulario, enlace) => {
 	validar(formulario, (error, fd, e) => {
 		if (error) return alerta(error).show()
-			
+
 		e.preventDefault()
 		mostrarLoader(formulario)
 		ajax('backend/registrarProveedor.php', fd, res => {
 			/** @type {Respuesta} */
 			const datos = JSON.parse(res)
-			
+
 			if (datos.error) return alerta(datos.error)
 				.on('onShow', () => formulario.classList.remove('showLoader'))
 				.show()
-			
+
 			ocultarLoader(formulario)
 			return notificacion(datos.ok)
 				.on('onShow', () => $(`[href="${enlace}"]`)[0].click())
@@ -803,7 +803,7 @@ const registrarProveedor = (formulario, enlace) => {
 const actualizarMonedas = formulario => {
 	validar(formulario, (error, fd, e) => {
 		if (error) return alerta(error).show()
-		
+
 		e.preventDefault()
 		formulario.classList.add('showLoader')
 		ajax('backend/actualizarMonedas.php', fd, res => {
@@ -813,7 +813,7 @@ const actualizarMonedas = formulario => {
 				return alerta(datos.error)
 					.on('onClose', () => formulario.classList.remove('showLoader'))
 					.show()
-			
+
 			$('#tablaMonedas').html(`
 				<tr>
 					<td>IVA</td>
@@ -825,10 +825,10 @@ const actualizarMonedas = formulario => {
 						<b><i>Bs. </i>${formulario.dolar.value}</b>
 					</td>
 					<td><b>${formulario.pesos.value}<i> Pesos</i></b></td>
-				</tr>	
+				</tr>
 			`)
 			formulario.classList.remove('showLoader')
-			
+
 			return notificacion(datos.ok)
 				.on('onShow', () => {
 					formulario.querySelector('.icon-close').click()
@@ -854,7 +854,7 @@ const actualizarTotal = (cantidad, excento, inputTotalID) => {
 	const total = cantidad.form.querySelector(inputTotalID)
 	total.value = (precio * cantidad.value).toFixed(2)
 	total.setAttribute('total', total.value)
-	
+
 	if (excento) {
 		let totalIVA = Number(total.getAttribute('total')) * iva
 		let precioBS = ((Number(total.getAttribute('total')) + totalIVA) * dolar).toFixed(2)
@@ -881,7 +881,7 @@ const actualizarTotal = (cantidad, excento, inputTotalID) => {
 			</div>
 		`
 	}
-	
+
 	if (cantidad.value != 0)
 		cantidad.form.querySelector('button').classList.remove('w3-hide')
 }
@@ -894,7 +894,7 @@ const actualizarPrecio = inputPrecio => {
 	const precio = Number(inputPrecio.value)
 	const dolar = Number(inputPrecio.form.querySelector('[name="dolar"]').value)
 	const peso = Number(inputPrecio.form.querySelector('[name="peso"]').value)
-	
+
 	let precioBS = (precio * dolar).toFixed(2)
 	let precioPesos = (precio * peso).toFixed(0)
 	inputPrecio.parentElement.querySelector('.w3-dropdown-content').innerHTML = `

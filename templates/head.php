@@ -5,24 +5,24 @@
 	$script = '';
 	$url = explode('/', $_SERVER['SCRIPT_NAME']);
 	$archivoActual = (string) $url[count($url) - 1];
-	
+
 	/** @var bool Indica si el usuario intenta acceder a una vista mediante la URL */
 	$seEncuentraEnCarpetaViews = $url[count($url) - 2] === 'views' ? true : false;
 	/** @var string Hace referencia a la carpeta raiz del proyecto */
 	$BASE_URL = $seEncuentraEnCarpetaViews ? '../' : '';
-	
+
 	require "{$BASE_URL}backend/config.php";
 	require "{$BASE_URL}backend/componentes.php";
 	require "{$BASE_URL}backend/conexion.php";
 	require "{$BASE_URL}backend/funciones.php";
-	
+
 	/*=================================================================
 	=            LÓGICA DE TODO EL SISTEMA, MENOS EL LOGIN            =
 	=================================================================*/
 	if ($archivoActual !== 'index.php'):
 		$script .= "<script src='{$BASE_URL}js/navegacion.js'></script>";
 		$script .= "<script src='{$BASE_URL}js/main.js'></script>";
-		
+
 		/*----------  No tienes preguntas y respuestas registradas  ----------*/
 		$sql = <<<SQL
 			SELECT pre1, pre2, pre3 FROM usuarios WHERE id={$_SESSION['userID']}
@@ -39,7 +39,7 @@
 					</strong><br>
 					<small>¿Desea registrarlas?</small>
 				`
-				
+
 				confirmar(textoNoTienesPreguntasNiRespuestas, 'center', () => {
 					$('[href="views/miPerfil.php"]')[0].click()
 					let intervalo = setInterval(() => {
@@ -52,11 +52,11 @@
 				})
 			</script>
 		HTML;
-		
+
 		/*----------  Inventario agotado  ----------*/
 		$sql = "SELECT id, producto, stock FROM inventario";
 		$productos = getRegistros($sql);
-		
+
 		$i = 1;
 		foreach ($productos as $producto):
 			$tiempo = 1000 * 60; /*60 segundos*/
@@ -64,11 +64,11 @@
 				$script .= <<<HTML
 					<script>
 						setTimeout(() => alerta('{$producto['producto']} está AGOTADO').show(),3000)
-						
+
 						let intervalo{$i} = setInterval(() => {
 							alerta('{$producto['producto']} está AGOTADO').show()
 						}, $tiempo)
-						
+
 						setTimeout(() => clearInterval(intervalo{$i}), $tiempo * 10 /*10 minutos*/)
 					</script>
 				HTML;
@@ -76,30 +76,30 @@
 				$script .= <<<HTML
 					<script>
 						setTimeout(() => advertencia('{$producto['producto']} CASI AGOTADO').show(), 3000)
-						
+
 						let intervalo{$i} = setInterval(() => {
 							advertencia('{$producto['producto']} CASI AGOTADO').show()
 						}, $tiempo)
-						
+
 						setTimeout(() => clearInterval(intervalo{$i}), $tiempo * 10 /*5 minutos*/)
 					</script>
 				HTML;
 			++$i;
 		endforeach;
 	endif;
-	
+
 	/*====================================================================
 	=            LÓGICA DE TODO EL SISTEMA, INCLUIDO EL LOGIN            =
 	====================================================================*/
 	$negocios = getRegistros('SELECT * FROM negocios WHERE activo=1');
 	$admin    = getRegistro("SELECT * FROM usuarios WHERE cargo='a'");
-	
+
 	$script .= <<<HTML
 		<script>
 			document.body.classList.remove('w3-disabled')
 		</script>
 	HTML;
-	
+
 	$productosEnCarrito = contarRegistros('carrito_venta');
 	$productosEnCarritoCompra = contarRegistros('carrito_compra');
 ?>
@@ -137,12 +137,12 @@
 		===================================-->
 		<div role="modalOverlay" class="w3-overlay w3-animate-opacity w3-hide"></div>
 		<div role="menuOverlay" class="w3-overlay w3-animate-opacity w3-hide"></div>
-		
+
 		<?php
 			if ($archivoActual !== 'index.php'):
 				$mostrarMenu = true;
 				include 'templates/menu.php';
 			endif;
-			
+
 			include 'templates/acercaDe.php';
 		?>

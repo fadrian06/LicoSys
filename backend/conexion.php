@@ -23,11 +23,11 @@
 		exit("Error, no se pudo conectar a MySQL: <b>$conexion->error</b><br>");
 
 	$conexion->set_charset(CHARSET);
-	
+
 	/*----------  Si no existe la base de datos, comienza la instalación  ----------*/
 	if (!$conexion->select_db(BD))
 		$mostrarLoader = '<script src="js/loader.js"></script>';
-	
+
 	/*----------  Instala la Base de Datos  ----------*/
 	if (!empty($_POST['instalarBD'])):
 		$sql = file_get_contents('init.sql');

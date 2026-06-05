@@ -15,10 +15,10 @@ const actualizarImagen = (input, image, cb = () => {}) => {
 			&& file.type !== 'image/jpg'
 			&& file.type !== 'image/png'
 		) return cb('Sólo se permiten imagenes JPG y PNG')
-		
+
 		if (file.size > (1 * 1000 * 1024 * 2)) /*1b * 1000 = 1kb * 1024 = 1mb * 2 = :D*/
 			return cb('La imagen no puede ser mayor a 2MB')
-		
+
 		const fileReader = new FileReader()
 		fileReader.readAsDataURL(file)
 		fileReader.onload = e => {

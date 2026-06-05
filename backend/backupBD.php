@@ -6,10 +6,10 @@
 	if (!empty($_POST['respaldar'])):
 		if ($_SESSION['cargo'] !== 'a')
 			$respuesta['error'] = 'No tienes los permisos necesarios';
-		
+
 		if ($respuesta['error'])
 			exit(json_encode($respuesta, JSON_INVALID_UTF8_IGNORE));
-		
+
 		try {
 			$resultado = $conexion->query('SHOW TABLES');
 
@@ -69,7 +69,7 @@
 			exit(json_encode($respuesta, JSON_INVALID_UTF8_IGNORE));
 		}
 	endif;
-	
+
 	if (!empty($_POST['restaurar'])):
 		$archivo   = '../backup/backup.sql';
 		$manejador = fopen($archivo, "r");

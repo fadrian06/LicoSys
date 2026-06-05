@@ -1,9 +1,9 @@
 <?php
 	session_start();
 	if (!isset($_SESSION['activa'])) header('location: index.php');
-	
+
 	include 'templates/head.php';
-	
+
 	$versiones = getRegistros('SELECT * FROM versiones ORDER BY id DESC');
 
 	$data = getAPI('https://s3.amazonaws.com/dolartoday/data.json', 'json/dolarToday.json');
@@ -13,7 +13,7 @@
 
 	$data = getAPI('https://api.exchangedyn.com/markets/quotes/usdves/bcv', 'json/bcv.json');
 	$dolarBCV = round($data['sources']['BCV']['quote'], 2);
-	
+
 	$sql = <<<SQL
 		SELECT fecha, foto, nombre, usuario FROM log
 		INNER JOIN usuarios ON usuario_id=id
@@ -25,7 +25,7 @@
 		SELECT id FROM ventas WHERE negocio_id={$_SESSION['negocioID']}
 	SQL;
 	$cantidadVentas = count(getRegistros($sql));
-	
+
 	/*----------  PRODUCTOS MÁS VENDIDOS  ----------*/
 	$sql = <<<SQL
 		SELECT v.fecha, v.producto_id, i.producto, v.unidades FROM ventas v
@@ -37,14 +37,14 @@
 	$ventasCombinadas = [];
 	foreach ($ventas as $venta):
 		$id = $venta['producto_id'];
-		
+
 		if (count($ventasCombinadas) > 2) break;
-		
+
 		if (!array_key_exists($id, $ventasCombinadas))
 			$ventasCombinadas[$id] = $venta;
 		else $ventasCombinadas[$id]['unidades'] += $venta['unidades'];
 	endforeach;
-		
+
 	if ($ventasCombinadas && $_SESSION['cargo'] === 'a'):
 		$nombresProductos = [];
 		$cantidadProductos = [];
@@ -52,9 +52,9 @@
 			$nombresProductos[] = $venta['producto'];
 			$cantidadProductos[] = $venta['unidades'];
 		endforeach;
-		
+
 		$cantidadProductos[] = 0;
-		
+
 		$nombresProductos = json_encode($nombresProductos, JSON_INVALID_UTF8_IGNORE);
 		$cantidadProductos = json_encode($cantidadProductos, JSON_INVALID_UTF8_IGNORE);
 		$script .= <<<HTML
@@ -62,7 +62,7 @@
 				const xValues = $nombresProductos
 				const yValues = $cantidadProductos
 				const barColors = ['red', 'green', 'yellow', 'black', 'blue']
-				
+
 				new Chart('productosMasVendidos', {
 					type: 'bar',
 					data: {
@@ -84,7 +84,7 @@
 			</script>
 		HTML;
 	endif;
-	
+
 	$sql = <<<SQL
 		SELECT id FROM inventario WHERE negocio_id={$_SESSION['negocioID']}
 	SQL;
@@ -235,12 +235,12 @@
 			&nbsp;| <i class="icon-copyright"></i> UPTM <?=date('Y')?>
 		</p>
 	</footer>
-	
+
 	<?php
 		$mostrarChangelog = true;
 		$mostrarSoporteTecnico = true;
 		$mostrarManual = true;
-		
+
 		include 'templates/registroCambios.php';
 		include 'templates/soporteTecnico.php';
 		include 'templates/manual.php';

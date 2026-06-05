@@ -2,13 +2,13 @@
 	$EXPRESIONES = [
 		'clave' => '[!#$%&/=?¿¡@+.\-\w]{4,20}'
 	];
-	
+
 	const LOADER = '
 		<div class="loader" id="loader">
 			<i class="w3-block w3-spin icon-spinner"></i>
 		</div>
 	';
-	
+
 	/**
 	 * Genera una pequeña ventana emergente con el texto que desees.<br>
 	 * <u>Requisitos</u><br>
@@ -25,7 +25,7 @@
 			</div>
 		HTML;
 	}
-	
+
 	/**
 	 * Botones HTML
 	 * @var array [<br>
@@ -109,7 +109,7 @@
 			</button>
 		HTML
 	];
-	
+
 	/**
 	 * Genera un `<input>` HTML
 	 * @param  string $nombre El nombre del input. <br><br>
@@ -427,7 +427,7 @@
 				HTML;
 		endswitch;
 	}
-	
+
 	/**
 	 * @param  string       $tipo      `div` o `form`
 	 * @param  string       $id        El ID del modal.
@@ -439,7 +439,7 @@
 	 */
 	function generarModal(string $tipo, string $id, string $titulo, string $contenido, bool $cerrar = true, bool $mostrar = false) {
 		$mostrar = $mostrar ? 'w3-show' : 'w3-hide';
-		
+
 		echo "<$tipo id='$id' class='modal w3-white w3-card w3-round-large animate__animated animate__fadeInUp animate__faster $mostrar'>";
 			if ($cerrar)
 				echo <<<HTML

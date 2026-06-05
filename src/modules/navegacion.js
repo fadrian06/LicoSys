@@ -11,22 +11,22 @@ const moduloUsuarios = contenedor => {
 	verClave(formRegistrar.clave.nextElementSibling, formRegistrar.clave)
 	verClave(formRegistrar.confirmar.nextElementSibling, formRegistrar.confirmar)
 	mostrarDetails(contenedor.querySelector('details'))
-	
+
 	validar(formRegistrar, (error, fd, e) => {
 		if (error) return alerta(error).show()
-			
+
 		e.preventDefault()
 		mostrarLoader(formRegistrar)
 		fd.append('cargo', 'v')
 		ajax('backend/registrarUsuario.php', fd, res => {
 			/** @type {Respuesta} */
 			const datos = JSON.parse(res)
-			
+
 			if (datos.error)
 				return alerta(datos.error)
 					.on('onShow', () => formRegistrar.classList.remove('showLoader'))
 					.show()
-			
+
 			ocultarLoader(formRegistrar)
 			return notificacion('Usuario registrado correctamente')
 				.on('onShow', () => $('[href="views/usuarios.php"]')[0].click())
@@ -73,15 +73,15 @@ const moduloPerfil = contenedor => {
 	const boton = formFoto.querySelector('button')
 	/** @type {HTMLImageElement} */
 	const imagen = formFoto.foto.nextElementSibling
-	
+
 	$('#menuNombreUsuario').html($('#nombreUsuario').html())
-	
+
 	actualizarImagen(formFoto.foto, imagen, error => {
 		if (error) return alerta(error).show()
-			
+
 		boton.classList.remove('w3-hide')
 		boton.classList.add('w3-show-inline-block')
-		
+
 		formFoto.onsubmit = e => {
 			e.preventDefault()
 			const fd = new FormData(formFoto)
@@ -90,15 +90,15 @@ const moduloPerfil = contenedor => {
 			ajax('backend/actualizarImagen.php', fd, res => {
 				/** @type {Respuesta} */
 				const respuesta = JSON.parse(res)
-				
+
 				if (respuesta.error) return alerta(respuesta.error)
 					.on('onShow', () => w3.removeClass('main', 'showLoader'))
 					.show()
-				
+
 				w3.removeClass('main', 'showLoader')
 				boton.classList.remove('w3-show-inline-block')
 				boton.classList.add('w3-hide')
-				
+
 				return notificacion(respuesta.ok)
 					.on('onShow', () => {
 						$('[href="views/miPerfil.php"]')[0].click()
@@ -110,7 +110,7 @@ const moduloPerfil = contenedor => {
 	})
 }
 
-/** 
+/**
  * Funcionalidad del módulo negocios.
  * @param  {HTMLElement} contenedor El contenedor del módulo.
  */
@@ -131,25 +131,25 @@ const moduloNegocios = contenedor => {
 	})
 	validar(formRegistrar, (error, fd, e) => {
 		if (error) return alerta(error).show()
-			
+
 		e.preventDefault()
 		mostrarLoader(formRegistrar)
 		fd.append('logo', formRegistrar.logo.files[0])
 		ajax('backend/registrarNegocio.php', fd, res => {
 			/** @type {Respuesta} */
 			const datos = JSON.parse(res)
-			
+
 			if (datos.error) return alerta(datos.error)
 				.on('onShow', () => formRegistrar.classList.remove('showLoader'))
 				.show()
-			
+
 			ocultarLoader(formRegistrar)
 			return notificacion(datos.ok)
 				.on('onShow', () => $('[href="views/negocios.php"]')[0].click())
 				.show()
 		})
 	})
-	
+
 	/*=================================================
 	=            Actualización de imagenes            =
 	=================================================*/
@@ -163,13 +163,13 @@ const moduloNegocios = contenedor => {
 		const boton = formFoto.querySelector('button')
 		/** @type {HTMLImageElement} */
 		const imagen = inputFile.nextElementSibling
-		
+
 		actualizarImagen(inputFile, imagen, error => {
 			if (error) return alerta(error).show()
-			
+
 			boton.classList.remove('w3-hide')
 			boton.classList.add('w3-show-inline-block')
-			
+
 			formFoto.onsubmit = e => {
 				e.preventDefault()
 				const fd = new FormData(formFoto)
@@ -179,15 +179,15 @@ const moduloNegocios = contenedor => {
 					console.log(res)
 					/** @type {Respuesta} */
 					const respuesta = JSON.parse(res)
-					
+
 					if (respuesta.error) return alerta(respuesta.error)
 						.on('onShow', () => w3.removeClass('main', 'showLoader'))
 						.show()
-					
+
 					w3.removeClass('main', 'showLoader')
 					boton.classList.remove('w3-show-inline-block')
 					boton.classList.add('w3-hide')
-					
+
 					return notificacion(respuesta.ok)
 						.on('onShow', () => {
 							$('[href="views/negocios.php"]')[0].click()
@@ -220,7 +220,7 @@ const moduloFinanzas = contenedor => {
 				panel.classList.remove('w3-show-inline-block')
 				panel.classList.add('w3-hide')
 			})
-			
+
 			/** @type {HTMLDivElement} */
 			const panelObjetivo = $(boton.getAttribute('data-target'))[0]
 			panelObjetivo.classList.remove('w3-hide')
@@ -229,7 +229,7 @@ const moduloFinanzas = contenedor => {
 			boton.classList.add('w3-blue')
 		}
 	})
-	
+
 	/*===============================
 	=            FILTROS            =
 	===============================*/
@@ -251,7 +251,7 @@ const moduloFinanzas = contenedor => {
 			rol = 'quincenal'
 		else if (rol.includes('mensual'))
 			rol = 'mensual'
-		
+
 		$.get(`views/finanzas.php?negocioID=${negocioID}&rol=${rol}`, res => {
 			/** @type {Respuesta} */
 			const respuesta = JSON.parse(res)
@@ -334,13 +334,13 @@ const moduloNuevaVenta = contenedor => {
 	registrarProducto(contenedor.querySelector('#registrarProducto'), 'views/nuevaVenta.php')
 	registrarCliente(contenedor.querySelector('#registrarCliente'), 'views/nuevaVenta.php')
 	if (formMonedas) actualizarMonedas(formMonedas)
-	
+
 	$('#productosEnCarrito').html($('#cantidadProductosEnCarrito').html())
-	
+
 	/*----------  SELECCIONAR CLIENTE  ----------*/
 	/** @type {HTMLUListElement} */
 	const datosCliente = contenedor.querySelector('#datosCliente')
-	
+
 	$('[cliente-id]').on('click', e => {
 		/** @type {number} */
 		const id = e.currentTarget.getAttribute('cliente-id')
@@ -362,17 +362,17 @@ const moduloNuevaVenta = contenedor => {
 			`
 		})
 	})
-	
+
 	/*----------  OMITIR CLIENTE  ----------*/
 	$('[role="omitirCliente"]').on('click', () => {
 		$('[cliente-id="3"]')[0].click()
 		w3.hide('#seccionCliente')
 	})
-	
+
 	/*----------  SELECCIONAR PRODUCTO  ----------*/
 	/** @type {HTMLFormElement} */
 	const datosProducto = contenedor.querySelector('#datosProducto')
-	
+
 	$('[producto-id]').on('click', e => {
 		/** @type {number} */
 		const id = e.currentTarget.getAttribute('producto-id')
@@ -440,7 +440,7 @@ const moduloNuevaVenta = contenedor => {
 			`
 		})
 	})
-	
+
 	/*----------  AGREGAR PRODUCTO  ----------*/
 	datosProducto.onsubmit = e => {
 		e.preventDefault()
@@ -452,22 +452,22 @@ const moduloNuevaVenta = contenedor => {
 		$.post('backend/nuevaVenta.php', datos, res => {
 			/** @type {Respuesta} */
 			const respuesta = JSON.parse(res)
-			
+
 			if (respuesta.error) return alerta(respuesta.error).show()
-			
+
 			return notificacion(respuesta.ok)
 				.on('onShow', () => $('[href="views/nuevaVenta.php"]')[0].click())
 				.on('afterClose', () => contenedor.scrollTo(contenedor.scrollHeight))
 				.show()
 		})
 	}
-	
+
 	/** @type {HTMLFormElement} */
 	const carrito = contenedor.querySelector('#carritoVenta')
 	if (!carrito) return
-	
+
 	carrito.onsubmit = e => e.preventDefault()
-	
+
 	/*----------  ELIMINAR PRODUCTO  ----------*/
 	$('[role="eliminarProducto"]').on('click', e => {
 		e.preventDefault()
@@ -478,38 +478,38 @@ const moduloNuevaVenta = contenedor => {
 		$.post('backend/nuevaVenta.php', datos, res => {
 			/** @type {Respuesta} */
 			const respuesta = JSON.parse(res)
-			
+
 			if (respuesta.error) return alerta(respuesta.error).show()
-			
+
 			return notificacion(respuesta.ok)
 				.on('onShow', () => $('[href="views/nuevaVenta.php"]')[0].click())
 				.on('afterClose', () => contenedor.scrollTo(contenedor.scrollHeight))
 				.show()
 		})
 	})
-			
+
 	/*----------  ANULAR VENTA  ----------*/
 	$('[role="anularVenta"]').on('click', () => {
 		$.post('backend/nuevaVenta.php', { anular: true }, res => {
 			/** @type {Respuesta} */
 			const respuesta = JSON.parse(res)
-			
+
 			if (respuesta.error) return alerta(respuesta.error).show()
-				
+
 			return informacion(respuesta.ok)
 				.on('onShow', () => $('[href="views/nuevaVenta.php"]')[0].click())
 				.show()
 		})
 	})
-	
+
 	/*----------  GENERAR VENTA  ----------*/
 	$('[role="generarVenta"]').on('click', () => {
 		$.post('backend/nuevaVenta.php', { generar: true }, res => {
 			/** @type {Respuesta} */
 			const respuesta = JSON.parse(res)
-			
+
 			if (respuesta.error) return alerta(respuesta.error).show()
-				
+
 			return notificacion(respuesta.ok)
 				.on('onShow', () => $('[href="views/nuevaVenta.php"]')[0].click())
 				.show()
@@ -526,13 +526,13 @@ const moduloNuevaCompra = contenedor => {
 	registrarProducto(contenedor.querySelector('#registrarProducto'), 'views/nuevaVenta.php')
 	registrarProveedor(contenedor.querySelector('#registrarProveedor'), 'views/nuevaCompra.php')
 	if (formMonedas) actualizarMonedas(formMonedas)
-	
+
 	$('#productosEnCarritoCompra').html($('#cantidadProductosEnCarrito').html())
-	
+
 	/*----------  SELECCIONAR PROVEEDOR  ----------*/
 	/** @type {HTMLUListElement} */
 	const datosProveedor = contenedor.querySelector('#datosProveedor')
-	
+
 	$('[proveedor-id]').on('click', e => {
 		/** @type {number} */
 		const id = e.currentTarget.getAttribute('proveedor-id')
@@ -580,11 +580,11 @@ const moduloNuevaCompra = contenedor => {
 			`
 		})
 	})
-	
+
 	/*----------  SELECCIONAR PRODUCTO  ----------*/
 	/** @type {HTMLFormElement} */
 	const datosProducto = contenedor.querySelector('#datosProducto')
-	
+
 	$('[producto-id]').on('click', e => {
 		/** @type {number} */
 		const id = e.currentTarget.getAttribute('producto-id')
@@ -652,7 +652,7 @@ const moduloNuevaCompra = contenedor => {
 			`
 		})
 	})
-	
+
 	/*----------  AGREGAR PRODUCTO  ----------*/
 	datosProducto.onsubmit = e => {
 		e.preventDefault()
@@ -665,22 +665,22 @@ const moduloNuevaCompra = contenedor => {
 		$.post('backend/nuevaCompra.php', datos, res => {
 			/** @type {Respuesta} */
 			const respuesta = JSON.parse(res)
-			
+
 			if (respuesta.error) return alerta(respuesta.error).show()
-			
+
 			return notificacion(respuesta.ok)
 				.on('onShow', () => $('[href="views/nuevaCompra.php"]')[0].click())
 				.on('afterClose', () => contenedor.scrollTo(contenedor.scrollHeight))
 				.show()
 		})
 	}
-	
+
 	/** @type {HTMLFormElement} */
 	const carrito = contenedor.querySelector('#carritoCompra')
 	if (!carrito) return
-	
+
 	carrito.onsubmit = e => e.preventDefault()
-	
+
 	/*----------  ELIMINAR PRODUCTO  ----------*/
 	$('[role="eliminarProducto"]').on('click', e => {
 		e.preventDefault()
@@ -691,38 +691,38 @@ const moduloNuevaCompra = contenedor => {
 		$.post('backend/nuevaCompra.php', datos, res => {
 			/** @type {Respuesta} */
 			const respuesta = JSON.parse(res)
-			
+
 			if (respuesta.error) return alerta(respuesta.error).show()
-			
+
 			return notificacion(respuesta.ok)
 				.on('onShow', () => $('[href="views/nuevaCompra.php"]')[0].click())
 				.on('afterClose', () => contenedor.scrollTo(contenedor.scrollHeight))
 				.show()
 		})
 	})
-			
+
 	/*----------  ANULAR COMPRA  ----------*/
 	$('[role="anularCompra"]').on('click', () => {
 		$.post('backend/nuevaCompra.php', { anular: true }, res => {
 			/** @type {Respuesta} */
 			const respuesta = JSON.parse(res)
-			
+
 			if (respuesta.error) return alerta(respuesta.error).show()
-				
+
 			return informacion(respuesta.ok)
 				.on('onShow', () => $('[href="views/nuevaCompra.php"]')[0].click())
 				.show()
 		})
 	})
-	
+
 	/*----------  GENERAR COMPRA  ----------*/
 	$('[role="generarCompra"]').on('click', () => {
 		$.post('backend/nuevaCompra.php', { generar: true }, res => {
 			/** @type {Respuesta} */
 			const respuesta = JSON.parse(res)
-			
+
 			if (respuesta.error) return alerta(respuesta.error).show()
-				
+
 			return notificacion(respuesta.ok)
 				.on('onShow', () => $('[href="views/nuevaCompra.php"]')[0].click())
 				.show()
@@ -738,41 +738,41 @@ const navegacion = () => {
 			const enlace = e.currentTarget
 			e.preventDefault()
 			main.classList.add('showLoader')
-			
+
 			if (document.body.offsetWidth < 993)
 				$('[role="menuOverlay"]')[0].click()
-			
+
 			// Quitamos el resaltado azul a todos los enlaces.
 			$('a').each((_i, enlace) => enlace.classList.remove('w3-blue'))
-			
+
 			// Si el enlace redirecciona a la nueva venta.
 			if (enlace.href.includes('nuevaVenta.php'))
 				$('a.w3-bar-item[href$="nuevaVenta.php"]').addClass('w3-blue')
-			
+
 			// Si el enlace redirecciona a la nueva venta.
 			if (enlace.href.includes('nuevaCompra.php'))
 				$('a.w3-bar-item[href$="nuevaCompra.php"]').addClass('w3-blue')
-			
+
 			// Si el enlace redirecciona a las ventas.
 			if (enlace.href.includes('ventas.php'))
 				$('a.w3-bar-item[href$="ventas.php"]').addClass('w3-blue')
-			
+
 			// Si el enlace redirecciona a las ventas.
 			if (enlace.href.includes('compras.php'))
 				$('a.w3-bar-item[href$="compras.php"]').addClass('w3-blue')
-			
+
 			// Si el enlace redirecciona al inventario.
 			if (enlace.href.includes('inventario.php'))
 				$('a.w3-bar-item[href$="inventario.php"]').addClass('w3-blue')
-			
+
 			// Si el enlace redirecciona a los usuarios.
 			if (enlace.href.includes('usuarios.php'))
 				$('a.w3-bar-item[href$="usuarios.php"]').addClass('w3-blue')
-			
+
 			// Si el enlace redirecciona a los clientes.
 			if (enlace.href.includes('clientes.php'))
 				$('a.w3-bar-item[href$="clientes.php"]').addClass('w3-blue')
-			
+
 			// Si el enlace redirecciona a la página principal.
 			if (enlace.href.includes('dashboard.php'))
 				// Espera unos segundos para simular :D
@@ -783,21 +783,21 @@ const navegacion = () => {
 					/*En caso que se haga click en el nombre del negocio, colorea
 					el enlace en el menú lateral.*/
 					$('a.w3-bar-item[href="dashboard.php"]').addClass('w3-blue')
-					
+
 					// Reinicia los acordeones del menú lateral.
 					$('nav summary').each((_i, summary) => {
 						summary.classList.remove('w3-blue')
 						summary.parentElement.classList.remove('abierto')
 					})
-					
+
 					// Oculta el menú sólo en móviles.
 					if (document.body.scrollWidth <= 600) overlay.click()
-						
+
 					// Oculta el loader.
 					main.classList.remove('showLoader')
 					// Carga la el Panel Principal.
 					main.innerHTML = dashboardHTML
-					
+
 					// Recargamos el gráfico
 					if (document.querySelector('#productosMasVendidos'))
 						new Chart('productosMasVendidos', {
@@ -818,17 +818,17 @@ const navegacion = () => {
 								}
 							}
 						})
-					
+
 					// Reajusta la navegación del Panel Principal.
 					navegacion()
 				}, 500)
-			
+
 			// Si no es un enlace al Panel Principal, solicita la vista
 			$.get(enlace.getAttribute('href'), res => {
 				// Sólo pinta los enlaces del menú.
 				if (!enlace.href.includes('miPerfil.php'))
 					enlace.classList.add('w3-blue')
-				
+
 				// Si el enlace está dentro de un acordeón
 				if (enlace.href.includes('usuarios.php')
 					|| enlace.href.includes('log.php')
@@ -841,7 +841,7 @@ const navegacion = () => {
 						if (summary.parentElement)
 							summary.parentElement.classList.remove('abierto')
 					})
-					
+
 					// Pinta el acordeón del enlace.
 					if (enlace.parentElement.previousElementSibling
 						&& enlace.parentElement.parentElement
@@ -854,20 +854,20 @@ const navegacion = () => {
 					summary.classList.remove('w3-blue')
 					summary.parentElement.classList.remove('abierto')
 				})
-				
+
 				// Cierra el menú sólo en móvil.
 				if (document.body.scrollWidth <= 600) overlay.click()
 				// Quita el loader
 				main.classList.remove('showLoader')
 				// Carga la vista
 				main.innerHTML = res
-				
+
 				// Funcionalidades de la vista cargada.
-				if ($('#moduloUsuarios')[0]) moduloUsuarios($('#moduloUsuarios')[0])			
-				if ($('#moduloLog')[0]) moduloLog($('#moduloLog')[0])			
-				if ($('#moduloClientes')[0]) moduloClientes($('#moduloClientes')[0])			
-				if ($('#moduloProveedores')[0]) moduloProveedores($('#moduloProveedores')[0])			
-				if ($('#moduloPerfil')[0]) moduloPerfil($('#moduloPerfil')[0])			
+				if ($('#moduloUsuarios')[0]) moduloUsuarios($('#moduloUsuarios')[0])
+				if ($('#moduloLog')[0]) moduloLog($('#moduloLog')[0])
+				if ($('#moduloClientes')[0]) moduloClientes($('#moduloClientes')[0])
+				if ($('#moduloProveedores')[0]) moduloProveedores($('#moduloProveedores')[0])
+				if ($('#moduloPerfil')[0]) moduloPerfil($('#moduloPerfil')[0])
 				if ($('#moduloNegocios')[0]) moduloNegocios($('#moduloNegocios')[0])
 				if ($('#moduloFinanzas')[0]) moduloFinanzas($('#moduloFinanzas')[0])
 				if ($('#moduloInventario')[0]) moduloInventario($('#moduloInventario')[0])
@@ -878,6 +878,6 @@ const navegacion = () => {
 			})
 		})
 	})
-	
+
 	$('details').each((_i, details) => mostrarDetails(details))
 }

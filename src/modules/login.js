@@ -35,15 +35,15 @@ new Typed('#typed', {
 
 form.usuario.addEventListener('blur', () => {
 	if (!form.usuario.value) return
-	
+
 	usuarioLoader.classList.remove('w3-hide')
 	usuarioLoader.classList.add('w3-show')
-	
+
 	const post = { verificarUsuario: true, usuario: form.usuario.value }
 	$.post('backend/login.php', post, res => {
 		/** @type {Respuesta} */
 		const datos = JSON.parse(res)
-		
+
 		if (datos.error)
 			return alerta(datos.error)
 				.on('onShow', () => {
@@ -53,7 +53,7 @@ form.usuario.addEventListener('blur', () => {
 					form.usuario.parentElement.parentElement.classList.add('invalido')
 				})
 				.show()
-		
+
 		const spinner = usuarioLoader.querySelector('i')
 		spinner.classList.remove('icon-spinner', 'w3-spin')
 		spinner.classList.add('icon-check', 'w3-text-green')
@@ -65,26 +65,26 @@ form.usuario.addEventListener('blur', () => {
 let intentos = 0
 validar(form, (error, fd, e) => {
 	if (error) return alerta(error).show()
-		
+
 	e.preventDefault()
-		
+
 	form.classList.add('showLoader')
-		
+
 	fd.append('login', true)
 	ajax('backend/login.php', fd, res => {
 		/** @type {Respuesta} */
 		const datos = JSON.parse(res)
-			
+
 		if (datos.error) {
 			let text = datos.error
 			if (datos.error === 'Contraseña incorrecta') ++intentos
 			if (intentos <= 3 && intentos > 0) text += ` <strong>(intento: ${intentos} / 3)</strong>`
 			else {
 				/**
-			
+
 					TODO:
 					- Bloquear a los 3 intentos
-			
+
 				 */
 				intentos = 0
 			}
@@ -92,14 +92,14 @@ validar(form, (error, fd, e) => {
 				.on('onShow', () => form.classList.remove('showLoader'))
 				.show()
 		}
-		
+
 		form.classList.remove('showLoader')
-		
+
 		let href = location.href
-		
+
 		form.parentElement.classList.add('showLoader')
 		if (!href.indexOf('index.php')) return location.href += 'dashboard.php'
-			
+
 		href = href.replace(/index\.php/g, coincidencia => {
 			coincidencia = 'dashboard.php'
 			return coincidencia

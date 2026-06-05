@@ -64,16 +64,16 @@
 						echo <<<HTML
 							<button onclick="modal(this)" data-target="#conversionMonetaria" title="Calculadora Monetaria" class="w3-button icon-calculator"></button>
 						HTML;
-						
+
 						$titulo = <<<HTML
 							<i class="w3-hide-small icon-calculator w3-jumbo w3-display-topleft w3-margin"></i>
 							<div class="w3-container">Calculadora Monetaria</div>
 						HTML;
-						
+
 						$inputBS = generarINPUT('BS', 'Monto en Bs.');
 						$inputDolar = generarINPUT('DOLAR', 'Monto en Dólares');
 						$inputPesos = generarINPUT('PESO', 'Monto en Pesos');
-						
+
 						$valorDolar = getDolar();
 						$valorPesos = getPeso();
 						$contenido = <<<HTML

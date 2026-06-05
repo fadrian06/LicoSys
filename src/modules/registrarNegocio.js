@@ -20,22 +20,22 @@ actualizarImagen(inputFile, image, error => {
 
 validar(form, (error, fd, e) => {
 	if (error) return alerta(error).show()
-	
+
 	e.preventDefault()
 	mostrarLoader(form)
-	
+
 	fd.append(inputFile.id, inputFile.files[0])
-	
+
 	ajax('backend/registrarNegocio.php', fd, res => {
 		/** @type {Respuesta} */
 		const respuesta = JSON.parse(res)
-		
+
 		if (respuesta.error) return alerta(respuesta.error)
 			.on('afterClose', () => ocultarLoader(form))
 			.show()
-		
+
 		ocultarLoader(form)
-		
+
 		return notificacion(respuesta.ok)
 			.on('onClose', () => location.reload())
 			.show()

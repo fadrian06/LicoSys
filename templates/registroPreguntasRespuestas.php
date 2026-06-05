@@ -3,13 +3,13 @@
 		$inputPRE1 = generarINPUT('pre1', 'Pregunta 1:', 'Cree una pregunta');
 		$inputPRE2 = generarINPUT('pre2', 'Pregunta 2:', 'Cree una pregunta');
 		$inputPRE3 = generarINPUT('pre3', 'Pregunta 3:', 'Cree una pregunta');
-		
+
 		$label = '<b>Respuesta 1:</b> <sup respuesta="res1" class="w3-text-blue"></sup>';
 		$inputRES1 = generarINPUT('res1', $label, 'La respuesta');
-		
+
 		$label = '<b>Respuesta 2:</b> <sup respuesta="res2" class="w3-text-blue"></sup>';
 		$inputRES2 = generarINPUT('res2', $label, 'La respuesta');
-		
+
 		$label = '<b>Respuesta 3:</b> <sup respuesta="res3" class="w3-text-blue"></sup>';
 		$inputRES3 = generarINPUT('res3', $label, 'La respuesta');
 		echo <<<HTML

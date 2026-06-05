@@ -1,17 +1,17 @@
 <?php
 	session_start();
 	if (!isset($_SESSION['activa'])) header('location: ../salir.php');
-	
+
 	require '../backend/config.php';
 	require '../backend/componentes.php';
 	require '../backend/conexion.php';
 	require '../backend/funciones.php';
-	
+
 	$usuario = getRegistro("SELECT * FROM usuarios WHERE id={$_SESSION['userID']}");
-	
+
 	echo LOADER;
 	echo '<div id="moduloPerfil" class="w3-row w3-padding-top-24">';
-	
+
 	/*=====================================
 	=            BARRA LATERAL            =
 	=====================================*/
@@ -29,7 +29,7 @@
 			</ul>
 		</div>
 	HTML;
-	
+
 	/*=======================================
 	=            PANEL PRINCIPAL            =
 	=======================================*/
@@ -44,11 +44,11 @@
 		$hayPreguntasRegistradas = 'w3-red';
 		$textoBotonHayPreguntasRegistradas = 'Crear';
 	endif;
-	
+
 	$usuario['pre1'] = $usuario['pre1'] ?: 'No definida';
 	$usuario['pre2'] = $usuario['pre2'] ?: 'No definida';
 	$usuario['pre3'] = $usuario['pre3'] ?: 'No definida';
-	
+
 	echo <<<HTML
 		<!------------  SOBRE MI  ------------>
 		<div id="panelSobreMi" role="panel" class="w3-col s9 m6 w3-margin-top w3-container w3-card w3-white w3-show w3-animate-opacity">
@@ -89,7 +89,7 @@
 				</button>
 			</div>
 		</div>
-		
+
 		<!------------  SEGURIDAD  ------------>
 		<div id="panelSeguridad" role="panel" class="w3-col s9 m6 w3-margin-top w3-container w3-card w3-white w3-hide w3-animate-opacity">
 			<h2 class="w3-large w3-padding w3-border-bottom w3-text-blue">Seguridad</h2>
@@ -129,7 +129,7 @@
 				</ul>
 			</div>
 		</div>
-		
+
 		<!------------  FOTO DE PERFIL  ------------>
 		<div class="w3-col s12 m4 w3-center">
 			<div class="w3-margin-top w3-leftbar">
@@ -153,8 +153,8 @@
 				</form>
 			</div>
 		</div>
-	HTML;	
-	
+	HTML;
+
 	/*==============================================
 	=            ACTUALIZAR INFORMACIÓN            =
 	==============================================*/
@@ -168,13 +168,13 @@
 	echo <<<HTML
 		<form id="cambiarClave" autocomplete="off" class="modal w3-white w3-card w3-round-large animate__animated animate__fadeInUp animate__faster w3-hide"></form>
 	HTML;
-	
+
 	/*=========================================================
 	=            ACTUALIZAR PREGUNTAS Y RESPUESTAS            =
 	=========================================================*/
 	echo <<<HTML
 		<form id="editarPreguntasRespuestas" autocomplete="off" class="modal w3-white w3-card w3-round-large animate__animated animate__fadeInUp animate__faster w3-hide"></form>
 	HTML;
-	
+
 	echo '</div>';
 ?>

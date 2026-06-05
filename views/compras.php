@@ -1,16 +1,16 @@
 <?php
 	session_start();
 	if (!isset($_SESSION['activa'])) header('location: ../salir.php');
-	
+
 	if ($_SESSION['cargo'] === 'a'):
 		require '../backend/config.php';
 		require '../backend/componentes.php';
 		require '../backend/conexion.php';
 		require '../backend/funciones.php';
-		
+
 		echo LOADER;
 		echo '<div id="moduloCompras">';
-		
+
 		/*=============================
 		=            TABLA            =
 		=============================*/
@@ -21,32 +21,32 @@
 			WHERE c.negocio_id={$_SESSION['negocioID']}
 			GROUP BY c.id ORDER BY c.fecha DESC
 		SQL;
-		
+
 		$encabezados = [
 			'escritorio' => ['Fecha', 'Producto', 'Unidades', 'Total', 'Proveedor'],
 			'movil' => ['Producto', 'Total']
 		];
-		
+
 		$datos = [
 			'camposEscritorio' => ['fecha', 'producto', 'unidades', 'total', 'nombre'],
 			'camposMovil' => ['producto', 'total'],
 			'filas' => getRegistros($sql)
 		];
-		
+
 		foreach ($encabezados['escritorio'] as &$encabezado)
 			$encabezado = "<small>$encabezado</small>";
 		unset($encabezado);
-		
+
 		foreach ($datos['filas'] as &$compra):
 			$compra['fecha'] = formatearFecha($compra['fecha']);
-			
+
 			foreach ($compra as $clave => $valor)
 				$compra[$clave] = "<small>$valor</small>";
 		endforeach;
 		unset($compra);
-		
+
 		tabla('Compras', $encabezados, $datos, 'No hay compras registradas');
-		
+
 		/*===================================
 		=            VER FACTURA            =
 		===================================*/
@@ -116,7 +116,7 @@
 			</div>
 		HTML;
 		generarModal('div', 'modalFactura', $titulo, $contenido);
-		
+
 		echo '<footer id="botones">' . BOTONES['NUEVA_COMPRA'] . '</footer>';
 		echo '</div>';
 	else:

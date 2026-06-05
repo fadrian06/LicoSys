@@ -2,7 +2,7 @@
 	if (!empty($_POST)):
 		require 'conexion.php';
 		require 'funciones.php';
-		
+
 		/** @var string La tabla a la que pertenece el registro. */
 		$tabla = escapar($_POST['tabla']);
 		/** @var string Campo que identifica cada registro. */
@@ -11,7 +11,7 @@
 		$valor = (int) escapar($_POST['valor']);
 		/** @var string 'activar' | 'desactivar' */
 		$accion = escapar($_POST['accion']);
-		
+
 		switch ($tabla):
 			case 'usuarios':
 				$respuesta['ok'] = 'Usuario ';
@@ -20,7 +20,7 @@
 				$respuesta['ok'] = 'Negocio ';
 				break;
 		endswitch;
-		
+
 		switch ($accion):
 			case 'activar':
 				$sql = "UPDATE $tabla SET activo=1 WHERE $campo=$valor";
@@ -33,13 +33,13 @@
 			default:
 				$respuesta['error'] = "Por favor envie una opción ('activar' o 'desactivar')";
 		endswitch;
-		
+
 		if ($respuesta['error'])
 			exit(json_encode($respuesta, JSON_INVALID_UTF8_IGNORE));
-		
+
 		$resultado = setRegistro($sql);
 		if (!$resultado) $respuesta['error'] = $conexion->error;
-		
+
 		exit(json_encode($respuesta, JSON_INVALID_UTF8_IGNORE));
 	endif;
 ?>

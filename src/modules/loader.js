@@ -20,7 +20,7 @@ const textoBienvenida = `
 		<h1 class="w3-xlarge oswald">Licosys instalado correctamente</h1>
 		<h2 class="w3-large w3-padding-top-24 w3-topbar">
 			Sólo faltan unos pocos pasos...
-		</h2>	
+		</h2>
 	</div>
 `
 
