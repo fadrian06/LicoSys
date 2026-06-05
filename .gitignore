@@ -1,5 +1,2 @@
+*.sublime-*
 node_modules
-Rubbish
-licosys.sublime-workspace
-desktop.ini
-README.html
