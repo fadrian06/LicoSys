@@ -7,15 +7,13 @@
 	];
 
 	// LOCAL
-	const HOST    = 'localhost';
-	const USUARIO = 'root';
-	const CLAVE   = '';
-	const BD      = 'licosys';
-	const CHARSET = 'utf8';
-	// ONLINE
-	// const USUARIO = '477828';
-	// const CLAVE = 'fsanchez61001';
-	// const BD = '477828';
+	if (!defined('HOST') && !defined('USUARIO') && !defined('CLAVE') && !defined('BD') && !defined('CHARSET')) {
+		define('HOST', 'localhost');
+		define('USUARIO', 'root');
+		define('CLAVE', '');
+		define('BD', 'licosys');
+		define('CHARSET', 'utf8');
+	}
 
 	$conexion = @new MySQLi(HOST, USUARIO, CLAVE);
 
@@ -33,4 +31,6 @@
 		$sql = file_get_contents('init.sql');
 		exit($conexion->multi_query($sql) ? 'true' : $conexion->error);
 	endif;
+
+	return $conexion;
 ?>
