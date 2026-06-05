@@ -1,14 +1,25 @@
 {
+	"autoload-dev": {
+		"psr-4": {
+			"Tests\\": "tests"
+		}
+	},
+	"config": {
+		"process-timeout": 0,
+		"sort-packages": true
+	},
 	"require": {
 		"ext-session": ">=8.3",
 		"php-64bit": ">=8.3"
 	},
 	"require-dev": {
 		"carthage-software/mago": "^1.29.0",
+		"guzzlehttp/guzzle": "^7.11",
+		"phpunit/phpunit": "^12.5",
 		"symfony/var-dumper": "^7.4"
 	},
 	"scripts": {
-		"ci": ["mago lint", "mago analyze"],
+		"ci": ["phpunit --colors=auto", "mago lint", "mago analyze"],
 		"format": ["mago format"]
 	}
 }
