@@ -1,4 +1,0 @@
-Options All -Indexes
-
-ErrorDocument 404 /licoreria/sistema/salir.php
-ErrorDocument 403 /licoreria/sistema/salir.php
