@@ -27,9 +27,10 @@
 			SELECT pre1, pre2, pre3 FROM usuarios WHERE id={$_SESSION['userID']}
 		SQL;
 		$usuario = getRegistro($sql);
-		if ($usuario['pre1'] === 'No especificada' || !$usuario['pre1']
-			|| $usuario['pre2'] === 'No especificada' || !$usuario['pre2']
-			|| $usuario['pre3'] === 'No especificada' || !$usuario['pre3']
+		if (
+			strtolower($usuario['pre1']) === 'no especificada' || !$usuario['pre1']
+			|| strtolower($usuario['pre2']) === 'no especificada' || !$usuario['pre2']
+			|| strtolower($usuario['pre3']) === 'no especificada' || !$usuario['pre3']
 		) $script .= <<<HTML
 			<script>
 				let textoNoTienesPreguntasNiRespuestas = `
