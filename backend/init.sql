@@ -155,7 +155,7 @@ CREATE TABLE IF NOT EXISTS carrito_compra(
 DROP TABLE IF EXISTS versiones;
 CREATE TABLE IF NOT EXISTS versiones(
 	id int PRIMARY KEY AUTO_INCREMENT,
-	nombre varchar(4) NOT NULL,
+	nombre varchar(5) NOT NULL,
 	descripcion text NOT NULL
 );
 
