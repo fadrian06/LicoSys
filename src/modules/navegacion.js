@@ -731,7 +731,7 @@ const moduloNuevaCompra = contenedor => {
 }
 
 /** Comportamiento de la navegación */
-const navegacion = () => {
+function navegacion() {
 	$('a[role="navegacion"]').each((_i, enlace) => {
 		enlace.addEventListener('click', e => {
 			/** @type {HTMLAnchorElement} */
