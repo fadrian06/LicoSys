@@ -20,6 +20,7 @@
 	},
 	"scripts": {
 		"ci": ["phpunit --colors=auto", "mago lint", "mago analyze"],
-		"format": ["mago format"]
+		"dev": "php -S localhost:80",
+		"format": "mago format"
 	}
 }
