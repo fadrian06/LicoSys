@@ -3,7 +3,6 @@
 		"@babel/cli": "^7.29.7",
 		"@babel/core": "^7.29.7",
 		"@babel/preset-env": "^7.29.7",
-		"@babel/preset-react": "^7.29.7",
 		"nib": "^1.2.0",
 		"stylus": "^0.64.0"
 	},
