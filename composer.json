@@ -1,6 +1,7 @@
 {
 	"require-dev": {
-		"carthage-software/mago": "^1.29.0"
+		"carthage-software/mago": "^1.29.0",
+		"symfony/var-dumper": "^7.4"
 	},
 	"scripts": {
 		"ci": ["mago lint", "mago analyze"],
