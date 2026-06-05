@@ -1,0 +1,9 @@
+{
+	"require-dev": {
+		"carthage-software/mago": "^1.29.0"
+	},
+	"scripts": {
+		"ci": ["mago lint", "mago analyze"],
+		"format": ["mago format"]
+	}
+}
