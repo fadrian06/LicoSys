@@ -59,6 +59,11 @@
 					endwhile;
 				endfor;
 			endforeach;
+			if (!file_exists('../backup/backup.sql')) {
+				mkdir('../backup', recursive: true);
+				touch('../backup/backup.sql');
+			}
+
 			$archivo = fopen('../backup/backup.sql', "w+");
 			fwrite($archivo, $texto);
 			fclose($archivo);
