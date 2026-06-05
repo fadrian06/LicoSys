@@ -20,5 +20,10 @@
 		"check": "biome check",
 		"stylelint": "stylelint src/**/*.styl",
 		"stylus": "stylus src/index.styl -o css/bundle.css -w -m -r --include-css"
+	},
+	"stylelint": {
+		"extends": [
+			"stylelint-stylus/standard"
+		]
 	}
 }
