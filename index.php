@@ -1,11 +1,13 @@
 <?php
 
-require_once 'vendor/autoload.php';
+require_once __DIR__ . '/vendor/autoload.php';
 
 /*======================================
 =            LÓGICA INICIAL            =
 ======================================*/
-session_start();
+if (session_status() === PHP_SESSION_NONE) {
+	session_start();
+}
 
 if (isset($_SESSION['activa'])) header('location: dashboard.php');
 

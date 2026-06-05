@@ -353,7 +353,7 @@
 	 */
 	function getRegistros(string $sql): ?array {
 		global $conexion;
-		$resultado = $conexion->query($sql);
+		$resultado = $conexion?->query($sql);
 		return $resultado ? $resultado->fetch_all(MYSQLI_BOTH) : NULL;
 	}
 
@@ -363,8 +363,8 @@
 	 * @return array Un array asociativo con los datos o [].
 	 */
 	function getRegistro(string $sql): ?array {
-		global $conexion;
-		$resultado = $conexion->query($sql);
+		$conexion = require __DIR__ . '/conexion.php';
+		$resultado = $conexion?->query($sql);
 		return $resultado ? $resultado->fetch_assoc() : NULL;
 	}
 
@@ -376,8 +376,8 @@
 	 */
 	function setRegistro(string $sql): ?int {
 		global $conexion;
-		$conexion->query($sql);
-		$afectadas = $conexion->affected_rows;
+		$conexion?->query($sql);
+		$afectadas = $conexion?->affected_rows;
 		return $afectadas != -1 ? $afectadas : NULL;
 	}
 
@@ -484,7 +484,7 @@
 	 */
 	function contarRegistros(string $tabla): ?int {
 		global $conexion;
-		$resultado = $conexion->query("SELECT COUNT(*) FROM $tabla");
+		$resultado = $conexion?->query("SELECT COUNT(*) FROM $tabla");
 		return $resultado ? (int) $resultado->fetch_row()[0] : NULL;
 	}
 

@@ -19,7 +19,7 @@
 	/*=================================================================
 	=            LÓGICA DE TODO EL SISTEMA, MENOS EL LOGIN            =
 	=================================================================*/
-	if ($archivoActual !== 'index.php'):
+	if ($archivoActual !== 'index.php' && key_exists('userID', $_SESSION)):
 		$script .= "<script src='{$BASE_URL}js/navegacion.js'></script>";
 		$script .= "<script src='{$BASE_URL}js/main.js'></script>";
 
