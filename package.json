@@ -3,12 +3,14 @@
 		"@babel/cli": "^7.29.7",
 		"@babel/core": "^7.29.7",
 		"@babel/preset-env": "^7.29.7",
+		"@biomejs/biome": "2.4.16",
 		"nib": "^1.2.0",
 		"stylus": "^0.64.0"
 	},
 	"scripts": {
 		"stylus": "stylus src/index.styl -o css/bundle.css -w -m -r --include-css",
 		"babel": "babel src/modules -d js -w",
-		"build": "RD /S js && RD /S css && babel src/modules -d js --minified && stylus src/index.styl -o css/bundle.css -c -r --include-css"
+		"build": "RD /S js && RD /S css && babel src/modules -d js --minified && stylus src/index.styl -o css/bundle.css -c -r --include-css",
+		"check": "biome check"
 	}
 }
