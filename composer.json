@@ -11,6 +11,7 @@
 		}
 	},
 	"config": {
+		"optimize-autoloader": true,
 		"process-timeout": 0,
 		"sort-packages": true
 	},
