@@ -12,9 +12,12 @@
 	},
 	"config": {
 		"optimize-autoloader": true,
+		"preferred-install": "dist",
 		"process-timeout": 0,
 		"sort-packages": true
 	},
+	"minimum-stability": "stable",
+	"prefer-stable": true,
 	"require": {
 		"ext-session": ">=8.3",
 		"php-64bit": ">=8.3",
