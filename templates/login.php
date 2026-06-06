@@ -1,4 +1,4 @@
-<?php if (isset($mostrarLogin)): ?>
+<?php use function App\getenv; if (isset($mostrarLogin)): ?>
 	<main class="w3-row w3-animate-zoom" id="mainLogin">
 		<?=LOADER?>
 		<!--===================================

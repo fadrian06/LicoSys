@@ -1,4 +1,4 @@
-<?php if (isset($mostrarMenu) && key_exists('cargo', $_SESSION)): ?>
+<?php use function App\getenv; if (isset($mostrarMenu) && key_exists('cargo', $_SESSION)): ?>
 	<!--====================================
 	=            BARRA SUPERIOR            =
 	=====================================-->

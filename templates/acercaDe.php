@@ -1,4 +1,7 @@
 <?php
+
+	use function App\getenv;
+
 	$getenv = getenv(...);
 
 	/*=================================
