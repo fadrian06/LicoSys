@@ -353,8 +353,14 @@
 	 */
 	function getRegistros(string $sql): ?array {
 		global $conexion;
-		$resultado = $conexion?->query($sql);
-		return $resultado ? $resultado->fetch_all(MYSQLI_BOTH) : NULL;
+
+		try {
+			$resultado = $conexion?->query($sql);
+		} catch (mysqli_sql_exception) {
+			return null;
+		}
+
+		return $resultado ? $resultado->fetch_all(MYSQLI_BOTH) : null;
 	}
 
 	/**
@@ -364,8 +370,14 @@
 	 */
 	function getRegistro(string $sql): ?array {
 		$conexion = require __DIR__ . '/conexion.php';
-		$resultado = $conexion?->query($sql);
-		return $resultado ? $resultado->fetch_assoc() : NULL;
+
+		try {
+			$resultado = $conexion?->query($sql);
+		} catch (mysqli_sql_exception) {
+			return null;
+		}
+
+		return $resultado ? $resultado->fetch_assoc() : null;
 	}
 
 	/**
@@ -376,9 +388,16 @@
 	 */
 	function setRegistro(string $sql): ?int {
 		global $conexion;
-		$conexion?->query($sql);
+
+		try {
+			$conexion?->query($sql);
+		} catch (mysqli_sql_exception) {
+			return null;
+		}
+
 		$afectadas = $conexion?->affected_rows;
-		return $afectadas != -1 ? $afectadas : NULL;
+
+		return $afectadas != -1 ? $afectadas : null;
 	}
 
 	/**
@@ -484,7 +503,13 @@
 	 */
 	function contarRegistros(string $tabla): ?int {
 		global $conexion;
-		$resultado = $conexion?->query("SELECT COUNT(*) FROM $tabla");
+
+		try {
+			$resultado = $conexion?->query("SELECT COUNT(*) FROM $tabla");
+		} catch (mysqli_sql_exception) {
+			return null;
+		}
+
 		return $resultado ? (int) $resultado->fetch_row()[0] : NULL;
 	}
 

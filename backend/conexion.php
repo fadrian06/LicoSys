@@ -23,8 +23,11 @@
 	$conexion->set_charset(CHARSET);
 
 	/*----------  Si no existe la base de datos, comienza la instalación  ----------*/
-	if (!$conexion->select_db(BD))
+	try {
+		$conexion->select_db(BD);
+	} catch (mysqli_sql_exception) {
 		$mostrarLoader = '<script src="js/loader.js"></script>';
+	}
 
 	/*----------  Instala la Base de Datos  ----------*/
 	if (!empty($_POST['instalarBD'])):
