@@ -1,4 +1,7 @@
 <?php
+
+	use function App\getenv;
+
 	/**
 	 * Genera una tabla con los datos que le proporcionen.
 	 * @param string $titulo El título de la tabla.
@@ -519,7 +522,11 @@
 	 * @return string        El texto encriptado.
 	 */
 	function encriptar(string $texto): string {
-		return password_hash($texto, PASSWORD_DEFAULT);
+		require_once __DIR__ . '/../vendor/autoload.php';
+
+		return password_hash($texto, PASSWORD_BCRYPT, [
+			'cost' => getenv('BCRYPT_ROUNDS'),
+		]);
 	}
 
 	/**
