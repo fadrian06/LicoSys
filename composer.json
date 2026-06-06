@@ -30,8 +30,15 @@
 		"symfony/var-dumper": "^7.4"
 	},
 	"scripts": {
-		"ci": ["phpunit --colors=auto", "mago lint", "mago analyze"],
+		"ci": ["composer test", "mago lint", "mago analyze"],
 		"dev": "php -S localhost:80",
-		"format": "mago format"
+		"format": "mago format",
+		"setup": [
+			"composer i",
+			"@php -r \"file_exists('.env') || copy('.env.example', '.env');\"",
+			"npm i --ignore-scripts",
+			"npm run build"
+		],
+		"test": "phpunit --colors=auto"
 	}
 }
