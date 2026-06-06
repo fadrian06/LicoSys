@@ -1,4 +1,9 @@
 <?php
+
+	use function App\getenv;
+
+	require_once __DIR__ . '/../vendor/autoload.php';
+
 	/** @var array Respuesta del servidor al cliente. */
 	$respuesta = [
 		'ok'    => '',
@@ -6,16 +11,23 @@
 		'datos' => []
 	];
 
-	// LOCAL
-	if (!defined('HOST') && !defined('USUARIO') && !defined('CLAVE') && !defined('BD') && !defined('CHARSET')) {
-		define('HOST', 'localhost');
-		define('USUARIO', 'root');
-		define('CLAVE', '');
-		define('BD', 'licosys');
+	if (
+		!defined('HOST')
+		&& !defined('USUARIO')
+		&& !defined('CLAVE')
+		&& !defined('BD')
+		&& !defined('CHARSET')
+		&& !defined('PORT')
+	) {
+		define('HOST', getenv('DB_HOST'));
+		define('USUARIO', getenv('DB_USERNAME'));
+		define('CLAVE', getenv('DB_PASSWORD'));
+		define('BD', getenv('DB_DATABASE'));
+		define('PORT', getenv('DB_PORT'));
 		define('CHARSET', 'utf8');
 	}
 
-	$conexion = @new MySQLi(HOST, USUARIO, CLAVE);
+	$conexion = @new MySQLi(HOST, USUARIO, CLAVE, port: PORT);
 
 	if ($conexion->connect_errno)
 		exit("Error, no se pudo conectar a MySQL: <b>$conexion->error</b><br>");
