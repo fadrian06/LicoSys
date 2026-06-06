@@ -11,7 +11,7 @@
 		</div>
 		<div class="w3-medium w3-hide-small w3-dropdown-hover">
 			<button onclick="modal(this)" data-target="#acercaDe" class="w3-button">
-				LicoSys <?=getUltimaVersion()?>
+				<?= getenv('APP_NAME') . ' ' . getUltimaVersion() ?>
 			</button>
 			<?=generarTooltip('Acerca De')?>
 		</div>

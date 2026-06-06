@@ -2,6 +2,11 @@
 	/*=================================================
 	=            VARIABLES PREESTABLECIDAS            =
 	=================================================*/
+
+	use function App\getenv;
+
+	require_once __DIR__ . '/../vendor/autoload.php';
+
 	$script = '';
 	$url = explode('/', $_SERVER['SCRIPT_NAME']);
 	$archivoActual = (string) $url[count($url) - 1];
@@ -105,7 +110,7 @@
 ?>
 
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" data-app-name="<?= getenv('APP_NAME') ?>">
 
 	<head>
 		<meta charset="UTF-8">
@@ -120,7 +125,7 @@
 		<link rel="stylesheet" href="<?=$BASE_URL?>libs/noty/noty.css">
 		<link rel="stylesheet" href="<?=$BASE_URL?>libs/noty/themes/sunset.css">
 		<link rel="stylesheet" href="<?=$BASE_URL?>css/bundle.css">
-		<title>LicoSys</title>
+		<title><?= getenv('APP_NAME') ?></title>
 		<script src="<?=$BASE_URL?>libs/jquery.min.js"></script>
 		<script src="<?=$BASE_URL?>libs/w3/w3.min.js"></script>
 		<script src="<?=$BASE_URL?>libs/noty/noty.min.js"></script>

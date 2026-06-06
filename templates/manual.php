@@ -1,4 +1,6 @@
 <?php
+	$getenv = getenv(...);
+
 	if (isset($mostrarManual)):
 		/*=========================================
 		=            MANUAL DE USUARIO            =
@@ -64,7 +66,7 @@
 						</li>
 						<li>
 							<a href="#manualQueHacer" class="w3-block w3-button w3-left-align">
-								7. ¿Qué puedo hacer en LicoSys?
+								7. ¿Qué puedo hacer en {$getenv('APP_NAME')}?
 							</a>
 						</li>
 						<li>
@@ -129,7 +131,7 @@
 						</li>
 						<li>
 							<a href="#manualPreguntasFrecuentes" class="w3-block w3-button w3-left-align">
-								16. Preguntas frecuentes de LicoSys
+								16. Preguntas frecuentes de {$getenv('APP_NAME')}
 							</a>
 						</li>
 					</div>

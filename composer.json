@@ -1,5 +1,6 @@
 {
 	"autoload": {
+		"files": ["app/functions.php"],
 		"psr-4": {
 			"App\\": "app"
 		}
@@ -15,7 +16,8 @@
 	},
 	"require": {
 		"ext-session": ">=8.3",
-		"php-64bit": ">=8.3"
+		"php-64bit": ">=8.3",
+		"symfony/dotenv": "^7.4"
 	},
 	"require-dev": {
 		"carthage-software/mago": "^1.29.0",

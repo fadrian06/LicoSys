@@ -6,7 +6,9 @@
 		====================================-->
 		<aside class="w3-padding-large w3-hide-small w3-col l6 m5 w3-display-container w3-topbar w3-bottombar w3-leftbar w3-rightbar w3-border-black w3-round-xlarge">
 			<div id="typed-container" onclick="modal(this)" data-target="#acercaDe" class="w3-padding-large w3-xlarge w3-right w3-hover-black">
-				<b class="w3-block w3-xxlarge">LICOSYS <?=getUltimaVersion()?></b>
+				<b class="w3-block w3-xxlarge">
+					<?= getenv('APP_NAME') . ' ' . getUltimaVersion() ?>
+				</b>
 				<div class="w3-padding"><span id="typed"></span></div>
 			</div>
 			<div class="w3-hide-medium reloj w3-display-bottomright w3-margin"></div>

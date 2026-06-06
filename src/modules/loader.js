@@ -1,8 +1,10 @@
 /** @typedef {import('./funciones')} */
 
+const APP_NAME = document.documentElement.dataset.appName
+
 const textoCargando = `
 	<h1 class="w3-text-white w3-center w3-xlarge oswald">
-		Bienvenido a Licosys
+		Bienvenido a ${APP_NAME}
 	</h1>
 	<div class="newtons-cradle">
 		<div class="newtons-cradle__dot"></div>
@@ -17,7 +19,7 @@ const textoCargando = `
 
 const textoBienvenida = `
 	<div class="w3-card w3-round-xlarge w3-white w3-padding-large w3-center">
-		<h1 class="w3-xlarge oswald">Licosys instalado correctamente</h1>
+		<h1 class="w3-xlarge oswald">${APP_NAME} instalado correctamente</h1>
 		<h2 class="w3-large w3-padding-top-24 w3-topbar">
 			Sólo faltan unos pocos pasos...
 		</h2>
