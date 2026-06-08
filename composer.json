@@ -39,18 +39,18 @@
 			"mago format -c"
 		],
 		"dev": "php -S localhost:80",
-		"format": [
+		"fix": [
 			"composer lint -- --fix --unsafe --potentially-unsafe --format-after-fix --fail-on-remaining",
 			"composer analyze -- --fix --unsafe --potentially-unsafe --format-after-fix --fail-on-remaining",
-			"composer guard -- --fix --unsafe --potentially-unsafe --format-after-fix --fail-on-remaining",
-			"mago format"
+			"composer guard -- --fix --unsafe --potentially-unsafe --format-after-fix --fail-on-remaining"
 		],
+		"format": "mago format",
 		"guard": "mago guard --no-stubs --sort -m note",
 		"lint": "mago lint --sort -m note",
 		"setup": [
 			"composer i",
 			"@php -r \"file_exists('.env') || copy('.env.example', '.env');\"",
-			"npm i --ignore-scripts",
+			"npm i",
 			"npm run build"
 		]
 	}
