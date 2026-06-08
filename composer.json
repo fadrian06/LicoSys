@@ -34,8 +34,8 @@
 		"analyze:watch": "composer analyze -- --watch",
 		"ci": [
 			"phpunit -d memory_limit=512M --colors=auto --no-progress --with-telemetry --coverage-text --show-uncovered-for-coverage-text --path-coverage | php tests/check-coverage.php",
-			"composer lint",
 			"composer analyze",
+			"composer lint",
 			"mago format -c"
 		],
 		"dev": "php -S localhost:80",

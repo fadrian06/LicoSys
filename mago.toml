@@ -9,9 +9,9 @@ version = "1"
 [analyzer]
 allow-array-truthy-operand = false
 allow-implicit-pipe-callable-types = false
-allow-side-effects-in-conditions = false
+allow-side-effects-in-conditions = true
 analyze-dead-code = true
-baseline = ""
+# baseline = ""
 baseline-variant = "strict"
 check-arrow-function-missing-type-hints = true
 check-closure-missing-type-hints = true
@@ -35,7 +35,7 @@ memoize-properties = true
 minimum-fail-level = "Note"
 no-boolean-literal-comparison = true
 plugins = []
-register-super-globals = false
+register-super-globals = true
 require-api-or-internal = true
 strict-array-index-existence = true
 strict-list-index-checks = true
@@ -54,21 +54,21 @@ negation-complexity-threshold = 4096
 saturation-complexity-threshold = 8192
 string-combination-threshold = 128
 
-[guard]
-baseline = ""
-baseline-variant = "strict"
-excludes = []
-minimum-fail-level = "Note"
-mode = "default"
+# [guard]
+# baseline = ""
+# baseline-variant = "strict"
+# excludes = []
+# minimum-fail-level = "Note"
+# mode = "default"
 
-[guard.perimeter]
-layering = []
+# [guard.perimeter]
+# layering = []
 
-[guard.perimeter.layers]
+# [guard.perimeter.layers]
 
-[[guard.perimeter.rules]]
-namespace = "@global"
-permit = []
+# [[guard.perimeter.rules]]
+# namespace = "@global"
+# permit = []
 
 [guard.structural]
 
@@ -141,7 +141,7 @@ preserve-breaking-member-access-chain = false
 preserve-breaking-member-access-chain-first-method-on-same-line = false
 preserve-breaking-parameter-list = false
 preserve-redundant-logical-binary-expression-parentheses = false
-preset = ""
+preset = "default"
 print-width = 80
 remove-trailing-close-tag = true
 separate-attributes = false
@@ -172,7 +172,7 @@ uppercase-literal-keyword = false
 use-tabs = false
 
 [linter]
-baseline = ""
+# baseline = ""
 baseline-variant = "strict"
 excludes = []
 integrations = []
