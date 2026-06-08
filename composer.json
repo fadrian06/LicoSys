@@ -30,15 +30,28 @@
 		"symfony/var-dumper": "^7.4"
 	},
 	"scripts": {
-		"ci": ["composer test", "mago lint", "mago analyze"],
+		"analyze": "mago analyze --no-stubs --sort -m note --minimum-report-level note",
+		"analyze:watch": "composer analyze -- --watch",
+		"ci": [
+			"phpunit -d memory_limit=512M --strict-coverage --strict-global-state --disallow-test-output --stop-on-defect --stop-on-deprecation --stop-on-notice --stop-on-skipped --stop-on-incomplete --fail-on-empty-test-suite --fail-on-warning --fail-on-risky --fail-on-deprecation --fail-on-phpunit-deprecation --fail-on-phpunit-notice --fail-on-phpunit-warning --fail-on-notice --fail-on-skipped --fail-on-incomplete --fail-on-all-issues --cache-result --colors=auto --no-progress --display-incomplete --display-skipped --display-deprecations --display-phpunit-deprecations --display-phpunit-notices --display-errors --display-notices --display-warnings --display-all-issues --testdox --testdox-summary --with-telemetry --coverage-text --show-uncovered-for-coverage-text --path-coverage | php -r \"$stdout = file_get_contents('php://stdin'); echo $stdout; preg_match_all('/^\\s*(Classes|Methods|Paths|Branches|Lines):\\s*([0-9.]+)%/m', $stdout, $matches, PREG_SET_ORDER); $failed = false; foreach ($matches as $match) { $metric = $match[1]; $percentage = (float) $match[2]; if ($percentage < 100.0) { $failed = true; } } if (count($matches) < 5 || $failed) { exit(1); } exit(0);\"",
+			"composer lint",
+			"composer analyze",
+			"mago format -c"
+		],
 		"dev": "php -S localhost:80",
-		"format": "mago format",
+		"format": [
+			"composer lint -- --fix --unsafe --potentially-unsafe --format-after-fix --fail-on-remaining",
+			"composer analyze -- --fix --unsafe --potentially-unsafe --format-after-fix --fail-on-remaining",
+			"composer guard -- --fix --unsafe --potentially-unsafe --format-after-fix --fail-on-remaining",
+			"mago format"
+		],
+		"guard": "mago guard --no-stubs --sort -m note --minimum-report-level note",
+		"lint": "mago lint --sort -m note --minimum-report-level note",
 		"setup": [
 			"composer i",
 			"@php -r \"file_exists('.env') || copy('.env.example', '.env');\"",
 			"npm i --ignore-scripts",
 			"npm run build"
-		],
-		"test": "phpunit --colors=auto"
+		]
 	}
 }
