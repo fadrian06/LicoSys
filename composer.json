@@ -30,7 +30,7 @@
 		"symfony/var-dumper": "^7.4"
 	},
 	"scripts": {
-		"analyze": "mago analyze --no-stubs --sort -m note --minimum-report-level note",
+		"analyze": "mago analyze --no-stubs --sort -m note",
 		"analyze:watch": "composer analyze -- --watch",
 		"ci": [
 			"phpunit -d memory_limit=512M --colors=auto --no-progress --with-telemetry --coverage-text --show-uncovered-for-coverage-text --path-coverage | php tests/check-coverage.php",
@@ -45,8 +45,8 @@
 			"composer guard -- --fix --unsafe --potentially-unsafe --format-after-fix --fail-on-remaining",
 			"mago format"
 		],
-		"guard": "mago guard --no-stubs --sort -m note --minimum-report-level note",
-		"lint": "mago lint --sort -m note --minimum-report-level note",
+		"guard": "mago guard --no-stubs --sort -m note",
+		"lint": "mago lint --sort -m note",
 		"setup": [
 			"composer i",
 			"@php -r \"file_exists('.env') || copy('.env.example', '.env');\"",

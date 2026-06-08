@@ -1,46 +1,197 @@
 #:schema https://mago.carthage.software/1.30.0/schema.json
 # Welcome to Mago!
 # For full documentation, see https://mago.carthage.software/1.30.0/en/tools/overview/
-version = "1"
+allow-unsupported-php-version = false
+editor-url = ""
 php-version = "8.3.31"
+version = "1"
 
-[source]
-workspace = "."
-paths = ["**/*"]
-includes = ["vendor"]
+[analyzer]
+allow-array-truthy-operand = false
+allow-implicit-pipe-callable-types = false
+allow-side-effects-in-conditions = false
+analyze-dead-code = true
+baseline = ""
+baseline-variant = "strict"
+check-arrow-function-missing-type-hints = true
+check-closure-missing-type-hints = true
+check-experimental = true
+check-missing-override = true
+check-missing-type-hints = true
+check-name-casing = true
+check-property-initialization = true
+check-throws = true
+check-use-statements = true
+class-initializers = ["__construct"]
+disable-default-plugins = true
+enforce-class-finality = true
 excludes = []
+find-overly-wide-return-types = true
+find-unused-definitions = true
+find-unused-expressions = true
+find-unused-parameters = true
+ignore = []
+memoize-properties = true
+minimum-fail-level = "Note"
+no-boolean-literal-comparison = true
+plugins = []
+register-super-globals = false
+require-api-or-internal = true
+strict-array-index-existence = true
+strict-list-index-checks = true
+trust-existence-checks = false
+unchecked-exception-classes = []
+unchecked-exceptions = []
 
-[source.glob]
-literal-separator = true
+[analyzer.performance]
+array-combination-threshold = 32
+consensus-limit-threshold = 256
+disjunction-complexity-threshold = 4096
+formula-size-threshold = 512
+integer-combination-threshold = 128
+loop-assignment-depth-threshold = 1
+negation-complexity-threshold = 4096
+saturation-complexity-threshold = 8192
+string-combination-threshold = 128
+
+[guard]
+baseline = ""
+baseline-variant = "strict"
+excludes = []
+minimum-fail-level = "Note"
+mode = "default"
+
+[guard.perimeter]
+layering = []
+
+[guard.perimeter.layers]
+
+[[guard.perimeter.rules]]
+namespace = "@global"
+permit = []
+
+[guard.structural]
+
+[[guard.structural.rules]]
 
 [formatter]
-print-width = 120
-tab-width = 4
+align-assignment-like = false
+align-named-arguments = false
+align-parameters = false
+always-break-attribute-named-argument-lists = false
+always-break-named-arguments-list = false
+array-table-style-alignment = false
+attributes-order = "alphanumeric-ascending"
+break-promoted-properties-list = false
+classlike-brace-style = "always_next_line"
+closure-brace-style = "same_line"
+control-brace-style = "same_line"
+empty-line-after-class-like-constant = true
+empty-line-after-class-like-open = true
+empty-line-after-control-structure = true
+empty-line-after-declare = true
+empty-line-after-enum-case = true
+empty-line-after-method = true
+empty-line-after-namespace = true
+empty-line-after-opening-tag = true
+empty-line-after-property = true
+empty-line-after-symbols = true
+empty-line-after-trait-use = true
+empty-line-after-use = true
+empty-line-before-class-like-close = true
+empty-line-before-dangling-comments = true
+empty-line-before-return = true
+empty-line-between-same-symbols = true
+end-of-line = "auto"
+excludes = []
+expand-use-groups = false
+first-method-chain-on-new-line = true
+following-clause-on-newline = false
+function-brace-style = "same_line"
+indent-binary-expression-continuation = true
+indent-heredoc = true
+inline-abstract-property-hooks = true
+inline-empty-anonymous-class-braces = true
+inline-empty-classlike-braces = true
+inline-empty-closure-braces = true
+inline-empty-constructor-braces = true
+inline-empty-control-braces = true
+inline-empty-function-braces = true
+inline-empty-method-braces = true
+inline-single-breaking-value-argument = true
+line-before-binary-operator = true
+method-brace-style = "next_line"
+method-chain-breaking-style = "same_line"
+method-chain-semicolon-on-next-line = false
+null-type-hint = "question"
+omit-redundant-arithmetic-binary-expression-parentheses = true
+omit-redundant-bitwise-binary-expression-parentheses = true
+opening-tag-on-own-line = true
+parameter-attribute-on-new-line = false
+parentheses-around-new-in-member-access = true
+parentheses-in-attribute = false
+parentheses-in-exit-and-die = false
+parentheses-in-new-expression = false
+preserve-breaking-argument-list = false
+preserve-breaking-array-like = false
+preserve-breaking-attribute-list = false
+preserve-breaking-condition-expression = false
+preserve-breaking-conditional-expression = false
+preserve-breaking-member-access-chain = false
+preserve-breaking-member-access-chain-first-method-on-same-line = false
+preserve-breaking-parameter-list = false
+preserve-redundant-logical-binary-expression-parentheses = false
+preset = ""
+print-width = 80
+remove-trailing-close-tag = true
+separate-attributes = false
+separate-class-like-members = true
+separate-trait-use = false
+separate-use-types = true
+single-quote = true
+sort-class-methods = true
+sort-uses = true
+space-after-additive-unary-prefix-operator = false
+space-after-bitwise-not-unary-prefix-operator = false
+space-after-cast-unary-prefix-operators = true
+space-after-decrement-unary-prefix-operator = false
+space-after-error-control-unary-prefix-operator = false
+space-after-increment-unary-prefix-operator = false
+space-after-logical-not-unary-prefix-operator = false
+space-after-reference-unary-prefix-operator = false
+space-around-assignment-in-declare = false
+space-around-concatenation-binary-operator = true
+space-before-arrow-function-parameter-list-parenthesis = false
+space-before-closure-parameter-list-parenthesis = true
+space-before-closure-use-clause-parenthesis = true
+space-before-hook-parameter-list-parenthesis = false
+space-within-grouping-parenthesis = false
+tab-width = 2
+trailing-comma = true
+uppercase-literal-keyword = false
 use-tabs = false
 
 [linter]
+baseline = ""
+baseline-variant = "strict"
+excludes = []
 integrations = []
+minimum-fail-level = "Note"
 
 [linter.rules]
-ambiguous-function-call = { enabled = false }
-literal-named-argument = { enabled = false }
-halstead = { effort-threshold = 7000 }
 
-[analyzer]
-plugins = []
-find-unused-definitions = false
-find-unused-expressions = false
-analyze-dead-code = false
-memoize-properties = true
-allow-possibly-undefined-array-keys = true
-check-throws = false
-unchecked-exceptions = ["Error", "LogicException"]
-unchecked-exception-classes = []
-check-missing-override = false
-find-unused-parameters = false
-strict-list-index-checks = false
-strict-array-index-existence = false
-allow-array-truthy-operand = false
-no-boolean-literal-comparison = false
-check-missing-type-hints = false
-register-super-globals = true
+[parser]
+enable-short-tags = false
+
+[source]
+excludes = []
+extensions = ["php"]
+includes = ["vendor"]
+paths = ["**/*"]
+workspace = "."
+
+[source.glob]
+backslash-escape = true
+case-insensitive = false
+empty-alternates = false
+literal-separator = true
