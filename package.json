@@ -1,16 +1,16 @@
 {
   "devDependencies": {
-    "@biomejs/biome": "^2.1.4",
-    "@fontsource/oswald": "^5.2.6",
-    "@fontsource/roboto": "^5.2.6",
+    "@biomejs/biome": "^2.4.16",
+    "@fontsource/oswald": "^5.2.8",
+    "@fontsource/roboto": "^5.2.10",
     "@icomoon/fontawesome": "^1.0.0",
-    "@types/jquery": "^3.5.32",
-    "alpinejs": "^3.14.9",
+    "@types/jquery": "^4.0.1",
+    "alpinejs": "^3.15.12",
     "animate.css": "^4.1.1",
-    "esbuild": "^0.25.8",
-    "jquery": "^3.7.1",
-    "noty": "^3.1.4",
-    "typed.js": "^2.1.0",
+    "esbuild": "^0.28.0",
+    "jquery": "^4.0.0",
+    "noty": "^3.2.0-beta-deprecated",
+    "typed.js": "^3.0.0",
     "w3s": "^1.1.0"
   },
   "scripts": {
