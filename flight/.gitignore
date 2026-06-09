@@ -1,7 +1,0 @@
-assets/dist
-node_modules
-vendor
-.env
-*.sublime-workspace
-phpcs.xml
-phpstan.dist.neon
