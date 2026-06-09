@@ -1,0 +1,42 @@
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v6
+      - run: |
+          npm ci
+          npm run build
+          composer install --no-dev
+      - uses: SamKirkland/FTP-Deploy-Action@v4.4.0
+        with:
+          exclude: |
+            **/.git*
+            **/.git*/**
+            **/node_modules/**
+            **/src/**
+            **/tests/**
+            .editorconfig
+            .env
+            .npmrc
+            biome.json
+            composer.*
+            mago.toml
+            package-lock.json
+            package.json
+            phpunit.*
+          log-level: minimal
+          password: ${{ secrets.ftp_password }}
+          port: ${{ secrets.ftp_port }}
+          server: ${{ secrets.ftp_server }}
+          server-dir: htdocs/licosys/
+          username: ${{ secrets.ftp_username }}
+
+on:
+  pull_request:
+    branches: ['stable']
+  push:
+    branches: ['stable']
+
+permissions:
+  contents: read
