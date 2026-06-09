@@ -1,10 +1,10 @@
 {
 	"devDependencies": {
-		"@babel/cli": "^7.24.1",
-		"@babel/core": "^7.24.4",
-		"@babel/preset-env": "^7.24.4",
+		"@babel/cli": "^7.29.7",
+		"@babel/core": "^7.29.7",
+		"@babel/preset-env": "^7.29.7",
 		"nib": "^1.2.0",
-		"stylus": "^0.63.0"
+		"stylus": "^0.64.0"
 	},
 	"scripts": {
 		"stylus": "stylus src/index.styl -o css/bundle.css -w -m -r --include-css",
