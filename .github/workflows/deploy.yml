@@ -2,9 +2,9 @@ name: 🚀 Build and Deploy Workflow
 
 on:
   push:
-    branches: ['main']
+    branches: ['laravel']
   pull_request:
-    branches: ['main']
+    branches: ['laravel']
 
 permissions:
   contents: read
