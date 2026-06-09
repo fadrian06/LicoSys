@@ -27,16 +27,16 @@
             currentDate: "",
           }'
           x-init="
-            axios.get('https://pydolarve.org/api/v2/tipo-cambio')
+            fetch('https://ve.dolarapi.com/v1/dolares/oficial')
+              .then(response => response.json())
               .then(response => {
-                currentDate = response.data.datetime.date;
-                currentBcvTax = Number(response.data.monitors.usd.price);
+                currentDate = new Date(response.fechaActualizacion).toLocaleString();
+                currentBcvTax = Number(response.promedio);
                 bcvTax ||= currentBcvTax;
               })
+              .catch(console.error);
           "
-          x-effect="
-            axios.get(`./preferences/taxes/bcv/${bcvTax || 0}`);
-          ">
+          x-effect="axios.get(`./preferences/taxes/bcv/${bcvTax || 0}`)">
           <div class="flex justify-between mb-4">
             <h1 class="text-2xl font-bold">Lista de Productos</h1>
             <a href="{{ route('products.create') }}"
