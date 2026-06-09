@@ -8,20 +8,18 @@
     "format": "biome format --write"
   },
   "devDependencies": {
-    "@tailwindcss/forms": "^0.5.2",
-    "@tailwindcss/vite": "^4.0.0",
     "@biomejs/biome": "^2.4.16",
+    "@tailwindcss/forms": "^0.5.11",
+    "@tailwindcss/vite": "^4.3.0",
     "@types/alpinejs": "^3.13.11",
-    "alpinejs": "^3.4.2",
-    "autoprefixer": "^10.4.2",
-    "axios": "^1.8.2",
-    "bootstrap": "^5.3.7",
-    "concurrently": "^9.0.1",
-    "esbuild": "0.21.5",
-    "laravel-vite-plugin": "^1.2.0",
-    "postcss": "^8.4.31",
-    "rollup": "4.18.0",
-    "tailwindcss": "^3.1.0",
-    "vite": "5.3.6"
+    "alpinejs": "^3.15.12",
+    "autoprefixer": "^10.5.0",
+    "axios": "^1.17.0",
+    "bootstrap": "^5.3.8",
+    "concurrently": "^10.0.3",
+    "esbuild": "^0.28.0",
+    "laravel-vite-plugin": "^1.3.0",
+    "postcss": "^8.5.15",
+    "rollup": "^4.61.1"
   }
 }
