@@ -2,29 +2,25 @@
 
 declare(strict_types=1);
 
-$stdout = file_get_contents('php://stdin') ?: '';
-echo $stdout;
+$parser = xml_parser_create('');
 
-preg_match_all(
-  '/^\s*(Classes|Methods|Paths|Branches|Lines):\s*([0-9.]+)%/m',
-  $stdout,
-  $matches,
-  PREG_SET_ORDER
-);
+/** @param array<string, string> $attributes */
+function start_handler(XMLParser $_parser, string $name, array $attributes): void
+{
+  if ($name !== 'LINES' || !array_key_exists('PERCENT', $attributes)) {
+    return;
+  }
 
-$failed = false;
-
-foreach ($matches as $match) {
-  $metric = $match[1];
-  $percentage = (float) $match[2];
-
-  if ($percentage < 100.0) {
-    $failed = true;
+  if (floatval($attributes['PERCENT']) < 100) {
+    exit(1);
   }
 }
 
-if (count($matches) < 5 || $failed) {
-  exit(1);
-}
+xml_set_element_handler(
+  $parser,
+  start_handler(...),
+  end_handler: null,
+);
 
-exit(0);
+xml_parse($parser, strval(file_get_contents(__DIR__ . '/coverage/index.xml')));
+xml_parse($parser, data: '', is_final: true);

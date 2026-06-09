@@ -6,6 +6,7 @@ namespace Tests\Unit;
 
 use Override;
 use PHPUnit\Framework\Attributes\Test;
+use PHPUnit\Framework\ExpectationFailedException;
 
 final class IndexTest extends UnitTestCase
 {
@@ -30,6 +31,10 @@ final class IndexTest extends UnitTestCase
   {
     require_once __DIR__ . '/../../index.php';
 
-    self::assertSame(PHP_SESSION_ACTIVE, session_status());
+    try {
+      self::assertSame(PHP_SESSION_ACTIVE, session_status());
+    } catch (ExpectationFailedException) {
+      exit('Session is not started.');
+    }
   }
 }

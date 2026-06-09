@@ -5,22 +5,23 @@ declare(strict_types=1);
 namespace App;
 
 use Symfony\Component\Dotenv\Dotenv;
+use Symfony\Component\Dotenv\Exception\FormatException;
+use Symfony\Component\Dotenv\Exception\PathException;
 
-function getenv(string $name): string|int|null|bool
+/** @throws FormatException | PathException */
+function getenv(string $name): string|int|null
 {
-  if (!key_exists($name, $_ENV)) {
+  if (!array_key_exists($name, $_ENV)) {
     $dotenv = new Dotenv;
     $dotenv->load(__DIR__ . '/../.env.example');
-    file_exists(__DIR__ . '/../.env') && $dotenv->overload(__DIR__ . '/../.env');
+    $dotenv->overload(__DIR__ . '/../.env');
   }
 
-  $env = $_ENV[$name];
+  $env = $_ENV[$name] ?? null;
 
   if (filter_var($env, FILTER_VALIDATE_INT)) {
-    $env = filter_var($env, FILTER_VALIDATE_INT);
-  } elseif (filter_var($env, FILTER_VALIDATE_BOOL)) {
-    $env = filter_var($env, FILTER_VALIDATE_BOOL);
+    $env = intval(filter_var($env, FILTER_VALIDATE_INT));
   }
 
-  return is_string($env) || is_int($env) || is_bool($env) ? $env : null;
+  return is_string($env) || is_int($env) ? $env : null;
 }

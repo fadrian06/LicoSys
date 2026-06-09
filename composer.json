@@ -33,7 +33,8 @@
 		"analyze": "mago analyze --no-stubs --sort -m note",
 		"analyze:watch": "composer analyze -- --watch",
 		"ci": [
-			"phpunit -d memory_limit=512M --colors=auto --no-progress --with-telemetry --coverage-text --show-uncovered-for-coverage-text --path-coverage | php tests/check-coverage.php",
+			"phpunit -d memory_limit=512M --colors=auto --no-progress --with-telemetry --coverage-text --coverage-html tests/coverage --coverage-xml tests/coverage --show-uncovered-for-coverage-text --path-coverage",
+			"php tests/check-coverage.php",
 			"composer analyze",
 			"composer lint",
 			"mago format -c"

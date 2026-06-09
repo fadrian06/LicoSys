@@ -10,6 +10,7 @@
   beStrictAboutTestsThatDoNotTestAnything="true"
   bootstrap="vendor/autoload.php"
   cacheResult="false"
+  cacheDirectory=""
   colors="false"
   columns="max"
   controlGarbageCollector="true"
