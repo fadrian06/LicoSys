@@ -1,9 +1,9 @@
 *.sublime-*
 .env
 backup
-css
 js
 node_modules
 phpunit.xml
+resources/build
 tests/coverage
 vendor

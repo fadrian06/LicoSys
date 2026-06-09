@@ -124,7 +124,7 @@
 		<link rel="stylesheet" href="<?=$BASE_URL?>fonts/fuentes.min.css">
 		<link rel="stylesheet" href="<?=$BASE_URL?>libs/noty/noty.css">
 		<link rel="stylesheet" href="<?=$BASE_URL?>libs/noty/themes/sunset.css">
-		<link rel="stylesheet" href="<?=$BASE_URL?>css/bundle.css">
+		<link rel="stylesheet" href="<?=$BASE_URL?>resources/build/index.css">
 		<title><?= getenv('APP_NAME') ?></title>
 		<script src="<?=$BASE_URL?>libs/jquery.min.js"></script>
 		<script src="<?=$BASE_URL?>libs/w3/w3.min.js"></script>

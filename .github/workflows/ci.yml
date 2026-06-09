@@ -14,6 +14,7 @@ jobs:
             **/.git*
             **/.git*/**
             **/node_modules/**
+            **/resources/stylus/**
             **/src/**
             **/tests/**
             .editorconfig

@@ -14,11 +14,15 @@
 		"stylus": "^0.64.0"
 	},
 	"scripts": {
-		"babel": "babel src/modules -d js -w",
-		"build": "babel src/modules -d js --minified & stylus src/index.styl -o css/bundle.css -c -r --include-css",
+		"babel": "babel src/modules -d js",
+		"babel:build": "npm run babel -- --minified",
+		"babel:watch": "npm run babel -- -w",
+		"build": "npm run babel:build & npm run stylus:build",
 		"check": "biome check",
-		"stylelint": "stylelint src/**/*.styl",
-		"stylus": "stylus src/index.styl -o css/bundle.css -w -m -r --include-css"
+		"stylelint": "stylelint resources/stylus/**/*.styl",
+		"stylus": "stylus resources/stylus/index.styl -o resources/build -r --include-css",
+		"stylus:build": "npm run stylus -- -c",
+		"stylus:watch": "npm run stylus -- -w -m"
 	},
 	"stylelint": {
 		"extends": [
