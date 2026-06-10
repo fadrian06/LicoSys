@@ -1,6 +1,5 @@
 <?php
 	session_start();
-	require 'config.php';
 	require 'componentes.php';
 	require 'conexion.php';
 	require 'funciones.php';

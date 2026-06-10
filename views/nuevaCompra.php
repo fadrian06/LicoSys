@@ -4,7 +4,6 @@
 	if (!isset($_SESSION['activa'])) header('location: ../salir.php');
 
 	if ($_SESSION['cargo'] === 'a'):
-		require '../backend/config.php';
 		require '../backend/componentes.php';
 		require '../backend/conexion.php';
 		require '../backend/funciones.php';

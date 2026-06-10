@@ -2,7 +2,6 @@
 	session_start();
 	if (!isset($_SESSION['activa'])) header('location: ../salir.php');
 
-	require '../backend/config.php';
 	require '../backend/componentes.php';
 	require '../backend/conexion.php';
 	require '../backend/funciones.php';
