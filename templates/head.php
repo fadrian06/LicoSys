@@ -121,7 +121,7 @@
 		<meta property="og:image" content="<?=$BASE_URL?>images/logo.png">
 		<link rel="icon" href="<?=$BASE_URL?>images/logo.png">
 		<link rel="stylesheet" href="<?=$BASE_URL?>ico/style.min.css">
-		<link rel="stylesheet" href="<?=$BASE_URL?>fonts/fuentes.min.css">
+		<link rel="stylesheet" href="<?=$BASE_URL?>resources/fonts/fuentes.css">
 		<link rel="stylesheet" href="<?=$BASE_URL?>libs/noty/noty.css">
 		<link rel="stylesheet" href="<?=$BASE_URL?>libs/noty/themes/sunset.css">
 		<link rel="stylesheet" href="<?=$BASE_URL?>resources/build/index.css">
