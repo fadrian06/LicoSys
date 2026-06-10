@@ -38,7 +38,7 @@
 	try {
 		$conexion->select_db(BD);
 	} catch (mysqli_sql_exception) {
-		$mostrarLoader = '<script src="js/loader.js"></script>';
+		$mostrarLoader = '<script src="resources/build/loader.js"></script>';
 	}
 
 	/*----------  Instala la Base de Datos  ----------*/

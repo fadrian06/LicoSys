@@ -24,8 +24,8 @@
 	=            LÓGICA DE TODO EL SISTEMA, MENOS EL LOGIN            =
 	=================================================================*/
 	if ($archivoActual !== 'index.php' && key_exists('userID', $_SESSION)):
-		$script .= "<script src='{$BASE_URL}js/navegacion.js'></script>";
-		$script .= "<script src='{$BASE_URL}js/main.js'></script>";
+		$script .= "<script src='{$BASE_URL}resources/build/navegacion.js'></script>";
+		$script .= "<script src='{$BASE_URL}resources/build/main.js'></script>";
 
 		/*----------  No tienes preguntas y respuestas registradas  ----------*/
 		$sql = <<<SQL
@@ -132,9 +132,9 @@
 		<script src="<?=$BASE_URL?>libs/noty/noty.min.js"></script>
 		<script src="<?=$BASE_URL?>libs/Chart.js"></script>
 		<script src="<?=$BASE_URL?>libs/html2pdf.bundle.min.js"></script>
-		<script src="<?=$BASE_URL?>js/actualizarImagen.js"></script>
-		<script src="<?=$BASE_URL?>js/funciones.js"></script>
-		<script src="<?=$BASE_URL?>js/validar.js"></script>
+		<script src="<?=$BASE_URL?>resources/build/actualizarImagen.js"></script>
+		<script src="<?=$BASE_URL?>resources/build/funciones.js"></script>
+		<script src="<?=$BASE_URL?>resources/build/validar.js"></script>
 	</head>
 
 	<body class="w3-disabled">

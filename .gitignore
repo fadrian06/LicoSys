@@ -1,7 +1,6 @@
 *.sublime-*
 .env
 backup
-js
 node_modules
 phpunit.xml
 resources/build

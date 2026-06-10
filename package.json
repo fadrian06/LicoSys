@@ -14,7 +14,7 @@
 		"stylus": "^0.64.0"
 	},
 	"scripts": {
-		"babel": "babel src/modules -d js",
+		"babel": "babel resources/js -d resources/build",
 		"babel:build": "npm run babel -- --minified",
 		"babel:watch": "npm run babel -- -w",
 		"build": "npm run babel:build & npm run stylus:build",

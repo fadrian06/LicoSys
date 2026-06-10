@@ -22,7 +22,7 @@ function verificarCopiaDeSeguridad() {
 	global $script;
 
 	if (file_exists('backup/backup.sql'))
-		$script .= '<script src="js/restaurarBD.js"></script>';
+		$script .= '<script src="resources/build/restaurarBD.js"></script>';
 }
 /*=====  End of LÓGICA INICIAL  ======*/
 
@@ -31,21 +31,21 @@ if (!isset($mostrarLoader) and !$negocios):
 	verificarCopiaDeSeguridad();
 	$mostrarRegistro = true;
 	include 'templates/registrarNegocio.php';
-	$script .= '<script src="js/registrarNegocio.js"></script>';
+	$script .= '<script src="resources/build/registrarNegocio.js"></script>';
 
 /*----------  Si no hay administrador, solicita registro  ----------*/
 elseif (!isset($mostrarLoader) and !$admin):
 	verificarCopiaDeSeguridad();
 	$mostrarRegistro = true;
 	include 'templates/registrarAdmin.php';
-	$script .= '<script src="js/registrarAdmin.js"></script>';
+	$script .= '<script src="resources/build/registrarAdmin.js"></script>';
 
 /*----------  Si el administrador no tiene preguntas secretas, solicita registro  ----------*/
 elseif (!isset($mostrarLoader) and !$admin['pre1']):
 	verificarCopiaDeSeguridad();
 	$mostrarRegistro = true;
 	include 'templates/registroPreguntasRespuestas.php';
-	$script .= '<script src="js/registrarPreguntasRespuestas.js"></script>';
+	$script .= '<script src="resources/build/registrarPreguntasRespuestas.js"></script>';
 
 /*----------  Muestra el login  ----------*/
 elseif (!isset($mostrarLoader)):
@@ -59,10 +59,10 @@ elseif (!isset($mostrarLoader)):
 	if (isset($_SESSION['changePassword']))
 		include 'templates/cambiarClave.php';
 
-	$script .= '<script src="js/reloj.js"></script>';
 	$script .= '<script src="libs/typedjs/typed.min.js"></script>';
-	$script .= '<script src="js/login.js"></script>';
-	$script .= '<script src="js/recuperarClave.js"></script>';
+	$script .= '<script src="resources/build/reloj.js"></script>';
+	$script .= '<script src="resources/build/login.js"></script>';
+	$script .= '<script src="resources/build/recuperarClave.js"></script>';
 endif;
 
 include 'templates/footer.php';
