@@ -6,13 +6,13 @@
 
 	$versiones = getRegistros('SELECT * FROM versiones ORDER BY id DESC');
 
-	$data = getAPI('https://s3.amazonaws.com/dolartoday/data.json', 'json/dolarToday.json');
-	$dolarFecha = $data['_timestamp']['fecha'];
-	$dolarT     = $data['USD']['transferencia'];
-	$dolarE     = $data['USD']['efectivo'];
+	$data = getAPI('https://ve.dolarapi.com/v1/cotizaciones', __DIR__ . '/resources/json/cotizaciones.json');
+	$dolarBCV = round($data[0]['promedio'], 2);
+	$dolarFecha = date('d/m/Y h:ia', strtotime($data[0]['fechaActualizacion']));
+	$dolarT     = round($data[1]['promedio'], 2);
 
-	$data = getAPI('https://api.exchangedyn.com/markets/quotes/usdves/bcv', 'json/bcv.json');
-	$dolarBCV = round($data['sources']['BCV']['quote'], 2);
+	$data = getAPI('https://ve.dolarapi.com/v1/dolares/paralelo', __DIR__ . '/resources/json/paralelo.json');
+	$dolarE     = round($data['promedio'], 2);
 
 	$sql = <<<SQL
 		SELECT fecha, foto, nombre, usuario FROM log
@@ -157,7 +157,7 @@
 	<div class="w3-row">
 		<?php include 'templates/monedas.php' ?>
 		<section class="w3-half w3-container w3-padding-24 w3-animate-opacity">
-			<h2 class="w3-large w3-text-green">DOLAR TODAY</h2>
+			<h2 class="w3-large w3-text-green">&nbsp;</h2>
 			<table class="w3-table w3-bordered w3-border w3-hoverable w3-pale-green">
 				<tr>
 					<td>Fecha</td>
@@ -168,7 +168,7 @@
 				<tr>
 					<td>DÓLAR (Bs.)</td>
 					<td><b><i class="w3-small">BCV </i><?=$dolarBCV?></b></td>
-					<td><b><i class="w3-small">Transferencia </i><?=$dolarT?></b></td>
+					<td><b><i class="w3-small">Euro </i><?=$dolarT?></b></td>
 					<td><b><i class="w3-small">Efectivo </i><?=$dolarE?></b></td>
 				</tr>
 			</table>
