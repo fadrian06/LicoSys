@@ -118,6 +118,7 @@
 		<meta name="author" content="Franyer Sánchez, Daniel Mancilla">
 		<meta name="description" content="Sistema Automatizado de Gestión de Compras y Ventas">
 		<meta name="theme-color" content="black">
+		<meta name="color-scheme" content="light dark">
 		<meta property="og:image" content="<?=$BASE_URL?>resources/images/logo.png">
 		<link rel="icon" href="<?=$BASE_URL?>resources/images/logo.png">
 		<link rel="stylesheet" href="<?=$BASE_URL?>resources/icons/style.min.css">
