@@ -59,7 +59,7 @@ elseif (!isset($mostrarLoader)):
 	if (isset($_SESSION['changePassword']))
 		include 'templates/cambiarClave.php';
 
-	$script .= '<script src="libs/typedjs/typed.min.js"></script>';
+	$script .= '<script src="resources/libs/typedjs/typed.min.js"></script>';
 	$script .= '<script src="resources/build/reloj.js"></script>';
 	$script .= '<script src="resources/build/login.js"></script>';
 	$script .= '<script src="resources/build/recuperarClave.js"></script>';

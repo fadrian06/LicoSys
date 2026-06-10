@@ -10,7 +10,7 @@
 	},
 	"files": {
 		"ignoreUnknown": false,
-		"includes": ["**/*", "!libs", "!json"]
+		"includes": ["**/*", "!resources/libs", "!json"]
 	},
 	"formatter": {
 		"enabled": true,

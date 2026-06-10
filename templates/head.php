@@ -123,15 +123,15 @@
 		<link rel="icon" href="<?=$BASE_URL?>resources/images/logo.png">
 		<link rel="stylesheet" href="<?=$BASE_URL?>resources/icons/style.min.css">
 		<link rel="stylesheet" href="<?=$BASE_URL?>resources/fonts/fuentes.css">
-		<link rel="stylesheet" href="<?=$BASE_URL?>libs/noty/noty.css">
-		<link rel="stylesheet" href="<?=$BASE_URL?>libs/noty/themes/sunset.css">
+		<link rel="stylesheet" href="<?=$BASE_URL?>resources/libs/noty/noty.css">
+		<link rel="stylesheet" href="<?=$BASE_URL?>resources/libs/noty/themes/sunset.css">
 		<link rel="stylesheet" href="<?=$BASE_URL?>resources/build/index.css">
 		<title><?= getenv('APP_NAME') ?></title>
-		<script src="<?=$BASE_URL?>libs/jquery.min.js"></script>
-		<script src="<?=$BASE_URL?>libs/w3/w3.min.js"></script>
-		<script src="<?=$BASE_URL?>libs/noty/noty.min.js"></script>
-		<script src="<?=$BASE_URL?>libs/Chart.js"></script>
-		<script src="<?=$BASE_URL?>libs/html2pdf.bundle.min.js"></script>
+		<script src="<?=$BASE_URL?>resources/libs/jquery.min.js"></script>
+		<script src="<?=$BASE_URL?>resources/libs/w3/w3.min.js"></script>
+		<script src="<?=$BASE_URL?>resources/libs/noty/noty.min.js"></script>
+		<script src="<?=$BASE_URL?>resources/libs/Chart.js"></script>
+		<script src="<?=$BASE_URL?>resources/libs/html2pdf.bundle.min.js"></script>
 		<script src="<?=$BASE_URL?>resources/build/actualizarImagen.js"></script>
 		<script src="<?=$BASE_URL?>resources/build/funciones.js"></script>
 		<script src="<?=$BASE_URL?>resources/build/validar.js"></script>

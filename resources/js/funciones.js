@@ -5,10 +5,10 @@
  * @property {string} Respuesta.error Errores que lanza el servidor.
  * @property {object} Respuesta.datos Objeto con datos de la posible consulta.
  * @typedef {string} RespuestaCruda Respuesta serializada `"{error: string, datos: {}}"`
- * @typedef {import('../../libs/noty/index').*} Noty
- * @typedef {import('../../libs/jquery.min.js').*} $
- * @typedef {import('../../libs/typedjs/index').*} Typed
- * @typedef {import('../../libs/w3/w3.min').*} w3
+ * @typedef {import('../../resources/libs/noty/index').*} Noty
+ * @typedef {import('../../resources/libs/jquery.min.js').*} $
+ * @typedef {import('../../resources/libs/typedjs/index').*} Typed
+ * @typedef {import('../../resources/libs/w3/w3.min').*} w3
  * @typedef {import('./validar')}
  * @typedef {import('./actualizarImagen')}
  * @typedef {import('./reloj')}
