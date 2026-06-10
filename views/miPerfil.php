@@ -35,8 +35,8 @@
 	$cargo = $usuario['cargo'] === 'a' ? 'Administrador' : 'Vendedor';
 	$usuario['telefono'] = $usuario['telefono'] ?: '<b class="w3-text-red">No especificado</b>';
 	$usuario['foto'] = $usuario['foto']
-		? "images/perfil/{$usuario['foto']}"
-		: 'images/avatar3.png';
+		? "resources/images/perfil/{$usuario['foto']}"
+		: 'resources/images/avatar3.png';
 	$hayPreguntasRegistradas = 'w3-blue';
 	$textoBotonHayPreguntasRegistradas = 'Cambiar';
 	if (!$usuario['pre1'] or !$usuario['pre2'] or !$usuario['pre3']):

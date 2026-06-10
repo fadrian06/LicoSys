@@ -34,8 +34,8 @@
 				? 'w3-hide'
 				: 'w3-show-inline-block';
 			$negocio['logo'] = $negocio['logo']
-				? "images/negocios/{$negocio['logo']}"
-				: 'images/logoNegocio.jpg';
+				? "resources/images/negocios/{$negocio['logo']}"
+				: 'resources/images/logoNegocio.jpg';
 			$negocio['tlf'] = $negocio['tlf'] ?: '<b class="w3-text-red">No establecido</b>';
 			$negocio['direccion'] = $negocio['direccion'] ?: '<b class="w3-text-red">No establecido</b>';
 			$permitirDesactivar = $negocio['id'] === $_SESSION['negocioID']
@@ -128,8 +128,8 @@
 					</li>
 				HTML;
 				$negocio['logo'] = $negocio['logo']
-					? "images/negocios/{$negocio['logo']}"
-					: 'images/logoNegocio.jpg';
+					? "resources/images/negocios/{$negocio['logo']}"
+					: 'resources/images/logoNegocio.jpg';
 				$negocio['tlf'] = $negocio['tlf'] ?: '<b class="w3-text-red">No establecido</b>';
 				$negocio['direccion'] = $negocio['direccion'] ?: '<b class="w3-text-red">No establecido</b>';
 				$panelesDesactivados .= <<<HTML
@@ -275,7 +275,7 @@
 					<label for="logoRegistrar" class="w3-display-container w3-hover-opacity" style="cursor: pointer">
 						<i class="icon-camera w3-xxxlarge w3-display-middle w3-display-hover"></i>
 						<input type="file" id="logoRegistrar" accept="image/jpeg,image/png" name="logo" class="w3-hide">
-						<img class="image-result w3-image" src="images/logoNegocio.jpg" style="width: 150px">
+						<img class="image-result w3-image" src="resources/images/logoNegocio.jpg" style="width: 150px">
 					</label>
 					<div class="w3-container w3-margin-top w3-center">
 						<label for="logo" class="w3-button w3-round-xlarge w3-blue w3-ripple">

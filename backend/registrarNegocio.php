@@ -25,7 +25,7 @@
 			$tipo   = (string) $logo['type'];
 			$peso   = (int) $logo['size'];
 			$rutaOrigen  = (string) $logo['tmp_name'];
-			$rutaDestino = "../images/negocios/$imagen";
+			$rutaDestino = "../resources/images/negocios/$imagen";
 
 			if ($tipo !== 'image/jpeg' && $tipo !== 'image/jpg' && $tipo !== 'image/png')
 				$respuesta['error'] = "Sólo se permite imagenes JPG y PNG";

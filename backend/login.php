@@ -70,14 +70,14 @@
 			'userCedula' => $filaUsuario['cedula'],
 			'cargo'      => $filaUsuario['cargo'],
 			'userFoto'   => $filaUsuario['foto']
-									 		? "images/perfil/{$filaUsuario['foto']}"
-									 		: 'images/avatar3.png',
+									 		? "resources/images/perfil/{$filaUsuario['foto']}"
+									 		: 'resources/images/avatar3.png',
 			'userTlf'    => $filaUsuario['telefono'] ?: 'No especificado',
 			'negocio'    => $negocioSeleccionado['nombre'],
 			'negocioID'  => $negocioSeleccionado['id'],
 			'negocioLogo'      => $negocioSeleccionado['logo']
-											? "images/negocios/{$negocioSeleccionado['logo']}"
-											: 'images/logoNegocio.jpg'
+											? "resources/images/negocios/{$negocioSeleccionado['logo']}"
+											: 'resources/images/logoNegocio.jpg'
 		];
 		exit(json_encode($respuesta, JSON_INVALID_UTF8_IGNORE));
 

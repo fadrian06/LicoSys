@@ -567,7 +567,7 @@ const verFacturaVenta = (boton, ventaID) => {
 			</div>
 			<h2 class="w3-center w3-xxlarge oswald w3-margin-bottom">
 				<div class="w3-container">
-					<img src="images/logo.png" class="w3-margin-right w3-responsive" width="100px">
+					<img src="resources/images/logo.png" class="w3-margin-right w3-responsive" width="100px">
 					${respuesta.datos.nombreNegocio}
 				</div>
 			</h2>

@@ -18,7 +18,7 @@
 			$tipo   = (string) $foto['type'];
 			$peso   = (int) $foto['size'];
 			$rutaOrigen = (string) $foto['tmp_name'];
-			$rutaDestino = "../images/perfil/$imagen";
+			$rutaDestino = "../resources/images/perfil/$imagen";
 
 			$respuesta['datos'] = ['nombre' => $imagen, 'ruta' => $rutaDestino];
 
@@ -38,7 +38,7 @@
 		if (!$resultado) $respuesta['error'] = $conexion->error;
 
 		$respuesta['ok'] = 'Imagen actualizada exitósamente.';
-		$_SESSION['userFoto'] = "images/perfil/$imagen";
+		$_SESSION['userFoto'] = "resources/images/perfil/$imagen";
 
 		exit(json_encode($respuesta, JSON_INVALID_UTF8_IGNORE));
 	endif;
@@ -58,7 +58,7 @@
 			$tipo   = (string) $foto['type'];
 			$peso   = (int) $foto['size'];
 			$rutaOrigen = (string) $foto['tmp_name'];
-			$rutaDestino = "../images/negocios/$imagen";
+			$rutaDestino = "../resources/images/negocios/$imagen";
 
 			if ($tipo !== 'image/jpeg' && $tipo !== 'image/jpg' && $tipo !== 'image/png')
 				$respuesta['error'] = 'Sólo se permite imagenes JPG y PNG';
@@ -77,7 +77,7 @@
 
 		$respuesta['ok'] = 'Imagen actualizada exitósamente.';
 		if ($id === $_SESSION['negocioID'])
-			$_SESSION['negocioLogo'] = "images/negocios/$imagen";
+			$_SESSION['negocioLogo'] = "resources/images/negocios/$imagen";
 
 		exit(json_encode($respuesta, JSON_INVALID_UTF8_IGNORE));
 	endif;

@@ -51,7 +51,7 @@
 		===================================*/
 		$titulo = <<<HTML
 			<div class="w3-container">
-				<img src="images/logo.png" class="w3-margin-right w3-responsive" width="100px">
+				<img src="resources/images/logo.png" class="w3-margin-right w3-responsive" width="100px">
 				Taberna Los 7 Hermanos
 			</div>
 		HTML;
