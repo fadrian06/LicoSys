@@ -1,11 +1,22 @@
 <?php
 
+declare(strict_types=1);
+
+use Psr\Http\Message\ResponseInterface;
+
 require_once __DIR__ . '/vendor/autoload.php';
 
 /*======================================
 =            LÓGICA INICIAL            =
 ======================================*/
-require_once __DIR__ . '/app/Http/Middlewares/RedirectIfAuthenticated.php';
+/** @var ?ResponseInterface */
+$response = require __DIR__ . '/app/Http/Middlewares/RedirectIfAuthenticated.php';
+
+if ($response instanceof ResponseInterface) {
+	foreach ($response->getHeaders() as $name => $value) {
+		header($name . ': ' . implode(', ', $value));
+	}
+}
 
 include 'templates/head.php';
 
@@ -14,7 +25,8 @@ if (!empty($_SESSION['userID'])) $_SESSION['userID'] = $admin['id'];
 setRegistro('TRUNCATE TABLE carrito_venta');
 setRegistro('TRUNCATE TABLE carrito_compra');
 
-function verificarCopiaDeSeguridad() {
+function verificarCopiaDeSeguridad()
+{
 	global $script;
 
 	if (file_exists('backup/backup.sql'))

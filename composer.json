@@ -20,6 +20,7 @@
 	"prefer-stable": true,
 	"require": {
 		"ext-session": ">=8.3",
+		"guzzlehttp/psr7": "^2.11",
 		"php-64bit": ">=8.3",
 		"symfony/dotenv": "^7.4"
 	},
