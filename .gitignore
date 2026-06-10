@@ -4,5 +4,6 @@ backup
 node_modules
 phpunit.xml
 resources/build
+tests/cache
 tests/coverage
 vendor
