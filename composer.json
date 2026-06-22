@@ -51,7 +51,7 @@
 		"lint": "mago lint --sort -m note",
 		"setup": [
 			"composer i",
-			"@php -r \"file_exists('.env') || copy('.env.example', '.env');\"",
+			"php -r \"file_exists('.env') || copy('.env.example', '.env');\"",
 			"npm i",
 			"npm run build"
 		]
