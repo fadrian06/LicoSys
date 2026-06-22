@@ -38,7 +38,7 @@
 			"php tests/check-coverage.php",
 			"composer analyze",
 			"composer lint",
-			"mago format -c"
+			"composer format -- -c"
 		],
 		"dev": "php -S localhost:80",
 		"fix": [
