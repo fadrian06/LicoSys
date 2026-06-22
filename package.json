@@ -5,12 +5,12 @@
 		]
 	},
 	"devDependencies": {
-		"@babel/cli": "^7.29.7",
-		"@babel/preset-env": "^7.29.7",
-		"@biomejs/biome": "^2.4.16",
-		"nib": "^1.2.0",
-		"stylelint-stylus": "^1.0.0",
-		"stylus": "^0.64.0"
+		"@babel/cli": "8.0.1",
+		"@babel/preset-env": "8.0.2",
+		"@biomejs/biome": "2.5.0",
+		"nib": "1.2.0",
+		"stylelint-stylus": "1.0.0",
+		"stylus": "0.64.0"
 	},
 	"scripts": {
 		"babel": "babel resources/js -d resources/build",
