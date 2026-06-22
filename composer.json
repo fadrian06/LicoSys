@@ -25,10 +25,10 @@
 		"symfony/dotenv": "v7.4.11"
 	},
 	"require-dev": {
-		"carthage-software/mago": "^1.30",
-		"guzzlehttp/guzzle": "^7.11",
-		"phpunit/phpunit": "^12.5",
-		"symfony/var-dumper": "^7.4"
+		"carthage-software/mago": "1.30.0",
+		"guzzlehttp/guzzle": "7.12.1",
+		"phpunit/phpunit": "12.5.30",
+		"symfony/var-dumper": "v7.4.8"
 	},
 	"scripts": {
 		"analyze": "mago analyze --no-stubs --sort -m note",
