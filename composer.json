@@ -20,9 +20,9 @@
 	"prefer-stable": true,
 	"require": {
 		"ext-session": ">=8.3",
-		"guzzlehttp/psr7": "^2.11",
+		"guzzlehttp/psr7": "2.12.1",
 		"php-64bit": ">=8.3",
-		"symfony/dotenv": "^7.4"
+		"symfony/dotenv": "v7.4.11"
 	},
 	"require-dev": {
 		"carthage-software/mago": "^1.30",
