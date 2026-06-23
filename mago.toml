@@ -179,6 +179,7 @@ integrations = []
 minimum-fail-level = "Note"
 
 [linter.rules]
+no-empty = { enabled = false }
 
 [parser]
 enable-short-tags = false
