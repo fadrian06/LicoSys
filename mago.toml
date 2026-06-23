@@ -188,7 +188,7 @@ enable-short-tags = false
 excludes = []
 extensions = ["php"]
 includes = ["vendor"]
-paths = ["**/*"]
+paths = ["app"]
 workspace = "."
 
 [source.glob]
