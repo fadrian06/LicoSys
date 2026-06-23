@@ -21,6 +21,7 @@
 	"require": {
 		"ext-session": ">=8.3",
 		"guzzlehttp/psr7": "2.12.1",
+		"illuminate/container": "v13.16.1",
 		"php-64bit": ">=8.3",
 		"symfony/dotenv": "v7.4.11"
 	},
