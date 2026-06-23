@@ -55,5 +55,6 @@
 			"npm i",
 			"npm run build"
 		]
-	}
+	},
+	"type": "project"
 }
