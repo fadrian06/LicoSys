@@ -2,9 +2,14 @@
 
 declare(strict_types=1);
 
+use GuzzleHttp\Psr7\HttpFactory;
+use Illuminate\Container\Container;
+use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
 
 require_once __DIR__ . '/vendor/autoload.php';
+
+Container::getInstance()->singleton(ResponseFactoryInterface::class, HttpFactory::class);
 
 /*======================================
 =            LÓGICA INICIAL            =
