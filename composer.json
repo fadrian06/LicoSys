@@ -19,10 +19,12 @@
 	"minimum-stability": "stable",
 	"prefer-stable": true,
 	"require": {
+		"php-64bit": ">=8.3",
 		"ext-session": ">=8.3",
 		"guzzlehttp/psr7": "2.12.1",
 		"illuminate/container": "v13.16.1",
-		"php-64bit": ">=8.3",
+		"psr/http-server-handler": "1.0.2",
+		"psr/http-server-middleware": "1.0.2",
 		"symfony/dotenv": "v7.4.11"
 	},
 	"require-dev": {
