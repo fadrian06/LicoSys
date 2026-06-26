@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use App\Http\Controllers\IndexController;
 use App\Http\Middleware\RedirectIfAuthenticated;
+use App\Scripts;
 use GuzzleHttp\Psr7\HttpFactory;
 use GuzzleHttp\Psr7\ServerRequest;
 use Illuminate\Container\Container;
@@ -32,6 +33,7 @@ if ($response instanceof ResponseInterface) {
 =            LÓGICA INICIAL            =
 ======================================*/
 include __DIR__ . '/templates/head.php';
+Scripts::push($script);
 
 if (!empty($_SESSION['userID'])) $_SESSION['userID'] = $admin['id'];
 
@@ -40,10 +42,8 @@ setRegistro('TRUNCATE TABLE carrito_compra');
 
 function verificarCopiaDeSeguridad(): void
 {
-  global $script;
-
   if (file_exists(__DIR__ . '/backup/backup.sql'))
-    $script .= '<script src="resources/build/restaurarBD.js"></script>';
+    Scripts::pushSrcOnce('./resources/build/restaurarBD.js');
 }
 
 /*----------  Si no hay negocios, solicita registro  ----------*/
@@ -51,21 +51,21 @@ if (!isset($mostrarLoader) and !$negocios):
   verificarCopiaDeSeguridad();
   $mostrarRegistro = true;
   include __DIR__ . '/templates/registrarNegocio.php';
-  $script .= '<script src="./resources/build/registrarNegocio.js"></script>';
+  Scripts::pushSrcOnce('./resources/build/registrarNegocio.js');
 
 /*----------  Si no hay administrador, solicita registro  ----------*/
 elseif (!isset($mostrarLoader) and !$admin):
   verificarCopiaDeSeguridad();
   $mostrarRegistro = true;
   include __DIR__ . '/templates/registrarAdmin.php';
-  $script .= '<script src="./resources/build/registrarAdmin.js"></script>';
+  Scripts::pushSrcOnce('./resources/build/registrarAdmin.js');
 
 /*----------  Si el administrador no tiene preguntas secretas, solicita registro  ----------*/
 elseif (!isset($mostrarLoader) and !$admin['pre1']):
   verificarCopiaDeSeguridad();
   $mostrarRegistro = true;
   include __DIR__ . '/templates/registroPreguntasRespuestas.php';
-  $script .= '<script src="./resources/build/registrarPreguntasRespuestas.js"></script>';
+  Scripts::pushSrcOnce('./resources/build/registrarPreguntasRespuestas.js');
 
 /*----------  Muestra el login  ----------*/
 elseif (!isset($mostrarLoader)):
@@ -79,10 +79,10 @@ elseif (!isset($mostrarLoader)):
   if (isset($_SESSION['changePassword']))
     include __DIR__ . '/templates/cambiarClave.php';
 
-  $script .= '<script src="./resources/libs/typedjs/typed.min.js"></script>';
-  $script .= '<script src="./resources/build/reloj.js"></script>';
-  $script .= '<script src="./resources/build/login.js"></script>';
-  $script .= '<script src="./resources/build/recuperarClave.js"></script>';
+  Scripts::pushSrcOnce('./resources/libs/typedjs/typed.min.js');
+  Scripts::pushSrcOnce('./resources/build/reloj.js');
+  Scripts::pushSrcOnce('./resources/build/login.js');
+  Scripts::pushSrcOnce('./resources/build/recuperarClave.js');
 endif;
 
 include __DIR__ . '/templates/footer.php';
