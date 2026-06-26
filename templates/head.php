@@ -1,6 +1,8 @@
 <?php
 
 	use App\Scripts;
+	use Illuminate\Container\Container;
+	use Illuminate\Database\Capsule\Manager;
 
 	use function App\getenv;
 
@@ -22,6 +24,8 @@
 	require_once __DIR__ . '/../backend/conexion.php';
 	require_once __DIR__ . '/../backend/funciones.php';
 
+	$manager = Container::getInstance()->get(Manager::class);
+
 	/*=================================================================
 	=            LÓGICA DE TODO EL SISTEMA, MENOS EL LOGIN            =
 	=================================================================*/
@@ -30,10 +34,11 @@
 		Scripts::pushSrc('./resources/build/main.js');
 
 		/*----------  No tienes preguntas y respuestas registradas  ----------*/
-		$sql = <<<SQL
-			SELECT pre1, pre2, pre3 FROM usuarios WHERE id={$_SESSION['userID']}
-		SQL;
-		$usuario = getRegistro($sql);
+		$usuario = (array) $manager::table('usuarios')->find(
+			$_SESSION['userID'],
+			['pre1', 'pre2', 'pre3']
+		);
+
 		if (
 			strtolower($usuario['pre1']) === 'no especificada' || !$usuario['pre1']
 			|| strtolower($usuario['pre2']) === 'no especificada' || !$usuario['pre2']
@@ -61,8 +66,7 @@
 		HTML);
 
 		/*----------  Inventario agotado  ----------*/
-		$sql = "SELECT id, producto, stock FROM inventario";
-		$productos = getRegistros($sql);
+		$productos = $manager::table('inventario')->get(['id', 'producto', 'stock'])->toArray();
 
 		foreach ($productos as $i => $producto):
 			$tiempo = 1000 * 60; /*60 segundos*/
@@ -97,8 +101,8 @@
 	/*====================================================================
 	=            LÓGICA DE TODO EL SISTEMA, INCLUIDO EL LOGIN            =
 	====================================================================*/
-	$negocios = getRegistros('SELECT * FROM negocios WHERE activo=1');
-	$admin    = getRegistro("SELECT * FROM usuarios WHERE cargo='a'");
+	$negocios = $manager::table('negocios')->where('activo', true)->get()->toArray();
+	$admin = $manager::table('usuarios')->where('cargo', 'a')->first();
 
 	Scripts::push(<<<HTML
 		<script>
@@ -106,8 +110,8 @@
 		</script>
 	HTML);
 
-	$productosEnCarrito = contarRegistros('carrito_venta');
-	$productosEnCarritoCompra = contarRegistros('carrito_compra');
+	$productosEnCarrito = $manager::table('carrito_venta')->count();
+	$productosEnCarritoCompra = $manager::table('carrito_compra')->count();
 
 ?>
 
