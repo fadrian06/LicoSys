@@ -23,6 +23,7 @@
 		"ext-session": ">=8.3",
 		"guzzlehttp/psr7": "2.12.1",
 		"illuminate/container": "v13.16.1",
+		"illuminate/database": "v13.17.0",
 		"psr/http-server-handler": "1.0.2",
 		"psr/http-server-middleware": "1.0.2",
 		"symfony/dotenv": "v7.4.11"
