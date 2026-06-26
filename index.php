@@ -57,7 +57,7 @@ if (!isset($mostrarLoader) and !$negocios):
 
   echo $bareUi::render(
     'templates/registrarNegocio.php',
-    ['mostrarRegistro' => true]
+    ['mostrarRegistro' => true],
   );
 
   Scripts::pushSrcOnce('./resources/build/registrarNegocio.js');

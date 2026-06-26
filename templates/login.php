@@ -1,13 +1,14 @@
-<?php use function App\getenv; if (isset($mostrarLogin)): ?>
+<?php if (empty($mostrarLogin)) return ?>
+
 	<main class="w3-row w3-animate-zoom" id="mainLogin">
-		<?=LOADER?>
+		<?= LOADER ?>
 		<!--===================================
 		=            PANEL LATERAL            =
 		====================================-->
 		<aside class="w3-padding-large w3-hide-small w3-col l6 m5 w3-display-container w3-topbar w3-bottombar w3-leftbar w3-rightbar w3-border-black w3-round-xlarge">
 			<div id="typed-container" onclick="modal(this)" data-target="#acercaDe" class="w3-padding-large w3-xlarge w3-right w3-hover-black">
 				<b class="w3-block w3-xxlarge">
-					<?= getenv('APP_NAME') . ' ' . getUltimaVersion() ?>
+					<?= App\getenv('APP_NAME') . ' ' . getUltimaVersion() ?>
 				</b>
 				<div class="w3-padding"><span id="typed"></span></div>
 			</div>
@@ -25,11 +26,16 @@
 				<div class="w3-row-padding">
 					<?php
 						$checked = count($negocios) === 1 ? 'checked' : '';
+
 						foreach($negocios as $negocio):
 							$negocio = (array) $negocio;
 
-							$url = $negocio['logo'] ? "resources/images/negocios/{$negocio['logo']}" : 'resources/images/logoNegocio.jpg';
+							$url = $negocio['logo']
+								? "resources/images/negocios/{$negocio['logo']}"
+								: 'resources/images/logoNegocio.jpg';
+
 							$tooltipNombreNegocio = generarTooltip($negocio['nombre']);
+
 							echo <<<HTML
 								<div class="w3-col s4 w3-dropdown-hover w3-white">
 									<input type="radio" id="negocio#{$negocio['id']}" name="negocio" value="{$negocio['id']}" $checked class="w3-hide">
@@ -45,8 +51,8 @@
 			</section>
 			<section class="w3-display-container">
 				<i class="w3-spin icon-spinner w3-display-middle w3-jumbo loader"></i>
-				<?=generarINPUT('USUARIO', 'Usuario:', 'Introduzca su usuario')?>
-				<?=generarINPUT('CLAVE', 'Contraseña:', 'Introduzca su contraseña')?>
+				<?= generarINPUT('USUARIO', 'Usuario:', 'Introduzca su usuario') ?>
+				<?= generarINPUT('CLAVE', 'Contraseña:', 'Introduzca su contraseña') ?>
 			</section>
 			<section class="w3-panel w3-center">
 				<button class="w3-button w3-round-xlarge w3-blue w3-ripple w3-block" style="width: 75%; margin: auto">
@@ -59,4 +65,3 @@
 			</section>
 		</form>
 	</main>
-<?php endif ?>

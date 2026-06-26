@@ -1,14 +1,19 @@
+<?php if (empty($_SESSION['showQuestions'])) return ?>
+
 <?php
-	if (isset($_SESSION['showQuestions'])):
+
 		$inputRES1 = generarINPUT('res1', "{$_SESSION['pre1']}?", '', '');
 		$inputRES2 = generarINPUT('res2', "{$_SESSION['pre2']}?", '', '');
 		$inputRES3 = generarINPUT('res3', "{$_SESSION['pre3']}?", '', '');
+
 		$sql = <<<SQL
 			SELECT id FROM usuarios WHERE pre1='{$_SESSION['pre1']}'
 			AND pre2='{$_SESSION['pre2']}' AND pre3='{$_SESSION['pre3']}'
 		SQL;
+
 		$id = getRegistro($sql)['id'];
 		$inputID = generarINPUT('ID', '', '', "$id");
+
 		echo <<<HTML
 			<form id="preguntasRespuestas" autocomplete="off" class="modal w3-white w3-card w3-round-large animate__animated animate__fadeInUp animate__faster w3-show">
 				<div class="w3-right-align">
@@ -36,5 +41,3 @@
 				</section>
 			</form>
 		HTML;
-	endif;
-?>
