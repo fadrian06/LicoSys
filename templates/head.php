@@ -74,13 +74,13 @@
 			if (!$producto['stock'])
 				Scripts::push(<<<HTML
 					<script>
-						setTimeout(() => alerta('{$producto['producto']} está AGOTADO').show(),3000)
+						setTimeout(() => alerta('{$producto['producto']} está AGOTADO').show(), 3000)
 
 						let intervalo{$i} = setInterval(() => {
 							alerta('{$producto['producto']} está AGOTADO').show()
 						}, $tiempo)
 
-						setTimeout(() => clearInterval(intervalo{$i}), $tiempo * 10 /*10 minutos*/)
+						setTimeout(() => clearInterval(intervalo{$i}), $tiempo * 10 /* 10 minutos */)
 					</script>
 				HTML);
 			elseif ($producto['stock'] <= 5)
@@ -92,7 +92,7 @@
 							advertencia('{$producto['producto']} CASI AGOTADO').show()
 						}, $tiempo)
 
-						setTimeout(() => clearInterval(intervalo{$i}), $tiempo * 10 /*5 minutos*/)
+						setTimeout(() => clearInterval(intervalo{$i}), $tiempo * 10 /* 5 minutos */)
 					</script>
 				HTML);
 		endforeach;
@@ -123,22 +123,22 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<meta name="theme-color" content="black">
 		<meta name="color-scheme" content="light dark">
-		<meta property="og:image" content="<?=$BASE_URL?>resources/images/logo.png">
-		<link rel="icon" href="<?=$BASE_URL?>resources/images/logo.png">
-		<link rel="stylesheet" href="<?=$BASE_URL?>resources/icons/style.min.css">
-		<link rel="stylesheet" href="<?=$BASE_URL?>resources/fonts/fuentes.css">
-		<link rel="stylesheet" href="<?=$BASE_URL?>resources/libs/noty/noty.css">
-		<link rel="stylesheet" href="<?=$BASE_URL?>resources/libs/noty/themes/sunset.css">
-		<link rel="stylesheet" href="<?=$BASE_URL?>resources/build/index.css">
-		<title><?= getenv('APP_NAME') ?></title>
-		<script src="<?=$BASE_URL?>resources/libs/jquery.min.js"></script>
-		<script src="<?=$BASE_URL?>resources/libs/w3/w3.min.js"></script>
-		<script src="<?=$BASE_URL?>resources/libs/noty/noty.min.js"></script>
-		<script src="<?=$BASE_URL?>resources/libs/Chart.js"></script>
-		<script src="<?=$BASE_URL?>resources/libs/html2pdf.bundle.min.js"></script>
-		<script src="<?=$BASE_URL?>resources/build/actualizarImagen.js"></script>
-		<script src="<?=$BASE_URL?>resources/build/funciones.js"></script>
-		<script src="<?=$BASE_URL?>resources/build/validar.js"></script>
+		<base href="<?= str_replace(['index.php', 'dashboard.php'], '', $_SERVER['SCRIPT_NAME']) ?>">
+		<link rel="icon" href="./resources/images/logo.png">
+		<link rel="stylesheet" href="./resources/icons/style.min.css">
+		<link rel="stylesheet" href="./resources/fonts/fuentes.css">
+		<link rel="stylesheet" href="./resources/libs/noty/noty.css">
+		<link rel="stylesheet" href="./resources/libs/noty/themes/sunset.css">
+		<link rel="stylesheet" href="./resources/build/index.css">
+		<title><?= getenv('APP_NAME')  ?></title>
+		<script src="./resources/libs/jquery.min.js"></script>
+		<script src="./resources/libs/w3/w3.min.js"></script>
+		<script src="./resources/libs/noty/noty.min.js"></script>
+		<script src="./resources/libs/Chart.js"></script>
+		<script src="./resources/libs/html2pdf.bundle.min.js"></script>
+		<script src="./resources/build/actualizarImagen.js"></script>
+		<script src="./resources/build/funciones.js"></script>
+		<script src="./resources/build/validar.js"></script>
 	</head>
 
 	<body class="w3-disabled">
