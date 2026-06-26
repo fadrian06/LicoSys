@@ -16,9 +16,9 @@
 	/** @var string Hace referencia a la carpeta raiz del proyecto */
 	$BASE_URL = $seEncuentraEnCarpetaViews ? '../' : '';
 
-	require "{$BASE_URL}backend/componentes.php";
-	require "{$BASE_URL}backend/conexion.php";
-	require "{$BASE_URL}backend/funciones.php";
+	require_once __DIR__ . '/../backend/componentes.php';
+	require_once __DIR__ . '/../backend/conexion.php';
+	require_once __DIR__ . '/../backend/funciones.php';
 
 	/*=================================================================
 	=            LÓGICA DE TODO EL SISTEMA, MENOS EL LOGIN            =
@@ -144,11 +144,9 @@
 		<div role="modalOverlay" class="w3-overlay w3-animate-opacity w3-hide"></div>
 		<div role="menuOverlay" class="w3-overlay w3-animate-opacity w3-hide"></div>
 
-		<?php
-			if ($archivoActual !== 'index.php'):
-				$mostrarMenu = true;
-				include 'templates/menu.php';
-			endif;
+		<?php if ($archivoActual !== 'index.php'): ?>
+			<?php $mostrarMenu = true ?>
+			<?php include __DIR__ . '/menu.php' ?>
+		<?php endif ?>
 
-			include 'templates/acercaDe.php';
-		?>
+		<?php include __DIR__ . '/acercaDe.php' ?>
