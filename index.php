@@ -9,6 +9,8 @@ use Illuminate\Container\Container;
 use Illuminate\Database\Capsule\Manager;
 use Psr\Http\Message\ResponseInterface;
 
+use function App\get_exception_handler;
+
 require_once __DIR__ . '/bootstrap/app.php';
 
 $manager = Container::getInstance()->get(Manager::class);
@@ -32,8 +34,12 @@ Scripts::push($script);
 
 if (!empty($_SESSION['userID'])) $_SESSION['userID'] = $admin['id'];
 
-$manager::table('carrito_venta')->delete();
-$manager::table('carrito_compra')->delete();
+try {
+  $manager::table('carrito_venta')->delete();
+  $manager::table('carrito_compra')->delete();
+} catch (PDOException $exception) {
+  get_exception_handler()($exception);
+}
 
 function verificarCopiaDeSeguridad(): void
 {

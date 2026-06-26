@@ -4,6 +4,7 @@
 	use Illuminate\Container\Container;
 	use Illuminate\Database\Capsule\Manager;
 
+	use function App\get_exception_handler;
 	use function App\getenv;
 
 	require_once __DIR__ . '/../vendor/autoload.php';
@@ -101,17 +102,25 @@
 	/*====================================================================
 	=            LÓGICA DE TODO EL SISTEMA, INCLUIDO EL LOGIN            =
 	====================================================================*/
-	$negocios = $manager::table('negocios')->where('activo', true)->get()->toArray();
-	$admin = (array) $manager::table('usuarios')->where('cargo', 'a')->first();
-
 	Scripts::push(<<<HTML
 		<script>
 			document.body.classList.remove('w3-disabled')
 		</script>
 	HTML);
 
-	$productosEnCarrito = $manager::table('carrito_venta')->count();
-	$productosEnCarritoCompra = $manager::table('carrito_compra')->count();
+	$negocios = [];
+	$admin = [];
+	$productosEnCarrito = 0;
+	$productosEnCarritoCompra = 0;
+
+	try {
+		$negocios = $manager::table('negocios')->where('activo', true)->get()->toArray();
+		$admin = (array) $manager::table('usuarios')->where('cargo', 'a')->first();
+		$productosEnCarrito = $manager::table('carrito_venta')->count();
+		$productosEnCarritoCompra = $manager::table('carrito_compra')->count();
+	} catch (PDOException $exception) {
+		get_exception_handler()($exception);
+	}
 
 ?>
 

@@ -1,8 +1,11 @@
 <?php
 
+	use Illuminate\Container\Container;
+	use Illuminate\Database\Capsule\Manager;
+
 	use function App\getenv;
 
-	require_once __DIR__ . '/../vendor/autoload.php';
+	require_once __DIR__ . '/../bootstrap/app.php';
 
 	/** @var array Respuesta del servidor al cliente. */
 	$respuesta = [
@@ -37,7 +40,8 @@
 	/*----------  Si no existe la base de datos, comienza la instalación  ----------*/
 	try {
 		$conexion->select_db(BD);
-	} catch (mysqli_sql_exception) {
+		Container::getInstance()->get(Manager::class)::connection()->getPdo();
+	} catch (mysqli_sql_exception | PDOException) {
 		$mostrarLoader = '<script src="resources/build/loader.js"></script>';
 	}
 
