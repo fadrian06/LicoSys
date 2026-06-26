@@ -1,4 +1,5 @@
 		<?= $mostrarLoader ?? '' ?>
-		<?= App\Scripts::isEmpty() ? $script ?? '' : App\Scripts::toHtml() ?>
+		<?= $script ?? '' ?>
+		<?= App\Scripts::isEmpty() ? '' : App\Scripts::toHtml() ?>
 	</body>
 </html>
