@@ -26,6 +26,8 @@
 					<?php
 						$checked = count($negocios) === 1 ? 'checked' : '';
 						foreach($negocios as $negocio):
+							$negocio = (array) $negocio;
+
 							$url = $negocio['logo'] ? "resources/images/negocios/{$negocio['logo']}" : 'resources/images/logoNegocio.jpg';
 							$tooltipNombreNegocio = generarTooltip($negocio['nombre']);
 							echo <<<HTML

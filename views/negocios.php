@@ -17,6 +17,8 @@
 		$botones = '';
 		$paneles = '';
 		foreach ($negocios as $negocio):
+			$negocio = (array) $negocio;
+
 			$activo = $negocio['id'] === $_SESSION['negocioID']
 				? 'w3-blue'
 				: '';

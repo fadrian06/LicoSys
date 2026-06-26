@@ -102,7 +102,7 @@
 	=            LÓGICA DE TODO EL SISTEMA, INCLUIDO EL LOGIN            =
 	====================================================================*/
 	$negocios = $manager::table('negocios')->where('activo', true)->get()->toArray();
-	$admin = $manager::table('usuarios')->where('cargo', 'a')->first();
+	$admin = (array) $manager::table('usuarios')->where('cargo', 'a')->first();
 
 	Scripts::push(<<<HTML
 		<script>
