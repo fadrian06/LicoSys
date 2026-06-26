@@ -1,12 +1,14 @@
 <?php
-	/*=================================================
-	=            VARIABLES PREESTABLECIDAS            =
-	=================================================*/
+
+	use App\Scripts;
 
 	use function App\getenv;
 
 	require_once __DIR__ . '/../vendor/autoload.php';
 
+	/*=================================================
+	=            VARIABLES PREESTABLECIDAS            =
+	=================================================*/
 	$script = '';
 	$url = explode('/', $_SERVER['SCRIPT_NAME']);
 	$archivoActual = (string) $url[count($url) - 1];
@@ -24,8 +26,8 @@
 	=            LÓGICA DE TODO EL SISTEMA, MENOS EL LOGIN            =
 	=================================================================*/
 	if ($archivoActual !== 'index.php' && key_exists('userID', $_SESSION)):
-		$script .= "<script src='{$BASE_URL}resources/build/navegacion.js'></script>";
-		$script .= "<script src='{$BASE_URL}resources/build/main.js'></script>";
+		Scripts::pushSrc('./resources/build/navegacion.js');
+		Scripts::pushSrc('./resources/build/main.js');
 
 		/*----------  No tienes preguntas y respuestas registradas  ----------*/
 		$sql = <<<SQL
@@ -36,7 +38,7 @@
 			strtolower($usuario['pre1']) === 'no especificada' || !$usuario['pre1']
 			|| strtolower($usuario['pre2']) === 'no especificada' || !$usuario['pre2']
 			|| strtolower($usuario['pre3']) === 'no especificada' || !$usuario['pre3']
-		) $script .= <<<HTML
+		) Scripts::push(<<<HTML
 			<script>
 				let textoNoTienesPreguntasNiRespuestas = `
 					<strong class="w3-text-red">
@@ -56,17 +58,17 @@
 					}, 500)
 				})
 			</script>
-		HTML;
+		HTML);
 
 		/*----------  Inventario agotado  ----------*/
 		$sql = "SELECT id, producto, stock FROM inventario";
 		$productos = getRegistros($sql);
 
-		$i = 1;
-		foreach ($productos as $producto):
+		foreach ($productos as $i => $producto):
 			$tiempo = 1000 * 60; /*60 segundos*/
+
 			if (!$producto['stock'])
-				$script .= <<<HTML
+				Scripts::push(<<<HTML
 					<script>
 						setTimeout(() => alerta('{$producto['producto']} está AGOTADO').show(),3000)
 
@@ -76,9 +78,9 @@
 
 						setTimeout(() => clearInterval(intervalo{$i}), $tiempo * 10 /*10 minutos*/)
 					</script>
-				HTML;
+				HTML);
 			elseif ($producto['stock'] <= 5)
-				$script .= <<<HTML
+				Scripts::push(<<<HTML
 					<script>
 						setTimeout(() => advertencia('{$producto['producto']} CASI AGOTADO').show(), 3000)
 
@@ -88,8 +90,7 @@
 
 						setTimeout(() => clearInterval(intervalo{$i}), $tiempo * 10 /*5 minutos*/)
 					</script>
-				HTML;
-			++$i;
+				HTML);
 		endforeach;
 	endif;
 
@@ -99,14 +100,15 @@
 	$negocios = getRegistros('SELECT * FROM negocios WHERE activo=1');
 	$admin    = getRegistro("SELECT * FROM usuarios WHERE cargo='a'");
 
-	$script .= <<<HTML
+	Scripts::push(<<<HTML
 		<script>
 			document.body.classList.remove('w3-disabled')
 		</script>
-	HTML;
+	HTML);
 
 	$productosEnCarrito = contarRegistros('carrito_venta');
 	$productosEnCarritoCompra = contarRegistros('carrito_compra');
+
 ?>
 
 <!DOCTYPE html>
