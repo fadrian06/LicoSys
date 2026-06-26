@@ -31,58 +31,58 @@ if ($response instanceof ResponseInterface) {
 /*======================================
 =            LÓGICA INICIAL            =
 ======================================*/
-include 'templates/head.php';
+include __DIR__ . '/templates/head.php';
 
 if (!empty($_SESSION['userID'])) $_SESSION['userID'] = $admin['id'];
 
 setRegistro('TRUNCATE TABLE carrito_venta');
 setRegistro('TRUNCATE TABLE carrito_compra');
 
-function verificarCopiaDeSeguridad()
+function verificarCopiaDeSeguridad(): void
 {
- global $script;
+  global $script;
 
- if (file_exists('backup/backup.sql'))
-   $script .= '<script src="resources/build/restaurarBD.js"></script>';
+  if (file_exists(__DIR__ . '/backup/backup.sql'))
+    $script .= '<script src="resources/build/restaurarBD.js"></script>';
 }
 
 /*----------  Si no hay negocios, solicita registro  ----------*/
 if (!isset($mostrarLoader) and !$negocios):
- verificarCopiaDeSeguridad();
- $mostrarRegistro = true;
- include 'templates/registrarNegocio.php';
- $script .= '<script src="resources/build/registrarNegocio.js"></script>';
+  verificarCopiaDeSeguridad();
+  $mostrarRegistro = true;
+  include __DIR__ . '/templates/registrarNegocio.php';
+  $script .= '<script src="./resources/build/registrarNegocio.js"></script>';
 
 /*----------  Si no hay administrador, solicita registro  ----------*/
 elseif (!isset($mostrarLoader) and !$admin):
- verificarCopiaDeSeguridad();
- $mostrarRegistro = true;
- include 'templates/registrarAdmin.php';
- $script .= '<script src="resources/build/registrarAdmin.js"></script>';
+  verificarCopiaDeSeguridad();
+  $mostrarRegistro = true;
+  include __DIR__ . '/templates/registrarAdmin.php';
+  $script .= '<script src="./resources/build/registrarAdmin.js"></script>';
 
 /*----------  Si el administrador no tiene preguntas secretas, solicita registro  ----------*/
 elseif (!isset($mostrarLoader) and !$admin['pre1']):
- verificarCopiaDeSeguridad();
- $mostrarRegistro = true;
- include 'templates/registroPreguntasRespuestas.php';
- $script .= '<script src="resources/build/registrarPreguntasRespuestas.js"></script>';
+  verificarCopiaDeSeguridad();
+  $mostrarRegistro = true;
+  include __DIR__ . '/templates/registroPreguntasRespuestas.php';
+  $script .= '<script src="./resources/build/registrarPreguntasRespuestas.js"></script>';
 
 /*----------  Muestra el login  ----------*/
 elseif (!isset($mostrarLoader)):
- $mostrarLogin = true;
- include 'templates/login.php';
- include 'templates/consultarPreguntasRespuestas.php';
+  $mostrarLogin = true;
+  include __DIR__ . '/templates/login.php';
+  include __DIR__ . '/templates/consultarPreguntasRespuestas.php';
 
- if (isset($_SESSION['showQuestions']))
-   include 'templates/preguntasRespuestas.php';
+  if (isset($_SESSION['showQuestions']))
+    include __DIR__ . '/templates/preguntasRespuestas.php';
 
- if (isset($_SESSION['changePassword']))
-   include 'templates/cambiarClave.php';
+  if (isset($_SESSION['changePassword']))
+    include __DIR__ . '/templates/cambiarClave.php';
 
- $script .= '<script src="resources/libs/typedjs/typed.min.js"></script>';
- $script .= '<script src="resources/build/reloj.js"></script>';
- $script .= '<script src="resources/build/login.js"></script>';
- $script .= '<script src="resources/build/recuperarClave.js"></script>';
+  $script .= '<script src="./resources/libs/typedjs/typed.min.js"></script>';
+  $script .= '<script src="./resources/build/reloj.js"></script>';
+  $script .= '<script src="./resources/build/login.js"></script>';
+  $script .= '<script src="./resources/build/recuperarClave.js"></script>';
 endif;
 
-include 'templates/footer.php';
+include __DIR__ . '/templates/footer.php';
