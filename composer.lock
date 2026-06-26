@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d52afaa93d766dd0f2735e467efa80c0",
+    "content-hash": "83283f102d75e13760768b0642bc6c69",
     "packages": [
         {
             "name": "brick/math",
@@ -868,6 +868,71 @@
                 "source": "https://github.com/laravel/serializable-closure"
             },
             "time": "2026-04-16T14:03:50+00:00"
+        },
+        {
+            "name": "leafs/bareui",
+            "version": "v1.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/leafsphp/bareui.git",
+                "reference": "eccdf95c4a546b7dbf7f4d647d18d18061f40742"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/leafsphp/bareui/zipball/eccdf95c4a546b7dbf7f4d647d18d18061f40742",
+                "reference": "eccdf95c4a546b7dbf7f4d647d18d18061f40742",
+                "shasum": ""
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "^3.65",
+                "leafs/alchemy": "^2.1"
+            },
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "src/scripts.php"
+                ],
+                "psr-4": {
+                    "Leaf\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Michael Darko",
+                    "email": "mickdd22@gmail.com",
+                    "homepage": "https://mychi.netlify.app",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Leaf PHP bareui templating engine",
+            "homepage": "https://leafphp.netlify.app/#/",
+            "keywords": [
+                "framework",
+                "leaf",
+                "php",
+                "simple templating",
+                "template",
+                "view"
+            ],
+            "support": {
+                "issues": "https://github.com/leafsphp/bareui/issues",
+                "source": "https://github.com/leafsphp/bareui/tree/v1.2"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/leafsphp",
+                    "type": "github"
+                },
+                {
+                    "url": "https://opencollective.com/leaf",
+                    "type": "open_collective"
+                }
+            ],
+            "time": "2024-12-01T17:49:09+00:00"
         },
         {
             "name": "nesbot/carbon",

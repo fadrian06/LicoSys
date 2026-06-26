@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use App\BareUI;
 use App\Http\Controllers\IndexController;
 use App\Http\Middleware\RedirectIfAuthenticated;
 use App\Scripts;
@@ -47,38 +48,53 @@ function verificarCopiaDeSeguridad(): void
     Scripts::pushSrcOnce('./resources/build/restaurarBD.js');
 }
 
+$bareUi = Container::getInstance()->get(BareUI::class);
+$bareUi::config('params', $GLOBALS);
+
 /*----------  Si no hay negocios, solicita registro  ----------*/
 if (!isset($mostrarLoader) and !$negocios):
   verificarCopiaDeSeguridad();
-  $mostrarRegistro = true;
-  include __DIR__ . '/templates/registrarNegocio.php';
+
+  echo $bareUi::render(
+    'templates/registrarNegocio.php',
+    ['mostrarRegistro' => true]
+  );
+
   Scripts::pushSrcOnce('./resources/build/registrarNegocio.js');
 
 /*----------  Si no hay administrador, solicita registro  ----------*/
 elseif (!isset($mostrarLoader) and !$admin):
   verificarCopiaDeSeguridad();
-  $mostrarRegistro = true;
-  include __DIR__ . '/templates/registrarAdmin.php';
+
+  echo $bareUi::render(
+    'templates/registrarAdmin.php',
+    ['mostrarRegistro' => true],
+  );
+
   Scripts::pushSrcOnce('./resources/build/registrarAdmin.js');
 
 /*----------  Si el administrador no tiene preguntas secretas, solicita registro  ----------*/
 elseif (!isset($mostrarLoader) and !$admin['pre1']):
   verificarCopiaDeSeguridad();
-  $mostrarRegistro = true;
-  include __DIR__ . '/templates/registroPreguntasRespuestas.php';
+
+  echo $bareUi::render(
+    'templates/registroPreguntasRespuestas.php',
+    ['mostrarRegistro' => true],
+  );
+
   Scripts::pushSrcOnce('./resources/build/registrarPreguntasRespuestas.js');
 
 /*----------  Muestra el login  ----------*/
 elseif (!isset($mostrarLoader)):
-  $mostrarLogin = true;
-  include __DIR__ . '/templates/login.php';
-  include __DIR__ . '/templates/consultarPreguntasRespuestas.php';
+  $bareUi::setParam('mostrarLogin', true);
+  echo $bareUi::render('templates/login.php');
+  echo $bareUi::render('templates/consultarPreguntasRespuestas.php');
 
   if (isset($_SESSION['showQuestions']))
-    include __DIR__ . '/templates/preguntasRespuestas.php';
+    echo $bareUi::render('templates/preguntasRespuestas.php');
 
   if (isset($_SESSION['changePassword']))
-    include __DIR__ . '/templates/cambiarClave.php';
+    echo $bareUi::render('templates/cambiarClave.php');
 
   Scripts::pushSrcOnce('./resources/libs/typedjs/typed.min.js');
   Scripts::pushSrcOnce('./resources/build/reloj.js');
@@ -86,4 +102,7 @@ elseif (!isset($mostrarLoader)):
   Scripts::pushSrcOnce('./resources/build/recuperarClave.js');
 endif;
 
-include __DIR__ . '/templates/footer.php';
+echo $bareUi::render('templates/footer.php', [
+  'mostrarLoader' => $mostrarLoader ?? '',
+  'script' => $script ?? '',
+]);

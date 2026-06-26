@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use App\BareUI;
 use GuzzleHttp\Psr7\HttpFactory;
 use GuzzleHttp\Psr7\ServerRequest;
 use Illuminate\Container\Container;
@@ -35,3 +36,10 @@ Container::getInstance()->singletonIf(Manager::class, static function (): Manage
 
   return $manager;
 });
+
+Container::getInstance()
+  ->when(BareUI::class)
+  ->needs('$path')
+  ->give(__DIR__ . '/..');
+
+Container::getInstance()->singletonIf(BareUI::class);
