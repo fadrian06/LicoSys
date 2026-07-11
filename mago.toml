@@ -3,8 +3,8 @@
 # For full documentation, see https://mago.carthage.software/1.30.0/en/tools/overview/
 allow-unsupported-php-version = false
 editor-url = ""
-php-version = "8.3.31"
-version = "1.30.0"
+php-version = "8.3.32"
+version = "1.43.0"
 
 [analyzer]
 allow-array-truthy-operand = false
