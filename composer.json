@@ -21,19 +21,19 @@
 	"require": {
 		"php-64bit": ">=8.3",
 		"ext-session": ">=8.3",
-		"guzzlehttp/psr7": "2.12.1",
-		"illuminate/container": "v13.16.1",
-		"illuminate/database": "v13.17.0",
+		"guzzlehttp/psr7": "2.12.4",
+		"illuminate/container": "v13.19.0",
+		"illuminate/database": "v13.19.0",
 		"leafs/bareui": "v1.2",
 		"psr/http-server-handler": "1.0.2",
 		"psr/http-server-middleware": "1.0.2",
-		"symfony/dotenv": "v7.4.11"
+		"symfony/dotenv": "v7.4.14"
 	},
 	"require-dev": {
-		"carthage-software/mago": "1.30.0",
-		"guzzlehttp/guzzle": "7.12.1",
-		"phpunit/phpunit": "12.5.30",
-		"symfony/var-dumper": "v7.4.8"
+		"carthage-software/mago": "1.43.0",
+		"guzzlehttp/guzzle": "7.14.0",
+		"phpunit/phpunit": "12.5.31",
+		"symfony/var-dumper": "v7.4.14"
 	},
 	"scripts": {
 		"analyze": "mago analyze --no-stubs --sort -m note",
