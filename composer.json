@@ -37,19 +37,19 @@
 	},
 	"scripts": {
 		"analyze": "mago analyze --no-stubs --sort -m note",
-		"analyze:watch": "composer analyze -- --watch",
+		"analyze:watch": "@analyze --watch",
 		"ci": [
 			"phpunit -d memory_limit=512M --colors=auto --no-progress --with-telemetry --coverage-text --coverage-html tests/coverage --coverage-xml tests/coverage --show-uncovered-for-coverage-text --path-coverage",
 			"php tests/check-coverage.php",
-			"composer analyze",
-			"composer lint",
-			"composer format -- -c"
+			"@analyze",
+			"@lint",
+			"@format -c"
 		],
 		"dev": "php -S localhost:80",
 		"fix": [
-			"composer lint -- --fix --unsafe --potentially-unsafe --format-after-fix --fail-on-remaining",
-			"composer analyze -- --fix --unsafe --potentially-unsafe --format-after-fix --fail-on-remaining",
-			"composer guard -- --fix --unsafe --potentially-unsafe --format-after-fix --fail-on-remaining"
+			"@lint --fix --unsafe --potentially-unsafe --format-after-fix --fail-on-remaining",
+			"@analyze --fix --unsafe --potentially-unsafe --format-after-fix --fail-on-remaining",
+			"@guard --fix --unsafe --potentially-unsafe --format-after-fix --fail-on-remaining"
 		],
 		"format": "mago format",
 		"guard": "mago guard --no-stubs --sort -m note",
