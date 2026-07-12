@@ -12,7 +12,6 @@
 	/*=================================================
 	=            VARIABLES PREESTABLECIDAS            =
 	=================================================*/
-	$script = '';
 	$url = explode('/', $_SERVER['SCRIPT_NAME']);
 	$archivoActual = (string) $url[count($url) - 1];
 
@@ -32,8 +31,8 @@
 	=            LÓGICA DE TODO EL SISTEMA, MENOS EL LOGIN            =
 	=================================================================*/
 	if ($archivoActual !== 'index.php' && key_exists('userID', $_SESSION)):
-		Scripts::pushSrc('./resources/build/navegacion.js');
-		Scripts::pushSrc('./resources/build/main.js');
+		Scripts::pushSrcOnce('./resources/build/navegacion.js');
+		Scripts::pushSrcOnce('./resources/build/main.js');
 
 		/*----------  No tienes preguntas y respuestas registradas  ----------*/
 		$usuario = (array) $manager::table('usuarios')->find(

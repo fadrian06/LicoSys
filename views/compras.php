@@ -1,4 +1,7 @@
 <?php
+
+	use App\Scripts;
+
 	session_start();
 	if (!isset($_SESSION['activa'])) header('location: ../salir.php');
 
@@ -120,7 +123,7 @@
 		echo '</div>';
 	else:
 		include '../templates/head.php';
-		$script .= "<script src='{$BASE_URL}resources/build/restringido.js'></script>";
+		Scripts::pushSrcOnce('./resources/build/restringido.js');
 		include '../templates/footer.php';
 	endif;
 ?>

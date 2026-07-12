@@ -31,7 +31,6 @@ if ($response instanceof ResponseInterface) {
 =            LÓGICA INICIAL            =
 ======================================*/
 include __DIR__ . '/templates/head.php';
-Scripts::push($script);
 
 if (!empty($_SESSION['userID'])) $_SESSION['userID'] = $admin['id'];
 
@@ -104,5 +103,4 @@ endif;
 
 echo $bareUi::render('templates/footer.php', [
   'mostrarLoader' => $mostrarLoader ?? '',
-  'script' => $script ?? '',
 ]);
