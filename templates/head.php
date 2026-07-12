@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use App\Scripts;
 use Illuminate\Container\Container;
 use Illuminate\Database\Capsule\Manager;

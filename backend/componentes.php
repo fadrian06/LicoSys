@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 const LOADER = <<<'HTML'
   <div class="loader" id="loader">
     <i class="w3-block w3-spin icon-spinner"></i>
@@ -12,8 +14,8 @@ HTML;
  * Requisitos:
  *
  * - Debe incluirse en un contenedor con la clase `w3-dropdown-hover`
- * @param  string $texto El texto del tooltip.
- * @param  bool   $center Si quieres el tooltip centrado (Por defecto)
+ * @param string $texto El texto del tooltip.
+ * @param bool $center Si quieres el tooltip centrado (Por defecto)
  * @return string Texto HTML para incluir.
  */
 function generarTooltip(string $texto, bool $center = true): string
