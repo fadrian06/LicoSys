@@ -99,12 +99,6 @@ endif;
 /*====================================================================
 =            LÓGICA DE TODO EL SISTEMA, INCLUIDO EL LOGIN            =
 ====================================================================*/
-Scripts::push(<<<HTML
-  <script>
-    document.body.classList.remove('w3-disabled')
-  </script>
-HTML);
-
 $negocios = [];
 $admin = [];
 $productosEnCarrito = 0;
@@ -147,7 +141,7 @@ try {
     <script src="./resources/build/validar.js"></script>
   </head>
 
-  <body class="w3-disabled">
+  <body>
     <!--==================================
     =            FONDO OSCURO            =
     ===================================-->
