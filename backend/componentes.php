@@ -1,24 +1,28 @@
 <?php
+
 	$EXPRESIONES = [
 		'clave' => '[!#$%&/=?¿¡@+.\-\w]{4,20}'
 	];
 
-	const LOADER = '
+	const LOADER = <<<'html'
 		<div class="loader" id="loader">
 			<i class="w3-block w3-spin icon-spinner"></i>
 		</div>
-	';
+	html;
 
 	/**
-	 * Genera una pequeña ventana emergente con el texto que desees.<br>
-	 * <u>Requisitos</u><br>
-	 * - Debe incluirse en un contenedor con la `class="w3-dropdown-hover"`
+	 * Genera una pequeña ventana emergente con el texto que desees.
+	 *
+	 * Requisitos:
+	 *
+	 * - Debe incluirse en un contenedor con la clase `w3-dropdown-hover`
 	 * @param  string $texto El texto del tooltip.
 	 * @param  bool   $center Si quieres el tooltip centrado (Por defecto)
-	 * @return [string]        Texto HTML para incluir.
+	 * @return string Texto HTML para incluir.
 	 */
 	function generarTooltip(string $texto, bool $center = true): string {
 		$centrado = $center ? 'w3-center' : 'w3-left-align';
+
 		return <<<HTML
 			<div class="w3-dropdown-content w3-padding-small w3-card-4 w3-white $centrado">
 				<b>$texto</b>
@@ -26,21 +30,7 @@
 		HTML;
 	}
 
-	/**
-	 * Botones HTML
-	 * @var array [<br>
-	 * &nbsp;'REGISTRAR_USUARIO' or<br>
-	 * &nbsp;'NUEVA_VENTA' or<br>
-	 * &nbsp;'NUEVA_COMPRA' or<br>
-	 * &nbsp;'REGISTRAR_CLIENTE' or<br>
-	 * &nbsp;'REGISTRAR_PROVEEDOR' or<br>
-	 * &nbsp;'REGISTRAR_NEGOCIO' or<br>
-	 * &nbsp;'REGISTRAR_PRODUCTO' or<br>
-	 * &nbsp;'REGISTRAR_COMBO' or<br>
-	 * &nbsp;'RESPALDAR' or<br>
-	 * &nbsp;'RESTAURAR'<br>
-	 * ]
-	 */
+	/** Botones HTML */
 	const BOTONES = [
 		'REGISTRAR_USUARIO' => <<<HTML
 			<button onclick="modal(this)" data-target="#registrarUsuario" class="w3-blue w3-text-black w3-button w3-circle w3-border w3-border-black">
@@ -112,19 +102,18 @@
 
 	/**
 	 * Genera un `<input>` HTML
-	 * @param  string $nombre El nombre del input. <br><br>
-	 * `'CLAVE', 'CONFIRMAR', 'USUARIO', 'CEDULA', 'IVA', `<br>`
-	 * 'DOLAR', 'PESO', 'res1', 'res2', 'res3', 'NOMBRE', `<br>`
-	 * 'TELEFONO', 'NOMBRE_NEGOCIO', 'RIF', 'DIRECCION', `<br>`
-	 * 'pre1', 'pre2', 'pre3', 'ID', 'CODIGO', 'STOCK', `<br>`
-	 * 'PRECIO', 'EXCENTO', 'BS'`
+	 * @param 'CLAVE'|'CONFIRMAR'|'USUARIO'|'CEDULA'|'IVA'|'DOLAR'|'PESO'|
+	 * 'res1'|'res2'|'res3'|'NOMBRE'|'TELEFONO'|'NOMBRE_NEGOCIO'|'RIF'|
+	 * 'DIRECCION'|'pre1'|'pre2'|'pre3'|'ID'|'CODIGO'|'STOCK'|'PRECIO'|'EXCENTO'|
+	 * 'BS' $nombre El nombre del input.
 	 * @param  string $label El título del `<input>`
 	 * @param  string $placeholder El placeholder del input.
 	 * @param string $value El valor por defecto del `<input>`
 	 * @return string El elemento `<input>`
 	 */
-	function generarINPUT(string $nombre, string $label, string $placeholder = '', string $value = ''):string {
+	function generarINPUT(string $nombre, string $label, string $placeholder = '', string $value = ''): string {
 		global $EXPRESIONES;
+
 		switch ($nombre):
 			case 'CLAVE':
 				return <<<HTML
@@ -426,18 +415,20 @@
 					</fieldset>
 				HTML;
 		endswitch;
+
+		return '';
 	}
 
 	/**
-	 * @param  string       $tipo      `div` o `form`
+	 * @param  'div'|'form' $tipo
 	 * @param  string       $id        El ID del modal.
 	 * @param  string       $titulo    Contenido HTML para el título del modal.
 	 * @param  string       $contenido Contenido HTML para el contenido del modal.
-	 * @param  bool|boolean $cerrar    Si quieres agregar el botón de cerrar el modal, por defecto es `true`.
-	 * @param  bool|boolean $mostrar   Si quieres mostrar el modal cuando cargue la vista, por defecto es `false`.
+	 * @param  bool $cerrar    Si quieres agregar el botón de cerrar el modal, por defecto es `true`.
+	 * @param  bool $mostrar   Si quieres mostrar el modal cuando cargue la vista, por defecto es `false`.
 	 * @return void                    No retorna, imprime el modal.
 	 */
-	function generarModal(string $tipo, string $id, string $titulo, string $contenido, bool $cerrar = true, bool $mostrar = false) {
+	function generarModal(string $tipo, string $id, string $titulo, string $contenido, bool $cerrar = true, bool $mostrar = false): void {
 		$mostrar = $mostrar ? 'w3-show' : 'w3-hide';
 
 		echo "<$tipo id='$id' class='modal w3-white w3-card w3-round-large animate__animated animate__fadeInUp animate__faster $mostrar'>";
@@ -453,4 +444,3 @@
 			HTML;
 		echo "</$tipo>";
 	}
-?>
