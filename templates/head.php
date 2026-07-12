@@ -13,13 +13,7 @@
 	=            VARIABLES PREESTABLECIDAS            =
 	=================================================*/
 	$url = explode('/', $_SERVER['SCRIPT_NAME']);
-	$archivoActual = (string) $url[count($url) - 1];
-
-	/** Indica si el usuario intenta acceder a una vista mediante la URL */
-	$seEncuentraEnCarpetaViews = $url[count($url) - 2] === 'views' ? true : false;
-
-	/** Hace referencia a la carpeta raiz del proyecto */
-	$BASE_URL = $seEncuentraEnCarpetaViews ? '../' : '';
+	$archivoActual = array_last($url);
 
 	require_once __DIR__ . '/../backend/componentes.php';
 	require_once __DIR__ . '/../backend/conexion.php';
@@ -28,7 +22,7 @@
 	$manager = Container::getInstance()->get(Manager::class);
 
 	/*=================================================================
-	=            LÓGICA DE TODO EL SISTEMA, MENOS EL LOGIN            =
+	=            LÓGICA DE TOD0 EL SISTEMA, MENOS EL LOGIN            =
 	=================================================================*/
 	if ($archivoActual !== 'index.php' && key_exists('userID', $_SESSION)):
 		Scripts::pushSrcOnce('./resources/build/navegacion.js');
