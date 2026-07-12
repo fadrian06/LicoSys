@@ -71,6 +71,7 @@
 		$productos = $manager::table('inventario')->get(['id', 'producto', 'stock'])->toArray();
 
 		foreach ($productos as $i => $producto):
+			$producto = (array) $producto;
 			$tiempo = 1000 * 60; /*60 segundos*/
 
 			if (!$producto['stock'])

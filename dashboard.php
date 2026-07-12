@@ -60,41 +60,38 @@
 			$cantidadProductos[] = $venta['unidades'];
 		endforeach;
 
-		$cantidadProductos[] = 0;
-
 		$nombresProductos = json_encode($nombresProductos, JSON_INVALID_UTF8_IGNORE);
 		$cantidadProductos = json_encode($cantidadProductos, JSON_INVALID_UTF8_IGNORE);
 
 		Scripts::pushInline(<<<JS
 			const xValues = $nombresProductos
-				const yValues = $cantidadProductos
-				const barColors = ['red', 'green', 'yellow', 'black', 'blue']
+			const yValues = $cantidadProductos
+			const barColors = ['red', 'green', 'yellow', 'black', 'blue']
 
-				new Chart('productosMasVendidos', {
-					type: 'bar',
-					data: {
-						labels: xValues,
-						datasets: [{
-							backgroundColor: barColors,
-							data: yValues
-						}]
-					},
-					options: {
-						legend: {display: false},
-						scales: {
-							y: {
-								beginAtZero: true
-							}
+			new Chart('productosMasVendidos', {
+				type: 'bar',
+				data: {
+					labels: xValues,
+					datasets: [{
+						backgroundColor: barColors,
+						data: yValues
+					}]
+				},
+				options: {
+					legend: {display: false},
+					scales: {
+						y: {
+							beginAtZero: true
 						}
 					}
-				})
+				}
+			})
 		JS);
 	endif;
 
-	$sql = <<<SQL
-		SELECT id FROM inventario WHERE negocio_id={$_SESSION['negocioID']}
-	SQL;
+	$sql = "SELECT id FROM inventario WHERE negocio_id = {$_SESSION['negocioID']}";
 	$cantidadProductos = consulta($sql);
+
 ?>
 
 <main class="w3-container w3-light-gray">
@@ -180,26 +177,28 @@
 			</table>
 		</section>
 	</div>
-	<?php if($_SESSION['cargo'] === 'a' && $recientes): ?>
+	<?php if($_SESSION['cargo'] === 'a'): ?>
 		<section class="w3-row w3-container w3-border-bottom w3-padding-24">
-			<!--========================================
-			=            USUARIOS RECIENTES            =
-			=========================================-->
-			<ul class="w3-col s12 m5 w3-ul w3-card-4 w3-white">
-				<div class="w3-dropdown-hover w3-transparent w3-block">
-					<a href="views/log.php" role="navegacion" class="w3-button w3-block w3-border-bottom w3-light-gray w3-text-indigo w3-xlarge">
-						Usuarios recientes
-					</a>
-					<?=generarTooltip('Ver Registro de Sesiones')?>
-				</div>
-				<?php foreach($recientes as $usuario): ?>
-					<li class="w3-padding-16">
-						<img src="<?=!empty($usuario['foto']) ? "resources/images/perfil/{$usuario['foto']}" : "resources/images/avatar2.png"?>" class="w3-circle w3-margin-right" style="width: 50px">
-						<span class="w3-large"><?=$usuario['nombre']?></span>
-					</li>
-				<?php endforeach ?>
-			</ul>
-			<div class="w3-col s0 m1">&nbsp;</div>
+			<?php if ($recientes): ?>
+				<!--========================================
+				=            USUARIOS RECIENTES            =
+				=========================================-->
+				<ul class="w3-col s12 m5 w3-ul w3-card-4 w3-white">
+					<div class="w3-dropdown-hover w3-transparent w3-block">
+						<a href="views/log.php" role="navegacion" class="w3-button w3-block w3-border-bottom w3-light-gray w3-text-indigo w3-xlarge">
+							Usuarios recientes
+						</a>
+						<?=generarTooltip('Ver Registro de Sesiones')?>
+					</div>
+					<?php foreach($recientes as $usuario): ?>
+						<li class="w3-padding-16">
+							<img src="<?=!empty($usuario['foto']) ? "resources/images/perfil/{$usuario['foto']}" : "resources/images/avatar2.png"?>" class="w3-circle w3-margin-right" style="width: 50px">
+							<span class="w3-large"><?=$usuario['nombre']?></span>
+						</li>
+					<?php endforeach ?>
+				</ul>
+				<div class="w3-col s0 m1">&nbsp;</div>
+			<?php endif ?>
 			<!--============================================
 			=            PRODUCTOS MÁS VENDIDOS            =
 			=============================================-->
