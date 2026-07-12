@@ -2,6 +2,8 @@
 
 	declare(strict_types=1);
 
+	use App\Scripts;
+
 	require_once __DIR__ . '/bootstrap/app.php';
 
 	session_start();
@@ -62,9 +64,9 @@
 
 		$nombresProductos = json_encode($nombresProductos, JSON_INVALID_UTF8_IGNORE);
 		$cantidadProductos = json_encode($cantidadProductos, JSON_INVALID_UTF8_IGNORE);
-		$script .= <<<HTML
-			<script>
-				const xValues = $nombresProductos
+
+		Scripts::pushInline(<<<JS
+			const xValues = $nombresProductos
 				const yValues = $cantidadProductos
 				const barColors = ['red', 'green', 'yellow', 'black', 'blue']
 
@@ -86,8 +88,7 @@
 						}
 					}
 				})
-			</script>
-		HTML;
+		JS);
 	endif;
 
 	$sql = <<<SQL
