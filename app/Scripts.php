@@ -28,6 +28,11 @@ final class Scripts
     }
   }
 
+  public static function pushInline(string $script): void
+  {
+    self::push("<script>$script</script>");
+  }
+
   public static function toHtml(): string
   {
     return join('', self::$scripts);
