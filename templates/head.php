@@ -3,6 +3,7 @@
 	use App\Scripts;
 	use Illuminate\Container\Container;
 	use Illuminate\Database\Capsule\Manager;
+	use Psr\Http\Message\ServerRequestInterface;
 
 	use function App\get_exception_handler;
 	use function App\getenv;
@@ -12,8 +13,7 @@
 	/*=================================================
 	=            VARIABLES PREESTABLECIDAS            =
 	=================================================*/
-	$url = explode('/', $_SERVER['SCRIPT_NAME']);
-	$archivoActual = array_last($url);
+	$path = Container::getInstance()->get(ServerRequestInterface::class)->getUri()->getPath();
 
 	require_once __DIR__ . '/../backend/componentes.php';
 	require_once __DIR__ . '/../backend/conexion.php';
@@ -24,7 +24,7 @@
 	/*=================================================================
 	=            LÓGICA DE TOD0 EL SISTEMA, MENOS EL LOGIN            =
 	=================================================================*/
-	if ($archivoActual !== 'index.php' && key_exists('userID', $_SESSION)):
+	if ($path === '/dashboard.php' && key_exists('userID', $_SESSION)):
 		Scripts::pushSrcOnce('./resources/build/navegacion.js');
 		Scripts::pushSrcOnce('./resources/build/main.js');
 
@@ -152,7 +152,7 @@
 		<div role="modalOverlay" class="w3-overlay w3-animate-opacity w3-hide"></div>
 		<div role="menuOverlay" class="w3-overlay w3-animate-opacity w3-hide"></div>
 
-		<?php if ($archivoActual !== 'index.php'): ?>
+		<?php if ($path === '/dashboard.php'): ?>
 			<?php $mostrarMenu = true ?>
 			<?php include __DIR__ . '/menu.php' ?>
 		<?php endif ?>
