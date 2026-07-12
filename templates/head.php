@@ -16,9 +16,10 @@
 	$url = explode('/', $_SERVER['SCRIPT_NAME']);
 	$archivoActual = (string) $url[count($url) - 1];
 
-	/** @var bool Indica si el usuario intenta acceder a una vista mediante la URL */
+	/** Indica si el usuario intenta acceder a una vista mediante la URL */
 	$seEncuentraEnCarpetaViews = $url[count($url) - 2] === 'views' ? true : false;
-	/** @var string Hace referencia a la carpeta raiz del proyecto */
+
+	/** Hace referencia a la carpeta raiz del proyecto */
 	$BASE_URL = $seEncuentraEnCarpetaViews ? '../' : '';
 
 	require_once __DIR__ . '/../backend/componentes.php';
