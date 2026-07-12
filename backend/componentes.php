@@ -1,9 +1,5 @@
 <?php
 
-	$EXPRESIONES = [
-		'clave' => '[!#$%&/=?¿¡@+.\-\w]{4,20}'
-	];
-
 	const LOADER = <<<'html'
 		<div class="loader" id="loader">
 			<i class="w3-block w3-spin icon-spinner"></i>
@@ -112,8 +108,6 @@
 	 * @return string El elemento `<input>`
 	 */
 	function generarINPUT(string $nombre, string $label, string $placeholder = '', string $value = ''): string {
-		global $EXPRESIONES;
-
 		switch ($nombre):
 			case 'CLAVE':
 				return <<<HTML
@@ -131,7 +125,7 @@
 									required
 									minlength="4"
 									maxlength="20"
-									pattern="{$EXPRESIONES['clave']}"
+									pattern="[!#$%&/=?¿¡@+.\-\w]{4,20}"
 									title="Sólo se permiten entre 4 y 20 letras, números y símbolos (. - _ @ # / *)"
 									class="w3-input w3-border-0 w3-large">
 								<div class="w3-display-right w3-xxlarge icon-eye w3-show"></div>
@@ -155,7 +149,7 @@
 									required
 									minlength="4"
 									maxlength="20"
-									pattern="{$EXPRESIONES['clave']}"
+									pattern="[!#$%&/=?¿¡@+.\-\w]{4,20}"
 									title="Sólo se permiten entre 4 y 20 letras, números y símbolos (. - _ @ # / *)"
 									class="w3-input w3-border-0 w3-large">
 								<div class="w3-display-right w3-xxlarge icon-eye w3-show"></div>
