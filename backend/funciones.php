@@ -389,18 +389,6 @@ function tabla(
   endif;
 }
 
-/** Muestra variables en formato más legible */
-function depurar($dato, string $nombre = '')
-{
-  echo '<pre class="w3-orange w3-padding-large">';
-  echo $nombre ? "$nombre: " : '';
-  if (is_array($dato)) print_r($dato);
-  elseif (is_object($dato)) print_r($dato);
-  elseif (is_bool($dato)) echo $dato ? 'true' : 'false';
-  else var_dump(htmlspecialchars($dato));
-  echo '</pre>';
-}
-
 /**
  * Obtener múltiples filas
  * @param  string $sql La sentencia SELECT
