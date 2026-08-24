@@ -1,4 +1,43 @@
-<?php use function App\getenv; if (isset($mostrarMenu) && key_exists('cargo', $_SESSION)): ?>
+<?php
+
+use function App\getenv;
+
+if (!isset($mostrarMenu) || !key_exists('cargo', $_SESSION)) {
+	return;
+}
+
+/**
+ * Retorna la fecha y hora actual
+ * @return string La fecha y hora formateada.
+ */
+function fecha(): string
+{
+	date_default_timezone_set('America/Caracas');
+	$dias = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
+	$meses = [
+		1 => 'Enero',
+		'Febrero',
+		'Marzo',
+		'Abril',
+		'Mayo',
+		'Junio',
+		'Julio',
+		'Agosto',
+		'Septiembre',
+		'Octubre',
+		'Noviembre',
+		'Diciembre'
+	];
+	$diaSemana = (int) date('w');
+	$diaActual = (int) date('d');
+	$mesActual = (int) date('m');
+	$añoActual = (int) date('Y');
+
+	return "$dias[$diaSemana], $diaActual de $meses[$mesActual] del $añoActual";
+}
+
+?>
+
 	<!--====================================
 	=            BARRA SUPERIOR            =
 	=====================================-->
@@ -161,4 +200,3 @@
 		</nav>
 		<br><br><br><br><br>
 	</aside>
-<?php endif ?>

@@ -13,6 +13,21 @@
 
 	$versiones = getRegistros('SELECT * FROM versiones ORDER BY id DESC');
 
+	/**
+	 * Obtiene, respalda y retorna la información de una API
+	 * @param  string $url La URL de la API
+	 * @param  string $urlJSON La ruta relativa al archivo JSON local.
+	 * @return array Un array asociativo con la respuesta de la API.
+	 */
+	function getAPI(string $url, string $urlJSON): array
+	{
+	  $data = @file_get_contents($url) ?: @file_get_contents($urlJSON);
+	  @file_put_contents($urlJSON, $data);
+	  $data = json_decode($data, true, 512, JSON_INVALID_UTF8_IGNORE);
+
+	  return $data;
+	}
+
 	$data = getAPI('https://ve.dolarapi.com/v1/cotizaciones', __DIR__ . '/resources/json/cotizaciones.json');
 	$dolarBCV = round($data[0]['promedio'], 2);
 	$dolarFecha = date('d/m/Y h:ia', strtotime($data[0]['fechaActualizacion']));
@@ -89,8 +104,9 @@
 		JS);
 	endif;
 
-	$sql = "SELECT id FROM inventario WHERE negocio_id = {$_SESSION['negocioID']}";
-	$cantidadProductos = consulta($sql);
+	$cantidadProductos = $manager::table('inventario')
+		->where('negocio_id', $_SESSION['negocioID'])
+		->count();
 
 ?>
 

@@ -447,38 +447,6 @@ function setRegistro(string $sql): ?int
 }
 
 /**
- * Contar filas.
- * @param  string $sql Sentencia SELECT.
- * @return int|null Retorna el número de filas encontrada, o NULL si encuentra un error.
- *  <i>(ver error con `$conexion->error`)</i>
- */
-function consulta(string $sql): ?int
-{
-  global $conexion;
-  $resultado = $conexion->query($sql);
-  return $resultado ? $resultado->num_rows : NULL;
-}
-
-// Debe ser llamado dentro de una etiqueta <script></script>
-function getSQLError(): string
-{
-  global $conexion;
-  return "
-    console.log(\"" . mysqli_error($conexion) . "\");
-    alerta('Ha ocurrido un error, por favor intente nuevamente')
-  ";
-}
-
-/*======================================================
-=            OBTENER LA FECHA Y HORA ACTUAL            =
-======================================================*/
-function getHora()
-{
-  date_default_timezone_set("America/Caracas");
-  return date("d-m-Y, h:i a");
-}
-
-/**
  * Obtener la última versión de la aplicación
  * @return string Cadena que representa la última versión registrada.
  */
@@ -486,16 +454,6 @@ function getUltimaVersion(): string
 {
   $version = getRegistro('SELECT nombre FROM versiones ORDER BY id DESC LIMIT 1');
   return $version['nombre'];
-}
-
-/**
- * Obtener el ID del último negocio registrado
- * @return int|null Retorna el ID o NULL si no existen negocios.
- */
-function getUltimoNegocio(): ?int
-{
-  $id = getRegistro('SELECT * FROM negocios ORDER BY id DESC LIMIT 1');
-  return (int) $id['id'] ?? null;
 }
 
 /**
@@ -555,7 +513,7 @@ function escapar(string $texto): string
 /**
  * Cuentas las filas en una tabla.
  * @param  string $tabla La tabla a buscar (negocios | usuarios | versiones)
- * @return ínt|null El número de registros. Retorna NULL si la tabla no existe.
+ * @return int|null El número de registros. Retorna NULL si la tabla no existe.
  */
 function contarRegistros(string $tabla): ?int
 {
@@ -582,76 +540,6 @@ function encriptar(string $texto): string
   return password_hash($texto, PASSWORD_BCRYPT, [
     'cost' => getenv('BCRYPT_ROUNDS'),
   ]);
-}
-
-/**
- * Retorna la fecha y hora actual
- * @return string La fecha y hora formateada.
- */
-function fecha(): string
-{
-  date_default_timezone_set('America/Caracas');
-  $dias = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
-  $meses = [
-    1 => 'Enero',
-    'Febrero',
-    'Marzo',
-    'Abril',
-    'Mayo',
-    'Junio',
-    'Julio',
-    'Agosto',
-    'Septiembre',
-    'Octubre',
-    'Noviembre',
-    'Diciembre'
-  ];
-  $diaSemana = (int) date('w');
-  $diaActual = (int) date('d');
-  $mesActual = (int) date('m');
-  $añoActual = (int) date('Y');
-  return "$dias[$diaSemana], $diaActual de $meses[$mesActual] del $añoActual";
-}
-
-/*========================================================
-=            FORMATEAR UNA CANTIDAD MONETARIA            =
-========================================================*/
-function formatMoney($cantidad)
-{
-  $cantidad = number_format($cantidad, 0, ",", ".");
-  return $cantidad;
-}
-
-/**
- * Obtiene, respalda y retorna la información de una API
- * @param  string $url La URL de la API
- * @param  string $urlJSON La ruta relativa al archivo JSON local.
- * @return array Un array asociativo con la respuesta de la API.
- */
-function getAPI(string $url, string $urlJSON): array
-{
-  $data = @file_get_contents($url) ?: @file_get_contents($urlJSON);
-  @file_put_contents($urlJSON, $data);
-  $data = json_decode($data, true, 512, JSON_INVALID_UTF8_IGNORE);
-
-  return $data;
-}
-
-/**
- * Elimina los duplicados de una lista de datos.
- * @param  array  $arrays El array de arrays a procesar.
- * @param array $clave La clave del arreglo necesaria para detectar duplicados.
- * @return array Un nuevo arreglo sin elementos duplicados.
- */
-function eliminarDuplicados(array $arrays, string $clave): array
-{
-  $sinDuplicados = [];
-  if (!$arrays) return $sinDuplicados;
-
-  foreach ($arrays as $array)
-    $sinDuplicados[$array[$clave]] = $array;
-
-  return $sinDuplicados;
 }
 
 /**
