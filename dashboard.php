@@ -2,12 +2,28 @@
 
 	declare(strict_types=1);
 
+	use App\Http\Controllers\DashboardController;
+	use App\Http\Middleware\Authenticate;
+	use App\QueueRequestHandler;
 	use App\Scripts;
+	use Illuminate\Container\Container;
+	use Illuminate\Database\Capsule\Manager;
+	use Psr\Http\Message\ResponseInterface;
 
 	require_once __DIR__ . '/bootstrap/app.php';
 
-	session_start();
-	if (!isset($_SESSION['activa'])) header('location: index.php');
+	$manager = Container::getInstance()->get(Manager::class);
+	$queueRequestHandler = new QueueRequestHandler(Container::getInstance()->get(DashboardController::class));
+	$queueRequestHandler->add(Container::getInstance()->get(Authenticate::class));
+	$response = Container::getInstance()->call($queueRequestHandler->handle(...));
+
+	if ($response instanceof ResponseInterface) {
+		foreach ($response->getHeaders() as $name => $values) {
+			header("$name: " . join(', ', $values));
+		}
+
+		echo $response->getBody();
+	}
 
 	include 'templates/head.php';
 
@@ -21,11 +37,11 @@
 	 */
 	function getAPI(string $url, string $urlJSON): array
 	{
-	  $data = @file_get_contents($url) ?: @file_get_contents($urlJSON);
-	  @file_put_contents($urlJSON, $data);
-	  $data = json_decode($data, true, 512, JSON_INVALID_UTF8_IGNORE);
+		$data = @file_get_contents($url) ?: @file_get_contents($urlJSON);
+		@file_put_contents($urlJSON, $data);
+		$data = json_decode($data, true, 512, JSON_INVALID_UTF8_IGNORE);
 
-	  return $data;
+		return $data;
 	}
 
 	$data = getAPI('https://ve.dolarapi.com/v1/cotizaciones', __DIR__ . '/resources/json/cotizaciones.json');
