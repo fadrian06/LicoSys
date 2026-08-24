@@ -13,7 +13,7 @@ require_once __DIR__ . '/../bootstrap/app.php';
 $respuesta = [
 	'ok'    => '',
 	'error' => '',
-	'datos' => []
+	'datos' => [],
 ];
 
 if (
@@ -44,12 +44,13 @@ try {
 	$conexion->select_db(BD);
 	Container::getInstance()->get(Manager::class)::connection()->getPdo();
 } catch (mysqli_sql_exception | PDOException) {
-	$mostrarLoader = '<script src="resources/build/loader.js"></script>';
+	$mostrarLoader = '<script src="./resources/build/loader.js"></script>';
 }
 
 /*----------  Instala la Base de Datos  ----------*/
 if (!empty($_POST['instalarBD'])):
 	$sql = file_get_contents(__DIR__ . '/../database/migrations/mysql.sql');
+
 	exit($conexion->multi_query($sql) ? 'true' : $conexion->error);
 endif;
 
