@@ -1,55 +1,56 @@
 <?php
 
-	use Illuminate\Container\Container;
-	use Illuminate\Database\Capsule\Manager;
+declare(strict_types=1);
 
-	use function App\getenv;
+use Illuminate\Container\Container;
+use Illuminate\Database\Capsule\Manager;
 
-	require_once __DIR__ . '/../bootstrap/app.php';
+use function App\getenv;
 
-	/** @var array Respuesta del servidor al cliente. */
-	$respuesta = [
-		'ok'    => '',
-		'error' => '',
-		'datos' => []
-	];
+require_once __DIR__ . '/../bootstrap/app.php';
 
-	if (
-		!defined('HOST')
-		&& !defined('USUARIO')
-		&& !defined('CLAVE')
-		&& !defined('BD')
-		&& !defined('CHARSET')
-		&& !defined('PORT')
-	) {
-		define('HOST', getenv('DB_HOST'));
-		define('USUARIO', getenv('DB_USERNAME'));
-		define('CLAVE', getenv('DB_PASSWORD'));
-		define('BD', getenv('DB_DATABASE'));
-		define('PORT', getenv('DB_PORT'));
-		define('CHARSET', 'utf8');
-	}
+/** @var array Respuesta del servidor al cliente. */
+$respuesta = [
+	'ok'    => '',
+	'error' => '',
+	'datos' => []
+];
 
-	$conexion = @new MySQLi(HOST, USUARIO, CLAVE, port: PORT);
+if (
+	!defined('HOST')
+	&& !defined('USUARIO')
+	&& !defined('CLAVE')
+	&& !defined('BD')
+	&& !defined('CHARSET')
+	&& !defined('PORT')
+) {
+	define('HOST', getenv('DB_HOST'));
+	define('USUARIO', getenv('DB_USERNAME'));
+	define('CLAVE', getenv('DB_PASSWORD'));
+	define('BD', getenv('DB_DATABASE'));
+	define('PORT', (int) getenv('DB_PORT'));
+	define('CHARSET', 'utf8');
+}
 
-	if ($conexion->connect_errno)
-		exit("Error, no se pudo conectar a MySQL: <b>$conexion->error</b><br>");
+$conexion = @new MySQLi(HOST, USUARIO, CLAVE, port: PORT);
 
-	$conexion->set_charset(CHARSET);
+if ($conexion->connect_errno)
+	exit("Error, no se pudo conectar a MySQL: <b>$conexion->error</b><br>");
 
-	/*----------  Si no existe la base de datos, comienza la instalación  ----------*/
-	try {
-		$conexion->select_db(BD);
-		Container::getInstance()->get(Manager::class)::connection()->getPdo();
-	} catch (mysqli_sql_exception | PDOException) {
-		$mostrarLoader = '<script src="resources/build/loader.js"></script>';
-	}
+$conexion->set_charset(CHARSET);
 
-	/*----------  Instala la Base de Datos  ----------*/
-	if (!empty($_POST['instalarBD'])):
-		$sql = file_get_contents(__DIR__ . '/../database/migrations/mysql.sql');
-		exit($conexion->multi_query($sql) ? 'true' : $conexion->error);
-	endif;
+/*----------  Si no existe la base de datos, comienza la instalación  ----------*/
+try {
+	$conexion->select_db(BD);
+	Container::getInstance()->get(Manager::class)::connection()->getPdo();
+} catch (mysqli_sql_exception | PDOException) {
+	$mostrarLoader = '<script src="resources/build/loader.js"></script>';
+}
 
-	return $conexion;
-?>
+/*----------  Instala la Base de Datos  ----------*/
+if (!empty($_POST['instalarBD'])):
+	$sql = file_get_contents(__DIR__ . '/../database/migrations/mysql.sql');
+	exit($conexion->multi_query($sql) ? 'true' : $conexion->error);
+endif;
+
+return $conexion;
