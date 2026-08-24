@@ -5,6 +5,7 @@ declare(strict_types=1);
 use App\BareUI;
 use App\Http\Controllers\IndexController;
 use App\Http\Middleware\RedirectIfAuthenticated;
+use App\QueueRequestHandler;
 use App\Scripts;
 use Illuminate\Container\Container;
 use Illuminate\Database\Capsule\Manager;
@@ -15,9 +16,9 @@ use function App\get_exception_handler;
 require_once __DIR__ . '/bootstrap/app.php';
 
 $manager = Container::getInstance()->get(Manager::class);
-$redirectIfAuthenticated = Container::getInstance()->get(RedirectIfAuthenticated::class);
-$indexController = Container::getInstance()->get(IndexController::class);
-$response = Container::getInstance()->call($redirectIfAuthenticated->process(...), ['handler' => $indexController]);
+$queueRequestHandler = new QueueRequestHandler(Container::getInstance()->get(IndexController::class));
+$queueRequestHandler->add(Container::getInstance()->get(RedirectIfAuthenticated::class));
+$response = Container::getInstance()->call($queueRequestHandler->handle(...));
 
 if ($response instanceof ResponseInterface) {
   foreach ($response->getHeaders() as $name => $values) {
