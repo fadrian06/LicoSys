@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use App\BareUI;
 use App\Http\Controllers\IndexController;
+use App\Http\Middleware\CleanCarts;
 use App\Http\Middleware\CreateDbIfNotExists;
 use App\Http\Middleware\RedirectIfAuthenticated;
 use App\QueueRequestHandler;
@@ -11,8 +12,6 @@ use App\Scripts;
 use Illuminate\Container\Container;
 use Illuminate\Database\Capsule\Manager;
 use Psr\Http\Message\ResponseInterface;
-
-use function App\get_exception_handler;
 
 require_once __DIR__ . '/bootstrap/app.php';
 
@@ -23,6 +22,7 @@ $queueRequestHandler = new QueueRequestHandler($controller);
 $middlewares = [
   Container::getInstance()->get(CreateDbIfNotExists::class),
   Container::getInstance()->get(RedirectIfAuthenticated::class),
+  Container::getInstance()->get(CleanCarts::class),
 ];
 
 foreach ($middlewares as $middleware) {
@@ -51,13 +51,6 @@ if ($response instanceof ResponseInterface) {
 include __DIR__ . '/templates/head.php';
 
 if (!empty($_SESSION['userID'])) $_SESSION['userID'] = $admin['id'];
-
-try {
-  $manager::table('carrito_venta')->delete();
-  $manager::table('carrito_compra')->delete();
-} catch (PDOException $exception) {
-  get_exception_handler()($exception);
-}
 
 function verificarCopiaDeSeguridad(): void
 {
