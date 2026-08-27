@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Middleware;
 
+use Illuminate\Database\Capsule\Manager;
 use NoDiscard;
 use Override;
 use Psr\Http\Message\ResponseFactoryInterface;
@@ -16,6 +17,7 @@ final readonly class Authenticate implements MiddlewareInterface
 {
   public function __construct(
     private ResponseFactoryInterface $responseFactory,
+    private Manager $manager,
   ) {}
 
   #[Override]
@@ -28,10 +30,10 @@ final readonly class Authenticate implements MiddlewareInterface
       session_start();
     }
 
-    if (empty($_SESSION['activa'])) {
+    if (!$this->manager::table('usuarios')->find($_SESSION['userID'])) {
       return $this->responseFactory->createResponse()->withHeader(
         'location',
-        './',
+        './salir.php',
       );
     }
 
