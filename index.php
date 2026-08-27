@@ -7,6 +7,7 @@ use App\Http\Controllers\IndexController;
 use App\Http\Middleware\CleanCarts;
 use App\Http\Middleware\CreateDbIfNotExists;
 use App\Http\Middleware\RedirectIfAuthenticated;
+use App\Http\Middleware\ShowRestoreDbToastIfThereIsOneBackup;
 use App\QueueRequestHandler;
 use App\Scripts;
 use Illuminate\Container\Container;
@@ -23,6 +24,7 @@ $middlewares = [
   Container::getInstance()->get(CreateDbIfNotExists::class),
   Container::getInstance()->get(RedirectIfAuthenticated::class),
   Container::getInstance()->get(CleanCarts::class),
+  Container::getInstance()->get(ShowRestoreDbToastIfThereIsOneBackup::class),
 ];
 
 foreach ($middlewares as $middleware) {
@@ -52,19 +54,11 @@ include __DIR__ . '/templates/head.php';
 
 if (!empty($_SESSION['userID'])) $_SESSION['userID'] = $admin['id'];
 
-function verificarCopiaDeSeguridad(): void
-{
-  if (file_exists(__DIR__ . '/backup/backup.sql'))
-    Scripts::pushSrcOnce('./resources/build/restaurarBD.js');
-}
-
 $bareUi = Container::getInstance()->get(BareUI::class);
 $bareUi::config('params', $GLOBALS);
 
 /*----------  Si no hay negocios, solicita registro  ----------*/
 if (!isset($mostrarLoader) and !$negocios):
-  verificarCopiaDeSeguridad();
-
   echo $bareUi::render(
     'templates/registrarNegocio.php',
     ['mostrarRegistro' => true],
@@ -74,8 +68,6 @@ if (!isset($mostrarLoader) and !$negocios):
 
 /*----------  Si no hay administrador, solicita registro  ----------*/
 elseif (!isset($mostrarLoader) and !$admin):
-  verificarCopiaDeSeguridad();
-
   echo $bareUi::render(
     'templates/registrarAdmin.php',
     ['mostrarRegistro' => true],
@@ -85,8 +77,6 @@ elseif (!isset($mostrarLoader) and !$admin):
 
 /*----------  Si el administrador no tiene preguntas secretas, solicita registro  ----------*/
 elseif (!isset($mostrarLoader) and !$admin['pre1']):
-  verificarCopiaDeSeguridad();
-
   echo $bareUi::render(
     'templates/registroPreguntasRespuestas.php',
     ['mostrarRegistro' => true],
