@@ -36,8 +36,10 @@ if ($response instanceof ResponseInterface) {
     header("$name: " . join(', ', $values));
   }
 
-  if ($response->getBody()->getContents()) {
-    echo $response->getBody();
+  $body = (string) $response->getBody();
+
+  if ($body) {
+    echo $body;
 
     return;
   }

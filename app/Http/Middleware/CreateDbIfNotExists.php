@@ -12,7 +12,6 @@ use Override;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;
-use Psr\Http\Message\StreamFactoryInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use Psr\Log\LoggerAwareInterface;
@@ -30,7 +29,6 @@ final class CreateDbIfNotExists implements
 
   public function __construct(
     private readonly ResponseFactoryInterface $responseFactory,
-    private readonly StreamFactoryInterface $streamFactory,
     private readonly mysqli $mysqli,
     private readonly BareUI $bareUI,
     LoggerInterface $logger = new NullLogger,
@@ -54,31 +52,32 @@ final class CreateDbIfNotExists implements
           'exception' => $exception
         ]);
 
-        $body = $this
-          ->streamFactory
-          ->createStream($this->bareUI::render('resources/views/install.php'));
+        $response = $this->responseFactory->createResponse();
 
-        return $this->responseFactory->createResponse()->withBody($body);
+        $response
+          ->getBody()
+          ->write($this->bareUI::render('resources/views/install.php'));
+
+        return $response;
       }
     }
 
     $sqlFilename = __DIR__ . '/../../../database/migrations/mysql.sql';
     $query = file_get_contents($sqlFilename);
     $query = str_replace('{DB_DATABASE}', getenv('DB_DATABASE'), $query);
+    $response = $this->responseFactory->createResponse();
 
     try {
       $this->mysqli->multi_query($query);
-      $bodyContent = 'true';
+      $response->getBody()->write('true');
     } catch (mysqli_sql_exception $exception) {
       $this->logger->debug($exception->getMessage(), [
         'exception' => $exception
       ]);
 
-      $bodyContent = $exception->getMessage();
+      $response->getBody()->write($exception->getMessage());
     }
 
-    $body = $this->streamFactory->createStream($bodyContent);
-
-    return $this->responseFactory->createResponse()->withBody($body);
+    return $response;
   }
 }
