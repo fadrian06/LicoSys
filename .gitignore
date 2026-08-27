@@ -1,3 +1,4 @@
+*.log
 *.sublime-*
 .env
 backup

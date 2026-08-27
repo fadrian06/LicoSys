@@ -3,12 +3,14 @@
 declare(strict_types=1);
 
 use App\BareUI;
+use App\ErrorLogger;
 use GuzzleHttp\Psr7\HttpFactory;
 use GuzzleHttp\Psr7\ServerRequest;
 use Illuminate\Container\Container;
 use Illuminate\Database\Capsule\Manager;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Psr\Log\LoggerInterface;
 
 use function App\getenv;
 
@@ -43,3 +45,8 @@ Container::getInstance()
   ->give(__DIR__ . '/..');
 
 Container::getInstance()->singletonIf(BareUI::class);
+
+Container::getInstance()->singletonIf(
+  LoggerInterface::class,
+  ErrorLogger::class,
+);

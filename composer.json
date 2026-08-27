@@ -27,6 +27,7 @@
     "leafs/bareui": "v1.2",
     "psr/http-server-handler": "1.0.2",
     "psr/http-server-middleware": "1.0.2",
+    "psr/log": "^3.0",
     "symfony/dotenv": "v7.4.14",
     "symfony/polyfill-php85": "v1.38.1"
   },
