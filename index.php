@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use App\BareUI;
 use App\Http\Controllers\IndexController;
+use App\Http\Middleware\CreateDbIfNotExists;
 use App\Http\Middleware\RedirectIfAuthenticated;
 use App\QueueRequestHandler;
 use App\Scripts;
@@ -17,9 +18,17 @@ require_once __DIR__ . '/bootstrap/app.php';
 
 $manager = Container::getInstance()->get(Manager::class);
 $controller = Container::getInstance()->get(IndexController::class);
-$middleware = Container::getInstance()->get(RedirectIfAuthenticated::class);
 $queueRequestHandler = new QueueRequestHandler($controller);
-$queueRequestHandler->add($middleware);
+
+$middlewares = [
+  Container::getInstance()->get(CreateDbIfNotExists::class),
+  Container::getInstance()->get(RedirectIfAuthenticated::class),
+];
+
+foreach ($middlewares as $middleware) {
+  $queueRequestHandler->add($middleware);
+}
+
 $response = Container::getInstance()->call($queueRequestHandler->handle(...));
 
 if ($response instanceof ResponseInterface) {
@@ -27,7 +36,11 @@ if ($response instanceof ResponseInterface) {
     header("$name: " . join(', ', $values));
   }
 
-  echo $response->getBody();
+  if ($response->getBody()->getContents()) {
+    echo $response->getBody();
+
+    return;
+  }
 }
 
 /*======================================

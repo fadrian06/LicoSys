@@ -19,5 +19,9 @@ final class ErrorLogger extends AbstractLogger
     ini_set('error_log', __DIR__ . '/../storage/logs/licosys.log');
 
     error_log($message);
+
+    if (!empty($context['exception'])) {
+      error_log((string) $context['exception']);
+    }
   }
 }

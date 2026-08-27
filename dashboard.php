@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use App\Http\Controllers\DashboardController;
 use App\Http\Middleware\Authenticate;
+use App\Http\Middleware\CreateDbIfNotExists;
 use App\QueueRequestHandler;
 use App\Scripts;
 use Illuminate\Container\Container;
@@ -14,9 +15,17 @@ require_once __DIR__ . '/bootstrap/app.php';
 
 $manager = Container::getInstance()->get(Manager::class);
 $controller = Container::getInstance()->get(DashboardController::class);
-$middleware = Container::getInstance()->get(Authenticate::class);
 $queueRequestHandler = new QueueRequestHandler($controller);
-$queueRequestHandler->add($middleware);
+
+$middlewares = [
+  Container::getInstance()->get(CreateDbIfNotExists::class),
+  Container::getInstance()->get(Authenticate::class),
+];
+
+foreach ($middlewares as $middleware) {
+  $queueRequestHandler->add($middleware);
+}
+
 $response = Container::getInstance()->call($queueRequestHandler->handle(...));
 
 if ($response instanceof ResponseInterface) {
@@ -24,7 +33,11 @@ if ($response instanceof ResponseInterface) {
     header("$name: " . join(', ', $values));
   }
 
-  echo $response->getBody();
+  if ($response->getBody()->getContents()) {
+    echo $response->getBody();
+
+    return;
+  }
 }
 
 include 'templates/head.php';
@@ -129,7 +142,7 @@ $cantidadProductos = $manager::table('inventario')
 ?>
 
 <main class="w3-container w3-light-gray">
-  <?=LOADER?>
+  <?= LOADER ?>
   <h1 class="w3-xlarge w3-padding-16">
     <i class="icon-dashboard"></i> Administración
   </h1>
@@ -137,55 +150,55 @@ $cantidadProductos = $manager::table('inventario')
   =            WIDGETS            =
   ==============================-->
   <section class="w3-row-padding w3-margin-bottom">
-    <?php if($_SESSION['cargo'] === 'a'): ?>
+    <?php if ($_SESSION['cargo'] === 'a'): ?>
       <div class="w3-col s6 m3 w3-dropdown-hover w3-transparent">
         <a href="views/ventas.php" role="navegacion" class="w3-hover-opacity">
           <div class="w3-container w3-red w3-padding-16">
             <i class="icon-list-alt w3-xxxlarge w3-left"></i>
-            <span class="w3-right w3-xlarge"><?=$cantidadVentas?></span>
+            <span class="w3-right w3-xlarge"><?= $cantidadVentas ?></span>
             <div class="w3-clear"></div>
             <span class="w3-large w3-block w3-margin-top">Ventas</span>
           </div>
         </a>
-        <?=generarTooltip('Ver Ventas')?>
+        <?= generarTooltip('Ver Ventas') ?>
       </div>
       <div class="w3-col s6 m3 w3-dropdown-hover w3-transparent">
         <a href="views/compras.php" role="navegacion" class="w3-hover-opacity">
           <div class="w3-container w3-blue w3-padding-16">
             <i class="icon-handshake-o w3-xxxlarge w3-left"></i>
-            <span class="w3-right w3-xlarge"><?=contarRegistros('compras')?></span>
+            <span class="w3-right w3-xlarge"><?= contarRegistros('compras') ?></span>
             <div class="w3-clear"></div>
             <span class="w3-large w3-block w3-margin-top">Compras</span>
           </div>
         </a>
-        <?=generarTooltip('Ver Compras')?>
+        <?= generarTooltip('Ver Compras') ?>
       </div>
     <?php endif ?>
-    <div class="w3-col <?=$_SESSION['cargo'] === 'a' ? 's6 m3' : 's6'?> w3-dropdown-hover w3-transparent">
+    <div class="w3-col <?= $_SESSION['cargo'] === 'a' ? 's6 m3' : 's6' ?> w3-dropdown-hover w3-transparent">
       <a href="views/inventario.php" role="navegacion" class="w3-hover-opacity">
         <div class="w3-container w3-teal w3-padding-16">
           <i class="icon-product-hunt w3-xxxlarge w3-left"></i>
-          <span class="w3-right w3-xlarge"><?=$cantidadProductos?></span>
+          <span class="w3-right w3-xlarge"><?= $cantidadProductos ?></span>
           <div class="w3-clear"></div>
           <span class="w3-large w3-block w3-margin-top">Productos</span>
         </div>
       </a>
-      <?=generarTooltip('Ver Inventario')?>
+      <?= generarTooltip('Ver Inventario') ?>
     </div>
-    <div class="w3-col <?=$_SESSION['cargo'] === 'a' ? 's6 m3' : 's6'?> w3-dropdown-hover w3-transparent">
-      <a href="<?=$_SESSION['cargo'] === 'a' ? 'views/usuarios.php' : 'views/clientes.php'?>" role="navegacion" class="w3-hover-opacity">
+    <div class="w3-col <?= $_SESSION['cargo'] === 'a' ? 's6 m3' : 's6' ?> w3-dropdown-hover w3-transparent">
+      <a href="<?= $_SESSION['cargo'] === 'a' ? 'views/usuarios.php' : 'views/clientes.php' ?>" role="navegacion" class="w3-hover-opacity">
         <div class="w3-container w3-orange w3-text-white w3-padding-16">
           <i class="icon-users w3-xxxlarge w3-left"></i>
           <span class="w3-right w3-xlarge">
-            <?=$_SESSION['cargo'] === 'a' ? contarRegistros('usuarios') - 1 : contarRegistros('clientes') - 1?>
+            <?= $_SESSION['cargo'] === 'a' ? contarRegistros('usuarios') - 1 : contarRegistros('clientes') - 1 ?>
           </span>
           <div class="w3-clear"></div>
           <span class="w3-large w3-block w3-margin-top">
-            <?=$_SESSION['cargo'] === 'a' ? 'Usuarios' : 'Clientes'?>
+            <?= $_SESSION['cargo'] === 'a' ? 'Usuarios' : 'Clientes' ?>
           </span>
         </div>
       </a>
-      <?=generarTooltip($_SESSION['cargo'] === 'a' ? 'Ver Usuarios' : 'Ver Clientes')?>
+      <?= generarTooltip($_SESSION['cargo'] === 'a' ? 'Ver Usuarios' : 'Ver Clientes') ?>
     </div>
   </section>
   <!--=============================
@@ -199,19 +212,19 @@ $cantidadProductos = $manager::table('inventario')
         <tr>
           <td>Fecha</td>
           <td colspan="3">
-            <b><i class="w3-small"><?=$dolarFecha?></i></b>
+            <b><i class="w3-small"><?= $dolarFecha ?></i></b>
           </td>
         </tr>
         <tr>
           <td>DÓLAR (Bs.)</td>
-          <td><b><i class="w3-small">BCV </i><?=$dolarBCV?></b></td>
-          <td><b><i class="w3-small">Euro </i><?=$dolarT?></b></td>
-          <td><b><i class="w3-small">Efectivo </i><?=$dolarE?></b></td>
+          <td><b><i class="w3-small">BCV </i><?= $dolarBCV ?></b></td>
+          <td><b><i class="w3-small">Euro </i><?= $dolarT ?></b></td>
+          <td><b><i class="w3-small">Efectivo </i><?= $dolarE ?></b></td>
         </tr>
       </table>
     </section>
   </div>
-  <?php if($_SESSION['cargo'] === 'a'): ?>
+  <?php if ($_SESSION['cargo'] === 'a'): ?>
     <section class="w3-row w3-container w3-border-bottom w3-padding-24">
       <?php if ($recientes): ?>
         <!--========================================
@@ -222,12 +235,12 @@ $cantidadProductos = $manager::table('inventario')
             <a href="views/log.php" role="navegacion" class="w3-button w3-block w3-border-bottom w3-light-gray w3-text-indigo w3-xlarge">
               Usuarios recientes
             </a>
-            <?=generarTooltip('Ver Registro de Sesiones')?>
+            <?= generarTooltip('Ver Registro de Sesiones') ?>
           </div>
-          <?php foreach($recientes as $usuario): ?>
+          <?php foreach ($recientes as $usuario): ?>
             <li class="w3-padding-16">
-              <img src="<?=!empty($usuario['foto']) ? "resources/images/perfil/{$usuario['foto']}" : "resources/images/avatar2.png"?>" class="w3-circle w3-margin-right" style="width: 50px">
-              <span class="w3-large"><?=$usuario['nombre']?></span>
+              <img src="<?= !empty($usuario['foto']) ? "resources/images/perfil/{$usuario['foto']}" : "resources/images/avatar2.png" ?>" class="w3-circle w3-margin-right" style="width: 50px">
+              <span class="w3-large"><?= $usuario['nombre'] ?></span>
             </li>
           <?php endforeach ?>
         </ul>
@@ -237,9 +250,9 @@ $cantidadProductos = $manager::table('inventario')
       =            PRODUCTOS MÁS VENDIDOS            =
       =============================================-->
       <?php
-        $tooltipProductosMasVendidos = generarTooltip('Ver Finanzas');
-        if ($ventasCombinadas)
-          echo <<<HTML
+      $tooltipProductosMasVendidos = generarTooltip('Ver Finanzas');
+      if ($ventasCombinadas)
+        echo <<<HTML
             <div class="w3-col s12 m6 w3-ul w3-card-4 w3-white">
               <div class="w3-dropdown-hover w3-transparent w3-block">
                 <a href="views/finanzas.php" role="navegacion" class="w3-button w3-block w3-border-bottom w3-light-gray w3-text-indigo w3-xlarge">
@@ -271,20 +284,20 @@ $cantidadProductos = $manager::table('inventario')
       &nbsp;<a href="https://www.w3schools.com/w3css/default.asp" target="_blank">
         w3.css
       </a>
-      &nbsp;| <i class="icon-copyright"></i> UPTM <?=date('Y')?>
+      &nbsp;| <i class="icon-copyright"></i> UPTM <?= date('Y') ?>
     </p>
   </footer>
 
   <?php
-    $mostrarChangelog = true;
-    $mostrarSoporteTecnico = true;
-    $mostrarManual = true;
+  $mostrarChangelog = true;
+  $mostrarSoporteTecnico = true;
+  $mostrarManual = true;
 
-    include 'templates/registroCambios.php';
-    include 'templates/soporteTecnico.php';
-    include 'templates/manual.php';
+  include 'templates/registroCambios.php';
+  include 'templates/soporteTecnico.php';
+  include 'templates/manual.php';
   ?>
-  <footer id="botones"><?=BOTONES['NUEVA_VENTA']?></footer>
+  <footer id="botones"><?= BOTONES['NUEVA_VENTA'] ?></footer>
 </main>
 
 <?php include 'templates/footer.php' ?>

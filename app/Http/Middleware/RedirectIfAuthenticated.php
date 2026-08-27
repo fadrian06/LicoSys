@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Middleware;
 
+use NoDiscard;
 use Override;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -18,6 +19,7 @@ final readonly class RedirectIfAuthenticated implements MiddlewareInterface
   ) {}
 
   #[Override]
+  #[NoDiscard]
   public function process(
     ServerRequestInterface $request,
     RequestHandlerInterface $handler,

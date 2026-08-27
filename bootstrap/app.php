@@ -10,6 +10,7 @@ use Illuminate\Container\Container;
 use Illuminate\Database\Capsule\Manager;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Message\StreamFactoryInterface;
 use Psr\Log\LoggerInterface;
 
 use function App\getenv;
@@ -24,6 +25,11 @@ Container::getInstance()->singletonIf(
 Container::getInstance()->singletonIf(
   ServerRequestInterface::class,
   ServerRequest::fromGlobals(...),
+);
+
+Container::getInstance()->singletonIf(
+  StreamFactoryInterface::class,
+  HttpFactory::class,
 );
 
 Container::getInstance()->singletonIf(
@@ -59,4 +65,20 @@ Container::getInstance()->singletonIf(BareUI::class);
 Container::getInstance()->singletonIf(
   LoggerInterface::class,
   ErrorLogger::class,
+);
+
+Container::getInstance()->singletonIf(
+  mysqli::class,
+  static function (): mysqli {
+    $mysqli = new mysqli(
+      getenv('DB_HOST'),
+      getenv('DB_USERNAME'),
+      getenv('DB_PASSWORD'),
+      port: (int) getenv('DB_PORT'),
+    );
+
+    $mysqli->set_charset('utf8');
+
+    return $mysqli;
+  },
 );

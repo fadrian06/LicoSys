@@ -10,12 +10,15 @@ use Psr\Http\Message\ServerRequestInterface;
 use function App\get_exception_handler;
 use function App\getenv;
 
-require_once __DIR__ . '/../vendor/autoload.php';
+require_once __DIR__ . '/../bootstrap/app.php';
 
 /*=================================================
 =            VARIABLES PREESTABLECIDAS            =
 =================================================*/
-$path = Container::getInstance()->get(ServerRequestInterface::class)->getUri()->getPath();
+$path = Container::getInstance()
+  ->get(ServerRequestInterface::class)
+  ->getUri()
+  ->getPath();
 
 require_once __DIR__ . '/../backend/componentes.php';
 require_once __DIR__ . '/../backend/conexion.php';
