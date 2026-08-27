@@ -42,6 +42,8 @@ final class CreateDbIfNotExists implements
     ServerRequestInterface $request,
     RequestHandlerInterface $handler,
   ): ResponseInterface {
+    $response = $this->responseFactory->createResponse();
+
     if (empty($request->getParsedBody()['instalarBD'])) {
       try {
         $this->mysqli->select_db(getenv('DB_DATABASE'));
@@ -51,8 +53,6 @@ final class CreateDbIfNotExists implements
         $this->logger->debug($exception->getMessage(), [
           'exception' => $exception
         ]);
-
-        $response = $this->responseFactory->createResponse();
 
         $response
           ->getBody()
@@ -65,7 +65,6 @@ final class CreateDbIfNotExists implements
     $sqlFilename = __DIR__ . '/../../../database/migrations/mysql.sql';
     $query = file_get_contents($sqlFilename);
     $query = str_replace('{DB_DATABASE}', getenv('DB_DATABASE'), $query);
-    $response = $this->responseFactory->createResponse();
 
     try {
       $this->mysqli->multi_query($query);
