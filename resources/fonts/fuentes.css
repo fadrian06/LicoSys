@@ -2,53 +2,53 @@
 =            ROBOTO            =
 ==============================*/
 @font-face {
-	font-family: 'Roboto';
-	src: url('Roboto/Roboto-Black.ttf');
-	font-weight: bolder;
+  font-family: 'Roboto';
+  src: url('Roboto/Roboto-Black.ttf');
+  font-weight: bolder;
 }
 
 @font-face {
-	font-family: 'Roboto';
-	src: url('Roboto/Roboto-Bold.ttf');
-	font-weight: bold;
+  font-family: 'Roboto';
+  src: url('Roboto/Roboto-Bold.ttf');
+  font-weight: bold;
 }
 
 @font-face {
-	font-family: 'Roboto';
-	src: url('Roboto/Roboto-Italic.ttf');
-	font-style: italic;
+  font-family: 'Roboto';
+  src: url('Roboto/Roboto-Italic.ttf');
+  font-style: italic;
 }
 
 @font-face {
-	font-family: 'Roboto';
-	src: url('Roboto/Roboto-Light.ttf');
-	font-weight: lighter;
+  font-family: 'Roboto';
+  src: url('Roboto/Roboto-Light.ttf');
+  font-weight: lighter;
 }
 
 @font-face {
-	font-family: 'Roboto';
-	src: url('Roboto/Roboto-Regular.ttf');
+  font-family: 'Roboto';
+  src: url('Roboto/Roboto-Regular.ttf');
 }
 
 @font-face {
-	font-family: 'Roboto';
-	src: url('Roboto/Roboto-BlackItalic.ttf');
-	font-style: italic;
-	font-weight: bolder;
+  font-family: 'Roboto';
+  src: url('Roboto/Roboto-BlackItalic.ttf');
+  font-style: italic;
+  font-weight: bolder;
 }
 
 @font-face {
-	font-family: 'Roboto';
-	src: url('Roboto/Roboto-BoldItalic.ttf');
-	font-style: italic;
-	font-weight: bold;
+  font-family: 'Roboto';
+  src: url('Roboto/Roboto-BoldItalic.ttf');
+  font-style: italic;
+  font-weight: bold;
 }
 
 @font-face {
-	font-family: 'Roboto';
-	src: url('Roboto/Roboto-LightItalic.ttf');
-	font-style: italic;
-	font-weight: lighter;
+  font-family: 'Roboto';
+  src: url('Roboto/Roboto-LightItalic.ttf');
+  font-style: italic;
+  font-weight: lighter;
 }
 
 /*=====  End of ROBOTO  ======*/
@@ -57,20 +57,20 @@
 =            OSWALD            =
 ==============================*/
 @font-face {
-	font-family: "Oswald";
-	src: url("Oswald/static/Oswald-Bold.ttf");
-	font-weight: bold;
+  font-family: "Oswald";
+  src: url("Oswald/static/Oswald-Bold.ttf");
+  font-weight: bold;
 }
 
 @font-face {
-	font-family: "Oswald";
-	src: url("Oswald/static/Oswald-Light.ttf");
-	font-weight: lighter;
+  font-family: "Oswald";
+  src: url("Oswald/static/Oswald-Light.ttf");
+  font-weight: lighter;
 }
 
 @font-face {
-	font-family: "Oswald";
-	src: url("Oswald/static/Oswald-Regular.ttf");
+  font-family: "Oswald";
+  src: url("Oswald/static/Oswald-Regular.ttf");
 }
 /*=====  End of OSWALD  ======*/
 

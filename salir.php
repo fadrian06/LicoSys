@@ -13,9 +13,9 @@ $queueRequestHandler = new QueueRequestHandler(Container::getInstance()->get(Log
 $response = Container::getInstance()->call($queueRequestHandler->handle(...));
 
 if ($response instanceof ResponseInterface) {
-	foreach ($response->getHeaders() as $name => $values) {
-		header("$name: " . join(', ', $values));
-	}
+  foreach ($response->getHeaders() as $name => $values) {
+    header("$name: " . join(', ', $values));
+  }
 
-	echo $response->getBody();
+  echo $response->getBody();
 }

@@ -1,108 +1,108 @@
 #login
-	img
-		height: 75px
-		@media (max-width: 400px)
-			height: 50px
+  img
+    height: 75px
+    @media (max-width: 400px)
+      height: 50px
 
 #manual
-	min-width: 75vw
-	li
-		padding: 0
+  min-width: 75vw
+  li
+    padding: 0
 
 ul.w3-bottombar.w3-leftbar
-	@media (min-width: 993px)
-		border-bottom: 0 solid transparent !important
-	@media (max-width: 600px)
-		border-width: 0 !important
+  @media (min-width: 993px)
+    border-bottom: 0 solid transparent !important
+  @media (max-width: 600px)
+    border-width: 0 !important
 
 #moduloPerfil
-	div.w3-padding-top-24
-		@media (max-width: 600px)
-			padding-top: .5rem !important
-			width: max-content
-			width: -moz-max-content
-			margin-left: auto
-			border-width: 0 !important
+  div.w3-padding-top-24
+    @media (max-width: 600px)
+      padding-top: .5rem !important
+      width: max-content
+      width: -moz-max-content
+      margin-left: auto
+      border-width: 0 !important
 
 #moduloNegocios
-	.w3-leftbar
-		@media (max-width: 600px)
-			border-width: 0 !important
-	footer
-		@media (max-width: 600px)
-			right: 0
-	button[onclick]
-		@media (max-width: 600px)
-			margin-top: 16px
+  .w3-leftbar
+    @media (max-width: 600px)
+      border-width: 0 !important
+  footer
+    @media (max-width: 600px)
+      right: 0
+  button[onclick]
+    @media (max-width: 600px)
+      margin-top: 16px
 
 #typed-container
-	cursor: pointer
+  cursor: pointer
 
 .w3-overlay
-	cursor: pointer
-	z-index: 999
+  cursor: pointer
+  z-index: 999
 
 .icon-spinner
-	text-shadow: -2px 2px 10px white
+  text-shadow: -2px 2px 10px white
 
 main
-	a
-		text-decoration: none
-	& > .loader
-		display: none
-		width: max-content
-		width: -moz-max-content
-		position: fixed
-		top: calc(50vh - 5vw)
-		left: 0
-		right: 0
-		margin: auto
-		z-index: 1001
-		i
-			font-size: 10vw
-			@media (max-width: 600px)
-				font-size: 25vw
-	&.showLoader > .loader
-		display: inline-block
+  a
+    text-decoration: none
+  & > .loader
+    display: none
+    width: max-content
+    width: -moz-max-content
+    position: fixed
+    top: calc(50vh - 5vw)
+    left: 0
+    right: 0
+    margin: auto
+    z-index: 1001
+    i
+      font-size: 10vw
+      @media (max-width: 600px)
+        font-size: 25vw
+  &.showLoader > .loader
+    display: inline-block
 
 div#acercaDe
-	max-width: 650px
+  max-width: 650px
 
 main#mainLogin
-	@media (max-width: 600px)
-		min-height: 100vh
-		display: flex
-		align-items: center
-		justify-content: center
-	aside.w3-hide-small
-	form#login
-		margin: 20px 20px
-		height: calc(100vh - 40px)
-		overflow: auto
-		@media (max-width: 600px)
-			height: auto
-			max-height: calc(100vh - 40px)
-		label
-			transition: none
-			@media (max-width: 600px)
-				border-width: medium !important
-		input[type="radio"]:checked + label
-			border-color: #2196f3 !important
-		#clave
-			@media (max-width: 600px)
-				padding-right: 50px
+  @media (max-width: 600px)
+    min-height: 100vh
+    display: flex
+    align-items: center
+    justify-content: center
+  aside.w3-hide-small
+  form#login
+    margin: 20px 20px
+    height: calc(100vh - 40px)
+    overflow: auto
+    @media (max-width: 600px)
+      height: auto
+      max-height: calc(100vh - 40px)
+    label
+      transition: none
+      @media (max-width: 600px)
+        border-width: medium !important
+    input[type="radio"]:checked + label
+      border-color: #2196f3 !important
+    #clave
+      @media (max-width: 600px)
+        padding-right: 50px
 
 aside.w3-hide-small
-	background: url('../images/fondo.jpg') left/cover no-repeat
+  background: url('../images/fondo.jpg') left/cover no-repeat
 
 .icon-eye,
 .icon-eye-slash
-	cursor: pointer
+  cursor: pointer
 
 input[type="number"]
-	&::-webkit-inner-spin-button,
-	&::-webkit-outer-spin-button
-		-webkit-appearance: none
-		appearance: none
-		margin: 0
-	-moz-appearance: textfield
+  &::-webkit-inner-spin-button,
+  &::-webkit-outer-spin-button
+    -webkit-appearance: none
+    appearance: none
+    margin: 0
+  -moz-appearance: textfield

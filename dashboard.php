@@ -1,288 +1,288 @@
 <?php
 
-	declare(strict_types=1);
+  declare(strict_types=1);
 
-	use App\Http\Controllers\DashboardController;
-	use App\Http\Middleware\Authenticate;
-	use App\QueueRequestHandler;
-	use App\Scripts;
-	use Illuminate\Container\Container;
-	use Illuminate\Database\Capsule\Manager;
-	use Psr\Http\Message\ResponseInterface;
+  use App\Http\Controllers\DashboardController;
+  use App\Http\Middleware\Authenticate;
+  use App\QueueRequestHandler;
+  use App\Scripts;
+  use Illuminate\Container\Container;
+  use Illuminate\Database\Capsule\Manager;
+  use Psr\Http\Message\ResponseInterface;
 
-	require_once __DIR__ . '/bootstrap/app.php';
+  require_once __DIR__ . '/bootstrap/app.php';
 
-	$manager = Container::getInstance()->get(Manager::class);
-	$queueRequestHandler = new QueueRequestHandler(Container::getInstance()->get(DashboardController::class));
-	$queueRequestHandler->add(Container::getInstance()->get(Authenticate::class));
-	$response = Container::getInstance()->call($queueRequestHandler->handle(...));
+  $manager = Container::getInstance()->get(Manager::class);
+  $queueRequestHandler = new QueueRequestHandler(Container::getInstance()->get(DashboardController::class));
+  $queueRequestHandler->add(Container::getInstance()->get(Authenticate::class));
+  $response = Container::getInstance()->call($queueRequestHandler->handle(...));
 
-	if ($response instanceof ResponseInterface) {
-		foreach ($response->getHeaders() as $name => $values) {
-			header("$name: " . join(', ', $values));
-		}
+  if ($response instanceof ResponseInterface) {
+    foreach ($response->getHeaders() as $name => $values) {
+      header("$name: " . join(', ', $values));
+    }
 
-		echo $response->getBody();
-	}
+    echo $response->getBody();
+  }
 
-	include 'templates/head.php';
+  include 'templates/head.php';
 
-	$versiones = getRegistros('SELECT * FROM versiones ORDER BY id DESC');
+  $versiones = getRegistros('SELECT * FROM versiones ORDER BY id DESC');
 
-	/**
-	 * Obtiene, respalda y retorna la información de una API
-	 * @param  string $url La URL de la API
-	 * @param  string $urlJSON La ruta relativa al archivo JSON local.
-	 * @return array Un array asociativo con la respuesta de la API.
-	 */
-	function getAPI(string $url, string $urlJSON): array
-	{
-		$data = @file_get_contents($url) ?: @file_get_contents($urlJSON);
-		@file_put_contents($urlJSON, $data);
-		$data = json_decode($data, true, 512, JSON_INVALID_UTF8_IGNORE);
+  /**
+   * Obtiene, respalda y retorna la información de una API
+   * @param  string $url La URL de la API
+   * @param  string $urlJSON La ruta relativa al archivo JSON local.
+   * @return array Un array asociativo con la respuesta de la API.
+   */
+  function getAPI(string $url, string $urlJSON): array
+  {
+    $data = @file_get_contents($url) ?: @file_get_contents($urlJSON);
+    @file_put_contents($urlJSON, $data);
+    $data = json_decode($data, true, 512, JSON_INVALID_UTF8_IGNORE);
 
-		return $data;
-	}
+    return $data;
+  }
 
-	$data = getAPI('https://ve.dolarapi.com/v1/cotizaciones', __DIR__ . '/resources/json/cotizaciones.json');
-	$dolarBCV = round($data[0]['promedio'], 2);
-	$dolarFecha = date('d/m/Y h:ia', strtotime($data[0]['fechaActualizacion']));
-	$dolarT     = round($data[1]['promedio'], 2);
+  $data = getAPI('https://ve.dolarapi.com/v1/cotizaciones', __DIR__ . '/resources/json/cotizaciones.json');
+  $dolarBCV = round($data[0]['promedio'], 2);
+  $dolarFecha = date('d/m/Y h:ia', strtotime($data[0]['fechaActualizacion']));
+  $dolarT     = round($data[1]['promedio'], 2);
 
-	$data = getAPI('https://ve.dolarapi.com/v1/dolares/paralelo', __DIR__ . '/resources/json/paralelo.json');
-	$dolarE     = round($data['promedio'], 2);
+  $data = getAPI('https://ve.dolarapi.com/v1/dolares/paralelo', __DIR__ . '/resources/json/paralelo.json');
+  $dolarE     = round($data['promedio'], 2);
 
-	$sql = <<<SQL
-		SELECT fecha, foto, nombre, usuario FROM log
-		INNER JOIN usuarios ON usuario_id=id
-		WHERE negocio_id={$_SESSION['negocioID']}
-		GROUP BY usuario_id ORDER BY fecha DESC LIMIT 3
-	SQL;
-	$recientes = getRegistros($sql);
-	$sql = <<<SQL
-		SELECT id FROM ventas WHERE negocio_id={$_SESSION['negocioID']}
-	SQL;
-	$cantidadVentas = count(getRegistros($sql));
+  $sql = <<<SQL
+    SELECT fecha, foto, nombre, usuario FROM log
+    INNER JOIN usuarios ON usuario_id=id
+    WHERE negocio_id={$_SESSION['negocioID']}
+    GROUP BY usuario_id ORDER BY fecha DESC LIMIT 3
+  SQL;
+  $recientes = getRegistros($sql);
+  $sql = <<<SQL
+    SELECT id FROM ventas WHERE negocio_id={$_SESSION['negocioID']}
+  SQL;
+  $cantidadVentas = count(getRegistros($sql));
 
-	/*----------  PRODUCTOS MÁS VENDIDOS  ----------*/
-	$sql = <<<SQL
-		SELECT v.fecha, v.producto_id, i.producto, v.unidades FROM ventas v
-		INNER JOIN inventario i ON v.producto_id=i.id
-		WHERE v.negocio_id={$_SESSION['negocioID']}
-	SQL;
-	$ventas = getRegistros($sql);
-	$ventas = filtrarFecha('semanal', $ventas);
-	$ventasCombinadas = [];
-	foreach ($ventas as $venta):
-		$id = $venta['producto_id'];
+  /*----------  PRODUCTOS MÁS VENDIDOS  ----------*/
+  $sql = <<<SQL
+    SELECT v.fecha, v.producto_id, i.producto, v.unidades FROM ventas v
+    INNER JOIN inventario i ON v.producto_id=i.id
+    WHERE v.negocio_id={$_SESSION['negocioID']}
+  SQL;
+  $ventas = getRegistros($sql);
+  $ventas = filtrarFecha('semanal', $ventas);
+  $ventasCombinadas = [];
+  foreach ($ventas as $venta):
+    $id = $venta['producto_id'];
 
-		if (count($ventasCombinadas) > 2) break;
+    if (count($ventasCombinadas) > 2) break;
 
-		if (!array_key_exists($id, $ventasCombinadas))
-			$ventasCombinadas[$id] = $venta;
-		else $ventasCombinadas[$id]['unidades'] += $venta['unidades'];
-	endforeach;
+    if (!array_key_exists($id, $ventasCombinadas))
+      $ventasCombinadas[$id] = $venta;
+    else $ventasCombinadas[$id]['unidades'] += $venta['unidades'];
+  endforeach;
 
-	if ($ventasCombinadas && $_SESSION['cargo'] === 'a'):
-		$nombresProductos = [];
-		$cantidadProductos = [];
-		foreach ($ventasCombinadas as $venta):
-			$nombresProductos[] = $venta['producto'];
-			$cantidadProductos[] = $venta['unidades'];
-		endforeach;
+  if ($ventasCombinadas && $_SESSION['cargo'] === 'a'):
+    $nombresProductos = [];
+    $cantidadProductos = [];
+    foreach ($ventasCombinadas as $venta):
+      $nombresProductos[] = $venta['producto'];
+      $cantidadProductos[] = $venta['unidades'];
+    endforeach;
 
-		$nombresProductos = json_encode($nombresProductos, JSON_INVALID_UTF8_IGNORE);
-		$cantidadProductos = json_encode($cantidadProductos, JSON_INVALID_UTF8_IGNORE);
+    $nombresProductos = json_encode($nombresProductos, JSON_INVALID_UTF8_IGNORE);
+    $cantidadProductos = json_encode($cantidadProductos, JSON_INVALID_UTF8_IGNORE);
 
-		Scripts::pushInline(<<<JS
-			const xValues = $nombresProductos
-			const yValues = $cantidadProductos
-			const barColors = ['red', 'green', 'yellow', 'black', 'blue']
+    Scripts::pushInline(<<<JS
+      const xValues = $nombresProductos
+      const yValues = $cantidadProductos
+      const barColors = ['red', 'green', 'yellow', 'black', 'blue']
 
-			new Chart('productosMasVendidos', {
-				type: 'bar',
-				data: {
-					labels: xValues,
-					datasets: [{
-						backgroundColor: barColors,
-						data: yValues
-					}]
-				},
-				options: {
-					legend: {display: false},
-					scales: {
-						y: {
-							beginAtZero: true
-						}
-					}
-				}
-			})
-		JS);
-	endif;
+      new Chart('productosMasVendidos', {
+        type: 'bar',
+        data: {
+          labels: xValues,
+          datasets: [{
+            backgroundColor: barColors,
+            data: yValues
+          }]
+        },
+        options: {
+          legend: {display: false},
+          scales: {
+            y: {
+              beginAtZero: true
+            }
+          }
+        }
+      })
+    JS);
+  endif;
 
-	$cantidadProductos = $manager::table('inventario')
-		->where('negocio_id', $_SESSION['negocioID'])
-		->count();
+  $cantidadProductos = $manager::table('inventario')
+    ->where('negocio_id', $_SESSION['negocioID'])
+    ->count();
 
 ?>
 
 <main class="w3-container w3-light-gray">
-	<?=LOADER?>
-	<h1 class="w3-xlarge w3-padding-16">
-		<i class="icon-dashboard"></i> Administración
-	</h1>
-	<!--=============================
-	=            WIDGETS            =
-	==============================-->
-	<section class="w3-row-padding w3-margin-bottom">
-		<?php if($_SESSION['cargo'] === 'a'): ?>
-			<div class="w3-col s6 m3 w3-dropdown-hover w3-transparent">
-				<a href="views/ventas.php" role="navegacion" class="w3-hover-opacity">
-					<div class="w3-container w3-red w3-padding-16">
-						<i class="icon-list-alt w3-xxxlarge w3-left"></i>
-						<span class="w3-right w3-xlarge"><?=$cantidadVentas?></span>
-						<div class="w3-clear"></div>
-						<span class="w3-large w3-block w3-margin-top">Ventas</span>
-					</div>
-				</a>
-				<?=generarTooltip('Ver Ventas')?>
-			</div>
-			<div class="w3-col s6 m3 w3-dropdown-hover w3-transparent">
-				<a href="views/compras.php" role="navegacion" class="w3-hover-opacity">
-					<div class="w3-container w3-blue w3-padding-16">
-						<i class="icon-handshake-o w3-xxxlarge w3-left"></i>
-						<span class="w3-right w3-xlarge"><?=contarRegistros('compras')?></span>
-						<div class="w3-clear"></div>
-						<span class="w3-large w3-block w3-margin-top">Compras</span>
-					</div>
-				</a>
-				<?=generarTooltip('Ver Compras')?>
-			</div>
-		<?php endif ?>
-		<div class="w3-col <?=$_SESSION['cargo'] === 'a' ? 's6 m3' : 's6'?> w3-dropdown-hover w3-transparent">
-			<a href="views/inventario.php" role="navegacion" class="w3-hover-opacity">
-				<div class="w3-container w3-teal w3-padding-16">
-					<i class="icon-product-hunt w3-xxxlarge w3-left"></i>
-					<span class="w3-right w3-xlarge"><?=$cantidadProductos?></span>
-					<div class="w3-clear"></div>
-					<span class="w3-large w3-block w3-margin-top">Productos</span>
-				</div>
-			</a>
-			<?=generarTooltip('Ver Inventario')?>
-		</div>
-		<div class="w3-col <?=$_SESSION['cargo'] === 'a' ? 's6 m3' : 's6'?> w3-dropdown-hover w3-transparent">
-			<a href="<?=$_SESSION['cargo'] === 'a' ? 'views/usuarios.php' : 'views/clientes.php'?>" role="navegacion" class="w3-hover-opacity">
-				<div class="w3-container w3-orange w3-text-white w3-padding-16">
-					<i class="icon-users w3-xxxlarge w3-left"></i>
-					<span class="w3-right w3-xlarge">
-						<?=$_SESSION['cargo'] === 'a' ? contarRegistros('usuarios') - 1 : contarRegistros('clientes') - 1?>
-					</span>
-					<div class="w3-clear"></div>
-					<span class="w3-large w3-block w3-margin-top">
-						<?=$_SESSION['cargo'] === 'a' ? 'Usuarios' : 'Clientes'?>
-					</span>
-				</div>
-			</a>
-			<?=generarTooltip($_SESSION['cargo'] === 'a' ? 'Ver Usuarios' : 'Ver Clientes')?>
-		</div>
-	</section>
-	<!--=============================
-	=            MONEDAS            =
-	==============================-->
-	<div class="w3-row">
-		<?php include 'templates/monedas.php' ?>
-		<section class="w3-half w3-container w3-padding-24 w3-animate-opacity">
-			<h2 class="w3-large w3-text-green">&nbsp;</h2>
-			<table class="w3-table w3-bordered w3-border w3-hoverable w3-pale-green">
-				<tr>
-					<td>Fecha</td>
-					<td colspan="3">
-						<b><i class="w3-small"><?=$dolarFecha?></i></b>
-					</td>
-				</tr>
-				<tr>
-					<td>DÓLAR (Bs.)</td>
-					<td><b><i class="w3-small">BCV </i><?=$dolarBCV?></b></td>
-					<td><b><i class="w3-small">Euro </i><?=$dolarT?></b></td>
-					<td><b><i class="w3-small">Efectivo </i><?=$dolarE?></b></td>
-				</tr>
-			</table>
-		</section>
-	</div>
-	<?php if($_SESSION['cargo'] === 'a'): ?>
-		<section class="w3-row w3-container w3-border-bottom w3-padding-24">
-			<?php if ($recientes): ?>
-				<!--========================================
-				=            USUARIOS RECIENTES            =
-				=========================================-->
-				<ul class="w3-col s12 m5 w3-ul w3-card-4 w3-white">
-					<div class="w3-dropdown-hover w3-transparent w3-block">
-						<a href="views/log.php" role="navegacion" class="w3-button w3-block w3-border-bottom w3-light-gray w3-text-indigo w3-xlarge">
-							Usuarios recientes
-						</a>
-						<?=generarTooltip('Ver Registro de Sesiones')?>
-					</div>
-					<?php foreach($recientes as $usuario): ?>
-						<li class="w3-padding-16">
-							<img src="<?=!empty($usuario['foto']) ? "resources/images/perfil/{$usuario['foto']}" : "resources/images/avatar2.png"?>" class="w3-circle w3-margin-right" style="width: 50px">
-							<span class="w3-large"><?=$usuario['nombre']?></span>
-						</li>
-					<?php endforeach ?>
-				</ul>
-				<div class="w3-col s0 m1">&nbsp;</div>
-			<?php endif ?>
-			<!--============================================
-			=            PRODUCTOS MÁS VENDIDOS            =
-			=============================================-->
-			<?php
-				$tooltipProductosMasVendidos = generarTooltip('Ver Finanzas');
-				if ($ventasCombinadas)
-					echo <<<HTML
-						<div class="w3-col s12 m6 w3-ul w3-card-4 w3-white">
-							<div class="w3-dropdown-hover w3-transparent w3-block">
-								<a href="views/finanzas.php" role="navegacion" class="w3-button w3-block w3-border-bottom w3-light-gray w3-text-indigo w3-xlarge">
-									Productos más Vendidos
-								</a>
-								$tooltipProductosMasVendidos
-							</div>
-							<canvas id="productosMasVendidos"></canvas>
-						</div>
-					HTML;
-			?>
-		</section>
-	<?php endif ?>
-	<!--===================================
-	=            PIE DE PÁGINA            =
-	====================================-->
-	<footer class="w3-dark-grey w3-container" style="margin: 0 -16px">
-		<div class="w3-row">
-			<div class="w3-container w3-third">
-				<h2 class="w3-xlarge oswald w3-bottombar w3-border-orange">Sistema</h2>
-				<button onclick="modal(this)" data-target="#acercaDe" class="w3-block w3-left-align w3-button w3-transparent">Acerca De</button>
-				<button onclick="modal(this)" data-target="#registroCambios" class="w3-block w3-left-align w3-button w3-transparent">Registro de cambios</button>
-				<button onclick="modal(this)" data-target="#soporte" class="w3-block w3-left-align w3-button w3-transparent">Soporte Técnico</button>
-				<button onclick="modal(this)" data-target="#manual" class="w3-hide w3-block w3-left-align w3-button w3-transparent">Manual de Usuario</button>
-			</div>
-		</div>
-		<p class="w3-center w3-large">
-			Powered by
-			&nbsp;<a href="https://www.w3schools.com/w3css/default.asp" target="_blank">
-				w3.css
-			</a>
-			&nbsp;| <i class="icon-copyright"></i> UPTM <?=date('Y')?>
-		</p>
-	</footer>
+  <?=LOADER?>
+  <h1 class="w3-xlarge w3-padding-16">
+    <i class="icon-dashboard"></i> Administración
+  </h1>
+  <!--=============================
+  =            WIDGETS            =
+  ==============================-->
+  <section class="w3-row-padding w3-margin-bottom">
+    <?php if($_SESSION['cargo'] === 'a'): ?>
+      <div class="w3-col s6 m3 w3-dropdown-hover w3-transparent">
+        <a href="views/ventas.php" role="navegacion" class="w3-hover-opacity">
+          <div class="w3-container w3-red w3-padding-16">
+            <i class="icon-list-alt w3-xxxlarge w3-left"></i>
+            <span class="w3-right w3-xlarge"><?=$cantidadVentas?></span>
+            <div class="w3-clear"></div>
+            <span class="w3-large w3-block w3-margin-top">Ventas</span>
+          </div>
+        </a>
+        <?=generarTooltip('Ver Ventas')?>
+      </div>
+      <div class="w3-col s6 m3 w3-dropdown-hover w3-transparent">
+        <a href="views/compras.php" role="navegacion" class="w3-hover-opacity">
+          <div class="w3-container w3-blue w3-padding-16">
+            <i class="icon-handshake-o w3-xxxlarge w3-left"></i>
+            <span class="w3-right w3-xlarge"><?=contarRegistros('compras')?></span>
+            <div class="w3-clear"></div>
+            <span class="w3-large w3-block w3-margin-top">Compras</span>
+          </div>
+        </a>
+        <?=generarTooltip('Ver Compras')?>
+      </div>
+    <?php endif ?>
+    <div class="w3-col <?=$_SESSION['cargo'] === 'a' ? 's6 m3' : 's6'?> w3-dropdown-hover w3-transparent">
+      <a href="views/inventario.php" role="navegacion" class="w3-hover-opacity">
+        <div class="w3-container w3-teal w3-padding-16">
+          <i class="icon-product-hunt w3-xxxlarge w3-left"></i>
+          <span class="w3-right w3-xlarge"><?=$cantidadProductos?></span>
+          <div class="w3-clear"></div>
+          <span class="w3-large w3-block w3-margin-top">Productos</span>
+        </div>
+      </a>
+      <?=generarTooltip('Ver Inventario')?>
+    </div>
+    <div class="w3-col <?=$_SESSION['cargo'] === 'a' ? 's6 m3' : 's6'?> w3-dropdown-hover w3-transparent">
+      <a href="<?=$_SESSION['cargo'] === 'a' ? 'views/usuarios.php' : 'views/clientes.php'?>" role="navegacion" class="w3-hover-opacity">
+        <div class="w3-container w3-orange w3-text-white w3-padding-16">
+          <i class="icon-users w3-xxxlarge w3-left"></i>
+          <span class="w3-right w3-xlarge">
+            <?=$_SESSION['cargo'] === 'a' ? contarRegistros('usuarios') - 1 : contarRegistros('clientes') - 1?>
+          </span>
+          <div class="w3-clear"></div>
+          <span class="w3-large w3-block w3-margin-top">
+            <?=$_SESSION['cargo'] === 'a' ? 'Usuarios' : 'Clientes'?>
+          </span>
+        </div>
+      </a>
+      <?=generarTooltip($_SESSION['cargo'] === 'a' ? 'Ver Usuarios' : 'Ver Clientes')?>
+    </div>
+  </section>
+  <!--=============================
+  =            MONEDAS            =
+  ==============================-->
+  <div class="w3-row">
+    <?php include 'templates/monedas.php' ?>
+    <section class="w3-half w3-container w3-padding-24 w3-animate-opacity">
+      <h2 class="w3-large w3-text-green">&nbsp;</h2>
+      <table class="w3-table w3-bordered w3-border w3-hoverable w3-pale-green">
+        <tr>
+          <td>Fecha</td>
+          <td colspan="3">
+            <b><i class="w3-small"><?=$dolarFecha?></i></b>
+          </td>
+        </tr>
+        <tr>
+          <td>DÓLAR (Bs.)</td>
+          <td><b><i class="w3-small">BCV </i><?=$dolarBCV?></b></td>
+          <td><b><i class="w3-small">Euro </i><?=$dolarT?></b></td>
+          <td><b><i class="w3-small">Efectivo </i><?=$dolarE?></b></td>
+        </tr>
+      </table>
+    </section>
+  </div>
+  <?php if($_SESSION['cargo'] === 'a'): ?>
+    <section class="w3-row w3-container w3-border-bottom w3-padding-24">
+      <?php if ($recientes): ?>
+        <!--========================================
+        =            USUARIOS RECIENTES            =
+        =========================================-->
+        <ul class="w3-col s12 m5 w3-ul w3-card-4 w3-white">
+          <div class="w3-dropdown-hover w3-transparent w3-block">
+            <a href="views/log.php" role="navegacion" class="w3-button w3-block w3-border-bottom w3-light-gray w3-text-indigo w3-xlarge">
+              Usuarios recientes
+            </a>
+            <?=generarTooltip('Ver Registro de Sesiones')?>
+          </div>
+          <?php foreach($recientes as $usuario): ?>
+            <li class="w3-padding-16">
+              <img src="<?=!empty($usuario['foto']) ? "resources/images/perfil/{$usuario['foto']}" : "resources/images/avatar2.png"?>" class="w3-circle w3-margin-right" style="width: 50px">
+              <span class="w3-large"><?=$usuario['nombre']?></span>
+            </li>
+          <?php endforeach ?>
+        </ul>
+        <div class="w3-col s0 m1">&nbsp;</div>
+      <?php endif ?>
+      <!--============================================
+      =            PRODUCTOS MÁS VENDIDOS            =
+      =============================================-->
+      <?php
+        $tooltipProductosMasVendidos = generarTooltip('Ver Finanzas');
+        if ($ventasCombinadas)
+          echo <<<HTML
+            <div class="w3-col s12 m6 w3-ul w3-card-4 w3-white">
+              <div class="w3-dropdown-hover w3-transparent w3-block">
+                <a href="views/finanzas.php" role="navegacion" class="w3-button w3-block w3-border-bottom w3-light-gray w3-text-indigo w3-xlarge">
+                  Productos más Vendidos
+                </a>
+                $tooltipProductosMasVendidos
+              </div>
+              <canvas id="productosMasVendidos"></canvas>
+            </div>
+          HTML;
+      ?>
+    </section>
+  <?php endif ?>
+  <!--===================================
+  =            PIE DE PÁGINA            =
+  ====================================-->
+  <footer class="w3-dark-grey w3-container" style="margin: 0 -16px">
+    <div class="w3-row">
+      <div class="w3-container w3-third">
+        <h2 class="w3-xlarge oswald w3-bottombar w3-border-orange">Sistema</h2>
+        <button onclick="modal(this)" data-target="#acercaDe" class="w3-block w3-left-align w3-button w3-transparent">Acerca De</button>
+        <button onclick="modal(this)" data-target="#registroCambios" class="w3-block w3-left-align w3-button w3-transparent">Registro de cambios</button>
+        <button onclick="modal(this)" data-target="#soporte" class="w3-block w3-left-align w3-button w3-transparent">Soporte Técnico</button>
+        <button onclick="modal(this)" data-target="#manual" class="w3-hide w3-block w3-left-align w3-button w3-transparent">Manual de Usuario</button>
+      </div>
+    </div>
+    <p class="w3-center w3-large">
+      Powered by
+      &nbsp;<a href="https://www.w3schools.com/w3css/default.asp" target="_blank">
+        w3.css
+      </a>
+      &nbsp;| <i class="icon-copyright"></i> UPTM <?=date('Y')?>
+    </p>
+  </footer>
 
-	<?php
-		$mostrarChangelog = true;
-		$mostrarSoporteTecnico = true;
-		$mostrarManual = true;
+  <?php
+    $mostrarChangelog = true;
+    $mostrarSoporteTecnico = true;
+    $mostrarManual = true;
 
-		include 'templates/registroCambios.php';
-		include 'templates/soporteTecnico.php';
-		include 'templates/manual.php';
-	?>
-	<footer id="botones"><?=BOTONES['NUEVA_VENTA']?></footer>
+    include 'templates/registroCambios.php';
+    include 'templates/soporteTecnico.php';
+    include 'templates/manual.php';
+  ?>
+  <footer id="botones"><?=BOTONES['NUEVA_VENTA']?></footer>
 </main>
 
 <?php include 'templates/footer.php' ?>

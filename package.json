@@ -1,31 +1,31 @@
 {
-	"babel": {
-		"presets": [
-			"@babel/preset-env"
-		]
-	},
-	"devDependencies": {
-		"@babel/cli": "8.0.1",
-		"@babel/preset-env": "8.0.2",
-		"@biomejs/biome": "2.5.0",
-		"nib": "1.2.0",
-		"stylelint-stylus": "1.0.0",
-		"stylus": "0.64.0"
-	},
-	"scripts": {
-		"babel": "babel resources/js -d resources/build",
-		"babel:build": "npm run babel -- --minified",
-		"babel:watch": "npm run babel -- -w",
-		"build": "npm run babel:build & npm run stylus:build",
-		"check": "biome check",
-		"stylelint": "stylelint resources/stylus/**/*.styl",
-		"stylus": "stylus resources/stylus/index.styl -o resources/build -r --include-css",
-		"stylus:build": "npm run stylus -- -c",
-		"stylus:watch": "npm run stylus -- -w -m"
-	},
-	"stylelint": {
-		"extends": [
-			"stylelint-stylus/standard"
-		]
-	}
+  "babel": {
+    "presets": [
+      "@babel/preset-env"
+    ]
+  },
+  "devDependencies": {
+    "@babel/cli": "8.0.1",
+    "@babel/preset-env": "8.0.2",
+    "@biomejs/biome": "2.5.0",
+    "nib": "1.2.0",
+    "stylelint-stylus": "1.0.0",
+    "stylus": "0.64.0"
+  },
+  "scripts": {
+    "babel": "babel resources/js -d resources/build",
+    "babel:build": "npm run babel -- --minified",
+    "babel:watch": "npm run babel -- -w",
+    "build": "npm run babel:build & npm run stylus:build",
+    "check": "biome check",
+    "stylelint": "stylelint resources/stylus/**/*.styl",
+    "stylus": "stylus resources/stylus/index.styl -o resources/build -r --include-css",
+    "stylus:build": "npm run stylus -- -c",
+    "stylus:watch": "npm run stylus -- -w -m"
+  },
+  "stylelint": {
+    "extends": [
+      "stylelint-stylus/standard"
+    ]
+  }
 }
