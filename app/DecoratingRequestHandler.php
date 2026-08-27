@@ -11,7 +11,8 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 
-final readonly class DecoratingRequestHandler implements RequestHandlerInterface
+final readonly class DecoratingRequestHandler implements
+  RequestHandlerInterface
 {
   public function __construct(
     private MiddlewareInterface $middleware,

@@ -12,14 +12,22 @@ use Psr\Http\Server\RequestHandlerInterface;
 
 final readonly class LogoutController implements RequestHandlerInterface
 {
-  public function __construct(private ResponseFactoryInterface $responseFactory) {}
+  public function __construct(
+    private ResponseFactoryInterface $responseFactory,
+  ) {}
 
   #[Override]
   public function handle(ServerRequestInterface $request): ResponseInterface
   {
-    session_start();
+    if (session_status() === PHP_SESSION_NONE) {
+      session_start();
+    }
+
     session_destroy();
 
-    return $this->responseFactory->createResponse()->withHeader('location', './');
+    return $this->responseFactory->createResponse()->withHeader(
+      'location',
+      './',
+    );
   }
 }

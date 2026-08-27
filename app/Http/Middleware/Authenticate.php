@@ -13,17 +13,24 @@ use Psr\Http\Server\RequestHandlerInterface;
 
 final readonly class Authenticate implements MiddlewareInterface
 {
-  public function __construct(private ResponseFactoryInterface $responseFactory) {}
+  public function __construct(
+    private ResponseFactoryInterface $responseFactory,
+  ) {}
 
   #[Override]
-  public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
-  {
+  public function process(
+    ServerRequestInterface $request,
+    RequestHandlerInterface $handler,
+  ): ResponseInterface {
     if (session_status() === PHP_SESSION_NONE) {
       session_start();
     }
 
     if (empty($_SESSION['activa'])) {
-      return $this->responseFactory->createResponse()->withHeader('location', './');
+      return $this->responseFactory->createResponse()->withHeader(
+        'location',
+        './',
+      );
     }
 
     return $handler->handle($request);

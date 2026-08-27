@@ -16,13 +16,13 @@ final class QueueRequestHandler implements RequestHandlerInterface
   /** @var MiddlewareInterface[] */
   private array $middlewares = [];
 
-  public function __construct(private readonly RequestHandlerInterface $fallbackHandler) {}
+  public function __construct(
+    private readonly RequestHandlerInterface $fallbackHandler,
+  ) {}
 
-  public function add(MiddlewareInterface $middleware): self
+  public function add(MiddlewareInterface $middleware): void
   {
     $this->middlewares[] = $middleware;
-
-    return $this;
   }
 
   #[Override]
