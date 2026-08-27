@@ -16,8 +16,10 @@ use function App\get_exception_handler;
 require_once __DIR__ . '/bootstrap/app.php';
 
 $manager = Container::getInstance()->get(Manager::class);
-$queueRequestHandler = new QueueRequestHandler(Container::getInstance()->get(IndexController::class));
-$queueRequestHandler->add(Container::getInstance()->get(RedirectIfAuthenticated::class));
+$controller = Container::getInstance()->get(IndexController::class);
+$middleware = Container::getInstance()->get(RedirectIfAuthenticated::class);
+$queueRequestHandler = new QueueRequestHandler($controller);
+$queueRequestHandler->add($middleware);
 $response = Container::getInstance()->call($queueRequestHandler->handle(...));
 
 if ($response instanceof ResponseInterface) {

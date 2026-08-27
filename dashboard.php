@@ -1,128 +1,130 @@
 <?php
 
-  declare(strict_types=1);
+declare(strict_types=1);
 
-  use App\Http\Controllers\DashboardController;
-  use App\Http\Middleware\Authenticate;
-  use App\QueueRequestHandler;
-  use App\Scripts;
-  use Illuminate\Container\Container;
-  use Illuminate\Database\Capsule\Manager;
-  use Psr\Http\Message\ResponseInterface;
+use App\Http\Controllers\DashboardController;
+use App\Http\Middleware\Authenticate;
+use App\QueueRequestHandler;
+use App\Scripts;
+use Illuminate\Container\Container;
+use Illuminate\Database\Capsule\Manager;
+use Psr\Http\Message\ResponseInterface;
 
-  require_once __DIR__ . '/bootstrap/app.php';
+require_once __DIR__ . '/bootstrap/app.php';
 
-  $manager = Container::getInstance()->get(Manager::class);
-  $queueRequestHandler = new QueueRequestHandler(Container::getInstance()->get(DashboardController::class));
-  $queueRequestHandler->add(Container::getInstance()->get(Authenticate::class));
-  $response = Container::getInstance()->call($queueRequestHandler->handle(...));
+$manager = Container::getInstance()->get(Manager::class);
+$controller = Container::getInstance()->get(DashboardController::class);
+$middleware = Container::getInstance()->get(Authenticate::class);
+$queueRequestHandler = new QueueRequestHandler($controller);
+$queueRequestHandler->add($middleware);
+$response = Container::getInstance()->call($queueRequestHandler->handle(...));
 
-  if ($response instanceof ResponseInterface) {
-    foreach ($response->getHeaders() as $name => $values) {
-      header("$name: " . join(', ', $values));
-    }
-
-    echo $response->getBody();
+if ($response instanceof ResponseInterface) {
+  foreach ($response->getHeaders() as $name => $values) {
+    header("$name: " . join(', ', $values));
   }
 
-  include 'templates/head.php';
+  echo $response->getBody();
+}
 
-  $versiones = getRegistros('SELECT * FROM versiones ORDER BY id DESC');
+include 'templates/head.php';
 
-  /**
-   * Obtiene, respalda y retorna la información de una API
-   * @param  string $url La URL de la API
-   * @param  string $urlJSON La ruta relativa al archivo JSON local.
-   * @return array Un array asociativo con la respuesta de la API.
-   */
-  function getAPI(string $url, string $urlJSON): array
-  {
-    $data = @file_get_contents($url) ?: @file_get_contents($urlJSON);
-    @file_put_contents($urlJSON, $data);
-    $data = json_decode($data, true, 512, JSON_INVALID_UTF8_IGNORE);
+$versiones = getRegistros('SELECT * FROM versiones ORDER BY id DESC');
 
-    return $data;
-  }
+/**
+ * Obtiene, respalda y retorna la información de una API
+ * @param  string $url La URL de la API
+ * @param  string $urlJSON La ruta relativa al archivo JSON local.
+ * @return array Un array asociativo con la respuesta de la API.
+ */
+function getAPI(string $url, string $urlJSON): array
+{
+  $data = @file_get_contents($url) ?: @file_get_contents($urlJSON);
+  @file_put_contents($urlJSON, $data);
+  $data = json_decode($data, true, 512, JSON_INVALID_UTF8_IGNORE);
 
-  $data = getAPI('https://ve.dolarapi.com/v1/cotizaciones', __DIR__ . '/resources/json/cotizaciones.json');
-  $dolarBCV = round($data[0]['promedio'], 2);
-  $dolarFecha = date('d/m/Y h:ia', strtotime($data[0]['fechaActualizacion']));
-  $dolarT     = round($data[1]['promedio'], 2);
+  return $data;
+}
 
-  $data = getAPI('https://ve.dolarapi.com/v1/dolares/paralelo', __DIR__ . '/resources/json/paralelo.json');
-  $dolarE     = round($data['promedio'], 2);
+$data = getAPI('https://ve.dolarapi.com/v1/cotizaciones', __DIR__ . '/resources/json/cotizaciones.json');
+$dolarBCV = round($data[0]['promedio'], 2);
+$dolarFecha = date('d/m/Y h:ia', strtotime($data[0]['fechaActualizacion']));
+$dolarT     = round($data[1]['promedio'], 2);
 
-  $sql = <<<SQL
-    SELECT fecha, foto, nombre, usuario FROM log
-    INNER JOIN usuarios ON usuario_id=id
-    WHERE negocio_id={$_SESSION['negocioID']}
-    GROUP BY usuario_id ORDER BY fecha DESC LIMIT 3
-  SQL;
-  $recientes = getRegistros($sql);
-  $sql = <<<SQL
-    SELECT id FROM ventas WHERE negocio_id={$_SESSION['negocioID']}
-  SQL;
-  $cantidadVentas = count(getRegistros($sql));
+$data = getAPI('https://ve.dolarapi.com/v1/dolares/paralelo', __DIR__ . '/resources/json/paralelo.json');
+$dolarE     = round($data['promedio'], 2);
 
-  /*----------  PRODUCTOS MÁS VENDIDOS  ----------*/
-  $sql = <<<SQL
-    SELECT v.fecha, v.producto_id, i.producto, v.unidades FROM ventas v
-    INNER JOIN inventario i ON v.producto_id=i.id
-    WHERE v.negocio_id={$_SESSION['negocioID']}
-  SQL;
-  $ventas = getRegistros($sql);
-  $ventas = filtrarFecha('semanal', $ventas);
-  $ventasCombinadas = [];
-  foreach ($ventas as $venta):
-    $id = $venta['producto_id'];
+$sql = <<<SQL
+  SELECT fecha, foto, nombre, usuario FROM log
+  INNER JOIN usuarios ON usuario_id=id
+  WHERE negocio_id={$_SESSION['negocioID']}
+  GROUP BY usuario_id ORDER BY fecha DESC LIMIT 3
+SQL;
+$recientes = getRegistros($sql);
+$sql = <<<SQL
+  SELECT id FROM ventas WHERE negocio_id={$_SESSION['negocioID']}
+SQL;
+$cantidadVentas = count(getRegistros($sql));
 
-    if (count($ventasCombinadas) > 2) break;
+/*----------  PRODUCTOS MÁS VENDIDOS  ----------*/
+$sql = <<<SQL
+  SELECT v.fecha, v.producto_id, i.producto, v.unidades FROM ventas v
+  INNER JOIN inventario i ON v.producto_id=i.id
+  WHERE v.negocio_id={$_SESSION['negocioID']}
+SQL;
+$ventas = getRegistros($sql);
+$ventas = filtrarFecha('semanal', $ventas);
+$ventasCombinadas = [];
+foreach ($ventas as $venta):
+  $id = $venta['producto_id'];
 
-    if (!array_key_exists($id, $ventasCombinadas))
-      $ventasCombinadas[$id] = $venta;
-    else $ventasCombinadas[$id]['unidades'] += $venta['unidades'];
+  if (count($ventasCombinadas) > 2) break;
+
+  if (!array_key_exists($id, $ventasCombinadas))
+    $ventasCombinadas[$id] = $venta;
+  else $ventasCombinadas[$id]['unidades'] += $venta['unidades'];
+endforeach;
+
+if ($ventasCombinadas && $_SESSION['cargo'] === 'a'):
+  $nombresProductos = [];
+  $cantidadProductos = [];
+  foreach ($ventasCombinadas as $venta):
+    $nombresProductos[] = $venta['producto'];
+    $cantidadProductos[] = $venta['unidades'];
   endforeach;
 
-  if ($ventasCombinadas && $_SESSION['cargo'] === 'a'):
-    $nombresProductos = [];
-    $cantidadProductos = [];
-    foreach ($ventasCombinadas as $venta):
-      $nombresProductos[] = $venta['producto'];
-      $cantidadProductos[] = $venta['unidades'];
-    endforeach;
+  $nombresProductos = json_encode($nombresProductos, JSON_INVALID_UTF8_IGNORE);
+  $cantidadProductos = json_encode($cantidadProductos, JSON_INVALID_UTF8_IGNORE);
 
-    $nombresProductos = json_encode($nombresProductos, JSON_INVALID_UTF8_IGNORE);
-    $cantidadProductos = json_encode($cantidadProductos, JSON_INVALID_UTF8_IGNORE);
+  Scripts::pushInline(<<<JS
+    const xValues = $nombresProductos
+    const yValues = $cantidadProductos
+    const barColors = ['red', 'green', 'yellow', 'black', 'blue']
 
-    Scripts::pushInline(<<<JS
-      const xValues = $nombresProductos
-      const yValues = $cantidadProductos
-      const barColors = ['red', 'green', 'yellow', 'black', 'blue']
-
-      new Chart('productosMasVendidos', {
-        type: 'bar',
-        data: {
-          labels: xValues,
-          datasets: [{
-            backgroundColor: barColors,
-            data: yValues
-          }]
-        },
-        options: {
-          legend: {display: false},
-          scales: {
-            y: {
-              beginAtZero: true
-            }
+    new Chart('productosMasVendidos', {
+      type: 'bar',
+      data: {
+        labels: xValues,
+        datasets: [{
+          backgroundColor: barColors,
+          data: yValues
+        }]
+      },
+      options: {
+        legend: {display: false},
+        scales: {
+          y: {
+            beginAtZero: true
           }
         }
-      })
-    JS);
-  endif;
+      }
+    })
+  JS);
+endif;
 
-  $cantidadProductos = $manager::table('inventario')
-    ->where('negocio_id', $_SESSION['negocioID'])
-    ->count();
+$cantidadProductos = $manager::table('inventario')
+  ->where('negocio_id', $_SESSION['negocioID'])
+  ->count();
 
 ?>
 
