@@ -7,6 +7,7 @@ use App\Http\Controllers\IndexController;
 use App\Http\Middleware\CleanCarts;
 use App\Http\Middleware\CreateDbIfNotExists;
 use App\Http\Middleware\RedirectIfAuthenticated;
+use App\Http\Middleware\ShowAdminRegisterIfThereIsNoOneAdmin;
 use App\Http\Middleware\ShowBusinessRegisterIfThereIsNoOneActiveBusiness;
 use App\Http\Middleware\ShowRestoreDbToastIfThereIsOneBackup;
 use App\QueueRequestHandler;
@@ -28,6 +29,7 @@ $middlewares = [
   Container::getInstance()->get(ShowRestoreDbToastIfThereIsOneBackup::class),
   Container::getInstance()
     ->get(ShowBusinessRegisterIfThereIsNoOneActiveBusiness::class),
+  Container::getInstance()->get(ShowAdminRegisterIfThereIsNoOneAdmin::class),
 ];
 
 foreach ($middlewares as $middleware) {
@@ -60,17 +62,8 @@ if (!empty($_SESSION['userID'])) $_SESSION['userID'] = $admin['id'];
 $bareUi = Container::getInstance()->get(BareUI::class);
 $bareUi::config('params', $GLOBALS);
 
-/*----------  Si no hay administrador, solicita registro  ----------*/
-if (!isset($mostrarLoader) and !$admin):
-  echo $bareUi::render(
-    'templates/registrarAdmin.php',
-    ['mostrarRegistro' => true],
-  );
-
-  Scripts::pushSrcOnce('./resources/build/registrarAdmin.js');
-
 /*----------  Si el administrador no tiene preguntas secretas, solicita registro  ----------*/
-elseif (!isset($mostrarLoader) and !$admin['pre1']):
+if (!isset($mostrarLoader) and !$admin['pre1']):
   echo $bareUi::render(
     'templates/registroPreguntasRespuestas.php',
     ['mostrarRegistro' => true],

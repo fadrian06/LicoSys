@@ -2,6 +2,8 @@
 
 <?php
 
+    require_once __DIR__ . '/../backend/componentes.php';
+
     $label = '<b>Cédula:</b> <sup class="w3-text-red">(requerido)</sup>';
     $inputCedula = generarINPUT('CEDULA', $label, 'Introduce tu cédula');
 
