@@ -15,7 +15,7 @@ use App\Route;
 return [
   new Route(
     methods: ['GET'],
-    pattern: '/^\/usuarios\/(?<usuario>[^\/]+)$/',
+    pattern: '/^\/$/',
     handler: IndexController::class,
     middlewares: [
       CreateDbIfNotExists::class,
