@@ -39,7 +39,7 @@ final readonly class RoutingMiddleware implements MiddlewareInterface
         return $route->handle($request, $this->container);
       }
 
-      preg_match($route->pattern, $request->getUri()->getPath(), $matches);
+      @preg_match($route->pattern, $request->getUri()->getPath(), $matches);
 
       if (!$matches) {
         continue;
