@@ -1,4 +1,15 @@
-<?php if (empty($mostrarLogin)) return ?>
+<?php
+
+declare(strict_types=1);
+
+if (empty($mostrarLogin)) {
+  return;
+}
+
+require_once __DIR__ . '/../backend/componentes.php';
+require_once __DIR__ . '/../backend/funciones.php';
+
+?>
 
   <main class="w3-row w3-animate-zoom" id="mainLogin">
     <?= LOADER ?>

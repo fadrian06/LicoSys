@@ -2,7 +2,6 @@
 
 declare(strict_types=1);
 
-use App\BareUI;
 use App\Http\Controllers\IndexController;
 use App\Http\Middleware\CleanCarts;
 use App\Http\Middleware\CreateDbIfNotExists;
@@ -12,7 +11,6 @@ use App\Http\Middleware\ShowBusinessRegisterIfThereIsNoOneActiveBusiness;
 use App\Http\Middleware\ShowRestoreDbToastIfThereIsOneBackup;
 use App\Http\Middleware\ShowSecretQuestionsRegisterIfAdminHasNot;
 use App\QueueRequestHandler;
-use App\Scripts;
 use Illuminate\Container\Container;
 use Illuminate\Database\Capsule\Manager;
 use Psr\Http\Message\ResponseInterface;
@@ -54,35 +52,3 @@ if ($response instanceof ResponseInterface) {
     return;
   }
 }
-
-/*======================================
-=            LÓGICA INICIAL            =
-======================================*/
-include __DIR__ . '/templates/head.php';
-
-if (!empty($_SESSION['userID'])) $_SESSION['userID'] = $admin['id'];
-
-$bareUi = Container::getInstance()->get(BareUI::class);
-$bareUi::config('params', $GLOBALS);
-
-/*----------  Muestra el login  ----------*/
-if (!isset($mostrarLoader)):
-  $bareUi::setParam('mostrarLogin', true);
-  echo $bareUi::render('templates/login.php');
-  echo $bareUi::render('templates/consultarPreguntasRespuestas.php');
-
-  if (isset($_SESSION['showQuestions']))
-    echo $bareUi::render('templates/preguntasRespuestas.php');
-
-  if (isset($_SESSION['changePassword']))
-    echo $bareUi::render('templates/cambiarClave.php');
-
-  Scripts::pushSrcOnce('./resources/libs/typedjs/typed.min.js');
-  Scripts::pushSrcOnce('./resources/build/reloj.js');
-  Scripts::pushSrcOnce('./resources/build/login.js');
-  Scripts::pushSrcOnce('./resources/build/recuperarClave.js');
-endif;
-
-echo $bareUi::render('templates/footer.php', [
-  'mostrarLoader' => $mostrarLoader ?? '',
-]);
