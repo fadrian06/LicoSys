@@ -10,6 +10,7 @@ use App\Http\Middleware\RedirectIfAuthenticated;
 use App\Http\Middleware\ShowAdminRegisterIfThereIsNoOneAdmin;
 use App\Http\Middleware\ShowBusinessRegisterIfThereIsNoOneActiveBusiness;
 use App\Http\Middleware\ShowRestoreDbToastIfThereIsOneBackup;
+use App\Http\Middleware\ShowSecretQuestionsRegisterIfAdminHasNot;
 use App\QueueRequestHandler;
 use App\Scripts;
 use Illuminate\Container\Container;
@@ -30,6 +31,8 @@ $middlewares = [
   Container::getInstance()
     ->get(ShowBusinessRegisterIfThereIsNoOneActiveBusiness::class),
   Container::getInstance()->get(ShowAdminRegisterIfThereIsNoOneAdmin::class),
+  Container::getInstance()
+    ->get(ShowSecretQuestionsRegisterIfAdminHasNot::class),
 ];
 
 foreach ($middlewares as $middleware) {
@@ -62,17 +65,8 @@ if (!empty($_SESSION['userID'])) $_SESSION['userID'] = $admin['id'];
 $bareUi = Container::getInstance()->get(BareUI::class);
 $bareUi::config('params', $GLOBALS);
 
-/*----------  Si el administrador no tiene preguntas secretas, solicita registro  ----------*/
-if (!isset($mostrarLoader) and !$admin['pre1']):
-  echo $bareUi::render(
-    'templates/registroPreguntasRespuestas.php',
-    ['mostrarRegistro' => true],
-  );
-
-  Scripts::pushSrcOnce('./resources/build/registrarPreguntasRespuestas.js');
-
 /*----------  Muestra el login  ----------*/
-elseif (!isset($mostrarLoader)):
+if (!isset($mostrarLoader)):
   $bareUi::setParam('mostrarLogin', true);
   echo $bareUi::render('templates/login.php');
   echo $bareUi::render('templates/consultarPreguntasRespuestas.php');
