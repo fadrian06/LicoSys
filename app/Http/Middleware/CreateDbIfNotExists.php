@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Middleware;
 
 use App\BareUI;
+use App\Scripts;
 use mysqli;
 use mysqli_sql_exception;
 use NoDiscard;
@@ -54,9 +55,13 @@ final class CreateDbIfNotExists implements
           'exception' => $exception
         ]);
 
+        Scripts::pushSrcOnce('./resources/build/loader.js');
+
         $response
           ->getBody()
-          ->write($this->bareUI::render('resources/views/install.php'));
+          ->write($this->bareUI::render(
+            'resources/views/components/layout.php',
+          ));
 
         return $response;
       }

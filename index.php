@@ -7,6 +7,7 @@ use App\Http\Controllers\IndexController;
 use App\Http\Middleware\CleanCarts;
 use App\Http\Middleware\CreateDbIfNotExists;
 use App\Http\Middleware\RedirectIfAuthenticated;
+use App\Http\Middleware\ShowBusinessRegisterIfThereIsNoOneActiveBusiness;
 use App\Http\Middleware\ShowRestoreDbToastIfThereIsOneBackup;
 use App\QueueRequestHandler;
 use App\Scripts;
@@ -25,6 +26,8 @@ $middlewares = [
   Container::getInstance()->get(RedirectIfAuthenticated::class),
   Container::getInstance()->get(CleanCarts::class),
   Container::getInstance()->get(ShowRestoreDbToastIfThereIsOneBackup::class),
+  Container::getInstance()
+    ->get(ShowBusinessRegisterIfThereIsNoOneActiveBusiness::class),
 ];
 
 foreach ($middlewares as $middleware) {
@@ -57,17 +60,8 @@ if (!empty($_SESSION['userID'])) $_SESSION['userID'] = $admin['id'];
 $bareUi = Container::getInstance()->get(BareUI::class);
 $bareUi::config('params', $GLOBALS);
 
-/*----------  Si no hay negocios, solicita registro  ----------*/
-if (!isset($mostrarLoader) and !$negocios):
-  echo $bareUi::render(
-    'templates/registrarNegocio.php',
-    ['mostrarRegistro' => true],
-  );
-
-  Scripts::pushSrcOnce('./resources/build/registrarNegocio.js');
-
 /*----------  Si no hay administrador, solicita registro  ----------*/
-elseif (!isset($mostrarLoader) and !$admin):
+if (!isset($mostrarLoader) and !$admin):
   echo $bareUi::render(
     'templates/registrarAdmin.php',
     ['mostrarRegistro' => true],

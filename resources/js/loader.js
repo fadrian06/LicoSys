@@ -16,6 +16,7 @@ function getLoaderHtml(titulo = '', parrafo = '') {
 }
 
 const alertaBienvenido = new Noty({
+  theme: null,
   layout: 'center',
   text: getLoaderHtml(
     `${APP_NAME} instalado correctamente`,
@@ -30,6 +31,7 @@ const alertaBienvenido = new Noty({
 })
 
 const alertaCargando = new Noty({
+  theme: null,
   layout: 'center',
   text: getLoaderHtml(
     `Bienvenido a ${APP_NAME}`,

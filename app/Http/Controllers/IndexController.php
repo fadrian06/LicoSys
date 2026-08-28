@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
+use NoDiscard;
 use Override;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -17,6 +18,7 @@ final readonly class IndexController implements RequestHandlerInterface
   ) {}
 
   #[Override]
+  #[NoDiscard]
   public function handle(ServerRequestInterface $request): ResponseInterface
   {
     $response = $this->responseFactory->createResponse();
