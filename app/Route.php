@@ -23,7 +23,7 @@ final class Route implements RequestHandlerInterface
     public readonly array $methods,
     public readonly string $pattern,
     private readonly string $handler,
-    private array $middlewares,
+    private array $middlewares = [],
   ) {}
 
   #[Override]

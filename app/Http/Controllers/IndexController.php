@@ -52,6 +52,14 @@ final readonly class IndexController implements RequestHandlerInterface
         ->toArray(),
     );
 
+    $this->bareUI::setParam(
+      'admin',
+      $this
+        ->manager::table('usuarios')
+        ->where('cargo', 'a')
+        ->first(),
+    );
+
     $slot = $this->bareUI::render('templates/login.php');
 
     $slot .= $this

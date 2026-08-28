@@ -9,7 +9,9 @@ use Psr\Http\Message\ServerRequestInterface;
 
 use function App\getenv;
 
-$path = Container::getInstance()
+$container = Container::getInstance();
+
+$path = $container
   ->get(ServerRequestInterface::class)
   ->getUri()
   ->getPath();
@@ -20,7 +22,7 @@ $baseHref = str_replace(
   $_SERVER['SCRIPT_NAME'],
 );
 
-$bareUI = Container::getInstance()->get(BareUI::class);
+$bareUI = $container->get(BareUI::class);
 
 ?>
 

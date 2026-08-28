@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use App\Http\Controllers\IndexController;
+use App\Http\Controllers\LogoutController;
 use App\Http\Middleware\CleanCarts;
 use App\Http\Middleware\CreateDbIfNotExists;
 use App\Http\Middleware\RedirectIfAuthenticated;
@@ -26,5 +27,10 @@ return [
       ShowAdminRegisterIfThereIsNoOneAdmin::class,
       ShowSecretQuestionsRegisterIfAdminHasNot::class,
     ],
+  ),
+  new Route(
+    methods: ['GET'],
+    pattern: '/^\/salir(\.php)?$/',
+    handler: LogoutController::class,
   ),
 ];
