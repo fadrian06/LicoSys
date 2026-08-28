@@ -11,14 +11,20 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
+use Psr\Log\LoggerAwareInterface;
+use Psr\Log\LoggerAwareTrait;
 
-final readonly class RoutingMiddleware implements MiddlewareInterface
+final class RoutingMiddleware implements
+  MiddlewareInterface,
+  LoggerAwareInterface
 {
+  use LoggerAwareTrait;
+
   /** @var Route[] */
-  private array $routes;
+  private readonly array $routes;
 
   public function __construct(
-    private ContainerInterface $container,
+    private readonly ContainerInterface $container,
     Route ...$routes,
   ) {
     $this->routes = $routes;

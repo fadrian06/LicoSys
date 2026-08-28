@@ -32,10 +32,7 @@ final class CreateDbIfNotExists implements
     private readonly ResponseFactoryInterface $responseFactory,
     private readonly mysqli $mysqli,
     private readonly BareUI $bareUI,
-    LoggerInterface $logger = new NullLogger,
-  ) {
-    $this->setLogger($logger);
-  }
+  ) {}
 
   #[Override]
   #[NoDiscard]

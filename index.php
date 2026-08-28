@@ -11,17 +11,8 @@ use Psr\Http\Message\ResponseInterface;
 require_once __DIR__ . '/bootstrap/app.php';
 
 $container = Container::getInstance();
-$notFoundHandler = $container->get(NotFoundHandler::class);
-$queueRequestHandler = new QueueRequestHandler($notFoundHandler);
-
-$middlewares = [
-  new RoutingMiddleware($container, ...require __DIR__ . '/routes/web.php'),
-];
-
-foreach ($middlewares as $middleware) {
-  $queueRequestHandler->add($middleware);
-}
-
+$queueRequestHandler = new QueueRequestHandler($container, NotFoundHandler::class);
+$queueRequestHandler->add(RoutingMiddleware::class);
 $response = $container->call($queueRequestHandler->handle(...));
 
 if ($response instanceof ResponseInterface) {
