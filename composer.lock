@@ -4,7 +4,7 @@
     "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
     "This file is @generated automatically"
   ],
-  "content-hash": "058525f41e59a96dad923b3ef02fb7cd",
+  "content-hash": "e1a87a07436363d31e90b179331e148b",
   "packages": [
     {
       "name": "brick/math",
@@ -226,16 +226,16 @@
     },
     {
       "name": "guzzlehttp/psr7",
-      "version": "2.12.4",
+      "version": "2.13.1",
       "source": {
         "type": "git",
         "url": "https://github.com/guzzle/psr7.git",
-        "reference": "51e27f9e2b332ab3e72f4520d5ff4f3c68c3577c"
+        "reference": "95e7828100de18b4e269fb1703be530082d5166d"
       },
       "dist": {
         "type": "zip",
-        "url": "https://api.github.com/repos/guzzle/psr7/zipball/51e27f9e2b332ab3e72f4520d5ff4f3c68c3577c",
-        "reference": "51e27f9e2b332ab3e72f4520d5ff4f3c68c3577c",
+        "url": "https://api.github.com/repos/guzzle/psr7/zipball/95e7828100de18b4e269fb1703be530082d5166d",
+        "reference": "95e7828100de18b4e269fb1703be530082d5166d",
         "shasum": ""
       },
       "require": {
@@ -325,7 +325,7 @@
       ],
       "support": {
         "issues": "https://github.com/guzzle/psr7/issues",
-        "source": "https://github.com/guzzle/psr7/tree/2.12.4"
+        "source": "https://github.com/guzzle/psr7/tree/2.13.1"
       },
       "funding": [
         {
@@ -341,7 +341,7 @@
           "type": "tidelift"
         }
       ],
-      "time": "2026-07-08T15:56:20+00:00"
+      "time": "2026-08-24T09:13:11+00:00"
     },
     {
       "name": "illuminate/collections",
@@ -1820,16 +1820,16 @@
     },
     {
       "name": "symfony/polyfill-php80",
-      "version": "v1.37.0",
+      "version": "v1.43.0",
       "source": {
         "type": "git",
         "url": "https://github.com/symfony/polyfill-php80.git",
-        "reference": "dfb55726c3a76ea3b6459fcfda1ec2d80a682411"
+        "reference": "9c6a5d6b01ca51d486c813e9a9c0ed55f208bb74"
       },
       "dist": {
         "type": "zip",
-        "url": "https://api.github.com/repos/symfony/polyfill-php80/zipball/dfb55726c3a76ea3b6459fcfda1ec2d80a682411",
-        "reference": "dfb55726c3a76ea3b6459fcfda1ec2d80a682411",
+        "url": "https://api.github.com/repos/symfony/polyfill-php80/zipball/9c6a5d6b01ca51d486c813e9a9c0ed55f208bb74",
+        "reference": "9c6a5d6b01ca51d486c813e9a9c0ed55f208bb74",
         "shasum": ""
       },
       "require": {
@@ -1880,7 +1880,7 @@
         "shim"
       ],
       "support": {
-        "source": "https://github.com/symfony/polyfill-php80/tree/v1.37.0"
+        "source": "https://github.com/symfony/polyfill-php80/tree/v1.43.0"
       },
       "funding": [
         {
@@ -1900,7 +1900,7 @@
           "type": "tidelift"
         }
       ],
-      "time": "2026-04-10T16:19:22+00:00"
+      "time": "2026-09-25T15:50:05+00:00"
     },
     {
       "name": "symfony/polyfill-php83",

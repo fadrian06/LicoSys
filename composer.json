@@ -21,7 +21,7 @@
   "require": {
     "php-64bit": ">=8.3",
     "ext-session": ">=8.3",
-    "guzzlehttp/psr7": "2.12.4",
+    "guzzlehttp/psr7": "2.13.1",
     "illuminate/container": "v13.19.0",
     "illuminate/database": "v13.19.0",
     "leafs/bareui": "v1.2",
