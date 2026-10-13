@@ -30,7 +30,7 @@ final readonly class Authenticate implements MiddlewareInterface
       session_start();
     }
 
-    if (!$this->manager::table('usuarios')->find($_SESSION['userID'])) {
+    if (!$this->manager::table('usuarios')->find($_SESSION['userID'] ?? '')) {
       return $this->responseFactory->createResponse()->withHeader(
         'location',
         './salir.php',

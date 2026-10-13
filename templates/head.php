@@ -29,7 +29,10 @@ $manager = Container::getInstance()->get(Manager::class);
 /*=================================================================
 =            LÓGICA DE TOD0 EL SISTEMA, MENOS EL LOGIN            =
 =================================================================*/
-if ($path === '/dashboard.php' && key_exists('userID', $_SESSION)):
+if (
+  str_ends_with($path, '/dashboard.php')
+  && key_exists('userID', $_SESSION)
+):
   Scripts::pushSrcOnce('./resources/build/navegacion.js');
   Scripts::pushSrcOnce('./resources/build/main.js');
 
@@ -169,7 +172,7 @@ $baseHref = str_replace(['index.php', 'dashboard.php'], '', $_SERVER['SCRIPT_NAM
     <div role="modalOverlay" class="w3-overlay w3-animate-opacity w3-hide"></div>
     <div role="menuOverlay" class="w3-overlay w3-animate-opacity w3-hide"></div>
 
-    <?php if ($path === '/dashboard.php'): ?>
+    <?php if (str_ends_with($path, '/dashboard.php')): ?>
       <?php $mostrarMenu = true ?>
       <?php include __DIR__ . '/menu.php' ?>
     <?php endif ?>

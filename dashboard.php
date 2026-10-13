@@ -13,20 +13,24 @@ use Psr\Http\Message\ResponseInterface;
 
 require_once __DIR__ . '/bootstrap/app.php';
 
-$manager = Container::getInstance()->get(Manager::class);
-$controller = Container::getInstance()->get(DashboardController::class);
-$queueRequestHandler = new QueueRequestHandler($controller);
+$container = Container::getInstance();
+$manager = $container->get(Manager::class);
+
+$queueRequestHandler = new QueueRequestHandler(
+  $container,
+  DashboardController::class
+);
 
 $middlewares = [
-  Container::getInstance()->get(CreateDbIfNotExists::class),
-  Container::getInstance()->get(Authenticate::class),
+  CreateDbIfNotExists::class,
+  Authenticate::class,
 ];
 
 foreach ($middlewares as $middleware) {
   $queueRequestHandler->add($middleware);
 }
 
-$response = Container::getInstance()->call($queueRequestHandler->handle(...));
+$response = $container->call($queueRequestHandler->handle(...));
 
 if ($response instanceof ResponseInterface) {
   foreach ($response->getHeaders() as $name => $values) {

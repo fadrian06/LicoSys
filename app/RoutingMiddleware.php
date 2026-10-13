@@ -41,17 +41,13 @@ final class RoutingMiddleware implements
         continue;
       }
 
-      if ($route->pattern === $request->getUri()->getPath()) {
+      if (!str_ends_with($request->getUri()->getPath(), $route->pattern)) {
         return $route->handle($request, $this->container);
       }
 
       @preg_match($route->pattern, $request->getUri()->getPath(), $matches);
 
-      if (!$matches) {
-        continue;
-      }
-
-      foreach ($matches as $name => $value) {
+      foreach ($matches ?? [] as $name => $value) {
         if (is_string($name)) {
           $request = $request->withAttribute($name, $value);
         }

@@ -21,6 +21,8 @@
   "prefer-stable": true,
   "require": {
     "php-64bit": ">=8.4",
+    "ext-pdo_mysql": "*",
+    "ext-mysqli": "*",
     "guzzlehttp/psr7": "^2.13",
     "illuminate/container": "^13.35",
     "illuminate/database": "^13.35",
