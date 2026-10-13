@@ -16,6 +16,7 @@
     "process-timeout": 0,
     "sort-packages": true
   },
+  "license": "proprietary",
   "minimum-stability": "stable",
   "prefer-stable": true,
   "require": {
